@@ -1,6 +1,6 @@
 django-cms>=3.8,<3.9
 djangocms-admin-style>=2.0,<3.0
-django-treebeard>=4.0,<5.0
+django-treebeard>=4.4,<4.5
 
 djangocms-text-ckeditor>=4.0,<5.0
 djangocms-link>=3.0,<4.0
