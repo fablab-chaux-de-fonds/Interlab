@@ -130,3 +130,6 @@ dmypy.json
 
 # Database
 project.db
+
+# Node Modules
+node_modules
