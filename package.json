@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/fablab-chaux-de-fonds/Interlab/issues"
   },
-  "homepage": "https://github.com/fablab-chaux-de-fonds/Interlab#readme"
+  "homepage": "https://github.com/fablab-chaux-de-fonds/Interlab#readme",
+  "dependencies": {
+    "bootstrap": "^4.6.0"
+  }
 }
