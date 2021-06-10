@@ -76,11 +76,15 @@ LANGUAGE_CODE = 'fr'
 
 TIME_ZONE = 'Europe/Zurich'
 
-USE_I18N = False
+USE_I18N = True
 
 USE_L10N = False
 
 USE_TZ = False
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
 
 
 # Static files (CSS, JavaScript, Images)
