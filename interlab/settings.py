@@ -246,3 +246,11 @@ OAUTH2_PROVIDER = {
     "OAUTH2_VALIDATOR_CLASS": "interlab.oauth_validator.CustomOAuth2Validator",
     # ... any other settings you want
 }
+
+""" STATICFILES_FINDERS(
+    compressor.finders.CompressorFinder
+)
+
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+) """

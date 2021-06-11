@@ -22,3 +22,5 @@ html5lib>=1.0.1
 Pillow>=3.0
 six
 pytz
+django-libsass
+django-compressor
