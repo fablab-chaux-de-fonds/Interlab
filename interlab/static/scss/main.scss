@@ -33,7 +33,9 @@ $custom-colors: map-merge(
 
 // variables
 $body-color: map-get($custom-colors, "custom-blue");
-$primary: map-get($custom-colors, "custom-blue");
+$blue: map-get($custom-colors, "custom-blue");
+$red: map-get($custom-colors, "custom-red");
+$green: map-get($custom-colors, "custom-green");
 $link-color: map-get($custom-colors, "custom-red");
 $font-family-base: "GT Pressura", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; 
 
