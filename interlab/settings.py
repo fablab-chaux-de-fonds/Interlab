@@ -153,6 +153,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.messages',
     'oauth2_provider',
+    'compressor',
     'cms',
     'menus',
     'sekizai',
@@ -247,10 +248,13 @@ OAUTH2_PROVIDER = {
     # ... any other settings you want
 }
 
-""" STATICFILES_FINDERS(
-    compressor.finders.CompressorFinder
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
 )
 
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
-) """
+)
