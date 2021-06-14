@@ -7,7 +7,7 @@ $ docker-compose build
 ```
 
 ```shell
-$ docker-compose up -d
+$ docker compose up -d
 ```
 
 ## Use manage.py inside docker instance
