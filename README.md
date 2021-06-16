@@ -1,5 +1,10 @@
 # Interfab
 
+## Install depedencies
+```shell
+$ npm ci
+```
+
 ## Start using docker
 
 ```shell
