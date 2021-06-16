@@ -141,3 +141,5 @@ media/
 
 # scss compresso
 static/CACHE/
+
+node_modules/

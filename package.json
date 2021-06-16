@@ -1,0 +1,30 @@
+{
+  "name": "interlab",
+  "version": "0.0.1",
+  "description": "FabLab La Chaux-de-Fonds web site",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fablab-chaux-de-fonds/Interlab.git"
+  },
+  "keywords": [
+    "fablab",
+    "chaux-de-fonds"
+  ],
+  "author": "Fablab | La Chaux-de-Fonds",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fablab-chaux-de-fonds/Interlab/issues"
+  },
+  "homepage": "https://github.com/fablab-chaux-de-fonds/Interlab#readme",
+  "dependencies": {
+    "@popperjs/core": "^2.9.2",
+    "bootstrap": "^5.0.1"
+  }
+}
