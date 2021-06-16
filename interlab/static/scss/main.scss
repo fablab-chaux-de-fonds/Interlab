@@ -40,3 +40,16 @@ $link-color: map-get($custom-colors, "custom-red");
 $font-family-base: "GT Pressura", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; 
 
 @import "../bootstrap/bootstrap";
+
+.navbar-mobile {
+  width: 300px;
+  margin-left: auto;
+  margin-right:auto;
+  bottom: $spacer;
+  background-color: $custom-red-light;
+  border-radius: $font-size-base * 2;
+}
+
+.navbar-mobile a{
+  color: $custom-blue;
+}
