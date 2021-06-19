@@ -6,7 +6,7 @@
         <title>{% block title %}This is my new project home page{% endblock title %}</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
         {% compress css %}
-            <link type="text/x-scss" href="{% static 'scss/main.scss' %}" rel="stylesheet" media="screen">
+            <link type="text/x-scss" href="{% static 'css/app.css' %}" rel="stylesheet" media="screen">
         {% endcompress %}
         {% render_block "css" %}
         {% block header %}{% endblock header %}
@@ -16,8 +16,8 @@
         <div class="container-fluid">
             {% block content %}{% endblock content %}
         </div>
-        <script src="{% static 'js/@popperjs/core/umd/popper.min.js' %}"></script>
-        <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/vendors.js' %}"></script>
+        <script src="{% static 'js/app.js' %}"></script>
         {% render_block "js" %}
     </body>
 </html>
