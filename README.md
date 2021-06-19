@@ -1,10 +1,5 @@
 # Interfab
 
-## Install depedencies
-```shell
-$ npm ci
-```
-
 ## Start using docker
 
 ```shell
@@ -21,5 +16,14 @@ $ docker compose up -d
 $ docker exec -it interlab_web_1 python manage.py migrate
 ```
 
+## Frontend Development
+
+Install dependencies and run development server
+
+```shell
+$ cd frontend
+$ npm install
+$ npm run start
+```
 
 
