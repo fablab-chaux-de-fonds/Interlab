@@ -1,7 +1,8 @@
-import '../styles/index.scss';
+import "../styles/index.scss";
 
-if (process.env.NODE_ENV === 'development') {
-  require('../index.html');
-}
+import $ from "jquery/dist/jquery.slim";
+import "bootstrap/dist/js/bootstrap.bundle";
 
-console.log('webpack starterkit');
+$(document).ready(function () {
+  window.console.log("dom ready");
+});
