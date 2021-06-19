@@ -1,1 +1,42 @@
-@import "~bootstrap/scss/bootstrap.scss";
+$custom-blue:         #0b1783;
+$custom-blue-light:   #ddf9ff;
+$custom-red:          #e3005c;
+$custom-red-light:    #ffe8e0;
+$custom-green:        #00a59f;
+$custom-green-light:  #e4f2e5;
+
+// Fablab color map
+$custom-colors: () !default;
+$custom-colors: map-merge(
+  (
+    "custom-blue":        $custom-blue,
+    "custom-blue-light":  $custom-blue-light,
+    "custom-red":         $custom-red,
+    "custom-red-light":   $custom-red-light,
+    "custom-green":       $custom-green,
+    "custom-green-light": $custom-green-light
+  ), 
+  $custom-colors
+);
+
+// Fonts
+@font-face {
+  font-family: 'GT Pressura';
+  src: 
+    url('../fonts/GTPressura-Bold.woff2'), format("woff2"),
+    url('../fonts/GTPressura-Bold.woff'), format("woff"),
+    url('../fonts/GTPressura-Bold.eot'), format("embedded-opentype"),
+    url('../fonts/GTPressura-Bold.otf'), format("opentype"),
+    url('../fonts/GTPressura-Bold.ttf'), format("truetype"),
+    url('../fonts/GTPressura-Bold.svg'), format("svg"),
+}
+
+// variables
+$body-color: map-get($custom-colors, "custom-blue");
+$blue: map-get($custom-colors, "custom-blue");
+$red: map-get($custom-colors, "custom-red");
+$green: map-get($custom-colors, "custom-green");
+$link-color: map-get($custom-colors, "custom-red");
+$font-family-base: "GT Pressura", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; 
+
+@import "../bootstrap/bootstrap";
