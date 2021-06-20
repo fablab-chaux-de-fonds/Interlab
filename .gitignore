@@ -143,4 +143,4 @@ media/
 static/CACHE/
 
 node_modules/
-static
+/static/
