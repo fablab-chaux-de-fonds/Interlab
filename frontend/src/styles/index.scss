@@ -19,12 +19,23 @@ $custom-colors: map-merge(
   $custom-colors
 );
 
+@font-face {
+  font-family: 'GT Pressura';
+  src:
+    url('./static/fonts/GTPressura-Bold.woff2') format("woff2"),
+    url('./static/fonts/GTPressura-Bold.woff') format("woff"),
+    url('./static/fonts/GTPressura-Bold.eot') format("embedded-opentype"),
+    url('./static/fonts/GTPressura-Bold.otf') format("opentype"),
+    url('./static/fonts/GTPressura-Bold.ttf') format("truetype"),
+    url('./static/fonts/GTPressura-Bold.svg') format("svg");
+}
+
 // variables
 $body-color: map-get($custom-colors, "custom-blue");
 $blue: map-get($custom-colors, "custom-blue");
 $red: map-get($custom-colors, "custom-red");
 $green: map-get($custom-colors, "custom-green");
 $link-color: map-get($custom-colors, "custom-red");
-$font-family-base: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-base: 'GT Pressura', -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
 @import "~bootstrap/scss/bootstrap.scss";
