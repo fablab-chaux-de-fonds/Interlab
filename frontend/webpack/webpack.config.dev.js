@@ -8,15 +8,22 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
+  target: 'web',
   mode: 'development',
   devtool: 'inline-cheap-source-map',
   output: {
     chunkFilename: 'js/[name].chunk.js',
-    filename: 'js/[name].js'
+    filename: 'js/[name].js',
+    publicPath: 'http://localhost:9091/',
   },
   devServer: {
     inline: true,
     hot: true,
+    port: 9091,
+    writeToDisk: true,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    }
   },
   plugins: [
     new Webpack.DefinePlugin({
