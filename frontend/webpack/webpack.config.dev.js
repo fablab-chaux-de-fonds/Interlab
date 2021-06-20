@@ -3,6 +3,7 @@ const Webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const common = require('./webpack.common.js');
 
@@ -23,19 +24,15 @@ module.exports = merge(common, {
     new StylelintPlugin({
       files: Path.join('src', '**/*.s?(a|c)ss'),
     }),
-    new MiniCssExtractPlugin({filename: 'css/app.css',})
+    new MiniCssExtractPlugin({filename: 'css/app.css',}),
+    new ESLintPlugin(
+      {
+        fix: true,  
+      },
+    )
   ],
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        include: Path.resolve(__dirname, '../src'),
-        enforce: 'pre',
-        loader: 'eslint-loader',
-        options: {
-          emitWarning: true,
-        },
-      },
       {
         test: /\.html$/i,
         loader: 'html-loader',
