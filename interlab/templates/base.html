@@ -12,9 +12,7 @@
     </head>
     <body>
         {% cms_toolbar %}
-        <div class="container-fluid">
-            {% block content %}{% endblock content %}
-        </div>
+        {% block content %}{% endblock content %}
         {% render_bundle 'app' 'js' %}
         {% render_block "js" %}
     </body>
