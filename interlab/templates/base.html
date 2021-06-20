@@ -1,13 +1,12 @@
-{% load cms_tags static sekizai_tags menu_tags compress %}
+{% load cms_tags static sekizai_tags menu_tags %}
+{% load render_bundle from webpack_loader %}
 <!doctype html>
 <html>
     <head>
         <meta charset="utf-8">
         <title>{% block title %}This is my new project home page{% endblock title %}</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        {% compress css %}
-            <link type="text/x-scss" href="{% static 'css/app.css' %}" rel="stylesheet" media="screen">
-        {% endcompress %}
+        {% render_bundle 'app' 'css' %}
         {% render_block "css" %}
         {% block header %}{% endblock header %}
     </head>
@@ -16,8 +15,7 @@
         <div class="container-fluid">
             {% block content %}{% endblock content %}
         </div>
-        <script src="{% static 'js/vendors.js' %}"></script>
-        <script src="{% static 'js/app.js' %}"></script>
+        {% render_bundle 'app' 'js' %}
         {% render_block "js" %}
     </body>
 </html>

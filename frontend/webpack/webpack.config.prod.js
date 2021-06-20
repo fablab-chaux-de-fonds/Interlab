@@ -8,7 +8,7 @@ module.exports = merge(common, {
   devtool: 'source-map',
   bail: true,
   output: {
-    filename: 'js/[name].js',
+    filename: 'js/[name].[chunkhash:8].js',
     chunkFilename: 'js/[name].[chunkhash:8].chunk.js',
   },
   plugins: [
@@ -16,7 +16,7 @@ module.exports = merge(common, {
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/app.css',
+      filename: 'css/app-[contenthash].css',
     }),
   ],
   module: {

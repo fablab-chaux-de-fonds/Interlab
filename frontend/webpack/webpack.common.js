@@ -2,6 +2,7 @@ const Path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
   entry: {
@@ -10,7 +11,7 @@ module.exports = {
   output: {
     path: Path.join(__dirname, '../build'),
     filename: 'js/[name].js',
-    publicPath: '',
+    publicPath: '/static/',
   },
   optimization: {
     splitChunks: {
@@ -24,6 +25,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: Path.resolve(__dirname, '../src/index.html'),
     }),
+    new BundleTracker({filename: './webpack-stats.json'}),
   ],
   resolve: {
     alias: {

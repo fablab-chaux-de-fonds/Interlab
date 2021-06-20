@@ -60,6 +60,7 @@
     "@popperjs/core": "^2.9.2",
     "bootstrap": "^5.0.1",
     "core-js": "^3.8.1",
-    "jquery": "^3.6.0"
+    "jquery": "^3.6.0",
+    "webpack-bundle-tracker": "^1.1.0"
   }
 }

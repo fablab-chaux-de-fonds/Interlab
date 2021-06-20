@@ -12,6 +12,7 @@ module.exports = merge(common, {
   devtool: 'inline-cheap-source-map',
   output: {
     chunkFilename: 'js/[name].chunk.js',
+    filename: 'js/[name].js'
   },
   devServer: {
     inline: true,
