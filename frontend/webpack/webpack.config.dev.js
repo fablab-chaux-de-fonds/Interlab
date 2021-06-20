@@ -23,13 +23,12 @@ module.exports = merge(common, {
     }),
     new StylelintPlugin({
       files: Path.join('src', '**/*.s?(a|c)ss'),
+      fix: true,
     }),
     new MiniCssExtractPlugin({filename: 'css/app.css',}),
-    new ESLintPlugin(
-      {
+    new ESLintPlugin({
         fix: true,  
-      },
-    )
+      }),
   ],
   module: {
     rules: [
