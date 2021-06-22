@@ -2,6 +2,11 @@
 
 ## Start using docker
 
+Docker image is using environment variables, copy env.example to .env with your environment values
+```shell
+$ cp env.example .env
+```
+
 ```shell
 $ docker-compose build
 ```
