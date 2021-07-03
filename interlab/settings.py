@@ -90,9 +90,10 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'interlab', 'static'),
+    os.path.join(BASE_DIR, 'frontend', 'build'),
 )
 SITE_ID = 1
 
@@ -153,7 +154,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.messages',
     'oauth2_provider',
-    'compressor',
+    'webpack_loader',
     'cms',
     'menus',
     'sekizai',
@@ -251,10 +252,14 @@ OAUTH2_PROVIDER = {
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    # other finders..
-    'compressor.finders.CompressorFinder',
 )
 
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
 )
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'STATS_FILE': str(BASE_DIR / 'frontend' / 'webpack-stats.json'),
+    },
+}
