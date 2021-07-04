@@ -33,7 +33,7 @@ module.exports = merge(common, {
       files: Path.join('src', '**/*.s?(a|c)ss'),
       fix: true,
     }),
-    new MiniCssExtractPlugin({filename: 'css/app.css',}),
+    new MiniCssExtractPlugin({filename: 'css/app-[name].css',}),
     new ESLintPlugin({
         fix: true,  
       }),
