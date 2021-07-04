@@ -22,12 +22,12 @@ $custom-colors: map-merge(
 @font-face {
   font-family: 'GT Pressura';
   src:
-    url('./static/fonts/GTPressura-Bold.woff2') format("woff2"),
-    url('./static/fonts/GTPressura-Bold.woff') format("woff"),
-    url('./static/fonts/GTPressura-Bold.eot') format("embedded-opentype"),
-    url('./static/fonts/GTPressura-Bold.otf') format("opentype"),
-    url('./static/fonts/GTPressura-Bold.ttf') format("truetype"),
-    url('./static/fonts/GTPressura-Bold.svg') format("svg");
+    url('../fonts/GTPressura-Bold.woff2') format("woff2"),
+    url('../fonts/GTPressura-Bold.woff') format("woff"),
+    url('../fonts/GTPressura-Bold.eot') format("embedded-opentype"),
+    url('../fonts/GTPressura-Bold.otf') format("opentype"),
+    url('../fonts/GTPressura-Bold.ttf') format("truetype"),
+    url('../fonts/GTPressura-Bold.svg') format("svg");
 }
 
 // variables
