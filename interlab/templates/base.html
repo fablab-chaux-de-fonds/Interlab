@@ -16,6 +16,7 @@
     <body>
         {% cms_toolbar %}
         {% block content %}{% endblock content %}
+        <div class="d-lg-none">{% include 'menu-mobile.html' %}</div>
         {% render_bundle 'app' 'js' %}
         {% render_block "js" %}
         {% block js_footer %}{% endblock js_footer %}

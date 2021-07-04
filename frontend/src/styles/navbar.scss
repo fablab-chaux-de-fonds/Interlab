@@ -1,0 +1,15 @@
+// mobile navbar
+.navbar-mobile {
+  width: 240px;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: $spacer;
+  background-color: $custom-red-light;
+  border-radius: $font-size-base * 4;
+}
+
+.navbar-brand {
+  color: $custom-blue;
+  margin: 0 24px;
+  font-size: $font-size-base * 2;
+}
