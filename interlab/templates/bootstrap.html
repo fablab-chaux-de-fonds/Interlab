@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load cms_tags %}
+{% load cms_tags static %}
 
 {% block header %}
 <style>
@@ -202,10 +202,9 @@ body {
 <header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
   <div class="container-fluid d-flex align-items-center">
     <h1 class="d-flex align-items-center fs-4 text-white mb-0">
-      <img src="/static/img/bootstrap-logo-white.svg" width="38" height="30" class="me-3" alt="Bootstrap">
+      <img src="{% static 'src/img/bootstrap-logo-white.svg' %}" width="38" height="30" class="me-3" alt="Bootstrap">
       Cheatsheet
     </h1>
-    <a href="/docs/5.0/examples/cheatsheet-rtl/" class="ms-auto link-light" hreflang="ar">RTL cheatsheet</a>
   </div>
 </header>
 <aside class="bd-aside sticky-xl-top text-muted align-self-start mb-3 mb-xl-5 px-2">
