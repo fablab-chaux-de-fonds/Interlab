@@ -14,7 +14,6 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('', TemplateView.as_view(template_name='index.html')),
     path("admin/", admin.site.urls),
     path("accounts/", include('django.contrib.auth.urls')),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),

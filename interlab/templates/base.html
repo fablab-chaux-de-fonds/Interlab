@@ -4,8 +4,11 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>{% block title %}This is my new project home page{% endblock title %}</title>
+        <title>{% block title %}FabLab | La Chaux-de-Fonds{% endblock title %}</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="shortcut icon" href="{% static 'src/img/favicon.png' %}" />
+        <link rel="apple-touch-icon" href="{% static 'src/img/favicon.png' %}" />
+
         {% render_bundle 'app' 'css' %}
         {% render_block "css" %}
         {% block header %}{% endblock header %}
@@ -15,5 +18,6 @@
         {% block content %}{% endblock content %}
         {% render_bundle 'app' 'js' %}
         {% render_block "js" %}
+        {% block js_footer %}{% endblock js_footer %}
     </body>
 </html>
