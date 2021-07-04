@@ -1,3 +1,4 @@
+require('bootstrap-icons/font/bootstrap-icons.css');
 import "../styles/index.scss";
 
 import $ from "jquery/dist/jquery.slim";
