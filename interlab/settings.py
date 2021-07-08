@@ -183,7 +183,8 @@ INSTALLED_APPS = [
     'djangocms_picture',
     'djangocms_style',
     'djangocms_video',
-    'interlab'
+    'interlab',
+    'user_profile'
 ]
 
 LANGUAGES = (
