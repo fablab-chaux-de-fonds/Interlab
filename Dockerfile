@@ -19,4 +19,4 @@ RUN npm i
 RUN npm run build
 RUN rm -rf /code/frontend/node_modules/
 WORKDIR /code/
-RUN python manage.py collectstatic --noinput --clear
+RUN ["/bin/bash", "-c", "SECRET_KEY=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 32 ; echo '') python manage.py collectstatic --noinput --clear"]
