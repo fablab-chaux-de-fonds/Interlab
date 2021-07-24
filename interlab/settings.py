@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '=*fyf15@$mer21(^jzxxbxwa4gn!qpi^@azhy#7ol9vh*ezqz('
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -76,11 +76,15 @@ LANGUAGE_CODE = 'fr'
 
 TIME_ZONE = 'Europe/Zurich'
 
-USE_I18N = False
+USE_I18N = True
 
 USE_L10N = False
 
 USE_TZ = False
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
 
 
 # Static files (CSS, JavaScript, Images)
@@ -183,6 +187,7 @@ INSTALLED_APPS = [
     'djangocms_picture',
     'djangocms_style',
     'djangocms_video',
+    'django_registration',
     'interlab'
 ]
 
@@ -221,23 +226,35 @@ CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
     },
 }
+
+DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL')
+EMAIL_HOST=os.environ.get('EMAIL_HOST')
+EMAIL_PORT=os.environ.get('EMAIL_PORT')
+EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_SUBJECT_PREFIX=os.environ.get('EMAIL_SUBJECT_PREFIX')
+EMAIL_USE_TLS=os.environ.get('EMAIL_USE_TLS')
+
 
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
-    'easy_thumbnails.processors.filters'
 )
+
+# User registration
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 
 OAUTH2_PROVIDER = {
     "OIDC_ENABLED": True,
