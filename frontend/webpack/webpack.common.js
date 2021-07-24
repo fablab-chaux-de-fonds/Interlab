@@ -9,7 +9,7 @@ module.exports = {
     app: Path.resolve(__dirname, '../src/scripts/index.js'),
   },
   output: {
-    path: Path.join(__dirname, '../build'),
+    path: Path.join(__dirname, '../../build'),
     filename: 'js/[name].js',
     publicPath: '/static/',
   },
@@ -25,7 +25,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: Path.resolve(__dirname, '../src/index.html'),
     }),
-    new BundleTracker({filename: './webpack-stats.json'}),
+    new BundleTracker({filename: '../build/webpack-stats.json'}),
   ],
   resolve: {
     alias: {

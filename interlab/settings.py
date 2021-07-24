@@ -93,7 +93,7 @@ STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'frontend', 'build'),
+    os.path.join(BASE_DIR, 'build'),
 )
 SITE_ID = 1
 
@@ -260,6 +260,6 @@ COMPRESS_PRECOMPILERS = (
 
 WEBPACK_LOADER = {
     'DEFAULT': {
-        'STATS_FILE': str(BASE_DIR / 'frontend' / 'webpack-stats.json'),
+        'STATS_FILE': str(BASE_DIR / 'build' / 'webpack-stats.json'),
     },
 }
