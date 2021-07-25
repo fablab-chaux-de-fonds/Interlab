@@ -145,5 +145,4 @@ static/CACHE/
 node_modules/
 /static/
 
-## webpack
-frontend/webpack-stats.json
+build
