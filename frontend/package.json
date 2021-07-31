@@ -47,7 +47,7 @@
     "postcss-loader": "^4.1.0",
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
-    "stylelint": "^13.8.0",
+    "stylelint": "^13.13.1",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-webpack-plugin": "^2.1.1",
     "url-loader": "^4.1.1",
@@ -63,6 +63,7 @@
     "bootstrap-icons": "^1.5.0",
     "core-js": "^3.8.1",
     "jquery": "^3.6.0",
+    "stylelint-scss": "^3.20.1",
     "webpack-bundle-tracker": "^1.1.0"
   }
 }
