@@ -5,20 +5,6 @@ $custom-red-light:    #ffe8e0;
 $custom-green:        #00a59f;
 $custom-green-light:  #e4f2e5;
 
-// Fablab color map
-$custom-colors: () !default;
-$custom-colors: map-merge(
-  (
-    "custom-blue":        $custom-blue,
-    "custom-blue-light":  $custom-blue-light,
-    "custom-red":         $custom-red,
-    "custom-red-light":   $custom-red-light,
-    "custom-green":       $custom-green,
-    "custom-green-light": $custom-green-light
-  ),
-  $custom-colors
-);
-
 @font-face {
   font-family: 'GT Pressura';
   src:
@@ -31,9 +17,10 @@ $custom-colors: map-merge(
 }
 
 // variables
-$body-color: map-get($custom-colors, "custom-blue");
-$blue: map-get($custom-colors, "custom-blue");
-$red: map-get($custom-colors, "custom-red");
-$green: map-get($custom-colors, "custom-green");
-$link-color: map-get($custom-colors, "custom-red");
+$body-color: $custom-blue;
+$blue: $custom-blue;
+$red: $custom-red;
+$green: $custom-green;
+$link-color: $custom-red;
+$primary-color:  $custom-red;
 $font-family-base: 'GT Pressura', -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
