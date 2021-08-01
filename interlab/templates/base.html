@@ -1,4 +1,5 @@
-{% load cms_tags static sekizai_tags menu_tags %}
+{% load static %}
+{% load cms_tags sekizai_tags menu_tags %}
 {% load render_bundle from webpack_loader %}
 <!doctype html>
 <html class="{% block html_class %}{% endblock %}">
@@ -15,7 +16,7 @@
     </head>
     <body class="{% block body_class %}{% endblock %}">
         {% cms_toolbar %}
-        
+
         {% block navbar-header %} {% include 'navbar-header.html' %} {% endblock navbar-header %}
         {% block content %} {% endblock content %}
         {% block menu-mobile %} {% include 'menu-mobile.html' %} {% endblock menu-mobile %}
