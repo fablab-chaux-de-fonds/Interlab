@@ -1,31 +1,19 @@
-{% extends "base.html" %}
-{% load i18n static crispy_forms_tags %}
+{% extends 'forms/base_forms.html' %}
+{% load i18n crispy_forms_tags %}
 
-<!-- No header -->
-{% block navbar-header %} {% endblock navbar-header %}
+{% block content_form %}
 
-<!-- No mobile menu -->
-{% block menu-mobile %} {% endblock menu-mobile %}
+<form method="post" action=".">
+  {% csrf_token %}
 
-{% block html_class %} h-100 {% endblock %}
-{% block body_class %} body-form-full-page h-100 {% endblock %}
+  {{ form | crispy }}
 
-<!-- Content -->
-{% block content %}
-<div class="form-full-page mx-auto">
-  <img class="mb-5 img-form-logo mx-auto d-block" src="{% static 'src/img/logo-fl-red.svg' %}" alt="">
-  <form method="post" action=".">
-    {% csrf_token %}
+  <input class="btn my-4 mx-auto d-block" type="submit" value="{% trans 'Log in' %}" />
+  <input type="hidden" name="next" value="{{ next }}" />
+</form>
 
-    {{ form | crispy }}
-  
-    <input class="btn my-4 mx-auto d-block" type="submit" value="{% trans 'Log in' %}" />
-    <input type="hidden" name="next" value="{{ next }}" />
-  </form>
-  
-  <div class="text-center">
-    <a href="{% url 'password_reset' %}">{% trans "Reset it" %}</a> | <a href="{% url 'django_registration_register' %}">{% trans "Register" %}</a>
-  </div>
+<div class="text-center">
+  <a href="{% url 'password_reset' %}">{% trans "Reset it" %}</a> | <a
+    href="{% url 'django_registration_register' %}">{% trans "Register" %}</a>
 </div>
-
-{% endblock %}
+{% endblock content_form %}
