@@ -24,3 +24,5 @@ Pillow>=3.0
 six
 pytz
 django-webpack-loader
+django-crispy-forms
+crispy-bootstrap5

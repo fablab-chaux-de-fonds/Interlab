@@ -188,6 +188,8 @@ INSTALLED_APPS = [
     'djangocms_style',
     'djangocms_video',
     'django_registration',
+    'crispy_forms',
+    "crispy_bootstrap5",
     'interlab'
 ]
 
@@ -280,3 +282,7 @@ WEBPACK_LOADER = {
         'STATS_FILE': str(BASE_DIR / 'build' / 'webpack-stats.json'),
     },
 }
+
+# Crispy form
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
