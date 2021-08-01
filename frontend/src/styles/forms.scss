@@ -12,6 +12,9 @@
   padding: 15px;
 }
 
+$logo-size: 140px;
+
 .img-form-logo {
-  max-width: 140px;
+  max-width: $logo-size;
+  font-size: $logo-size;
 }
