@@ -1,7 +1,7 @@
 {% load cms_tags static sekizai_tags menu_tags %}
 {% load render_bundle from webpack_loader %}
 <!doctype html>
-<html>
+<html class="{% block html_class %}{% endblock %}">
     <head>
         <meta charset="utf-8">
         <title>{% block title %}FabLab | La Chaux-de-Fonds{% endblock title %}</title>
@@ -13,13 +13,12 @@
         {% render_block "css" %}
         {% block header %}{% endblock header %}
     </head>
-    <body>
+    <body class="{% block body_class %}{% endblock %}">
         {% cms_toolbar %}
-        {% include 'header.html' %}
-        <div class="container">
-            {% block content %}{% endblock content %}
-          </div>          
-        {% include 'menu-mobile.html' %}
+        
+        {% block navbar-header %} {% include 'navbar-header.html' %} {% endblock navbar-header %}
+        {% block content %} {% endblock content %}
+        {% block menu-mobile %} {% include 'menu-mobile.html' %} {% endblock menu-mobile %}
         {% render_bundle 'app' 'js' %}
         {% render_block "js" %}
         {% block js_footer %}{% endblock js_footer %}

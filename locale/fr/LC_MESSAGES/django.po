@@ -57,7 +57,7 @@ msgstr "Réussite de la réinitialisation du mot de passe"
 #: interlab/templates/django_registration/password_reset_complete.html:8
 #: interlab/templates/registration/login.html:9
 msgid "Log in"
-msgstr "S'identifier"
+msgstr "Se connecter"
 
 #: interlab/templates/django_registration/password_reset_confirm.html:17
 msgid "Password reset failed"
