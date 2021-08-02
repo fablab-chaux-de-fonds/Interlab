@@ -3,7 +3,7 @@
   align-items: center;
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #f5f5f5;
+  background-color: $gray-200;
 }
 
 .form-full-page {
@@ -17,4 +17,20 @@ $logo-size: 140px;
 .img-form-logo {
   max-width: $logo-size;
   font-size: $logo-size;
+}
+
+.inf-input {
+  @extend .w-100, .mb-1;
+
+  > input {
+    @extend.form-control;
+  }
+}
+
+.inf-submit {
+  @extend .float-end;
+
+  > input {
+    @extend .btn;
+  }
 }
