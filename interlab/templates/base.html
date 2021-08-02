@@ -3,25 +3,47 @@
 {% load render_bundle from webpack_loader %}
 <!doctype html>
 <html class="{% block html_class %}{% endblock %}">
-    <head>
-        <meta charset="utf-8">
-        <title>{% block title %}FabLab | La Chaux-de-Fonds{% endblock title %}</title>
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <link rel="shortcut icon" href="{% static 'src/img/favicon.png' %}" />
-        <link rel="apple-touch-icon" href="{% static 'src/img/favicon.png' %}" />
 
-        {% render_bundle 'app' 'css' %}
-        {% render_block "css" %}
-        {% block header %}{% endblock header %}
-    </head>
-    <body class="{% block body_class %}{% endblock %}">
-        {% cms_toolbar %}
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}FabLab | La Chaux-de-Fonds{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="shortcut icon" href="{% static 'src/img/favicon.png' %}" />
+    <link rel="apple-touch-icon" href="{% static 'src/img/favicon.png' %}" />
 
-        {% block navbar-header %} {% include 'navbar-header.html' %} {% endblock navbar-header %}
+    {% render_bundle 'app' 'css' %}
+    {% render_block "css" %}
+    {% block header %}{% endblock header %}
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+
+    {% cms_toolbar %}
+    {% block navbar-header %} {% include 'navbar-header.html' %} {% endblock navbar-header %}
+    <div class="container">
         {% block content %} {% endblock content %}
-        {% block menu-mobile %} {% include 'menu-mobile.html' %} {% endblock menu-mobile %}
-        {% render_bundle 'app' 'js' %}
-        {% render_block "js" %}
-        {% block js_footer %}{% endblock js_footer %}
-    </body>
+    </div>
+    {% block menu-mobile %} {% include 'menu-mobile.html' %} {% endblock menu-mobile %}
+
+    {% block footer %}
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-6">
+                    {% include 'forms/newsletter.html' %}
+                </div>
+            </div>
+            {% static_placeholder 'footer' %}
+        </div>
+
+    </footer>
+
+    {% endblock footer %}
+
+
+    {% render_bundle 'app' 'js' %}
+    {% render_block "js" %}
+    {% block js_footer %}{% endblock js_footer %}
+</body>
+
 </html>

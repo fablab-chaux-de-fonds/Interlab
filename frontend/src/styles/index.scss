@@ -3,3 +3,9 @@
 @import "navbar.scss";
 @import "buttons.scss";
 @import "forms.scss";
+
+footer {
+  background-color: $gray-200;
+
+  @extend .pb-5;
+}
