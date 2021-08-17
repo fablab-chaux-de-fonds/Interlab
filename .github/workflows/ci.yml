@@ -27,4 +27,6 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Build staging docker image
-        run: docker-compose build --no-cache
+        run: |
+          touch .env
+          docker-compose build --no-cache
