@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-10 20:45+0000\n"
+"POT-Creation-Date: 2021-08-09 16:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: interlab/templates/django_registration/activate.html:6
+#: interlab/templates/django_registration/activate.html:12
 msgid "Account activation failed"
 msgstr "L'activation à échoué"
 
-#: interlab/templates/django_registration/activation_complete.html:5
+#: interlab/templates/django_registration/activation_complete.html:11
 msgid "Your account is now activated."
 msgstr "Votre accompte est activé"
 
@@ -39,14 +39,14 @@ msgstr "Le lien est valide pendant %(expiration_days)s jours."
 msgid "Account activation on"
 msgstr "Activation de compte sur"
 
-#: interlab/templates/django_registration/password_change_done.html:5
+#: interlab/templates/django_registration/password_change_done.html:9
 msgid "Password changed"
 msgstr "Mot de passe changé"
 
 #: interlab/templates/django_registration/password_change_form.html:9
 #: interlab/templates/django_registration/password_reset_confirm.html:12
 #: interlab/templates/django_registration/password_reset_form.html:9
-#: interlab/templates/django_registration/registration_form.html:9
+#: interlab/templates/django_registration/registration_form.html:10
 msgid "Submit"
 msgstr "Envoi"
 
@@ -55,7 +55,7 @@ msgid "Password reset successfully"
 msgstr "Réussite de la réinitialisation du mot de passe"
 
 #: interlab/templates/django_registration/password_reset_complete.html:8
-#: interlab/templates/registration/login.html:9
+#: interlab/templates/registration/login.html:11
 msgid "Log in"
 msgstr "Se connecter"
 
@@ -65,7 +65,8 @@ msgstr "Échec de la réinitialisation du mot de passe"
 
 #: interlab/templates/django_registration/password_reset_done.html:5
 msgid "Email with password reset instructions has been sent."
-msgstr "Envoi réussi de l'email d'instructions de réinitialisation du mot de passe."
+msgstr ""
+"Envoi réussi de l'email d'instructions de réinitialisation du mot de passe."
 
 #: interlab/templates/django_registration/password_reset_email.html:2
 #, python-format
@@ -85,25 +86,43 @@ msgstr "La réinitialisation de mot de passe est désactivée"
 msgid "You are now registered. Activation email sent."
 msgstr "Vous êtes enregistré. E-mail d'activation envoyé"
 
-#: interlab/templates/registration/login.html:13
-msgid "Forgot password"
-msgstr "Mot de passe oublié"
+#: interlab/templates/menu-mobile.html:8
+msgid "home"
+msgstr "Acceuil"
 
-#: interlab/templates/registration/login.html:13
+#: interlab/templates/menu-mobile.html:16
+msgid "schedules and reservations"
+msgstr ""
+
+#: interlab/templates/menu-mobile.html:22
+msgid "profile"
+msgstr ""
+
+#: interlab/templates/menu-mobile.html:28
+msgid "login"
+msgstr ""
+
+#: interlab/templates/menu-mobile.html:35
+msgid "dashboard"
+msgstr ""
+
+#: interlab/templates/registration/login.html:16
 msgid "Reset it"
 msgstr "Réinitaliser"
 
-#: interlab/templates/registration/login.html:14
-msgid "Not member"
-msgstr "Non membre"
-
-#: interlab/templates/registration/login.html:14
+#: interlab/templates/registration/login.html:17
 msgid "Register"
 msgstr "Enregistrer"
 
 #: interlab/templates/registration/logout.html:5
 msgid "Logged out"
 msgstr "Déconnecté"
+
+#~ msgid "Forgot password"
+#~ msgstr "Mot de passe oublié"
+
+#~ msgid "Not member"
+#~ msgstr "Non membre"
 
 #~ msgid "fr"
 #~ msgstr "fr"

@@ -16,6 +16,7 @@ services:
       - ./interlab:/code/interlab
       - ./frontend:/code/frontend
       - ./build:/code/build
+      - ./locale:/code/locale
     ports:
       - "8000:8000"
     depends_on:
