@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
+from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import TemplateView
 from . import views
 
@@ -13,13 +14,15 @@ urlpatterns = [
     path("sitemap.xml", sitemap, {"sitemaps": {"cmspages": CMSSitemap}}),
 ]
 
-urlpatterns += [
+urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
-    path("accounts/", include('django.contrib.auth.urls')),
+    path('accounts/', include('django_registration.backends.activation.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path('bootstrap/', views.bootstrap, name='bootstrap'),
     path("", include("cms.urls")),
-]
+    prefix_default_language=False
+)
 
 # This is only needed when using runserver.
 if settings.DEBUG:

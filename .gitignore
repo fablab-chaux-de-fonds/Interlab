@@ -144,3 +144,5 @@ static/CACHE/
 
 node_modules/
 /static/
+
+build
