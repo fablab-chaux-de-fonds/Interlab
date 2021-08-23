@@ -15,7 +15,7 @@ class SubscriptionCategory(models.Model):
 class Subscription(models.Model):
     start = models.DateField()
     end = models.DateField()
-    category = models.ForeignKey(SubscriptionCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(SubscriptionCategory, on_delete=models.PROTECT)
 
     def __str__(self):
         return f"{self.category.title}, {self.start}, {self.end}"
@@ -23,7 +23,7 @@ class Subscription(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     newsletter = models.BooleanField()
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, blank=True, null=True)
+    subscription = models.ForeignKey(Subscription, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}, ({self.user.username})"
