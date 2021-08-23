@@ -5,6 +5,9 @@ class SubscriptionCategory(models.Model):
     title = models.CharField(max_length=255)
     price = models.FloatField()
     access_number = models.PositiveSmallIntegerField()
+    duration = models.PositiveSmallIntegerField(blank=True, null=True) # in days
+    star_flag = models.BooleanField(blank=True, null=True)
+    sort = models.PositiveSmallIntegerField(blank=True, null=True) 
 
     def __str__(self):
         return f"{self.title}"
@@ -15,15 +18,16 @@ class SubscriptionCategory(models.Model):
 class Subscription(models.Model):
     start = models.DateField()
     end = models.DateField()
-    category = models.ForeignKey(SubscriptionCategory, on_delete=models.PROTECT)
+    category = models.ForeignKey(SubscriptionCategory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f"{self.category.title}, {self.start}, {self.end}"
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    newsletter = models.BooleanField()
-    subscription = models.ForeignKey(Subscription, on_delete=models.DO_NOTHING, blank=True, null=True)
+    active = models.BooleanField(blank=True, null=True)
+
+    subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}, ({self.user.username})"
