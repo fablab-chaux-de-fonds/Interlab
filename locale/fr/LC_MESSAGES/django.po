@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-09 16:51+0000\n"
+"POT-Creation-Date: 2021-08-28 15:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,24 +87,28 @@ msgid "You are now registered. Activation email sent."
 msgstr "Vous êtes enregistré. E-mail d'activation envoyé"
 
 #: interlab/templates/menu-mobile.html:8
-msgid "home"
+msgid "Home"
 msgstr "Acceuil"
 
-#: interlab/templates/menu-mobile.html:16
-msgid "schedules and reservations"
-msgstr ""
+#: interlab/templates/menu-mobile.html:13
+msgid "Calendar"
+msgstr "Calendrier"
 
-#: interlab/templates/menu-mobile.html:22
-msgid "profile"
-msgstr ""
+#: interlab/templates/menu-mobile.html:19
+msgid "Reservations"
+msgstr "Réservations"
 
-#: interlab/templates/menu-mobile.html:28
-msgid "login"
-msgstr ""
+#: interlab/templates/menu-mobile.html:25
+msgid "Profile"
+msgstr "Profile"
 
-#: interlab/templates/menu-mobile.html:35
-msgid "dashboard"
-msgstr ""
+#: interlab/templates/menu-mobile.html:31
+msgid "Login"
+msgstr "Connexion"
+
+#: interlab/templates/menu-mobile.html:38
+msgid "Dashboard"
+msgstr "Tableau de bord"
 
 #: interlab/templates/registration/login.html:16
 msgid "Reset it"
@@ -112,7 +116,7 @@ msgstr "Réinitaliser"
 
 #: interlab/templates/registration/login.html:17
 msgid "Register"
-msgstr "Enregistrer"
+msgstr "S'enregistrer"
 
 #: interlab/templates/registration/logout.html:5
 msgid "Logged out"
