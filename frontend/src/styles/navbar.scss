@@ -4,6 +4,7 @@
 }
 
 // mobile navbar
+
 .navbar-mobile {
   margin-left: auto;
   margin-right: auto;
@@ -17,9 +18,14 @@
 .btn-mobile-navbar {
   font-size: $font-size-base*0.6 !important;
 
-  > i {
+  i {
     font-size: $font-size-base*2;
   }
+}
+
+.btn-group > .btn.active {
+  background-color: $custom-blue !important;
+  color: $custom-red-light !important;
 }
 
 .modal-dialog-mobile {
