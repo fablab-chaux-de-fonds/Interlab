@@ -100,7 +100,7 @@ msgstr "Réservations"
 
 #: interlab/templates/menu-mobile.html:25
 msgid "Profile"
-msgstr "Profile"
+msgstr "Profil"
 
 #: interlab/templates/menu-mobile.html:31
 msgid "Login"
