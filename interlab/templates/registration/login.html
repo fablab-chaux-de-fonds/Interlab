@@ -12,8 +12,8 @@
   <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
-<div class="text-center">
-  <a href="{% url 'password_reset' %}">{% trans "Reset it" %}</a> | <a
-    href="{% url 'django_registration_register' %}">{% trans "Register" %}</a>
+<div class="text-center text-red">
+  <a href="{% url 'password_reset' %}">{% trans "Forgot password" %}</a>  |  
+  <a href="{% url 'django_registration_register' %}">{% trans "Register" %}</a>
 </div>
 {% endblock content_form %}
