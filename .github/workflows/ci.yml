@@ -28,10 +28,9 @@ jobs:
       # Runs a single command using the runners shell
       - name: Build staging docker image
         run: |
-          export TAG=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-          echo $TAG
           touch .env
           docker-compose build
-          docker image tag interlab_web:latest registry.fablab-chaux-de-fonds.ch/flcdf/interlab:latest
-          docker image push registry.fablab-chaux-de-fonds.ch/flcdf/interlab:latest
+          export TAG=PR$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+          docker image tag interlab_web:$TAG registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
+          docker image push registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
           
