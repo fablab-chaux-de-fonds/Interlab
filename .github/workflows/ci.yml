@@ -24,12 +24,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+      
       # Runs a single command using the runners shell
       - name: Build staging docker image
         run: |
           touch .env
-          docker-compose build
-          docker image tag interlab_web:latest registry.fablab-chaux-de-fonds.ch/flcdf/interlab:latest
-          docker image push registry.fablab-chaux-de-fonds.ch/flcdf/interlab:latest
+          export TAG=PR$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+          docker-compose build --pull
+          docker image tag interlab_web:latest registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
+          docker image push registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
           
