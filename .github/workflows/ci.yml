@@ -25,15 +25,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
-      # Prepare docker image tag to allow specific pull-request deployment
-      - name: Get docker image tag from ref
-        run: |
-          export TAG=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-          echo "::set-env name=TAG::$TAG"
-          
       # Runs a single command using the runners shell
       - name: Build staging docker image
         run: |
+          export TAG=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
           echo $TAG
           touch .env
           docker-compose build
