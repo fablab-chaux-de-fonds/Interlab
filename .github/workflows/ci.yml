@@ -24,10 +24,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      
+      - name: Get PR number
+        run: TAG=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
 
       # Runs a single command using the runners shell
       - name: Build staging docker image
         run: |
+          echo $TAG
           touch .env
           docker-compose build
           docker image tag interlab_web:latest registry.fablab-chaux-de-fonds.ch/flcdf/interlab:latest
