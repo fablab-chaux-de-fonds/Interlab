@@ -190,7 +190,9 @@ INSTALLED_APPS = [
     'django_registration',
     'crispy_forms',
     "crispy_bootstrap5",
-    'interlab'
+    'interlab',
+    'user_profile',
+    'django_registration'
 ]
 
 LANGUAGES = (
