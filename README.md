@@ -125,3 +125,13 @@ And remount BindFS after update
 ```shell
 $ sudo mount -a
 ```
+## Database
+Export database
+```shell
+docker exec -it interlab-web-1 python manage.py dumpdata --exclude contenttypes > db.json
+``` 
+
+Import database
+```shell
+docker exec -it interlab-web-1 python manage.py loaddata db.json
+``` 
