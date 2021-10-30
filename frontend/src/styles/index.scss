@@ -1,11 +1,12 @@
 @import "custom.scss";
 @import "~bootstrap/scss/bootstrap.scss";
+@import "type.scss";
 @import "navbar.scss";
 @import "buttons.scss";
 @import "forms.scss";
 
 footer {
-  background-color: $gray-200;
+  background-color: $custom-green-light;
   padding-bottom: 100px;
 }
 
