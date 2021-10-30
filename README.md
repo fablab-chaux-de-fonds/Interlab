@@ -126,12 +126,7 @@ And remount BindFS after update
 $ sudo mount -a
 ```
 ## Database
-Export database
+Pull database form Hidora
 ```shell
-docker exec -it interlab-web-1 python manage.py dumpdata --exclude contenttypes > db.json
-``` 
-
-Import database
-```shell
-docker exec -it interlab-web-1 python manage.py loaddata db.json
+./tools/pull_db.sh
 ``` 
