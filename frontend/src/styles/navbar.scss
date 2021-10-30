@@ -1,0 +1,33 @@
+//navbar header
+.navbar-header {
+  background-color: $custom-green-light;
+}
+
+// mobile navbar
+.navbar-mobile {
+  margin-left: auto;
+  margin-right: auto;
+
+  > .btn-lg {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+}
+
+.btn-mobile-navbar {
+  font-size: $font-size-base*0.6 !important;
+
+  i {
+    font-size: $font-size-base*2;
+  }
+}
+
+.btn-group > .btn.active {
+  background-color: $custom-blue !important;
+  color: $custom-red-light !important;
+}
+
+.modal-dialog-mobile {
+  max-width: 300px;
+  margin: auto;
+}

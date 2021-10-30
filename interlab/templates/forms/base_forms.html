@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!-- No header -->
+{% block navbar-header %} {% endblock navbar-header %}
+
+<!-- No mobile menu -->
+{% block menu-mobile %} {% endblock menu-mobile %}
+
+<!-- No footer -->
+{% block footer %} {% endblock footer %}
+
+{% block html_class %} h-100 {% endblock %}
+{% block body_class %} body-form-full-page h-100 {% endblock %}
+
+<!-- Content -->
+{% block content %}
+<div class="form-full-page mx-auto">
+    
+    {% block content_form_img %}
+        <img class="mb-5 img-form-logo mx-auto d-block" src="{% static 'src/img/logo-FL-red.svg' %}" alt="">
+    {% endblock content_form_img %}
+
+    {% block content_form %} {% endblock content_form %}
+</div>
+{% endblock %}

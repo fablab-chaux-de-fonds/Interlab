@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-29 15:10+0000\n"
+"POT-Creation-Date: 2021-08-29 13:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,113 +20,103 @@ msgstr ""
 
 #: interlab/templates/django_registration/activate.html:12
 msgid "Account activation failed"
-msgstr "L'activation à échoué"
+msgstr ""
 
 #: interlab/templates/django_registration/activation_complete.html:11
 msgid "Your account is now activated."
-msgstr "Votre accompte est activé"
+msgstr ""
 
 #: interlab/templates/django_registration/activation_email_body.txt:2
 msgid "Activate account at"
-msgstr "Activation de compte de"
+msgstr ""
 
 #: interlab/templates/django_registration/activation_email_body.txt:6
 #, python-format
 msgid "Link is valid for %(expiration_days)s days."
-msgstr "Le lien est valide pendant %(expiration_days)s jours."
+msgstr ""
 
 #: interlab/templates/django_registration/activation_email_subject.txt:1
 msgid "Account activation on"
-msgstr "Activation de compte sur"
+msgstr ""
 
 #: interlab/templates/django_registration/password_change_done.html:9
 msgid "Password changed"
-msgstr "Mot de passe changé"
+msgstr ""
 
 #: interlab/templates/django_registration/password_change_form.html:9
 #: interlab/templates/django_registration/password_reset_confirm.html:12
 #: interlab/templates/django_registration/password_reset_form.html:9
 #: interlab/templates/django_registration/registration_form.html:10
 msgid "Submit"
-msgstr "Envoi"
+msgstr ""
 
 #: interlab/templates/django_registration/password_reset_complete.html:6
 msgid "Password reset successfully"
-msgstr "Réussite de la réinitialisation du mot de passe"
+msgstr ""
 
 #: interlab/templates/django_registration/password_reset_complete.html:8
 #: interlab/templates/registration/login.html:11
 msgid "Log in"
-msgstr "Se connecter"
+msgstr ""
 
 #: interlab/templates/django_registration/password_reset_confirm.html:17
 msgid "Password reset failed"
-msgstr "Échec de la réinitialisation du mot de passe"
+msgstr ""
 
 #: interlab/templates/django_registration/password_reset_done.html:5
 msgid "Email with password reset instructions has been sent."
 msgstr ""
-"Envoi réussi de l'email d'instructions de réinitialisation du mot de passe."
 
 #: interlab/templates/django_registration/password_reset_email.html:2
 #, python-format
 msgid "Reset password at %(site_name)s"
-msgstr "Réinitialisation du mot de passe de %(site_name)s"
+msgstr ""
 
 #: interlab/templates/django_registration/password_reset_subject.txt:3
 #, python-format
 msgid "Password reset on %(site_name)s"
-msgstr "Mot de passe de %(site_name)s réinitialisé"
+msgstr ""
 
 #: interlab/templates/django_registration/registration_closed.html:5
 msgid "Registration is currently closed."
-msgstr "La réinitialisation de mot de passe est désactivée"
+msgstr ""
 
 #: interlab/templates/django_registration/registration_complete.html:5
 msgid "You are now registered. Activation email sent."
-msgstr "Vous êtes enregistré. E-mail d'activation envoyé"
+msgstr ""
 
 #: interlab/templates/menu-mobile.html:8
 msgid "Home"
-msgstr "Acceuil"
+msgstr ""
 
 #: interlab/templates/menu-mobile.html:13
 msgid "Calendar"
-msgstr "Calendrier"
+msgstr ""
 
 #: interlab/templates/menu-mobile.html:19
 msgid "Reservations"
-msgstr "Réservations"
+msgstr ""
 
 #: interlab/templates/menu-mobile.html:25
 msgid "Profile"
-msgstr "Profil"
+msgstr ""
 
 #: interlab/templates/menu-mobile.html:31
 msgid "Login"
-msgstr "Connexion"
+msgstr ""
 
 #: interlab/templates/menu-mobile.html:38
 msgid "Dashboard"
-msgstr "Tableau de bord"
+msgstr ""
 
 #: interlab/templates/registration/login.html:16
-msgid "Forgot password"
-msgstr "Mot de passe oublié"
+msgid "Reset it"
+msgstr ""
 
 #: interlab/templates/registration/login.html:17
-msgid "Sign up"
-msgstr "S'inscrire"
+msgid "Register"
+msgstr ""
 
 #: interlab/templates/registration/logout.html:5
 msgid "Logged out"
-msgstr "Déconnecté"
-
-#~ msgid "Reset it"
-#~ msgstr "Réinitaliser"
-
-#~ msgid "Not member"
-#~ msgstr "Non membre"
-
-#~ msgid "fr"
-#~ msgstr "fr"
+msgstr ""

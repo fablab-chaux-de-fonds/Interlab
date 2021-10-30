@@ -1,0 +1,35 @@
+.body-form-full-page {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.form-full-page {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+}
+
+$logo-size: 140px;
+
+.img-form-logo {
+  max-width: $logo-size;
+  font-size: $logo-size;
+}
+
+.inf-input {
+  @extend .w-100, .mb-1;
+
+  > input {
+    @extend.form-control;
+  }
+}
+
+.inf-submit {
+  @extend .float-end;
+
+  > input {
+    @extend .btn;
+  }
+}

@@ -1,0 +1,21 @@
+@use "button-variant";
+
+.btn {
+  @include button-variant($custom-red, $custom-red, white);
+}
+
+.btn-mobile-navbar {
+  @include button-variant(
+    $custom-red-light,
+    $custom-red-light,
+    $custom-blue,
+    $hover-color:$custom-blue
+  );
+
+  font-size: $font-size-sm;
+  border-radius: 50px;
+}
+
+.btn-text-left {
+  text-align: left;
+}
