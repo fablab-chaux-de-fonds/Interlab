@@ -37,7 +37,7 @@ RUN rm -rf /code/frontend/node_modules/
 WORKDIR /code/
 
 # Static files collection
-#RUN ["/bin/bash", "-c", "SECRET_KEY=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 32 ; echo '') python manage.py collectstatic --noinput --clear"]
+RUN ["/bin/bash", "-c", "SECRET_KEY=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 32 ; echo '') python manage.py collectstatic --noinput --clear"]
 
 # Translation collection
 RUN django-admin makemessages -l fr -e html,txt --ignore 'build/*' --ignore 'frontend/*'
