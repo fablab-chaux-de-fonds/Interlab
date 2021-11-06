@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user_profile', '0001_initial'),
+        ('profile', '0001_initial'),
     ]
 
     operations = [
@@ -42,11 +42,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='subscription',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='user_profile.subscription'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='profile.subscription'),
         ),
         migrations.AlterField(
             model_name='subscription',
             name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='user_profile.subscriptioncategory'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='profile.subscriptioncategory'),
         ),
     ]

@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user_profile', '0004_auto_20210823_1803'),
+        ('profile', '0004_auto_20210823_1803'),
     ]
 
     operations = [
@@ -20,6 +20,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subscription',
             name='category',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='user_profile.subscriptioncategory'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='profile.subscriptioncategory'),
         ),
     ]
