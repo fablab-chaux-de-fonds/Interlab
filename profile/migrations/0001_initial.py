@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('start', models.DateField()),
                 ('end', models.DateField()),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='user_profile.subscriptioncategory')),
+                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='profile.subscriptioncategory')),
             ],
         ),
         migrations.CreateModel(
@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('newsletter', models.BooleanField()),
-                ('subscription', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='user_profile.subscription')),
+                ('subscription', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='profile.subscription')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

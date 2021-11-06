@@ -14,7 +14,7 @@ services:
       - .env
     volumes:
       - ./interlab:/code/interlab
-      - ./user_profile:/code/user_profile
+      - ./profile:/code/profile
       - ./frontend:/code/frontend
       - ./locale:/code/locale
       - ./build:/code/build
