@@ -18,6 +18,7 @@ urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('profile/', include('profile.urls')),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path('bootstrap/', views.bootstrap, name='bootstrap'),
     path("", include("cms.urls")),
