@@ -144,7 +144,8 @@ MIDDLEWARE = [
     'cms.middleware.user.CurrentUserMiddleware',
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
-    'cms.middleware.language.LanguageCookieMiddleware'
+    'cms.middleware.language.LanguageCookieMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 INSTALLED_APPS = [
@@ -189,9 +190,10 @@ INSTALLED_APPS = [
     'djangocms_video',
     'django_registration',
     'crispy_forms',
-    "crispy_bootstrap5",
+    'crispy_bootstrap5',
     'interlab',
     'accounts',
+    'debug_toolbar'
 ]
 
 LANGUAGES = (
@@ -288,5 +290,9 @@ WEBPACK_LOADER = {
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-# Login
-LOGIN_REDIRECT_URL='/profile'
+#django-debug-toolbar
+if DEBUG:
+    import os  # only if you haven't already imported this
+    import socket  # only if you haven't already imported this
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + ['127.0.0.1', '10.0.2.2']
