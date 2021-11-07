@@ -7,6 +7,7 @@ from django.urls import include, path
 from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import TemplateView
 from . import views
+import debug_toolbar
 
 admin.autodiscover()
 
@@ -27,7 +28,12 @@ urlpatterns += i18n_patterns(
 
 # This is only needed when using runserver.
 if settings.DEBUG:
-    import debug_toolbar
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += path('__debug__/', include(debug_toolbar.urls)),
+    
+    import debug_toolbar
+    urlpatterns += i18n_patterns(
+       path(r'^__debug__/', include(debug_toolbar.urls)),
+       prefix_default_language=False
+    )
+
