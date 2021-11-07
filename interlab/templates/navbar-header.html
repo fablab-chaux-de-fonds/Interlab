@@ -4,9 +4,12 @@
 <nav class="navbar navbar-header">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <img src="{% static 'src/img/logo-FL-red.svg' %}" alt="" height="24px">
+            <img src="{% static 'src/img/logo-FL-red.svg' %}" alt="" height="36px">
         </a>
-        <span class="navbar-text navbar-mobile-title d-md-none">
+        <span class="navbar-text me-auto d-none d-md-block">
+            <h2 class="px-2">{%trans page_title %}</h2>
+        </span>
+        <span class="navbar-text mx-auto d-md-none">
             <h2>{%trans page_title %}</h2>
         </span>
     </div>

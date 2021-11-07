@@ -21,15 +21,7 @@
     {% cms_toolbar %}
     {% block navbar-header %} {% include 'navbar-header.html' %} {% endblock navbar-header %}
     <div class="container">
-        {% block banner %} {% endblock banner %}
-        <div class="row">
-            <div class="col">
-                <div class="d-none d-md-block">
-                    <h1>{% trans page_title %}</h1>
-                    <hr>
-                </div>
-            </div>
-        </div>
+        {% block alerts %} {% endblock alerts %}
         {% block content %} {% endblock content %}
     </div>
     
