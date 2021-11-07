@@ -25,7 +25,7 @@ class Subscription(models.Model):
             return f"No category, {self.start}, {self.end}"
         return f"{self.category.title}, {self.start}, {self.end}"
 
-class Profile(models.Model):
+class Accounts(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, blank=True, null=True)

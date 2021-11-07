@@ -191,7 +191,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_bootstrap5",
     'interlab',
-    'profile'
+    'accounts',
 ]
 
 LANGUAGES = (
