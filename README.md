@@ -33,6 +33,11 @@ docker exec -it interlab_web_1 django-admin makemessages -l fr -e html,txt
 docker exec -it interlab_web_1 django-admin compilemessages
 ```
 
+## Use django API
+```shell
+docker exec -it interlab_web_1 python manage.py shell
+```
+
 ## Frontend 
 Documentation: https://www.accordbox.com/blog/definitive-guide-django-and-webpack/
 
