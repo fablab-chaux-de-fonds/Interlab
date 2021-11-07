@@ -32,6 +32,7 @@ docker exec -it interlab_web_1 django-admin makemessages -l fr -e html,txt
 ```shell
 docker exec -it interlab_web_1 django-admin compilemessages
 ```
+No need `docker compose restart` to apply modifications. 
 
 ## Frontend 
 Documentation: https://www.accordbox.com/blog/definitive-guide-django-and-webpack/
