@@ -20,7 +20,7 @@ RUN apt-get update \
 COPY manage.py /code/
 COPY frontend /code/frontend/
 COPY interlab /code/interlab/
-COPY profile /code/profile/
+COPY accounts /code/accounts/
 COPY locale /code/locale/
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
