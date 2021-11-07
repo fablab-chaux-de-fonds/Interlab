@@ -1,12 +1,13 @@
 {% load static %}
+{% load i18n %}
 
 <nav class="navbar navbar-header">
     <div class="container">
         <a class="navbar-brand" href="#">
             <img src="{% static 'src/img/logo-FL-red.svg' %}" alt="" height="24px">
         </a>
-        <span class="navbar-text">
-            {{ page_title }}
+        <span class="navbar-text navbar-mobile-title d-md-none">
+            <h2>{%trans page_title %}</h2>
         </span>
     </div>
 </nav>

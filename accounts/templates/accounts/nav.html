@@ -1,0 +1,51 @@
+{% load i18n %}
+
+<nav class="nav flex-column">
+    <a class="nav-link px-0 text-blue" href="#">
+        <div class="row">
+            <div class="col-8">
+                <h2>{% trans "My reservations" %}</h2>
+                <p>Machines, formation, évènements</p>
+            </div>
+            <div class="col-4">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+    </a>
+    <hr>
+    <a class="nav-link px-0 text-blue" href="#">
+        <div class="row">
+            <div class="col-8">
+                <h2>{% trans "My subscription" %}</h2>
+                <p>Gestion des membres du pack</p>
+            </div>
+            <div class="col-4">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+
+    </a>
+    <hr>
+    <a class="nav-link px-0 text-blue" href="#">
+        <div class="row">
+            <div class="col-8">
+                <h2>{% trans "My profile" %}</h2>
+                <p>Nom, e-mail, newsletter, mot de passe</p>
+            </div>
+            <div class="col-4">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+    </a>
+    <hr>
+    <a class="nav-link px-0 text-blue" href="/accounts/logout">
+        <div class="row">
+            <div class="col-8">
+                <h2>{% trans "Logout" %}</h2>
+            </div>
+            <div class="col-4">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+    </a>
+</nav>
