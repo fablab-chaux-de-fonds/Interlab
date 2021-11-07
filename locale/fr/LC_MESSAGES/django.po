@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-29 15:10+0000\n"
+"POT-Creation-Date: 2021-11-07 19:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,103 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: accounts/templates/accounts/nav.html:7
+msgid "My reservations"
+msgstr "Mes réservations"
+
+#: accounts/templates/accounts/nav.html:8
+msgid "Machines"
+msgstr "Machines"
+
+#: accounts/templates/accounts/nav.html:8
+msgid "trainings"
+msgstr "formations"
+
+#: accounts/templates/accounts/nav.html:8
+msgid "events"
+msgstr "évènements"
+
+#: accounts/templates/accounts/nav.html:19
+msgid "My subscription"
+msgstr "Mon abonnement"
+
+#: accounts/templates/accounts/nav.html:20
+msgid "Manage subscription members"
+msgstr "Gérer les membres de mon abonement"
+
+#: accounts/templates/accounts/nav.html:32
+msgid "My profile"
+msgstr "Mon Profil"
+
+#: accounts/templates/accounts/nav.html:33
+msgid "Name"
+msgstr "Nom"
+
+#: accounts/templates/accounts/nav.html:33
+msgid "e-mail"
+msgstr "e-mail"
+
+#: accounts/templates/accounts/nav.html:33
+msgid "newsletter"
+msgstr "newsletter"
+
+#: accounts/templates/accounts/nav.html:33
+msgid "password"
+msgstr "mot de passe"
+
+#: accounts/templates/accounts/nav.html:44
+msgid "Logout"
+msgstr "Se déconnecter"
+
+#: accounts/templates/accounts/nav.html:53
+msgid "Superuser area"
+msgstr "Espace Superutilisateur"
+
+#: accounts/templates/accounts/nav.html:58
+msgid "Openings"
+msgstr "Ouvertures"
+
+#: accounts/templates/accounts/nav.html:59
+msgid "my next openings"
+msgstr "Mes prochaines ouvertures"
+
+#: accounts/templates/accounts/nav.html:59
+#: accounts/templates/accounts/nav.html:71
+msgid "my history"
+msgstr "mon historique"
+
+#: accounts/templates/accounts/nav.html:59
+msgid "my machines"
+msgstr "mes machines"
+
+#: accounts/templates/accounts/nav.html:70
+msgid "Trainings"
+msgstr "Formations"
+
+#: accounts/templates/accounts/nav.html:71
+msgid "My next trainings"
+msgstr "Mes prochaines formations"
+
+#: accounts/templates/accounts/nav.html:71
+msgid "validation"
+msgstr "validation"
+
+#: accounts/templates/accounts/nav.html:82
+msgid "Users"
+msgstr "Utilisateurs"
+
+#: accounts/templates/accounts/nav.html:83
+msgid "training validation"
+msgstr "validation de formations"
+
+#: accounts/templates/accounts/nav.html:83
+msgid "subscription"
+msgstr "Abonnements"
+
+#: accounts/templates/accounts/profile.html:14
+msgid "valid until"
+msgstr "valable jusqu'au"
 
 #: interlab/templates/django_registration/activate.html:12
 msgid "Account activation failed"
@@ -98,15 +195,11 @@ msgstr "Calendrier"
 msgid "Reservations"
 msgstr "Réservations"
 
-#: interlab/templates/menu-mobile.html:25
-msgid "Profile"
-msgstr "Profil"
-
-#: interlab/templates/menu-mobile.html:31
+#: interlab/templates/menu-mobile.html:30
 msgid "Login"
 msgstr "Connexion"
 
-#: interlab/templates/menu-mobile.html:38
+#: interlab/templates/menu-mobile.html:37
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
@@ -121,6 +214,9 @@ msgstr "S'inscrire"
 #: interlab/templates/registration/logout.html:5
 msgid "Logged out"
 msgstr "Déconnecté"
+
+msgid "My account"
+msgstr "Mon compte"
 
 #~ msgid "Reset it"
 #~ msgstr "Réinitaliser"
