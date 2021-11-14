@@ -1,0 +1,11 @@
+
+{% if messages %}
+<div class="my-2">
+    {% for message in messages %}
+    <div class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}" role="alert">
+        {% if message.tags == "success" %} <i class="bi bi-check-circle-fill"></i> {% endif %}     
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %} 

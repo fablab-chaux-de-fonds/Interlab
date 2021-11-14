@@ -21,7 +21,7 @@
     {% cms_toolbar %}
     {% block navbar-header %} {% include 'navbar-header.html' %} {% endblock navbar-header %}
     <div class="container">
-        {% block alerts %} {% endblock alerts %}
+        {% include 'alerts.html' %}
         {% block content %} {% endblock content %}
     </div>
     
