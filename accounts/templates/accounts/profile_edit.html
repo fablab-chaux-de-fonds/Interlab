@@ -1,0 +1,24 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n crispy_forms_tags %}
+
+
+{% block content_form %}
+
+<form action="." method="POST">
+    {% csrf_token %}
+    {{ edit_profile_form | crispy }}
+    <div class="d-grid">
+        <a class="btn btn-secondary my-4" href="../../password_change/"> {% trans "Change password" %} </a>
+    </div>
+
+    <div class="row text-center align-items-center my-5">
+        <div class="col">
+            <a href="#">{% trans "Delete account" %}</a> 
+        </div> 
+        <div class="col">
+            <input class="btn mx-auto" type="submit" value="{% trans 'Update' %}">
+        </div>
+    </div>
+ </form>
+    
+{% endblock content_form %}
