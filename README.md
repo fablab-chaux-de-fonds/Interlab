@@ -18,20 +18,21 @@ $ docker compose up -d
 ## Use manage.py inside docker instance
 
 ```shell
-$ docker exec -it interlab_web_1 python manage.py migrate
+$ docker exec -it interlab-web-1 python manage.py migrate
 ```
 
 ## Generate translation file
 
 ### Update PO file with new keys
 ```shell
-docker exec -it interlab_web_1 django-admin makemessages -l fr -e html,txt
+docker exec -it interlab-web-1 django-admin makemessages -l fr -e html,txt
 ```
 
 ### Regenerate translation compiled messages
 ```shell
-docker exec -it interlab_web_1 django-admin compilemessages
+docker exec -it interlab-web-1 django-admin compilemessages
 ```
+No need `docker compose restart` to apply modifications. 
 
 ## Use django API
 ```shell
@@ -57,5 +58,5 @@ Install dependencies and build
 $ cd frontend
 $ npm install
 $ npm run build
-$ docker exec -it interlab_web_1 python manage.py collectstatic --noinput --clear
+$ docker exec -it interlab-web-1 python manage.py collectstatic --noinput --clear
 ```

@@ -1,7 +1,7 @@
 {% load static %}
-{% load i18n %}
+{% load i18n interlab_tags %}
 
-<nav class="navbar navbar-header">
+<nav class="navbar navbar-header navbar-expand-md">
     <div class="container">
         <a class="navbar-brand" href="#">
             <img src="{% static 'src/img/logo-FL-red.svg' %}" alt="" height="36px">
@@ -12,5 +12,23 @@
         <span class="navbar-text mx-auto d-md-none">
             <h2>{%trans page_title %}</h2>
         </span> -->
+        <div class="collapse navbar-collapse d-none d-md-block">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <h3><a class="nav-link active" aria-current="page" href="#">{% trans "Calendar" %}</a></h3>
+                </li>
+                <li class="nav-item">
+                    <h3><a class="nav-link active" aria-current="page" href="#">{% trans "Reservations" %}</a></h3>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <h3><a class="nav-link active" aria-current="page" href="/accounts/profile">{% trans "Profile" %}</a></h3>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <h3><a class="nav-link active" aria-current="page" href="/accounts/login">{% trans "Login" %}</a></h3>
+                </li>
+                {% endif %}   
+        </div>
     </div>
 </nav>
