@@ -3,6 +3,15 @@
   background-color: $custom-red-light;
 }
 
+.nav-link {
+  &:hover {
+    background: transparent;
+    border-radius: 10px;
+    height: 0;
+    box-shadow: 0 40px 0 -5px;
+  }
+}
+
 // mobile navbar
 .navbar-mobile {
   margin-left: auto;
