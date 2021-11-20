@@ -57,7 +57,7 @@ def DeleteProfileView(request):
         user = request.user
         user.is_active = False
         user.save()
-        messages.success(request, _("Your profile has been deleted successfully") )
+        messages.success(request, _("Your account has been successfully deleted") )
         [s.delete() for s in Session.objects.all() if s.get_decoded().get('_auth_user_id') == user.id]
         return redirect('/')
 

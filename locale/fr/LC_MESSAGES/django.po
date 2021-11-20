@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-14 20:57+0000\n"
+"POT-Creation-Date: 2021-11-15 20:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -121,6 +121,18 @@ msgstr "Mettre à jour"
 msgid "valid until"
 msgstr "valable jusqu'au"
 
+#: accounts/templates/accounts/profile_delete.html:9
+msgid "Are you sure you want to delete your account ?"
+msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
+
+#: accounts/templates/accounts/profile_delete.html:13
+msgid "No, go back to the previous page"
+msgstr "Non, revenir à la page précédente"
+
+#: accounts/templates/accounts/profile_delete.html:18
+msgid "Yes, I'm sure"
+msgstr "Oui, j'en suis sûr"
+
 #: accounts/templates/accounts/profile_edit.html:11
 #: interlab/templates/registration/password_change_done.html:4
 #: interlab/templates/registration/password_change_form.html:10
@@ -200,20 +212,27 @@ msgid "Home"
 msgstr "Acceuil"
 
 #: interlab/templates/menu-mobile.html:13
+#: interlab/templates/navbar-header.html:18
 msgid "Calendar"
 msgstr "Calendrier"
 
 #: interlab/templates/menu-mobile.html:19
+#: interlab/templates/navbar-header.html:21
 msgid "Reservations"
 msgstr "Réservations"
 
 #: interlab/templates/menu-mobile.html:30
+#: interlab/templates/navbar-header.html:29
 msgid "Login"
 msgstr "Connexion"
 
 #: interlab/templates/menu-mobile.html:37
 msgid "Dashboard"
 msgstr "Tableau de bord"
+
+#: interlab/templates/navbar-header.html:25
+msgid "Profile"
+msgstr "Profil"
 
 #: interlab/templates/registration/login.html:16
 msgid "Forgot password"
@@ -248,6 +267,9 @@ msgstr "newsletter"
 
 msgid "Your profile has been updated successfully"
 msgstr "Votre compte a été mis à jour avec succès"
+
+msgid "Your account has been successfully deleted"
+msgstr "Votre compte a été supprimer avec succès"
 
 #~ msgid "Reset it"
 #~ msgstr "Réinitaliser"

@@ -6,11 +6,11 @@
 {% endblock %}
 
 {% block content_form %}
-<h2>{% trans "Are you sure you want to delete the account" %}</h2>
+<h2>{% trans "Are you sure you want to delete your account ?" %}</h2>
 
 <div class="row text-center align-items-center my-5">
     <div class="col">
-        <a href="{{request.META.HTTP_REFERER}}">{% trans 'Go back' %} </a>
+        <a href="{{request.META.HTTP_REFERER}}">{% trans 'No, go back to the previous page' %} </a>
     </div> 
     <div class="col">
         <form action="." method="POST">
