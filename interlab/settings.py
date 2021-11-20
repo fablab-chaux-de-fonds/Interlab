@@ -193,7 +193,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'interlab',
     'accounts',
-    'debug_toolbar'
+    'debug_toolbar',
+    'invitations'
 ]
 
 LANGUAGES = (

@@ -21,6 +21,7 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
+    path(r'^invitations/', include('invitations.urls', namespace='invitations')),
     path('bootstrap/', views.bootstrap, name='bootstrap'),
     path("", include("cms.urls")),
     prefix_default_language=False
