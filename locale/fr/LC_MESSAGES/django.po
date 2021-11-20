@@ -126,12 +126,12 @@ msgid "Are you sure you want to delete your account ?"
 msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 
 #: accounts/templates/accounts/profile_delete.html:13
-msgid "No, go back to the previous page"
-msgstr "Non, revenir à la page précédente"
+msgid "Whoops, no !"
+msgstr "Oups, non !"
 
 #: accounts/templates/accounts/profile_delete.html:18
 msgid "Yes, I'm sure"
-msgstr "Oui, j'en suis sûr"
+msgstr "Oui, je suis sûr"
 
 #: accounts/templates/accounts/profile_edit.html:11
 #: interlab/templates/registration/password_change_done.html:4
@@ -269,7 +269,7 @@ msgid "Your profile has been updated successfully"
 msgstr "Votre compte a été mis à jour avec succès"
 
 msgid "Your account has been successfully deleted"
-msgstr "Votre compte a été supprimer avec succès"
+msgstr "Votre compte a été supprimé avec succès"
 
 #~ msgid "Reset it"
 #~ msgstr "Réinitaliser"
