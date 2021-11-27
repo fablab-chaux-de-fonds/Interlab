@@ -9,8 +9,8 @@ class AccountsAdmin(admin.ModelAdmin):
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ['category', 'start', 'end']
+    list_display = ['subscription_category', 'access_number', 'start', 'end']
 
 @admin.register(SubscriptionCategory)
 class SubscriptionCategoryAdmin(admin.ModelAdmin):
-    list_display = ['title', 'price', 'access_number', 'duration', 'star_flag', 'sort']
+    list_display = ['title', 'price', 'default_access_number', 'duration', 'star_flag', 'sort']

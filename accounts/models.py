@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class SubscriptionCategory(models.Model):
     title = models.CharField(max_length=255)
     price = models.FloatField()
-    access_number = models.PositiveSmallIntegerField(default=1)
+    default_access_number = models.PositiveSmallIntegerField(default=1)
     duration = models.PositiveSmallIntegerField(default=360) # in days
     star_flag = models.BooleanField()
     sort = models.PositiveSmallIntegerField()
@@ -18,7 +18,8 @@ class SubscriptionCategory(models.Model):
 class Subscription(models.Model):
     start = models.DateField()
     end = models.DateField()
-    category = models.ForeignKey(SubscriptionCategory, on_delete=models.CASCADE, null=True)
+    subscription_category = models.ForeignKey(SubscriptionCategory, on_delete=models.CASCADE, null=True)
+    access_number = models.PositiveSmallIntegerField()
 
     def __str__(self):
         if self.category==None:
