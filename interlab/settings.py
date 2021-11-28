@@ -194,7 +194,7 @@ INSTALLED_APPS = [
     'interlab',
     'accounts',
     'debug_toolbar',
-    'invitations'
+    'organizations'
 ]
 
 LANGUAGES = (
