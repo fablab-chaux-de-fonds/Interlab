@@ -28,3 +28,4 @@ django-crispy-forms
 crispy-bootstrap5
 django-debug-toolbar
 django-invitations
+debugpy==1.5.1
