@@ -22,9 +22,9 @@ class Subscription(models.Model):
     access_number = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        if self.category==None:
-            return f"No category, {self.start}, {self.end}"
-        return f"{self.category.title}, {self.start}, {self.end}"
+        if self.subscription_category==None:
+            return f"No subscription_category, {self.access_number}, {self.start}, {self.end}"
+        return f"{self.subscription_category.title}, {self.access_number}, {self.start}, {self.end}"
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
