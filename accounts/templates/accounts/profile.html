@@ -11,7 +11,7 @@
             class="img my-2" alt="avatar"> </br>
         <h1> {{ user.first_name }} {{ user.last_name }} </h1>
         {% if subscription %}
-        <p> <small> {{ subscription_category.title }} {% trans "valid until" %} {{ subscription.end|date:'d.m.Y' }} </small> </p>
+        <p> <small> {{ user.profile.subscription.subscription_category.title }} {% trans "valid until" %} {{ user.profile.subscription.end|date:'d.m.Y' }} </small> </p>
         {%else%}
         <a href="#" class="my-5">
             <button class="btn btn-primary mt-5">

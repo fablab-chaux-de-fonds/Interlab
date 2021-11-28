@@ -1,29 +1,21 @@
+from django import template
 from django.http import HttpResponse    
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.sessions.models import Session
 from django.utils.translation import ugettext as _
 
-from .models import Profile, SubscriptionCategory
 from .forms import EditProfileForm
 
 @login_required
 def AccountsView(request):
-    user = request.user
     template = loader.get_template('accounts/profile.html')
     context = {
         'page_title': "My account",
-        'user': user,   
+        'organization': request.user.organizations_organization.first()
     }
-
-    subscription = Profile.objects.get(user_id=user.id).subscription
-    if subscription is not None:
-        context['subscription'] = subscription
-        context['subscription_category']=SubscriptionCategory.objects.get(pk=subscription.subscription_category_id)
-
     return HttpResponse(template.render(context, request))
 
 @login_required
