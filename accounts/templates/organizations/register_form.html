@@ -1,0 +1,16 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n crispy_forms_tags %}
+
+{% block content_form %}
+
+<h2>{% trans 'Join the team' %} {{ organization }}</h2>
+
+<form action="." method="post" enctype="multipart/form-data">{% csrf_token %}
+    {% csrf_token %}
+    {{ form | crispy }}
+    <div class="col">
+        <input class="btn d-block mx-auto" type="submit" value="submit">
+    </div>
+</form>
+
+{% endblock %}

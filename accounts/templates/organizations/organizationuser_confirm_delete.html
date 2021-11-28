@@ -1,0 +1,28 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n %}
+
+{% block content_form_img %}
+<i class="bi bi-person-x-fill mb-5 img-form-logo mx-auto d-block text-red"></i>
+{% endblock %}
+
+{% block content_form %}
+<h2>{% trans 'are you sure you want to remove ' %} {{ organization_user.user.first_name }} {{ organization_user.user.last_name }} {% trans 'from the team' %} {{ organization }}</h2>
+
+<div class="row text-center align-items-center my-5">
+    <div class="col">
+        <a href="{{request.META.HTTP_REFERER}}">{% trans 'Whoops, no !' %} </a>
+    </div> 
+    <div class="col">
+        <form action="." method="POST">
+            {% csrf_token %}    
+            <button class="btn mx-auto" type="submit">{% trans "Yes, I'm sure" %}</button>
+        </form>
+    </div>
+</div>
+
+<div class="text-center mt-5 text-red">
+
+    <a href="profile/delete_done"></a>
+  </div>
+    
+{% endblock content_form %}

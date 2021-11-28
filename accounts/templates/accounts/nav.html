@@ -13,7 +13,9 @@
         </div>
     </a>
     <hr>
-    <a class="nav-link px-0 text-blue" href="#">
+    
+    {% if user.profile.subscription.access_number > 1 %}
+    <a class="nav-link px-0 text-blue" href= "{% url 'organization_detail' organization.pk %}">
         <div class="row">
             <div class="col-10">
                 <h2>{% trans "My subscription" %}</h2>
@@ -24,9 +26,11 @@
             </div>
         </div>
 
-    </a>
+    </a>   
     <hr>
-    <a class="nav-link px-0 text-blue" href="edit">
+    {% endif %}
+
+    <a class="nav-link px-0 text-blue" href= "{% url 'edit-profile' %}" >
         <div class="row">
             <div class="col-10">
                 <h2>{% trans "My profile" %}</h2>
