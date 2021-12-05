@@ -15,14 +15,14 @@
         </div>
         <div class="col-8 my-auto">
             <p class="my-auto">
-                {% if organization_user.user.is_active %}
+                {% if organization_user.user.first_name %}
                     {{ organization_user.user.first_name }} {{ organization_user.user.last_name }} 
-                    <span class="fs-6">
-                        ({% if user == organization_user.user %}{% trans "This is you" %}!{% endif %})
-                    </span>
                 {% else %} 
                     {{ organization_user.user.email }}
                 {% endif %}
+                <span class="fs-6">
+                    {% if user == organization_user.user %}({% trans "This is you" %}!){% endif %}
+                </span>
                  </br>
                 <span class="fs-6">
                     {% if organization_user.user.is_active %}

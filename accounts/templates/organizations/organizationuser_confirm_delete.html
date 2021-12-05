@@ -6,7 +6,13 @@
 {% endblock %}
 
 {% block content_form %}
-<h2>{% trans 'are you sure you want to remove ' %} {{ organization_user.user.first_name }} {{ organization_user.user.last_name }} {% trans 'from the team' %} {{ organization }}</h2>
+<h1>{% trans 'Are you sure you want to remove ' %} 
+    {% if organization_user.user.first_name != '' %}
+        {{ organization_user.user.first_name }} {{ organization_user.user.last_name }}
+    {% else %}
+        {{ organization_user.user.email }}
+    {% endif %}
+    {% trans 'from the team' %} {{ organization_user.organization.name }}</h1>
 
 <div class="row text-center align-items-center my-5">
     <div class="col">

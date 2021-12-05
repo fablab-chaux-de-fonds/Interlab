@@ -2,12 +2,15 @@ from django import template
 from django.http import HttpResponse    
 from django.template import loader
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.sessions.models import Session
 from django.utils.translation import ugettext as _
+from django.shortcuts import redirect, render
 
 from .forms import EditProfileForm
+from .models import Profile
+
+from organizations.models import OrganizationUser
 
 @login_required
 def AccountsView(request):
@@ -53,4 +56,31 @@ def DeleteProfileView(request):
         [s.delete() for s in Session.objects.all() if s.get_decoded().get('_auth_user_id') == user.id]
         return redirect('/')
 
+    return render(request, template, context)
+
+@login_required
+def DeleteOrganizationUserView(request, organization_pk, user_pk):
+    template = "organizations/organizationuser_confirm_delete.html"
+    organization_user = OrganizationUser.objects.get(user_id=user_pk, organization_id=organization_pk)
+    context ={
+        "organization_user": organization_user
+    }
+
+    if request.method == 'POST':
+
+        organization_user.delete()
+
+        try:
+            profile = Profile.objects.get(user_id=user_pk)
+            profile.subscription = None
+            profile.save()
+        except Profile.DoesNotExist:
+            pass
+
+        if organization_user.user.first_name:
+            messages.success(request, organization_user.user.first_name + organization_user.user.last_name + _(" has been removed succesffully from the team.") )
+        else:
+            messages.success(request, organization_user.user.email + _(" has been removed successfully from the team.") )
+        return redirect('organization_detail', organization_pk=request.user.organizations_organization.first().pk)
+    
     return render(request, template, context)
