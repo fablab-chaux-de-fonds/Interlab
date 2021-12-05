@@ -27,6 +27,6 @@ django-webpack-loader
 django-crispy-forms
 crispy-bootstrap5
 django-debug-toolbar
-django-invitations
 django-organizations
+django-extensions
 debugpy==1.5.1
