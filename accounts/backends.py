@@ -8,7 +8,6 @@ from django.shortcuts import render
 from django.utils.translation import gettext as _
 
 from .models import Profile
-#from .forms import RegistrationForm
 from organizations.backends.defaults import InvitationBackend
 
 
