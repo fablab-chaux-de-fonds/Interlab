@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sessions.models import Session
 from django.http import HttpResponse    
 from django.template import loader
@@ -64,8 +65,15 @@ def DeleteProfileView(request):
 
 class OrganizationUserDeleteView(OwnerRequiredMixin, LoginRequiredMixin, BaseOrganizationUserDelete):
     def post(self, request, *args, **kwargs):
+
+        # Change password to expire link
+        self.organization_user.user.password = PasswordResetTokenGenerator().make_token(self.organization_user.user)
+        self.organization_user.user.save()
+
+        # Remove user from organization
         self.organization.remove_user(self.organization_user.user)
 
+        # Remove subscription of the user
         try:
             profile = Profile.objects.get(user_id=self.organization_user.user_id)
             profile.subscription = None
@@ -82,3 +90,6 @@ class OrganizationUserDeleteView(OwnerRequiredMixin, LoginRequiredMixin, BaseOrg
 class OrganizationUserCreateView(OwnerRequiredMixin, LoginRequiredMixin, BaseOrganizationUserCreate):
     form_class = CustomOrganizationUserAddForm
 
+def token_error_view(request): 
+    template = 'organizations/invitations_token_error.html'
+    return render(request, template) 

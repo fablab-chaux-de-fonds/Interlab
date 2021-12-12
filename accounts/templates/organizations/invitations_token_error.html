@@ -1,0 +1,13 @@
+{% extends 'forms/base_forms.html' %}
+{% load i18n %}
+
+{% block content_form_img %}
+    <i class="bi bi-envelope-slash-fill mb-5 img-form-logo mx-auto d-block text-red"></i>
+{% endblock %}
+
+{% block content_form %}
+<h2>{% translate 'Your URL may have expired.' %}</h2>
+<div class="d-grid">
+    <a class="btn btn-primary my-4" href="/" role="button">{% trans "Home" %}</a>
+</div>
+{% endblock %}

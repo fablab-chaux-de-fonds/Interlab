@@ -61,7 +61,7 @@ class CustomInvitations(InvitationBackend):
             raise Http404(_("Your URL may have expired."))
 
         if not PasswordResetTokenGenerator().check_token(user, token):
-            raise Http404(_("Your URL may have expired."))
+            return redirect('invitations-token-error')
 
         form = self.get_form(
              data=request.POST or None, files=request.FILES or None, instance=user
