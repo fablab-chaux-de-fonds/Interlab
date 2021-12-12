@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-05 20:56+0000\n"
+"POT-Creation-Date: 2021-12-12 15:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -328,6 +328,9 @@ msgstr "Votre mot de passe a été changé"
 #: interlab/templates/registration/password_change_done.html:13
 msgid "My account"
 msgstr "Mon compte"
+
+msgid "Recipient address rejected: Domain not found"
+msgstr "Adresse du destinataire rejetée : Domaine non trouvé"
 
 #, python-format
 #~ msgid ""

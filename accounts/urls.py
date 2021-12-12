@@ -6,5 +6,6 @@ urlpatterns =[
     path('profile/edit/', views.EditProfileView, name='edit-profile'),
     path('profile/delete/', views.DeleteProfileView, name='delete-profile'),
     path("profile/subscription-management/<int:organization_pk>/people/<int:user_pk>/delete/", views.DeleteOrganizationUserView, name="delete-organization-user"),
+    path("profile/subscription-management/<int:organization_pk>/people/add/", views.OrganizationUserCreateView.as_view(), name="organization_user_add"),
     path('profile/subscription-management/', include('organizations.urls'), name='subscription-management'),
 ]

@@ -1,16 +1,20 @@
-from django import template
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.sessions.models import Session
 from django.http import HttpResponse    
 from django.template import loader
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.contrib.sessions.models import Session
 from django.utils.translation import ugettext as _
 from django.shortcuts import redirect, render
 
 from .forms import EditProfileForm
+from .forms import CustomOrganizationUserAddForm
 from .models import Profile
 
 from organizations.models import OrganizationUser
+from organizations.views.base import BaseOrganizationUserCreate
+from organizations.views.mixins import OwnerRequiredMixin
+
 
 @login_required
 def AccountsView(request):
@@ -84,3 +88,8 @@ def DeleteOrganizationUserView(request, organization_pk, user_pk):
         return redirect('organization_detail', organization_pk=request.user.organizations_organization.first().pk)
     
     return render(request, template, context)
+
+
+class OrganizationUserCreateView(OwnerRequiredMixin, LoginRequiredMixin, BaseOrganizationUserCreate):
+    form_class = CustomOrganizationUserAddForm
+
