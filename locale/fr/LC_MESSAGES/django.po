@@ -196,7 +196,7 @@ msgstr "Supprimer"
 
 #: accounts/templates/organizations/organizationuser_form.html:15
 msgid "Invite a member to join the team"
-msgstr ""
+msgstr "Inviter un membre à rejoindre l'équipe"
 
 #: accounts/templates/organizations/organizationuser_form.html:21
 msgid "Send invitation"
@@ -204,7 +204,7 @@ msgstr "Envoyer l'invitation"
 
 #: accounts/templates/organizations/register_form.html:6
 msgid "Join the team"
-msgstr ""
+msgstr "Rejoindre l'équipe"
 
 #: interlab/templates/django_registration/activate.html:12
 msgid "Account activation failed"
@@ -253,8 +253,7 @@ msgstr "Échec de la réinitialisation du mot de passe"
 
 #: interlab/templates/django_registration/password_reset_done.html:5
 msgid "Email with password reset instructions has been sent."
-msgstr ""
-"Envoi réussi de l'email d'instructions de réinitialisation du mot de passe."
+msgstr "Envoi réussi de l'email d'instructions de réinitialisation du mot de passe."
 
 #: interlab/templates/django_registration/password_reset_email.html:2
 #, python-format
@@ -315,7 +314,7 @@ msgstr "Déconnecté"
 
 #: interlab/templates/registration/password_change_done.html:4
 msgid "Documentation"
-msgstr ""
+msgstr "Documentation"
 
 #: interlab/templates/registration/password_change_done.html:4
 msgid "Log out"
