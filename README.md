@@ -32,6 +32,7 @@ docker exec -it interlab-web-1 django-admin makemessages -l fr -e html,txt
 ```shell
 docker exec -it interlab-web-1 django-admin compilemessages
 ```
+No need `docker compose restart` to apply modifications. 
 
 ## Frontend 
 Documentation: https://www.accordbox.com/blog/definitive-guide-django-and-webpack/
@@ -53,10 +54,8 @@ $ cd frontend
 $ npm install
 $ npm run build
 $ docker exec -it interlab-web-1 python manage.py collectstatic --noinput --clear
-```
 
 ## Database
 Pull database form Hidora
 ```shell
 ./tools/pull_db.sh
-``` 

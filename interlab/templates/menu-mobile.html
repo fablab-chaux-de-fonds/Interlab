@@ -1,6 +1,6 @@
 {% load i18n interlab_tags %}
 
-<nav class="navbar fixed-bottom ">
+<nav class="navbar fixed-bottom d-md-none">
     <div class="container">
         <div class="btn-group navbar-mobile" role="group" aria-label="Button group with nested dropdown">
             <a href="/" role="button" class="btn btn-mobile-navbar btn-lg active">
@@ -32,12 +32,12 @@
             </a>
             {% endif %}
 
-            {% if request.user|has_group:"superuser" %}
+<!--             {% if request.user|has_group:"superuser" %}
             <button type="button" class="btn  btn-mobile-navbar btn-lg">
                 <i class="bi bi-speedometer"></i> <br>
                 <div>{% trans "Dashboard" %}</div>
             </button>
-            {% endif %}
+            {% endif %} -->
 
         </div>
 </nav>
