@@ -15,9 +15,9 @@ services:
     volumes:
       - ./interlab:/code/interlab
       - ./user_profile:/code/user_profile
+      - ./newsletter:/code/newsletter
       - ./frontend:/code/frontend
       - ./locale:/code/locale
-      - ./build:/code/build
     ports:
       - "8000:8000"
     depends_on:

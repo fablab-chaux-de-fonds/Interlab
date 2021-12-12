@@ -105,7 +105,7 @@ SITE_ID = 1
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'interlab', 'templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'interlab', 'templates')],
         'OPTIONS': {
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
@@ -118,7 +118,8 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'sekizai.context_processors.sekizai',
                 'django.template.context_processors.static',
-                'cms.context_processors.cms_settings'
+                'cms.context_processors.cms_settings',
+                'newsletter.forms.newsletter_context'
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
@@ -191,7 +192,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_bootstrap5",
     'interlab',
-    'user_profile'
+    'user_profile',
+    'newsletter.apps.NewsletterConfig'
 ]
 
 LANGUAGES = (

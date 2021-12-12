@@ -27,10 +27,15 @@
     {% block footer %}
     <footer class="footer">
         <div class="container">
+<<<<<<< HEAD
             <div class="row py-5">
                 <div class="col-sm-6 mx-auto">
                     {% include 'forms/newsletter.html' %}
                 </div>
+=======
+            <div class="row">
+                {% include 'forms/newsletter.html' with form=newsletter_form %}
+>>>>>>> Move email registration to backend with new app
             </div>
             {% static_placeholder 'footer' %}
         </div>    

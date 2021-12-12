@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-29 15:10+0000\n"
+"POT-Creation-Date: 2021-12-12 15:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,12 +115,29 @@ msgid "Forgot password"
 msgstr "Mot de passe oublié"
 
 #: interlab/templates/registration/login.html:17
+#: newsletter/templates/forms/newsletter.html:29
 msgid "Sign up"
 msgstr "S'inscrire"
 
 #: interlab/templates/registration/logout.html:5
 msgid "Logged out"
 msgstr "Déconnecté"
+
+#: newsletter/templates/forms/newsletter.html:7
+msgid "Stay informed"
+msgstr "Restez informé"
+
+#: newsletter/templates/forms/newsletter.html:8
+msgid "about one letter a month"
+msgstr "Environ une newsletter par mois"
+
+#: newsletter/templates/forms/newsletter.html:13
+msgid "Email address"
+msgstr "Adresse email"
+
+#: newsletter/templates/forms/newsletter.html:24
+msgid "Thank you !"
+msgstr "Merci !"
 
 #~ msgid "Reset it"
 #~ msgstr "Réinitaliser"
