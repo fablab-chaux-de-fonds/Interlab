@@ -11,8 +11,8 @@ from .forms import EditProfileForm
 from .forms import CustomOrganizationUserAddForm
 from .models import Profile
 
-from organizations.models import OrganizationUser
 from organizations.views.base import BaseOrganizationUserCreate
+from organizations.views.base import BaseOrganizationUserDelete
 from organizations.views.mixins import OwnerRequiredMixin
 
 
@@ -62,33 +62,22 @@ def DeleteProfileView(request):
 
     return render(request, template, context)
 
-@login_required
-def DeleteOrganizationUserView(request, organization_pk, user_pk):
-    template = "organizations/organizationuser_confirm_delete.html"
-    organization_user = OrganizationUser.objects.get(user_id=user_pk, organization_id=organization_pk)
-    context ={
-        "organization_user": organization_user
-    }
-
-    if request.method == 'POST':
-
-        organization_user.delete()
+class OrganizationUserDeleteView(OwnerRequiredMixin, LoginRequiredMixin, BaseOrganizationUserDelete):
+    def post(self, request, *args, **kwargs):
+        self.organization.remove_user(self.organization_user.user)
 
         try:
-            profile = Profile.objects.get(user_id=user_pk)
+            profile = Profile.objects.get(user_id=self.organization_user.user_id)
             profile.subscription = None
             profile.save()
         except Profile.DoesNotExist:
             pass
-
-        if organization_user.user.first_name:
-            messages.success(request, organization_user.user.first_name + organization_user.user.last_name + _(" has been removed succesffully from the team.") )
+        
+        if self.organization_user.user.first_name:
+            messages.success(request, self.organization_user.user.first_name + self.organization_user.user.last_name + _(" has been removed succesffully from the team.") )
         else:
-            messages.success(request, organization_user.user.email + _(" has been removed successfully from the team.") )
+            messages.success(request, self.organization_user.user.email + _(" has been removed successfully from the team.") )
         return redirect('organization_detail', organization_pk=request.user.organizations_organization.first().pk)
-    
-    return render(request, template, context)
-
 
 class OrganizationUserCreateView(OwnerRequiredMixin, LoginRequiredMixin, BaseOrganizationUserCreate):
     form_class = CustomOrganizationUserAddForm
