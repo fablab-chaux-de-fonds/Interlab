@@ -27,10 +27,8 @@
     {% block footer %}
     <footer class="footer">
         <div class="container">
-            <div class="row mb-5">
-                <div class="col-6">
-                    {% include 'forms/newsletter.html' %}
-                </div>
+            <div class="row">
+                {% include 'forms/newsletter.html' with form=newsletter_form %}
             </div>
             {% static_placeholder 'footer' %}
         </div>    
