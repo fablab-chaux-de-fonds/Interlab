@@ -31,9 +31,8 @@ class CustomInvitations(InvitationBackend):
             user = self.user_model.objects.get(email=email)
 
             # link profile / account / organization / subscription if user already exist
-            subscription = sender.organizations_organization.first().owner.organization_user.user.profile.subscription
-            profile = Profile(user=user, subscription=subscription)
-            profile.save()
+            user.profile.subscription = sender.profile.subscription
+            user.save()
 
         except self.user_model.DoesNotExist:
             # TODO break out user creation process
