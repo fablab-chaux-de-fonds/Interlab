@@ -51,6 +51,10 @@ class CustomInvitations(InvitationBackend):
                 )
             user.is_active = False
             user.save()
+            
+            profile = Profile(user=user, subscription=sender.profile.subscription)
+            profile.save()
+
         self.send_invitation(user, sender, **kwargs)
         return user
 
@@ -82,11 +86,6 @@ class CustomInvitations(InvitationBackend):
                 username=form.cleaned_data["username"],
                 password=form.cleaned_data["password1"],
             )
-
-            # link profile / account / organization / subscription if user not exist when invitation sent
-            subscription = user.organizations_organization.first().owner.organization_user.user.profile.subscription
-            profile = Profile(user=user, subscription=subscription)
-            profile.save()
 
             login(request, user)
             return redirect(self.get_success_url())

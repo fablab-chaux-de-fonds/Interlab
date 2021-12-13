@@ -66,10 +66,6 @@ def DeleteProfileView(request):
 class OrganizationUserDeleteView(OwnerRequiredMixin, LoginRequiredMixin, BaseOrganizationUserDelete):
     def post(self, request, *args, **kwargs):
 
-        # Change password to expire link
-        self.organization_user.user.password = PasswordResetTokenGenerator().make_token(self.organization_user.user)
-        self.organization_user.user.save()
-
         # Remove user from organization
         self.organization.remove_user(self.organization_user.user)
 
