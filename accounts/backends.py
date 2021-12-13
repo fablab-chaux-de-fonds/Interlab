@@ -67,9 +67,12 @@ class CustomInvitations(InvitationBackend):
         try:
             user = self.user_model.objects.get(id=user_id, is_active=False)
         except self.user_model.DoesNotExist:
-            raise Http404(_("Your URL may have expired."))
+            return redirect('invitations-token-error')
 
         if not PasswordResetTokenGenerator().check_token(user, token):
+            return redirect('invitations-token-error')
+
+        if not user.organizations_organization.first(): 
             return redirect('invitations-token-error')
 
         form = self.get_form(
