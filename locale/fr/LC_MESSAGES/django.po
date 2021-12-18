@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-12 20:38+0000\n"
+"POT-Creation-Date: 2021-12-18 18:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -245,8 +245,8 @@ msgstr "Mot de passe changé"
 msgid "Submit"
 msgstr "Envoi"
 
-#: interlab/templates/django_registration/password_reset_email.txt:2
-#: interlab/templates/registration/password_reset_email.html:2
+#: interlab/templates/django_registration/password_reset_email.html:2
+#: interlab/templates/registration/password_reset_email.txt:2
 #, python-format
 msgid "Reset password at %(site_name)s"
 msgstr "Réinitialisation du mot de passe de %(site_name)s"
@@ -264,19 +264,13 @@ msgstr "Vous êtes enregistré. E-mail d'activation envoyé"
 msgid "Calendar"
 msgstr "Calendrier"
 
-#: interlab/templates/menu-mobile.html:30
-#: interlab/templates/navbar-header.html:29
-#: interlab/templates/navbar-header.html:18
+#: interlab/templates/menu-mobile.html:19
+#: interlab/templates/navbar-header.html:21
 msgid "Reservations"
 msgstr "Réservations"
 
-#: interlab/templates/menu-mobile.html:25
-#: interlab/templates/navbar-header.html:22
-msgid "Profile"
-msgstr "Profil"
-
-#: interlab/templates/menu-mobile.html:31
-#: interlab/templates/navbar-header.html:26
+#: interlab/templates/menu-mobile.html:30
+#: interlab/templates/navbar-header.html:29
 msgid "Login"
 msgstr "Connexion"
 
@@ -321,8 +315,49 @@ msgstr "Votre mot de passe a été changé"
 msgid "My account"
 msgstr "Mon compte"
 
-msgid "Recipient address rejected: Domain not found"
-msgstr "Adresse du destinataire rejetée : Domaine non trouvé"
+#: interlab/templates/registration/password_reset_complete.html:10
+msgid "Password reset successfully"
+msgstr "Réinitialisation du mot de passe terminée"
+
+#: interlab/templates/registration/password_reset_confirm.html:14
+msgid "Set a new password"
+msgstr "Saisissez votre nouveau mot de passe"
+
+#: interlab/templates/registration/password_reset_confirm.html:18
+msgid "Change my password"
+msgstr "Modifier mon mot de passe"
+
+#: interlab/templates/registration/password_reset_confirm.html:23
+msgid "Password reset failed"
+msgstr "Échec de la réinitialisation du mot de passe"
+
+#: interlab/templates/registration/password_reset_done.html:9
+msgid "Email with password reset instructions has been sent."
+msgstr "E-mail de réinitialisation du mot de passe envoyé"
+
+#: interlab/templates/registration/password_reset_done.html:11
+msgid ""
+"If you do not receive a message, check that you have entered the address you "
+"registered with and check your spam folder."
+msgstr ""
+"Si vous ne recevez pas de message, vérifiez que vous avez saisi l’adresse "
+"avec laquelle vous vous êtes enregistré et contrôlez votre dossier de spam."
+
+#: interlab/templates/registration/password_reset_form.html:10
+msgid "Forgotten your password?"
+msgstr "Mot de passe oublié?"
+
+#: interlab/templates/registration/password_reset_form.html:15
+msgid "Reset it"
+msgstr "Réinitaliser"
+
+#: interlab/templates/registration/password_reset_subject.txt:3
+#, python-format
+msgid "Password reset on %(site_name)s"
+msgstr "Réinitialiser votre mot de passe - %(site_name)s"
+
+#~ msgid "Recipient address rejected: Domain not found"
+#~ msgstr "Adresse du destinataire rejetée : Domaine non trouvé"
 
 #, python-format
 #~ msgid ""
@@ -371,52 +406,6 @@ msgstr "Adresse du destinataire rejetée : Domaine non trouvé"
 
 #~ msgid "Your account has been successfully deleted"
 #~ msgstr "Votre compte a été supprimé avec succès"
-
-#~ msgid "Reset it"
-#~ msgstr "Réinitaliser"
-#: interlab/templates/registration/password_reset_complete.html:10
-msgid "Password reset successfully"
-msgstr "Réinitialisation du mot de passe terminée"
-
-#: interlab/templates/registration/password_reset_confirm.html:14
-#| msgid "Forgot password"
-msgid "Set a new password"
-msgstr "Saisissez votre nouveau mot de passe"
-
-#: interlab/templates/registration/password_reset_confirm.html:18
-#| msgid "Forgot password"
-msgid "Change my password"
-msgstr "Modifier mon mot de passe"
-
-#: interlab/templates/registration/password_reset_confirm.html:23
-msgid "Password reset failed"
-msgstr "Échec de la réinitialisation du mot de passe"
-
-#: interlab/templates/registration/password_reset_done.html:9
-msgid "Email with password reset instructions has been sent."
-msgstr "E-mail de réinitialisation du mot de passe envoyé"
-
-#: interlab/templates/registration/password_reset_done.html:11
-msgid ""
-"If you do not receive a message, check that you have entered the address you "
-"registered with and check your spam folder."
-msgstr ""
-"Si vous ne recevez pas de message, vérifiez que vous avez saisi l’adresse "
-"avec laquelle vous vous êtes enregistré et contrôlez votre dossier de spam."
-
-#: interlab/templates/registration/password_reset_form.html:10
-#| msgid "Forgot password"
-msgid "Forgotten your password?"
-msgstr "Mot de passe oublié?"
-
-#: interlab/templates/registration/password_reset_form.html:15
-msgid "Reset it"
-msgstr "Réinitaliser"
-
-#: interlab/templates/registration/password_reset_subject.txt:3
-#, python-format
-msgid "Password reset on %(site_name)s"
-msgstr "Réinitialiser votre mot de passe - %(site_name)s"
 
 #~ msgid "fr"
 #~ msgstr "fr"
