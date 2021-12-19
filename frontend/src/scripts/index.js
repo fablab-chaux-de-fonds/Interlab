@@ -1,4 +1,4 @@
-require('bootstrap-icons/font/bootstrap-icons.css');
+//require('bootstrap-icons/font/bootstrap-icons.css');
 import "../styles/index.scss";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "htmx.org";
