@@ -8,11 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
 "POT-Creation-Date: 2021-12-18 18:56+0000\n"
-=======
-"POT-Creation-Date: 2021-12-12 15:20+0000\n"
->>>>>>> origin/dev-register-newsletter
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -304,7 +300,6 @@ msgstr "S'inscrire"
 msgid "Logged out"
 msgstr "Déconnecté"
 
-<<<<<<< HEAD
 #: interlab/templates/registration/password_change_done.html:4
 msgid "Documentation"
 msgstr "Documentation"
@@ -409,7 +404,6 @@ msgstr "Réinitialiser votre mot de passe - %(site_name)s"
 
 #~ msgid "Your profile has been updated successfully"
 #~ msgstr "Votre compte a été mis à jour avec succès"
-=======
 #: newsletter/templates/forms/newsletter.html:7
 msgid "Stay informed"
 msgstr "Restez informé"
@@ -425,10 +419,6 @@ msgstr "Adresse email"
 #: newsletter/templates/forms/newsletter.html:24
 msgid "Thank you !"
 msgstr "Merci !"
-
-#~ msgid "Reset it"
-#~ msgstr "Réinitaliser"
->>>>>>> origin/dev-register-newsletter
 
 #~ msgid "Your account has been successfully deleted"
 #~ msgstr "Votre compte a été supprimé avec succès"

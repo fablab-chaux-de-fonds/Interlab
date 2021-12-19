@@ -195,7 +195,7 @@ INSTALLED_APPS = [
     'interlab',
     'accounts',
     'debug_toolbar',
-    'organizations'
+    'organizations',
     'newsletter.apps.NewsletterConfig'
 ]
 

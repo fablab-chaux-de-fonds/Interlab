@@ -1,7 +1,7 @@
 require('bootstrap-icons/font/bootstrap-icons.css');
 import "../styles/index.scss";
 import "bootstrap/dist/js/bootstrap.bundle";
-import "htmx.org"
+import "htmx.org";
 
 function importAll(r) {
     return r.keys().map(r);
