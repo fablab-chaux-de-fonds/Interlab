@@ -1,6 +1,8 @@
 {% extends "forms/base_forms.html" %}
 {% load i18n crispy_forms_tags %}
 
+{% block html_class %} {% endblock %}
+
 {% block content_form %}
 
 <h2>{% trans 'Join the team' %} {{ organization.name }}</h2>
