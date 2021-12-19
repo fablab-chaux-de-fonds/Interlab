@@ -14,6 +14,8 @@ from .forms import CustomUserRegistrationForm
 
 from organizations.backends.defaults import InvitationBackend
 
+from newsletter.views import register_email
+
 class CustomInvitationsBackend(InvitationBackend):
     """
     A backend for inviting new users to join the site as members of an
@@ -85,6 +87,8 @@ class CustomInvitationsBackend(InvitationBackend):
 
         if form.is_valid():
             form.instance.is_active = True
+            if form.cleaned_data['newsletter']: 
+                register_email(form.cleaned_data['email'])
             user = form.save()
             user.set_password(form.cleaned_data["password1"])
             user.save()

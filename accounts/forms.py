@@ -53,9 +53,13 @@ class CustomOrganizationUserAddForm(OrganizationUserAddForm):
 
 class CustomRegistrationForm(RegistrationForm):
     "This form is used for registration - Base class form Django"
+    newsletter = forms.BooleanField(required=False)
     class Meta(RegistrationForm.Meta):
             model = get_user_model()
-            fields = ['first_name','last_name','username','email','password1','password2']
+            help_texts  = {
+                'newsletter ': _('about once a month'),
+            }
+            fields = ['first_name','last_name','username','email','password1','password2', 'newsletter']
 
 class CustomUserRegistrationForm(CustomRegistrationForm):
     "This form is used when the user in invited with django-organization"
