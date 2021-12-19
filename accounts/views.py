@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sessions.models import Session
 from django.http import HttpResponse    
 from django.template import loader
@@ -9,13 +8,18 @@ from django.utils.translation import ugettext as _
 from django.shortcuts import redirect, render
 
 from .forms import EditProfileForm
-from .forms import CustomOrganizationUserAddForm
+from .forms import CustomOrganizationUserAddForm, CustomRegistrationForm
 from .models import Profile
 
 from organizations.views.base import BaseOrganizationUserCreate
 from organizations.views.base import BaseOrganizationUserDelete
 from organizations.views.mixins import OwnerRequiredMixin
 
+from django_registration.backends.activation.views import RegistrationView
+
+class CustomRegistrationView(RegistrationView):
+    template_name = 'registration/registration_form.html'
+    form_class = CustomRegistrationForm
 
 @login_required
 def AccountsView(request):

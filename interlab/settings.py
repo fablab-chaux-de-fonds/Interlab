@@ -150,6 +150,7 @@ MIDDLEWARE = [
 ]
 
 INSTALLED_APPS = [
+    'accounts',
     'djangocms_admin_style',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -193,7 +194,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'interlab',
-    'accounts',
     'debug_toolbar',
     'organizations',
     'newsletter.apps.NewsletterConfig'

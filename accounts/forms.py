@@ -10,6 +10,8 @@ from django.utils.translation import gettext_lazy as _
 from organizations.forms import OrganizationUserAddForm
 from organizations.backends import invitation_backend
 
+from django_registration.forms import RegistrationForm
+
 class EditProfileForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
@@ -48,3 +50,8 @@ class CustomOrganizationUserAddForm(OrganizationUserAddForm):
             )
 
         return email
+
+class CustomRegistrationForm(RegistrationForm):
+    class Meta(RegistrationForm.Meta):
+            model = get_user_model()
+            fields = ['first_name','last_name','username','email','password1','password2']
