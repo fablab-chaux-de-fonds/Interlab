@@ -3,7 +3,7 @@
 
 {% block content_form %}
 
-<h2>{% trans 'Join the team' %} {{ organization }}</h2>
+<h2>{% trans 'Join the team' %} {{ organization.name }}</h2>
 
 <form action="." method="post" enctype="multipart/form-data">{% csrf_token %}
     {% csrf_token %}

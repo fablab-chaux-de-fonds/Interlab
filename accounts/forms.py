@@ -52,6 +52,12 @@ class CustomOrganizationUserAddForm(OrganizationUserAddForm):
         return email
 
 class CustomRegistrationForm(RegistrationForm):
+    "This form is used for registration - Base class form Django"
     class Meta(RegistrationForm.Meta):
             model = get_user_model()
             fields = ['first_name','last_name','username','email','password1','password2']
+
+class CustomUserRegistrationForm(CustomRegistrationForm):
+    "This form is used when the user in invited with django-organization"
+    email = forms.EmailField(widget=forms.TextInput(
+        attrs={'class': 'disabled', 'readonly': 'readonly'}))
