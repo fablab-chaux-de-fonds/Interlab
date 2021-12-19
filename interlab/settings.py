@@ -302,3 +302,6 @@ if DEBUG:
 
 # django-organizations
 INVITATION_BACKEND = 'accounts.backends.CustomInvitations'
+
+# Logout redirection
+LOGOUT_REDIRECT_URL = '/'
