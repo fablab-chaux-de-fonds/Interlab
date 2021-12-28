@@ -100,6 +100,7 @@ msgid "Forgot password"
 msgstr "Mot de passe oublié"
 
 #: interlab/templates/registration/login.html:17
+#: newsletter/templates/forms/newsletter.html:29
 msgid "Sign up"
 msgstr "S'inscrire"
 
@@ -150,6 +151,24 @@ msgstr "Réinitaliser"
 #, python-format
 msgid "Password reset on %(site_name)s"
 msgstr "Réinitialiser votre mot de passe - %(site_name)s"
+#: newsletter/templates/forms/newsletter.html:7
+msgid "Stay informed"
+msgstr "Restez informé"
+
+#: newsletter/templates/forms/newsletter.html:8
+msgid "about one letter a month"
+msgstr "Environ une newsletter par mois"
+
+#: newsletter/templates/forms/newsletter.html:13
+msgid "Email address"
+msgstr "Adresse email"
+
+#: newsletter/templates/forms/newsletter.html:24
+msgid "Thank you !"
+msgstr "Merci !"
+
+#~ msgid "Reset it"
+#~ msgstr "Réinitaliser"
 
 #~ msgid "Not member"
 #~ msgstr "Non membre"
