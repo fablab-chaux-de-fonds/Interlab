@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n org_tags %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col text-center">
+        {% include 'accounts/user-summary.html' %}
+    </div>
+</div>
+<hr>
+
+<form action="" method="post">
+    <div class="row my-4">
+        <div class="col">
+            <h1>
+                {% trans 'Subscription' %}
+            </h1>
+            {% csrf_token %}
+            <fieldset>
+                {% for radio in subcription_form.subscription_category %}
+                <div class="myradio">
+                    {{ radio }}
+                </div>
+                {% endfor %}
+            </fieldset>
+
+        </div>
+        <div class="col">
+            <h1>
+                {% trans 'Trainings' %}
+            </h1>
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <div class="d-grid gap-2 col-md-6 mx-auto">
+            <input class="btn mx-auto" type="submit" value="{% trans 'Update' %}">
+        </div>
+    </div>
+</form>
+{% endblock content %}

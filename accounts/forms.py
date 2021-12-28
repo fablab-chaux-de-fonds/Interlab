@@ -12,6 +12,8 @@ from organizations.backends import invitation_backend
 
 from django_registration.forms import RegistrationForm
 
+from .models import SubscriptionCategory
+
 class EditProfileForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
@@ -65,3 +67,8 @@ class CustomUserRegistrationForm(CustomRegistrationForm):
     "This form is used when the user in invited with django-organization"
     email = forms.EmailField(widget=forms.TextInput(
         attrs={'class': 'disabled', 'readonly': 'readonly'}))
+
+class UserSubcriptionForm(forms.Form):
+    subscription_category = forms.ChoiceField(
+        choices=[(None, _('No Subscription'))] + [(x.pk, x.title) for x in SubscriptionCategory.objects.all()], 
+        widget=forms.RadioSelect)

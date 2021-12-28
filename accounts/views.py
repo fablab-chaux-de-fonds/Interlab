@@ -1,7 +1,10 @@
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import update_last_login
 from django.contrib.sessions.models import Session
+from django.db.models import Q 
 from django.http import HttpResponse    
 from django.template import loader
 from django.utils.translation import ugettext as _
@@ -9,7 +12,7 @@ from django.shortcuts import redirect, render
 
 from .forms import EditProfileForm
 from .forms import CustomOrganizationUserAddForm, CustomRegistrationForm
-from .models import Profile
+from .models import Profile, Subscription, SubscriptionCategory
 
 from organizations.views.base import BaseOrganizationUserCreate
 from organizations.views.base import BaseOrganizationUserDelete
@@ -42,7 +45,8 @@ def AccountsView(request):
     template = loader.get_template('accounts/profile.html')
     context = {
         'page_title': "My account",
-        'organization': request.user.organizations_organization.first()
+        'organization': request.user.organizations_organization.first(),
+        'user' : request.user
     }
     return HttpResponse(template.render(context, request))
 
@@ -109,3 +113,68 @@ class OrganizationUserCreateView(OwnerRequiredMixin, LoginRequiredMixin, BaseOrg
 def token_error_view(request): 
     template = 'organizations/invitations_token_error.html'
     return render(request, template) 
+
+def user_list(request): 
+    template = 'accounts/user-list.html'
+    User = get_user_model()
+    users = User.objects.all()
+
+    context = {
+        'users': users
+    }
+    return render(request, template, context)
+
+def user_list_filtered(request):
+    template = 'accounts/user-list-filtered.html'
+
+    context = {
+        'users': find_user(request.POST.get('search'))
+    }
+    return render(request, template, context)
+
+def find_user(query):
+    qs = get_user_model().objects.all()
+    for term in query.split():
+        qs = qs.filter( 
+            Q(first_name__icontains = term) | 
+            Q(last_name__icontains = term) |
+            Q(email__icontains = term)
+            )
+    return qs
+
+from .forms import UserSubcriptionForm
+import datetime
+
+def user_edit(request, user_pk):
+    template = 'accounts/user-edit.html'
+    User = get_user_model()
+    user = User.objects.get(pk=user_pk)
+
+    if request.method == 'POST':
+        subcription_form = UserSubcriptionForm(request.POST)
+        if subcription_form.is_valid():
+            if 'subscription_category' in subcription_form.changed_data:
+                subcription_category = SubscriptionCategory.objects.get(pk=subcription_form.cleaned_data['subscription_category'])
+                kwargs = {
+                        "start" : datetime.datetime.now(),
+                        "end" : datetime.datetime.now() + datetime.timedelta(days=subcription_category.duration),
+                        "subscription_category" : subcription_category,
+                        "access_number" : subcription_category.default_access_number
+                }
+
+                s = Subscription(**kwargs)
+                s.save()
+                Profile.objects.update_or_create(user=user, defaults={'subscription':s})
+                messages.success(request, _("Subcription updated to ") + subcription_category.title + _(' for user ') + user.first_name + ' ' + user.last_name )
+
+                return redirect('user-list')
+                
+    else:
+        initial = {'subscription_category': user.profile.subscription.subscription_category.pk}
+        subcription_form = UserSubcriptionForm(initial=initial)
+        context = {
+            'subcription_form': subcription_form, 
+            'user': user
+        }
+    
+    return render(request, template, context)
