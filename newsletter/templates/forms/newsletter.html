@@ -1,0 +1,32 @@
+{% load i18n crispy_forms_tags %}
+
+<form hx-post="newsletter">
+    {% csrf_token %}
+    <div class="row justify-content-center">
+        <div class="col-12 text-center">
+            <h4>{% trans 'Stay informed' %}</h4>
+            <span>{% trans 'about one letter a month' %}</span>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <input type="email" name="email" class="form-control{% if form.success == True %} is-valid{% elif form.success == False %} is-invalid{% endif %}" placeholder="{% trans 'Email address' %}" aria-describedby="newsletterRegisteredFeedback" required="required" value="{{ form.email.initial }}">
+            {% if form.errors %} 
+            <div id="newsletterRegisteredFeedback" class="invalid-feedback">
+            {% for field in form %} 
+                {% for error in field.errors %}
+                <strong>{{ error | escape }}</strong>
+                {% endfor %} 
+            {% endfor %} 
+            </div>
+            {% elif form.success == True %}
+            <div id="newsletterRegisteredFeedback" class="valid-feedback">
+                <strong>{% trans 'Thank you !' %}</strong>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-auto">
+            <input type="submit" class="btn btn-secondary" {% if form.success == True %}disabled="disabled"{% endif %} value="{% trans 'Sign up' %}">
+        </div>
+    </div>
+</form>
