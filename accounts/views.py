@@ -102,7 +102,7 @@ class OrganizationUserDeleteView(OwnerRequiredMixin, LoginRequiredMixin, BaseOrg
             pass
         
         if self.organization_user.user.first_name:
-            messages.success(request, self.organization_user.user.first_name + self.organization_user.user.last_name + _(" has been removed succesffully from the team.") )
+            messages.success(request, self.organization_user.user.first_name + self.organization_user.user.last_name + _(" has been removed successfully from the team.") )
         else:
             messages.success(request, self.organization_user.user.email + _(" has been removed successfully from the team.") )
         return redirect('organization_detail', organization_pk=request.user.organizations_organization.first().pk)

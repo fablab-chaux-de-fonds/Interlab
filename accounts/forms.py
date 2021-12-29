@@ -21,6 +21,9 @@ class EditProfileForm(UserChangeForm):
 
     class Meta:
         model = User
+        labels = {
+        'email': _("email")
+        }
         fields = ('first_name','last_name','username','email',)
 
         
@@ -55,11 +58,11 @@ class CustomOrganizationUserAddForm(OrganizationUserAddForm):
 
 class CustomRegistrationForm(RegistrationForm):
     "This form is used for registration - Base class form Django"
-    newsletter = forms.BooleanField(required=False)
+    newsletter = forms.BooleanField(required=False, label=_('I subscribe to the newsletter'), help_text=_('about once a month'))
     class Meta(RegistrationForm.Meta):
             model = get_user_model()
             help_texts  = {
-                'newsletter ': _('about once a month'),
+                'username' : _('150 characters maximum. Only letters, numbers and the characters "@", ".", "+", "-" and "_".')
             }
             fields = ['first_name','last_name','username','email','password1','password2', 'newsletter']
 

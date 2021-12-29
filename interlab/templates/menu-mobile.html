@@ -10,13 +10,13 @@
 
             <a href="/calendar" role="button" class="btn btn-mobile-navbar btn-lg">
                 <i class="bi bi-calendar-week"></i>
-                <div>{% trans "Calendar" %}</div>
+                <div>{% trans "Schedule" %}</div>
             </a>
 
             <a role="button" class="btn btn-mobile-navbar btn-lg" data-bs-toggle="modal"
                 data-bs-target="#calendar-menu">
                 <i class="bi bi-calendar-plus"></i>
-                <div>{% trans "Reservations" %}</div>
+                <div>{% trans "Reservation" %}</div>
             </a>
 
             {% if user.is_authenticated %}

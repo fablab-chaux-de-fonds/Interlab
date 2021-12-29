@@ -1,3 +1,7 @@
 h2 {
   @extend .text-uppercase;
 }
+
+.first-letter-uppercase::first-letter {
+  text-transform: uppercase;
+}

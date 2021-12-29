@@ -9,5 +9,17 @@
 
 {% block content_form %}
 <p class="text-center">{% trans "Your account is now activated." %}</p>
-{% include 'menu-mobile.html' %}
+
+<div class="row text-center align-items-center my-5">
+    <div class="col">
+        <a href="/">{% trans 'Home page' %} </a>
+    </div> 
+    <div class="col">
+        <a href="{% url 'login' %}">
+            <button class="btn mx-auto" type="submit">{% trans "Log in" %}</button>
+        </a>
+        </form>
+    </div>
+</div>
+
 {% endblock %}
