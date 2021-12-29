@@ -167,9 +167,6 @@ msgstr "Adresse email"
 msgid "Thank you !"
 msgstr "Merci !"
 
-#~ msgid "Reset it"
-#~ msgstr "Réinitaliser"
-
 #~ msgid "Not member"
 #~ msgstr "Non membre"
 
