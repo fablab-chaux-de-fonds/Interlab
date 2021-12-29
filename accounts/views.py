@@ -154,24 +154,35 @@ def user_edit(request, user_pk):
         subcription_form = UserSubcriptionForm(request.POST)
         if subcription_form.is_valid():
             if 'subscription_category' in subcription_form.changed_data:
-                subcription_category = SubscriptionCategory.objects.get(pk=subcription_form.cleaned_data['subscription_category'])
-                kwargs = {
-                        "start" : datetime.datetime.now(),
-                        "end" : datetime.datetime.now() + datetime.timedelta(days=subcription_category.duration),
-                        "subscription_category" : subcription_category,
-                        "access_number" : subcription_category.default_access_number
-                }
+                if subcription_form.cleaned_data['subscription_category'] == 'no-subscription':
+                   s = None
+                   message = _("Subscription deleted successfully for user " + user.first_name + ' ' + user.last_name)
+                else: 
+                    subcription_category = SubscriptionCategory.objects.get(pk=subcription_form.cleaned_data['subscription_category'])
+                    kwargs = {
+                            "start" : datetime.datetime.now(),
+                            "end" : datetime.datetime.now() + datetime.timedelta(days=subcription_category.duration),
+                            "subscription_category" : subcription_category,
+                            "access_number" : subcription_category.default_access_number
+                    }
 
-                s = Subscription(**kwargs)
-                s.save()
+                    s = Subscription(**kwargs)
+                    s.save()
+                    message = _("Subcription updated to ") + subcription_category.title + _(' for user ') + user.first_name + ' ' + user.last_name 
+                
                 Profile.objects.update_or_create(user=user, defaults={'subscription':s})
-                messages.success(request, _("Subcription updated to ") + subcription_category.title + _(' for user ') + user.first_name + ' ' + user.last_name )
+                messages.success(request, message)
 
                 return redirect('user-list')
                 
-    else:
-        initial = {'subscription_category': user.profile.subscription.subscription_category.pk}
-        subcription_form = UserSubcriptionForm(initial=initial)
+    elif request.method == "GET":
+        try:
+            initial = {'subscription_category': user.profile.subscription.subscription_category.pk}
+        except AttributeError: 
+            initial = {'subscription_category': 'no-subscription'}
+
+        subcription_form = UserSubcriptionForm(initial)
+
         context = {
             'subcription_form': subcription_form, 
             'user': user

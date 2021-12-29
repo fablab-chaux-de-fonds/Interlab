@@ -73,5 +73,5 @@ class CustomUserRegistrationForm(CustomRegistrationForm):
 
 class UserSubcriptionForm(forms.Form):
     subscription_category = forms.ChoiceField(
-        choices=[(None, _('No Subscription'))] + [(x.pk, x.title) for x in SubscriptionCategory.objects.all()], 
+        choices=[('no-subscription', _('No Subscription'))] + [(x.pk, x.title) for x in SubscriptionCategory.objects.all()], 
         widget=forms.RadioSelect)
