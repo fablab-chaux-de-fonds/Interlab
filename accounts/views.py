@@ -2,13 +2,14 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import update_last_login
 from django.contrib.sessions.models import Session
+from django.core.paginator import Paginator
 from django.db.models import Q 
 from django.http import HttpResponse    
 from django.template import loader
 from django.utils.translation import ugettext as _
 from django.shortcuts import redirect, render
+from django.views.generic.base import TemplateView
 
 from .forms import EditProfileForm
 from .forms import CustomOrganizationUserAddForm, CustomRegistrationForm
@@ -114,33 +115,42 @@ def token_error_view(request):
     template = 'organizations/invitations_token_error.html'
     return render(request, template) 
 
-def user_list(request): 
-    template = 'accounts/user-list.html'
-    User = get_user_model()
-    users = User.objects.all()
 
-    context = {
-        'users': users
-    }
-    return render(request, template, context)
+class UserListView(TemplateView):
+    number_of_item = 10
 
-def user_list_filtered(request):
-    template = 'accounts/user-list-filtered.html'
+    def get(self, *args, **kwargs):
+        template = self.template_name
+        context = self.get_context_data()
+        return render(self.request, template, context)
 
-    context = {
-        'users': find_user(request.POST.get('search'))
-    }
-    return render(request, template, context)
+    def post(self, *args, **kwargs):
+        template = self.template_name
+        context = self.get_context_data()
+        return render(self.request, template, context)
 
-def find_user(query):
-    qs = get_user_model().objects.all()
-    for term in query.split():
-        qs = qs.filter( 
-            Q(first_name__icontains = term) | 
-            Q(last_name__icontains = term) |
-            Q(email__icontains = term)
-            )
-    return qs
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        users = self.find_user(self.request.POST.get('search'))
+        users = self.get_page_obj(self.request, users, self.number_of_item)
+        context['users'] = users
+        return context
+
+    def get_page_obj(self, request, list_of_objects, number_of_item):
+        paginator = Paginator(list_of_objects, number_of_item)
+        page_number = request.GET.get('page')
+        return paginator.get_page(page_number)
+
+    def find_user(self, query):
+        qs = get_user_model().objects.all()
+        if query:
+            for term in query.split():
+                qs = qs.filter( 
+                    Q(first_name__icontains = term) | 
+                    Q(last_name__icontains = term) |
+                    Q(email__icontains = term)
+                    )
+        return qs
 
 from .forms import UserSubcriptionForm
 import datetime
@@ -150,13 +160,22 @@ def user_edit(request, user_pk):
     User = get_user_model()
     user = User.objects.get(pk=user_pk)
 
+    try:
+        initial = {'subscription_category': user.profile.subscription.subscription_category.pk}
+    except AttributeError: 
+        initial = {'subscription_category': 'no-subscription'}
+
     if request.method == 'POST':
         subcription_form = UserSubcriptionForm(request.POST)
         if subcription_form.is_valid():
-            if 'subscription_category' in subcription_form.changed_data:
+            if str(initial['subscription_category']) != subcription_form.cleaned_data['subscription_category']:
                 if subcription_form.cleaned_data['subscription_category'] == 'no-subscription':
-                   s = None
-                   message = _("Subscription deleted successfully for user ") + user.first_name + ' ' + user.last_name
+                    s = None
+                    message = _("Subscription deleted successfully for user ") 
+                    if user.first_name:
+                        message += user.first_name + ' ' + user.last_name
+                    else:
+                        message += user.email
                 else: 
                     subcription_category = SubscriptionCategory.objects.get(pk=subcription_form.cleaned_data['subscription_category'])
                     kwargs = {
@@ -168,24 +187,20 @@ def user_edit(request, user_pk):
 
                     s = Subscription(**kwargs)
                     s.save()
-                    message = _("Subcription updated to ") + subcription_category.title + _(' for user ') + user.first_name + ' ' + user.last_name 
+                    message = _("Subcription updated to ") + subcription_category.title + _(' for user ')
+                    if user.first_name:
+                       message += user.first_name + ' ' + user.last_name
+                    else:
+                        message += user.email + user.first_name + ' ' + user.last_name 
                 
                 Profile.objects.update_or_create(user=user, defaults={'subscription':s})
                 messages.success(request, message)
 
-                return redirect('user-list')
-                
-    elif request.method == "GET":
-        try:
-            initial = {'subscription_category': user.profile.subscription.subscription_category.pk}
-        except AttributeError: 
-            initial = {'subscription_category': 'no-subscription'}
-
+            return redirect('user-list')
+    else:
         subcription_form = UserSubcriptionForm(initial)
-
         context = {
             'subcription_form': subcription_form, 
             'user': user
         }
-    
     return render(request, template, context)
