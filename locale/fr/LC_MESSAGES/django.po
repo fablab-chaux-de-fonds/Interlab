@@ -165,39 +165,15 @@ msgid "Password changed"
 msgstr "Mot de passe changé"
 
 #: interlab/templates/django_registration/password_change_form.html:9
-#: interlab/templates/django_registration/password_reset_confirm.html:12
-#: interlab/templates/django_registration/password_reset_form.html:9
 #: interlab/templates/django_registration/registration_form.html:10
 msgid "Submit"
 msgstr "Envoi"
 
-#: interlab/templates/django_registration/password_reset_complete.html:6
-msgid "Password reset successfully"
-msgstr "Réussite de la réinitialisation du mot de passe"
-
-#: interlab/templates/django_registration/password_reset_complete.html:8
-#: interlab/templates/registration/login.html:11
-msgid "Log in"
-msgstr "Se connecter"
-
-#: interlab/templates/django_registration/password_reset_confirm.html:17
-msgid "Password reset failed"
-msgstr "Échec de la réinitialisation du mot de passe"
-
-#: interlab/templates/django_registration/password_reset_done.html:5
-msgid "Email with password reset instructions has been sent."
-msgstr ""
-"Envoi réussi de l'email d'instructions de réinitialisation du mot de passe."
-
-#: interlab/templates/django_registration/password_reset_email.html:2
+#: interlab/templates/django_registration/password_reset_email.txt:2
+#: interlab/templates/registration/password_reset_email.html:2
 #, python-format
 msgid "Reset password at %(site_name)s"
 msgstr "Réinitialisation du mot de passe de %(site_name)s"
-
-#: interlab/templates/django_registration/password_reset_subject.txt:3
-#, python-format
-msgid "Password reset on %(site_name)s"
-msgstr "Mot de passe de %(site_name)s réinitialisé"
 
 #: interlab/templates/django_registration/registration_closed.html:5
 msgid "Registration is currently closed."
@@ -234,11 +210,17 @@ msgstr "Tableau de bord"
 msgid "Profile"
 msgstr "Profil"
 
+#: interlab/templates/registration/login.html:11
+#: interlab/templates/registration/password_reset_complete.html:12
+msgid "Log in"
+msgstr "Se connecter"
+
 #: interlab/templates/registration/login.html:16
 msgid "Forgot password"
 msgstr "Mot de passe oublié"
 
 #: interlab/templates/registration/login.html:17
+#: newsletter/templates/forms/newsletter.html:29
 msgid "Sign up"
 msgstr "S'inscrire"
 
@@ -273,6 +255,62 @@ msgstr "Votre compte a été supprimé avec succès"
 
 #~ msgid "Reset it"
 #~ msgstr "Réinitaliser"
+
+#: interlab/templates/registration/password_reset_complete.html:10
+msgid "Password reset successfully"
+msgstr "Réinitialisation du mot de passe terminée"
+
+#: interlab/templates/registration/password_reset_confirm.html:14
+#| msgid "Forgot password"
+msgid "Set a new password"
+msgstr "Saisissez votre nouveau mot de passe"
+
+#: interlab/templates/registration/password_reset_confirm.html:18
+#| msgid "Forgot password"
+msgid "Change my password"
+msgstr "Modifier mon mot de passe"
+
+#: interlab/templates/registration/password_reset_confirm.html:23
+msgid "Password reset failed"
+msgstr "Échec de la réinitialisation du mot de passe"
+
+#: interlab/templates/registration/password_reset_done.html:9
+msgid "Email with password reset instructions has been sent."
+msgstr "E-mail de réinitialisation du mot de passe envoyé"
+
+#: interlab/templates/registration/password_reset_done.html:11
+msgid ""
+"If you do not receive a message, check that you have entered the address you "
+"registered with and check your spam folder."
+msgstr ""
+"Si vous ne recevez pas de message, vérifiez que vous avez saisi l’adresse "
+"avec laquelle vous vous êtes enregistré et contrôlez votre dossier de spam."
+
+#: interlab/templates/registration/password_reset_form.html:10
+#| msgid "Forgot password"
+msgid "Forgotten your password?"
+msgstr "Mot de passe oublié?"
+
+#: interlab/templates/registration/password_reset_subject.txt:3
+#, python-format
+msgid "Password reset on %(site_name)s"
+msgstr "Réinitialiser votre mot de passe - %(site_name)s"
+
+#: newsletter/templates/forms/newsletter.html:7
+msgid "Stay informed"
+msgstr "Restez informé"
+
+#: newsletter/templates/forms/newsletter.html:8
+msgid "about one letter a month"
+msgstr "Environ une newsletter par mois"
+
+#: newsletter/templates/forms/newsletter.html:13
+msgid "Email address"
+msgstr "Adresse email"
+
+#: newsletter/templates/forms/newsletter.html:24
+msgid "Thank you !"
+msgstr "Merci !"
 
 #~ msgid "Not member"
 #~ msgstr "Non membre"

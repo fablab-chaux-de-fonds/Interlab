@@ -14,10 +14,11 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+import distutils.util
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -26,7 +27,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+ENVIRON_DEBUG = os.environ.get('DEBUG')
+if ENVIRON_DEBUG != None:
+    DEBUG = distutils.util.strtobool(ENVIRON_DEBUG)
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
@@ -105,7 +110,7 @@ SITE_ID = 1
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'interlab', 'templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'interlab', 'templates')],
         'OPTIONS': {
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
@@ -118,7 +123,8 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'sekizai.context_processors.sekizai',
                 'django.template.context_processors.static',
-                'cms.context_processors.cms_settings'
+                'cms.context_processors.cms_settings',
+                'newsletter.forms.newsletter_context'
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
@@ -193,7 +199,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'interlab',
     'accounts',
-    'debug_toolbar'
+    'debug_toolbar',
+    'newsletter.apps.NewsletterConfig'
 ]
 
 LANGUAGES = (
@@ -296,3 +303,10 @@ if DEBUG:
     import socket  # only if you haven't already imported this
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
     INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + ['127.0.0.1', '10.0.2.2']
+
+# This is required to have correct protocol on links generated
+# PLEASE READ WARNING INFO: 
+#  * https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-SECURE_PROXY_SSL_HEADER
+if DEBUG == False:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True

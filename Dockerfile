@@ -21,6 +21,7 @@ COPY manage.py /code/
 COPY frontend /code/frontend/
 COPY interlab /code/interlab/
 COPY accounts /code/accounts/
+COPY newsletter /code/newsletter/
 COPY locale /code/locale/
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
