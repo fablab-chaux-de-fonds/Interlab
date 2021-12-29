@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-29 13:45+0000\n"
+"POT-Creation-Date: 2021-12-29 19:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -171,7 +171,7 @@ msgstr "Changer mon mot de passe"
 msgid "Subscription"
 msgstr "Abonnement"
 
-#: accounts/templates/accounts/user-list-filtered.html:38
+#: accounts/templates/accounts/user-list-filtered.html:39
 msgid "Oups, no user founded !"
 msgstr "Oups, pas d'utilisateur trouvé"
 
@@ -206,7 +206,7 @@ msgstr "Votre accompte est activé"
 msgid "Home page"
 msgstr "Page d'acceuil"
 
-#: accounts/templates/django_registration/activation_complete.html:19
+#: accounts/templates/django_registration/activation_complete.html:18
 #: accounts/templates/registration/login.html:11
 #: accounts/templates/registration/password_reset_complete.html:18
 msgid "Log in"
@@ -370,31 +370,28 @@ msgstr "Réinitialiser votre mot de passe - %(site_name)s"
 msgid "Subscribe"
 msgstr "S'inscrire"
 
-#: accounts/views.py:64
+#: accounts/views.py:65
 msgid "Your profile has been updated successfully"
 msgstr "Votre compte a été mis à jour avec succès"
 
-#: accounts/views.py:84
+#: accounts/views.py:85
 msgid "Your account has been successfully deleted"
 msgstr "Votre compte a été supprimé avec succès"
 
-#: accounts/views.py:105 accounts/views.py:107
+#: accounts/views.py:106 accounts/views.py:108
 msgid " has been removed successfully from the team."
 msgstr " a été retiré de l'équipe avec succès."
 
-#: accounts/views.py:159
+#: accounts/views.py:174
 msgid "Subscription deleted successfully for user "
 msgstr "Abonnement supprimé avec succès pour l'utilisateur "
 
-#: accounts/views.py:171
-msgid "Subcription updated to "
-msgstr "Abonnement mise à jour "
+#: accounts/views.py:190
+#| msgid "Subscription deleted successfully for user "
+msgid "Subcription updated to %(subcription_category)s for user "
+msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
-#: accounts/views.py:171
-msgid " for user "
-msgstr " pour l'utilisateur "
-
-#: interlab/settings.py:209 interlab/settings.py:217
+#: interlab/settings.py:210 interlab/settings.py:218
 msgid "fr"
 msgstr "fr"
 

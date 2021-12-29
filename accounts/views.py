@@ -187,7 +187,7 @@ def user_edit(request, user_pk):
 
                     s = Subscription(**kwargs)
                     s.save()
-                    message = _("Subcription updated to ") + subcription_category.title + _(' for user ')
+                    message = _("Subcription updated to %(subcription_category)s for user ") % {'subcription_category': subcription_category.title}
                     if user.first_name:
                        message += user.first_name + ' ' + user.last_name
                     else:
