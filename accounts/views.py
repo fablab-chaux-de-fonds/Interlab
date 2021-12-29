@@ -156,7 +156,7 @@ def user_edit(request, user_pk):
             if 'subscription_category' in subcription_form.changed_data:
                 if subcription_form.cleaned_data['subscription_category'] == 'no-subscription':
                    s = None
-                   message = _("Subscription deleted successfully for user " + user.first_name + ' ' + user.last_name)
+                   message = _("Subscription deleted successfully for user ") + user.first_name + ' ' + user.last_name
                 else: 
                     subcription_category = SubscriptionCategory.objects.get(pk=subcription_form.cleaned_data['subscription_category'])
                     kwargs = {

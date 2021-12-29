@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-29 10:38+0000\n"
+"POT-Creation-Date: 2021-12-29 13:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: accounts/forms.py:32
+#: accounts/forms.py:25 accounts/templates/accounts/nav.html:41
+msgid "email"
+msgstr "e-mail"
+
+#: accounts/forms.py:35
 msgid "There is already an organization member with this email address!"
 msgstr "Il y a déjà un membre de l'organisation avec cette adresse e-mail !"
 
-#: accounts/forms.py:36
+#: accounts/forms.py:39
 msgid "This email address has been used multiple times."
 msgstr "Cette adresse mail a été utilisée plusieurs fois."
 
-#: accounts/forms.py:51
+#: accounts/forms.py:54
 msgid "Recipient address rejected: Domain not found"
 msgstr "Adresse du destinataire rejetée : Domaine non trouvé"
 
-#: accounts/forms.py:58
+#: accounts/forms.py:61
 msgid "I subscribe to the newsletter"
 msgstr "Je m'abonne à la newsletter"
 
-#: accounts/forms.py:58 newsletter/templates/forms/newsletter.html:8
+#: accounts/forms.py:61 newsletter/templates/forms/newsletter.html:8
 msgid "about once a month"
 msgstr "environ une par mois"
 
-#: accounts/forms.py:62
+#: accounts/forms.py:65
 msgid ""
 "150 characters maximum. Only letters, numbers and the characters \"@\", \"."
 "\", \"+\", \"-\" and \"_\"."
@@ -46,7 +50,7 @@ msgstr ""
 "150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
 "\", \".\", \"+\", \"-\" and \"_\"."
 
-#: accounts/forms.py:73
+#: accounts/forms.py:76
 msgid "No Subscription"
 msgstr "Pas d'abonnement"
 
@@ -81,10 +85,6 @@ msgstr "Mon Profil"
 #: accounts/templates/accounts/nav.html:41
 msgid "name"
 msgstr "nom"
-
-#: accounts/templates/accounts/nav.html:41
-msgid "Email"
-msgstr "E-mail"
 
 #: accounts/templates/accounts/nav.html:41
 msgid "password"
@@ -130,16 +130,13 @@ msgid "my next trainings"
 msgstr "Mes prochaines formations"
 
 #: accounts/templates/accounts/nav.html:79
-msgid "validation"
-msgstr "validation"
+#: accounts/templates/accounts/nav.html:91
+msgid "training validation"
+msgstr "validation de formations"
 
 #: accounts/templates/accounts/nav.html:90
 msgid "Users"
 msgstr "Utilisateurs"
-
-#: accounts/templates/accounts/nav.html:91
-msgid "training validation"
-msgstr "validation de formations"
 
 #: accounts/templates/accounts/nav.html:91
 msgid "subscription"
@@ -183,6 +180,7 @@ msgid "Search Contacts"
 msgstr "Chercher un utilisateur"
 
 #: accounts/templates/accounts/user-summary.html:16
+#: accounts/templates/organizations/organization_detail.html:16
 msgid "valid until"
 msgstr "valable jusqu'au"
 
@@ -204,6 +202,7 @@ msgstr "Votre accompte est activé"
 
 #: accounts/templates/django_registration/activation_complete.html:15
 #: accounts/templates/registration/password_reset_complete.html:14
+#: accounts/templates/registration/password_reset_done.html:15
 msgid "Home page"
 msgstr "Page d'acceuil"
 
@@ -243,11 +242,11 @@ msgstr "Votre URL a expiré."
 msgid "Home"
 msgstr "Acceuil"
 
-#: accounts/templates/organizations/organization_detail.html:16
+#: accounts/templates/organizations/organization_detail.html:17
 msgid "Access number"
 msgstr "Nombre d'accès"
 
-#: accounts/templates/organizations/organization_detail.html:18
+#: accounts/templates/organizations/organization_detail.html:19
 msgid "Your team members"
 msgstr "Les membres de votre équipe"
 
@@ -348,7 +347,7 @@ msgid ""
 "If you do not receive a message, check that you have entered the address you "
 "registered with and check your spam folder."
 msgstr ""
-"Si vous ne recevez pas de message, vérifiez que vous avez saisi l’adresse "
+"Si vous ne recevez pas de message, vérifiez que vous avez saisi l'adresse "
 "avec laquelle vous vous êtes enregistré·e et contrôlez votre dossier de spam."
 
 #: accounts/templates/registration/password_reset_email.html:2
@@ -383,13 +382,15 @@ msgstr "Votre compte a été supprimé avec succès"
 msgid " has been removed successfully from the team."
 msgstr " a été retiré de l'équipe avec succès."
 
-#: accounts/views.py:168
-#, fuzzy
-#| msgid "Subscription"
+#: accounts/views.py:159
+msgid "Subscription deleted successfully for user "
+msgstr "Abonnement supprimé avec succès pour l'utilisateur "
+
+#: accounts/views.py:171
 msgid "Subcription updated to "
 msgstr "Abonnement mise à jour "
 
-#: accounts/views.py:168
+#: accounts/views.py:171
 msgid " for user "
 msgstr " pour l'utilisateur "
 
@@ -400,7 +401,7 @@ msgstr "fr"
 #: interlab/templates/menu-mobile.html:13
 #: interlab/templates/navbar-header.html:18
 msgid "Schedule"
-msgstr "Horraire"
+msgstr "Horaire"
 
 #: interlab/templates/menu-mobile.html:19
 #: interlab/templates/navbar-header.html:21
@@ -408,7 +409,7 @@ msgid "Reservation"
 msgstr "Réservation"
 
 #: interlab/templates/menu-mobile.html:30
-#: interlab/templates/navbar-header.html:29
+#: interlab/templates/navbar-header.html:34
 msgid "Login"
 msgstr "Connexion"
 
