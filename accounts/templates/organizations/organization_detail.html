@@ -13,7 +13,7 @@
         </div>    
         <h2 class="text-center"> {{ user.profile.subscription.subscription_category.title }} </h2>
         <h3 class="text-center">{{ organization.name }}</h3>
-        <p class="text-center first-letter-uppercase"> {% trans "valid until" %} {{ user.profile.subscription.end|date:'d.m.Y' }}  </br>
+        <p> {% trans "valid until"|capfirst %} {{ user.profile.subscription.end|date:'d.m.Y' }}  </br>
         {% trans 'Access number' %} : {{ user.profile.subscription.access_number }} </p>
         <hr>
         <h2>{% trans 'Your team members' %}</h2> 

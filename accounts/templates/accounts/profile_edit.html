@@ -13,7 +13,9 @@
 
     <div class="row text-center align-items-center my-5">
         <div class="col">
-            <a class="first-letter-uppercase" href="{% url 'delete-profile' %}">{% trans "delete account" %}</a> 
+            <a href="{% url 'delete-profile' %}">
+                    {% trans "delete account"|capfirst %}
+            </a> 
         </div> 
         <div class="col">
             <input class="btn mx-auto" type="submit" value="{% trans 'Update' %}">
