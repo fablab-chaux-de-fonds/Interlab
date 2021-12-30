@@ -1,10 +1,11 @@
 import smtplib
 
 from django import forms
-from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth.forms import UserChangeForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from organizations.forms import OrganizationUserAddForm
@@ -26,16 +27,44 @@ class EditProfileForm(UserChangeForm):
         }
         fields = ('first_name','last_name','username','email',)
 
+class CustomAuthenticationForm(AuthenticationForm):
+    
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        if username is not None and password:
+            self.user_cache = authenticate(self.request, username=username, password=password)
+
+            ############################################
+            # Check if user active before check password
+            # https://github.com/django/django/blob/main/django/contrib/auth/forms.py
+            User = get_user_model()
+            user = User.objects.get(username=username)
+
+            if not user.is_active and self.user_cache is None:
+                raise ValidationError(
+                    _("You have not yet validated your e-mail. Please click on the activation link that we sent you by email when you created your account.")
+            )
+            ############################################
+
+            if self.user_cache is None:
+                raise self.get_invalid_login_error()
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
+
         
 class CustomOrganizationUserAddForm(OrganizationUserAddForm):
     def clean_email(self):
         email = self.cleaned_data["email"]
         if self.organization.users.filter(email__iexact=email).exists():
-            raise forms.ValidationError(
-                _("There is already an organization " "member with this email address!")
+            raise ValidationError(
+                _("There is already an organization member with this email address!")
             )
         if get_user_model().objects.filter(email__iexact=email).count() > 1:
-            raise forms.ValidationError(
+            raise ValidationError(
                 _("This email address has been used multiple times.")
             )
         
@@ -50,7 +79,7 @@ class CustomOrganizationUserAddForm(OrganizationUserAddForm):
                 }
             )
         except smtplib.SMTPRecipientsRefused:
-            raise forms.ValidationError(
+            raise ValidationError(
                 _("Recipient address rejected: Domain not found")
             )
 

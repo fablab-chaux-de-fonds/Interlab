@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.contrib.sessions.models import Session
 from django.core.paginator import Paginator
 from django.db.models import Q 
@@ -11,8 +12,7 @@ from django.utils.translation import ugettext as _
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 
-from .forms import EditProfileForm
-from .forms import CustomOrganizationUserAddForm, CustomRegistrationForm
+from .forms import EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm, CustomAuthenticationForm
 from .models import Profile, Subscription, SubscriptionCategory
 
 from organizations.views.base import BaseOrganizationUserCreate
@@ -23,7 +23,8 @@ from django_registration.backends.activation.views import RegistrationView
 from django_registration import signals
 
 from newsletter.views import register_email
-
+class CustomLoginView(LoginView):
+    form_class = CustomAuthenticationForm
 class CustomRegistrationView(RegistrationView):
     template_name = 'registration/registration_form.html'
     form_class = CustomRegistrationForm
