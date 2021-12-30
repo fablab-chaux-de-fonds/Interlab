@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-30 15:24+0000\n"
+"POT-Creation-Date: 2021-12-30 16:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -100,7 +100,7 @@ msgid "password"
 msgstr "mot de passe"
 
 #: accounts/templates/accounts/nav.html:41
-#: accounts/templates/accounts/profile_edit.html:16
+#: accounts/templates/accounts/profile_edit.html:17
 msgid "delete account"
 msgstr "supprimer mon compte"
 
@@ -152,7 +152,7 @@ msgid "subscription"
 msgstr "abonnement"
 
 #: accounts/templates/accounts/password-change.html:10
-#: accounts/templates/accounts/profile_edit.html:19
+#: accounts/templates/accounts/profile_edit.html:21
 #: accounts/templates/accounts/user-edit.html:38
 msgid "Update"
 msgstr "Mettre à jour"
@@ -224,7 +224,7 @@ msgid "Log in"
 msgstr "Se connecter"
 
 #: accounts/templates/django_registration/activation_email_body.txt:3
-#: accounts/templates/registration/password_reset_email.txt:3
+#: accounts/templates/registration/password_reset_email.html:3
 msgid "Hello"
 msgstr "Bonjour"
 
@@ -398,15 +398,17 @@ msgstr ""
 "Si vous ne recevez pas de message, vérifiez que vous avez saisi l'adresse "
 "avec laquelle vous vous êtes enregistré·e et contrôlez votre dossier de spam."
 
-#: accounts/templates/registration/password_reset_email.txt:5
+#: accounts/templates/registration/password_reset_email.html:5
 msgid "To reset your password, click on the following link: "
 msgstr "Pour réinitialiser votre mot de passe, cliquez sur le lien suivant : "
 
-#: accounts/templates/registration/password_reset_email.txt:10
+#: accounts/templates/registration/password_reset_email.html:11
 msgid ""
 "If this request does not come from you, delete this email and nothing will "
 "be changed. "
-msgstr "Si cette demande ne vient pas de vous, effacez cet email et rien ne sera modifié."
+msgstr ""
+"Si cette demande ne vient pas de vous, effacez cet email et rien ne sera "
+"modifié."
 
 #: accounts/templates/registration/password_reset_form.html:16
 #: newsletter/templates/forms/newsletter.html:15
@@ -448,27 +450,24 @@ msgid "fr"
 msgstr "fr"
 
 #: interlab/templates/menu-mobile.html:13
-#: interlab/templates/navbar-header.html:18
+#: interlab/templates/navbar-header.html:12
 msgid "Schedule"
 msgstr "Horaire"
 
-#: interlab/templates/menu-mobile.html:19
-#: interlab/templates/navbar-header.html:21
+#: interlab/templates/menu-mobile.html:18
+#: interlab/templates/navbar-header.html:15
 msgid "Reservation"
 msgstr "Réservation"
 
-#: interlab/templates/menu-mobile.html:30
-#: interlab/templates/navbar-header.html:34
+#: interlab/templates/menu-mobile.html:24
+#: interlab/templates/navbar-header.html:19
+msgid "My account"
+msgstr "Mon compte"
+
+#: interlab/templates/menu-mobile.html:29
+#: interlab/templates/navbar-header.html:23
 msgid "Login"
 msgstr "Connexion"
-
-#: interlab/templates/menu-mobile.html:37
-msgid "Dashboard"
-msgstr "Tableau de bord"
-
-#: interlab/templates/navbar-header.html:25
-msgid "Profile"
-msgstr "Profil"
 
 #: newsletter/templates/forms/newsletter.html:7
 msgid "Subscribe to the newsletter to follow the FabLab news"
@@ -477,6 +476,3 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 #: newsletter/templates/forms/newsletter.html:27
 msgid "Thank you !"
 msgstr "Merci !"
-
-#~ msgid "Account activation on"
-#~ msgstr "Activation de compte sur"

@@ -6,12 +6,6 @@
         <a class="navbar-brand" href="/">
             <img src="{% static 'src/img/logo-FL-red.svg' %}" alt="" height="36px">
         </a>
-<!--         <span class="navbar-text me-auto d-none d-md-block">
-            <h2 class="px-2">{%trans page_title %}</h2>
-        </span>
-        <span class="navbar-text mx-auto d-md-none">
-            <h2>{%trans page_title %}</h2>
-        </span> -->
         <div class="collapse navbar-collapse d-none d-md-block">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item mx-3">
@@ -22,12 +16,7 @@
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item mx-3">
-                    <h3><a class="nav-link active nav-link-header" aria-current="page" href="/accounts/profile">{% trans "Profile" %}</a></h3>
-                </li>
-                <li class="nav-item my-auto">
-                    <h3>
-                        <a href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i></a>
-                    </h3>
+                    <h3><a class="nav-link active nav-link-header" aria-current="page" href="/accounts/profile">{% trans "My account" %}</a></h3>
                 </li>
                 {% else %}
                 <li class="nav-item mx-3">
