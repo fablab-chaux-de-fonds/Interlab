@@ -254,11 +254,11 @@ msgstr "Ce lien a déjà été utilisé."
 
 #: accounts/templates/django_registration/already_activated.html:12
 msgid "Your account has already been activated."
-msgstr "Votre compte a déjà été activé"
+msgstr "Votre compte a déjà été activé."
 
 #: accounts/templates/django_registration/registration_closed.html:5
 msgid "Registration is currently closed."
-msgstr "La réinitialisation de mot de passe est désactivée"
+msgstr "La réinitialisation de mot de passe est désactivée."
 
 #: accounts/templates/django_registration/registration_complete.html:11
 msgid "Your account has been successfully created"
