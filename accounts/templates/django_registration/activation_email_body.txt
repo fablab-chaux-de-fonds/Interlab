@@ -1,6 +1,13 @@
 {% load i18n %}
-{% trans "Activate account at" %} {{ site.name }}:
+
+{% trans 'Hello' %} {{ user.first_name }},
+
+{% blocktrans%} To activate your account and confirm your email address, simply click on this link: {% endblocktrans %}
 
 http://{{ site.domain }}{% url 'django_registration_activate' activation_key %}
 
-{% blocktrans %}Link is valid for {{ expiration_days }} days.{% endblocktrans %}
+{% blocktrans %}This link is only valid for {{ expiration_days }} days.{% endblocktrans %}
+
+{% trans 'We welcome you to the FabLab!' %}
+
+{% include 'email/signature.txt' %}

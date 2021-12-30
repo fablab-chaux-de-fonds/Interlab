@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-30 13:56+0000\n"
+"POT-Creation-Date: 2021-12-30 15:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -223,18 +223,31 @@ msgstr "Page d'acceuil"
 msgid "Log in"
 msgstr "Se connecter"
 
-#: accounts/templates/django_registration/activation_email_body.txt:2
-msgid "Activate account at"
-msgstr "Activation de compte de"
+#: accounts/templates/django_registration/activation_email_body.txt:3
+#: accounts/templates/registration/password_reset_email.txt:3
+msgid "Hello"
+msgstr "Bonjour"
 
-#: accounts/templates/django_registration/activation_email_body.txt:6
+#: accounts/templates/django_registration/activation_email_body.txt:5
+msgid ""
+" To activate your account and confirm your email address, simply click on "
+"this link: "
+msgstr ""
+"Pour activer votre compte et confirmer votre adresse e-mail, cliquez "
+"simplement sur ce lien : "
+
+#: accounts/templates/django_registration/activation_email_body.txt:9
 #, python-format
-msgid "Link is valid for %(expiration_days)s days."
-msgstr "Le lien est valide pendant %(expiration_days)s jours."
+msgid "This link is only valid for %(expiration_days)s days."
+msgstr "Ce lien est valide uniquement pendant %(expiration_days)s jours"
+
+#: accounts/templates/django_registration/activation_email_body.txt:11
+msgid "We welcome you to the FabLab!"
+msgstr "Nous vous souhaitons la bienvenue au FabLab !"
 
 #: accounts/templates/django_registration/activation_email_subject.txt:1
-msgid "Account activation on"
-msgstr "Activation de compte sur"
+msgid "Activate your account"
+msgstr "Activez votre compte"
 
 #: accounts/templates/django_registration/activation_failed.html:11
 msgid "Unfortunately this link has expired."
@@ -385,11 +398,15 @@ msgstr ""
 "Si vous ne recevez pas de message, vérifiez que vous avez saisi l'adresse "
 "avec laquelle vous vous êtes enregistré·e et contrôlez votre dossier de spam."
 
-#: accounts/templates/registration/password_reset_email.html:2
-#: accounts/templates/registration/password_reset_email.txt:2
-#, python-format
-msgid "Reset password at %(site_name)s"
-msgstr "Réinitialisation du mot de passe de %(site_name)s"
+#: accounts/templates/registration/password_reset_email.txt:5
+msgid "To reset your password, click on the following link: "
+msgstr "Pour réinitialiser votre mot de passe, cliquez sur le lien suivant : "
+
+#: accounts/templates/registration/password_reset_email.txt:10
+msgid ""
+"If this request does not come from you, delete this email and nothing will "
+"be changed. "
+msgstr "Si cette demande ne vient pas de vous, effacez cet email et rien ne sera modifié."
 
 #: accounts/templates/registration/password_reset_form.html:16
 #: newsletter/templates/forms/newsletter.html:15
@@ -460,3 +477,6 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 #: newsletter/templates/forms/newsletter.html:27
 msgid "Thank you !"
 msgstr "Merci !"
+
+#~ msgid "Account activation on"
+#~ msgstr "Activation de compte sur"
