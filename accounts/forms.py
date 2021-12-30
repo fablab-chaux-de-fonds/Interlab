@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.forms import UserChangeForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
 from organizations.forms import OrganizationUserAddForm
@@ -40,7 +40,10 @@ class CustomAuthenticationForm(AuthenticationForm):
             # Check if user active before check password
             # https://github.com/django/django/blob/main/django/contrib/auth/forms.py
             User = get_user_model()
-            user = User.objects.get(username=username)
+            try:
+                user = User.objects.get(username=username)
+            except ObjectDoesNotExist:
+                raise self.get_invalid_login_error()
 
             if not user.is_active and self.user_cache is None:
                 raise ValidationError(

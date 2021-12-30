@@ -25,7 +25,7 @@ from django_registration.backends.activation.views import RegistrationView, Acti
 from django_registration import signals
 from django_registration.exceptions import ActivationError
 
-from newsletter.views import register_email
+from newsletter.views import register_email, get_contact, update_contact
 class CustomLoginView(LoginView):
     form_class = CustomAuthenticationForm
 class CustomRegistrationView(RegistrationView):
@@ -98,6 +98,15 @@ def EditProfileView(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
+
+            # Check if profile has newsletter
+            contacts = get_contact()
+            mail_list = [ x['email'] for x in contacts['data']['data']]
+            if 'email' in form.changed_data and form.initial['email'] in mail_list:
+                user_id = [x['id'] for x in contacts['data']['data'] if x['email'] == form.initial['email']][0]
+                update_contact(user_id, form.cleaned_data['email'])
+                messages.success(request, _("Your newsletter registration has been updated successfully with the email address: ") + form.cleaned_data['email'])
+
             form.save()
             messages.success(request, _("Your profile has been updated successfully") )
             return redirect(AccountsView)

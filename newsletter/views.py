@@ -34,3 +34,17 @@ def register_email(email):
     resp = requests.post(url=app.newsletter_url_importcontact(), auth=app.newsletter_auth(), json={'contacts':[{'email':email}]})
     resp.raise_for_status()
     return resp.json()
+
+def get_contact():
+    """Utility to get contact in configured mailing list newsletter"""
+    app = apps.get_app_config(NewsletterConfig.name)
+    resp = requests.get(url=app.newsletter_url_getcontact(), auth=app.newsletter_auth())
+    resp.raise_for_status()
+    return resp.json()
+
+def update_contact(id, email):
+    """Utility method to update email in configured mailing list newsletter"""
+    app = apps.get_app_config(NewsletterConfig.name)
+    resp = requests.put(url=app.newsletter_url_updatecontact(id), auth=app.newsletter_auth(), json={'email':email})
+    resp.raise_for_status()
+    return resp.json()

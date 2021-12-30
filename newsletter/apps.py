@@ -17,14 +17,20 @@ class NewsletterConfig(AppConfig):
 
     def ready(self):
         try:
-            response = requests.get(url=NEWSLETTER_URL, auth=self.newsletter_auth())
+            response = requests.get(url=NEWSLETTER_URL + '/mailinglist', auth=self.newsletter_auth())
             response.raise_for_status()
             self.newsletter_list_id = next(i['id'] for i in response.json()['data']['data'] if i['name'] == NEWSLETTER_LIST_NAME)
         except Exception as e:
             print(e)
 
     def newsletter_url_importcontact(self):
-        return '{0}/{1}/importcontact'.format(NEWSLETTER_URL, self.newsletter_list_id)
+        return '{0}/mailinglist/{1}/importcontact'.format(NEWSLETTER_URL, self.newsletter_list_id)
+
+    def newsletter_url_getcontact(self):
+        return '{0}/mailinglist/{1}/contact'.format(NEWSLETTER_URL, self.newsletter_list_id)
+
+    def newsletter_url_updatecontact(self, id):
+        return '{0}/contact/{1}'.format(NEWSLETTER_URL, id)
 
     def newsletter_auth(self):  
         return HTTPBasicAuth(NEWSLETTER_USER, NEWSLETTER_SECRET)
