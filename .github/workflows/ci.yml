@@ -30,7 +30,7 @@ jobs:
         run: |
           touch .env
           export TAG=PR$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-          docker-compose build --pull
+          docker-compose build --pull --no-cache
           docker image tag interlab_web:latest registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
           docker image push registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
           
