@@ -6,8 +6,10 @@ from django.contrib.auth.views import LoginView
 from django.contrib.sessions.models import Session
 from django.core.paginator import Paginator
 from django.db.models import Q 
-from django.http import HttpResponse    
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.template import loader
+from django.utils.encoding import force_str
 from django.utils.translation import ugettext as _
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
@@ -19,8 +21,9 @@ from organizations.views.base import BaseOrganizationUserCreate
 from organizations.views.base import BaseOrganizationUserDelete
 from organizations.views.mixins import OwnerRequiredMixin
 
-from django_registration.backends.activation.views import RegistrationView
+from django_registration.backends.activation.views import RegistrationView, ActivationView
 from django_registration import signals
+from django_registration.exceptions import ActivationError
 
 from newsletter.views import register_email
 class CustomLoginView(LoginView):
@@ -41,6 +44,39 @@ class CustomRegistrationView(RegistrationView):
         )
         return new_user
 
+class CustomActivationView(ActivationView):
+    
+    def get(self, *args, **kwargs):
+        """
+        The base activation logic; subclasses should leave this method
+        alone and implement activate(), which is called from this
+        method.
+        """
+        extra_context = {}
+        try:
+            activated_user = self.activate(*args, **kwargs)
+        except ActivationError as e:
+            
+            ###################################
+            #Check if account already activated
+            #https://github.com/ubernostrum/django-registration/blob/3.2/src/django_registration/views.py
+            if e.code == 'already_activated':
+                self.template_name = "django_registration/already_activated.html"
+            ###################################
+
+            extra_context["activation_error"] = {
+                "message": e.message,
+                "code": e.code,
+                "params": e.params,
+            }
+        else:
+            signals.user_activated.send(
+                sender=self.__class__, user=activated_user, request=self.request
+            )
+            return HttpResponseRedirect(force_str(self.get_success_url(activated_user)))
+        context_data = self.get_context_data()
+        context_data.update(extra_context)
+        return self.render_to_response(context_data)
 
 @login_required
 def AccountsView(request):

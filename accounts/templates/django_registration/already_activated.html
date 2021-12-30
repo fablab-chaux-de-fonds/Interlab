@@ -1,0 +1,16 @@
+{% extends 'forms/base_forms.html' %}
+{% load i18n %}
+
+{% block content %}
+
+{% block content_form_img %}
+    <i class="bi bi-exclamation-circle-fill mb-5 img-form-logo mx-auto d-block text-red"></i>
+{% endblock content_form_img %}
+
+<div class="text-center">
+    <h1> {% trans 'This link has already been used.' %}</h1>
+    <p>{% trans "Your account has already been activated." %}</p>
+
+    <a class="btn" href="{% url 'login' %}">{% trans 'Log in' %} </a>
+</div>
+{% endblock %}

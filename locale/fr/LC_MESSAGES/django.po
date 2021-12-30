@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-30 13:29+0000\n"
+"POT-Creation-Date: 2021-12-30 13:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -217,6 +217,7 @@ msgid "Home page"
 msgstr "Page d'acceuil"
 
 #: accounts/templates/django_registration/activation_complete.html:18
+#: accounts/templates/django_registration/already_activated.html:14
 #: accounts/templates/registration/login.html:11
 #: accounts/templates/registration/password_reset_complete.html:18
 msgid "Log in"
@@ -244,10 +245,16 @@ msgid "Please create a new account with a new username."
 msgstr "Veuillez créer un nouveau compte avec un nouveau nom d'utilisateur."
 
 #: accounts/templates/django_registration/activation_failed.html:14
-#, fuzzy
-#| msgid "delete account"
 msgid "Create a new account"
 msgstr "Créer un nouveau compte"
+
+#: accounts/templates/django_registration/already_activated.html:11
+msgid "This link has already been used."
+msgstr "Ce lien a déjà été utilisé."
+
+#: accounts/templates/django_registration/already_activated.html:12
+msgid "Your account has already been activated."
+msgstr "Votre compte a déjà été activé"
 
 #: accounts/templates/django_registration/registration_closed.html:5
 msgid "Registration is currently closed."
@@ -398,23 +405,23 @@ msgstr "Réinitialiser votre mot de passe - %(site_name)s"
 msgid "Subscribe"
 msgstr "S'inscrire"
 
-#: accounts/views.py:66
+#: accounts/views.py:102
 msgid "Your profile has been updated successfully"
 msgstr "Votre compte a été mis à jour avec succès"
 
-#: accounts/views.py:86
+#: accounts/views.py:122
 msgid "Your account has been successfully deleted"
 msgstr "Votre compte a été supprimé avec succès"
 
-#: accounts/views.py:107 accounts/views.py:109
+#: accounts/views.py:143 accounts/views.py:145
 msgid " has been removed successfully from the team."
 msgstr " a été retiré de l'équipe avec succès."
 
-#: accounts/views.py:175
+#: accounts/views.py:211
 msgid "Subscription deleted successfully for user "
 msgstr "Abonnement supprimé avec succès pour l'utilisateur "
 
-#: accounts/views.py:191
+#: accounts/views.py:227
 #, python-format
 msgid "Subcription updated to %(subcription_category)s for user "
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
