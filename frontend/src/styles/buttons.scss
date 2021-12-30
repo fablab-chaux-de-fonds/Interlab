@@ -21,11 +21,11 @@
 }
 
 .btn-secondary {
-  background-color: white;
+  background-color: transparent;
   color: $custom-red;
 
   &:hover {
-    background-color: $custom-red-light;
-    color: $custom-red;
+    background-color: $custom-red;
+    color: white;
   }
 }
