@@ -47,4 +47,5 @@ def update_contact(id, email):
     app = apps.get_app_config(NewsletterConfig.name)
     resp = requests.put(url=app.newsletter_url_updatecontact(id), auth=app.newsletter_auth(), json={'email':email})
     resp.raise_for_status()
+
     return resp.json()

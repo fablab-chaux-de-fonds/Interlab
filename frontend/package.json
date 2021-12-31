@@ -66,6 +66,7 @@
     "jquery": "^3.6.0",
     "package.json": "^2.0.1",
     "stylelint-scss": "^3.20.1",
+    "htmx.org": "^1.6.0",
     "webpack-bundle-tracker": "^1.1.0"
   }
 }
