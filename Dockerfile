@@ -22,7 +22,6 @@ COPY frontend /code/frontend/
 COPY interlab /code/interlab/
 COPY accounts /code/accounts/
 COPY newsletter /code/newsletter/
-COPY user_profile /code/user_profile/
 COPY locale /code/locale/
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
