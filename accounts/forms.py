@@ -28,7 +28,8 @@ class EditProfileForm(UserChangeForm):
         fields = ('first_name','last_name','username','email',)
 
 class CustomAuthenticationForm(AuthenticationForm):
-    
+    username = forms.CharField(label=_('Email / Username'))
+
     def clean(self):
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
@@ -41,7 +42,7 @@ class CustomAuthenticationForm(AuthenticationForm):
             # https://github.com/django/django/blob/main/django/contrib/auth/forms.py
             User = get_user_model()
             try:
-                user = User.objects.get(username=username)
+                user = User.objects.get(username=self.user_cache.username)
             except ObjectDoesNotExist:
                 raise self.get_invalid_login_error()
 

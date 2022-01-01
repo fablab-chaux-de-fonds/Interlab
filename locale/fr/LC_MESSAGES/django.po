@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-31 16:54+0000\n"
+"POT-Creation-Date: 2022-01-01 18:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,11 @@ msgstr ""
 msgid "email"
 msgstr "e-mail"
 
-#: accounts/forms.py:50
+#: accounts/forms.py:31
+msgid "Email / Username"
+msgstr "E-mail / Nom d'utilisateur"
+
+#: accounts/forms.py:51
 msgid ""
 "You have not yet validated your e-mail. Please click on the activation link "
 "that we sent you by email when you created your account."
@@ -31,27 +35,27 @@ msgstr ""
 "d'activation que nous vous avons envoyé par e-mail lorsque vous avez créé "
 "votre compte."
 
-#: accounts/forms.py:67
+#: accounts/forms.py:68
 msgid "There is already an organization member with this email address!"
 msgstr "Il y a déjà un membre de l'organisation avec cette adresse e-mail !"
 
-#: accounts/forms.py:71
+#: accounts/forms.py:72
 msgid "This email address has been used multiple times."
 msgstr "Cette adresse mail a été utilisée plusieurs fois."
 
-#: accounts/forms.py:86
+#: accounts/forms.py:87
 msgid "Recipient address rejected: Domain not found"
 msgstr "Adresse du destinataire rejetée : Domaine non trouvé"
 
-#: accounts/forms.py:93
+#: accounts/forms.py:94
 msgid "I subscribe to the newsletter"
 msgstr "Je m'abonne à la newsletter"
 
-#: accounts/forms.py:93 newsletter/templates/forms/newsletter.html:8
+#: accounts/forms.py:94 newsletter/templates/forms/newsletter.html:8
 msgid "about once a month"
 msgstr "environ une par mois"
 
-#: accounts/forms.py:97
+#: accounts/forms.py:98
 msgid ""
 "150 characters maximum. Only letters, numbers and the characters \"@\", \"."
 "\", \"+\", \"-\" and \"_\"."
@@ -59,9 +63,13 @@ msgstr ""
 "150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
 "\", \".\", \"+\", \"-\" and \"_\"."
 
-#: accounts/forms.py:108
+#: accounts/forms.py:109
 msgid "No Subscription"
 msgstr "Pas d'abonnement"
+
+#: accounts/models.py:7
+msgid "email address"
+msgstr "adresse e-mail"
 
 #: accounts/templates/accounts/nav.html:7
 msgid "My reservations"

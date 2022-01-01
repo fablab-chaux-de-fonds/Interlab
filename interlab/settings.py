@@ -322,3 +322,4 @@ if DEBUG == False:
 
 # Login with email
 AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
