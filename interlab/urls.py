@@ -1,4 +1,4 @@
-#from cms.sitemaps import CMSSitemap
+from cms.sitemaps import CMSSitemap
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -14,17 +14,17 @@ from organizations.backends import invitation_backend
 admin.autodiscover()
 
 urlpatterns = [
-    #path("sitemap.xml", sitemap, {"sitemaps": {"cmspages": CMSSitemap}}),
+    path("sitemap.xml", sitemap, {"sitemaps": {"cmspages": CMSSitemap}}),
 ]
 
 urlpatterns += i18n_patterns(
-    # path("admin/", admin.site.urls),
-    # path('accounts/', include('accounts.urls')),
-    # path('invitations/', include(invitation_backend().get_urls())),
-    # path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
-    # path('bootstrap/', views.bootstrap, name='bootstrap'),
-    # path("", include("newsletter.urls")),
-    # path("", include("cms.urls")),
+    path("admin/", admin.site.urls),
+    path('accounts/', include('accounts.urls')),
+    path('invitations/', include(invitation_backend().get_urls())),
+    path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
+    path('bootstrap/', views.bootstrap, name='bootstrap'),
+    path("", include("newsletter.urls")),
+    path("", include("cms.urls")),
     prefix_default_language=False
 )
 
