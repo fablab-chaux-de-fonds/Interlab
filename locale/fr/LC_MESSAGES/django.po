@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-15 20:30+0000\n"
+"POT-Creation-Date: 2022-01-01 13:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,6 +160,10 @@ msgstr "Le lien est valide pendant %(expiration_days)s jours."
 msgid "Account activation on"
 msgstr "Activation de compte sur"
 
+#: interlab/templates/django_registration/activation_failed.html:5
+msgid "Registration failed"
+msgstr "La réinitialisation de mot de passe est désactivée"
+
 #: interlab/templates/django_registration/password_change_done.html:9
 msgid "Password changed"
 msgstr "Mot de passe changé"
@@ -169,8 +173,8 @@ msgstr "Mot de passe changé"
 msgid "Submit"
 msgstr "Envoi"
 
-#: interlab/templates/django_registration/password_reset_email.txt:2
-#: interlab/templates/registration/password_reset_email.html:2
+#: interlab/templates/django_registration/password_reset_email.html:2
+#: interlab/templates/registration/password_reset_email.txt:2
 #, python-format
 msgid "Reset password at %(site_name)s"
 msgstr "Réinitialisation du mot de passe de %(site_name)s"
@@ -244,29 +248,15 @@ msgstr "Votre mot de passe a été changé"
 msgid "My account"
 msgstr "Mon compte"
 
-msgid "newsletter"
-msgstr "newsletter"
-
-msgid "Your profile has been updated successfully"
-msgstr "Votre compte a été mis à jour avec succès"
-
-msgid "Your account has been successfully deleted"
-msgstr "Votre compte a été supprimé avec succès"
-
-#~ msgid "Reset it"
-#~ msgstr "Réinitaliser"
-
 #: interlab/templates/registration/password_reset_complete.html:10
 msgid "Password reset successfully"
 msgstr "Réinitialisation du mot de passe terminée"
 
 #: interlab/templates/registration/password_reset_confirm.html:14
-#| msgid "Forgot password"
 msgid "Set a new password"
 msgstr "Saisissez votre nouveau mot de passe"
 
 #: interlab/templates/registration/password_reset_confirm.html:18
-#| msgid "Forgot password"
 msgid "Change my password"
 msgstr "Modifier mon mot de passe"
 
@@ -287,9 +277,12 @@ msgstr ""
 "avec laquelle vous vous êtes enregistré et contrôlez votre dossier de spam."
 
 #: interlab/templates/registration/password_reset_form.html:10
-#| msgid "Forgot password"
 msgid "Forgotten your password?"
 msgstr "Mot de passe oublié?"
+
+#: interlab/templates/registration/password_reset_form.html:15
+msgid "Reset it"
+msgstr "Réinitaliser"
 
 #: interlab/templates/registration/password_reset_subject.txt:3
 #, python-format
@@ -311,6 +304,27 @@ msgstr "Adresse email"
 #: newsletter/templates/forms/newsletter.html:24
 msgid "Thank you !"
 msgstr "Merci !"
+
+msgid "already_activated"
+msgstr "Le compte est déjà activé !"
+
+msgid "bad_username"
+msgstr "Le nom d'utilisateur ne correspond pas !"
+
+msgid "expired"
+msgstr "L'activation a expiré, veuillez réessayer."
+
+msgid "invalid_key"
+msgstr "La clé d'activation est invalide, veuillez réessayer."
+
+msgid "newsletter"
+msgstr "Newsletter"
+
+msgid "Your profile has been updated successfully"
+msgstr "Votre compte a été mis à jour avec succès"
+
+msgid "Your account has been successfully deleted"
+msgstr "Votre compte a été supprimé avec succès"
 
 #~ msgid "Not member"
 #~ msgstr "Non membre"
