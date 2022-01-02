@@ -140,6 +140,7 @@ msgid "Change password"
 msgstr "Changer mon mot de passe"
 
 #: interlab/templates/django_registration/activate.html:12
+#: interlab/templates/django_registration/activation_failed.html:5
 msgid "Account activation failed"
 msgstr "L'activation à échoué"
 
@@ -159,10 +160,6 @@ msgstr "Le lien est valide pendant %(expiration_days)s jours."
 #: interlab/templates/django_registration/activation_email_subject.txt:1
 msgid "Account activation on"
 msgstr "Activation de compte sur"
-
-#: interlab/templates/django_registration/activation_failed.html:5
-msgid "Registration failed"
-msgstr "La réinitialisation de mot de passe est désactivée"
 
 #: interlab/templates/django_registration/password_change_done.html:9
 msgid "Password changed"
@@ -326,8 +323,8 @@ msgstr "Votre compte a été mis à jour avec succès"
 msgid "Your account has been successfully deleted"
 msgstr "Votre compte a été supprimé avec succès"
 
-#~ msgid "Not member"
-#~ msgstr "Non membre"
+msgid "Not member"
+msgstr "Non membre"
 
-#~ msgid "fr"
-#~ msgstr "fr"
+msgid "fr"
+msgstr "fr"
