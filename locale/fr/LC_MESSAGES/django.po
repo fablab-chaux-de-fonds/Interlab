@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-31 16:38+0000\n"
+"POT-Creation-Date: 2022-01-01 13:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,129 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: accounts/templates/accounts/nav.html:7
+msgid "My reservations"
+msgstr "Mes réservations"
+
+#: accounts/templates/accounts/nav.html:8
+msgid "Machines"
+msgstr "Machines"
+
+#: accounts/templates/accounts/nav.html:8
+msgid "trainings"
+msgstr "formations"
+
+#: accounts/templates/accounts/nav.html:8
+msgid "events"
+msgstr "évènements"
+
+#: accounts/templates/accounts/nav.html:19
+msgid "My subscription"
+msgstr "Mon abonnement"
+
+#: accounts/templates/accounts/nav.html:20
+msgid "Manage subscription members"
+msgstr "Gérer les membres de mon abonnement"
+
+#: accounts/templates/accounts/nav.html:32
+msgid "My profile"
+msgstr "Mon Profil"
+
+#: accounts/templates/accounts/nav.html:33
+msgid "Name"
+msgstr "Nom"
+
+#: accounts/templates/accounts/nav.html:33
+msgid "e-mail"
+msgstr "e-mail"
+
+#: accounts/templates/accounts/nav.html:33
+msgid "password"
+msgstr "mot de passe"
+
+#: accounts/templates/accounts/nav.html:33
+#: accounts/templates/accounts/profile_edit.html:16
+msgid "Delete account"
+msgstr "Supprimer mon compte"
+
+#: accounts/templates/accounts/nav.html:44
+msgid "Logout"
+msgstr "Se déconnecter"
+
+#: accounts/templates/accounts/nav.html:53
+msgid "Superuser area"
+msgstr "Espace Superutilisateur"
+
+#: accounts/templates/accounts/nav.html:58
+msgid "Openings"
+msgstr "Ouvertures"
+
+#: accounts/templates/accounts/nav.html:59
+msgid "my next openings"
+msgstr "Mes prochaines ouvertures"
+
+#: accounts/templates/accounts/nav.html:59
+#: accounts/templates/accounts/nav.html:71
+msgid "my history"
+msgstr "mon historique"
+
+#: accounts/templates/accounts/nav.html:59
+msgid "my machines"
+msgstr "mes machines"
+
+#: accounts/templates/accounts/nav.html:70
+msgid "Trainings"
+msgstr "Formations"
+
+#: accounts/templates/accounts/nav.html:71
+msgid "my next trainings"
+msgstr "Mes prochaines formations"
+
+#: accounts/templates/accounts/nav.html:71
+msgid "validation"
+msgstr "validation"
+
+#: accounts/templates/accounts/nav.html:82
+msgid "Users"
+msgstr "Utilisateurs"
+
+#: accounts/templates/accounts/nav.html:83
+msgid "training validation"
+msgstr "validation de formations"
+
+#: accounts/templates/accounts/nav.html:83
+msgid "subscription"
+msgstr "Abonnements"
+
+#: accounts/templates/accounts/password-change.html:10
+#: accounts/templates/accounts/profile_edit.html:19
+msgid "Update"
+msgstr "Mettre à jour"
+
+#: accounts/templates/accounts/profile.html:14
+msgid "valid until"
+msgstr "valable jusqu'au"
+
+#: accounts/templates/accounts/profile_delete.html:9
+msgid "Are you sure you want to delete your account ?"
+msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
+
+#: accounts/templates/accounts/profile_delete.html:13
+msgid "Whoops, no !"
+msgstr "Oups, non !"
+
+#: accounts/templates/accounts/profile_delete.html:18
+msgid "Yes, I'm sure"
+msgstr "Oui, je suis sûr"
+
+#: accounts/templates/accounts/profile_edit.html:11
+#: interlab/templates/registration/password_change_done.html:4
+#: interlab/templates/registration/password_change_form.html:10
+msgid "Change password"
+msgstr "Changer mon mot de passe"
+
 #: interlab/templates/django_registration/activate.html:12
+#: interlab/templates/django_registration/activation_failed.html:5
 msgid "Account activation failed"
 msgstr "L'activation à échoué"
 
@@ -48,8 +170,8 @@ msgstr "Mot de passe changé"
 msgid "Submit"
 msgstr "Envoi"
 
-#: interlab/templates/django_registration/password_reset_email.txt:2
-#: interlab/templates/registration/password_reset_email.html:2
+#: interlab/templates/django_registration/password_reset_email.html:2
+#: interlab/templates/registration/password_reset_email.txt:2
 #, python-format
 msgid "Reset password at %(site_name)s"
 msgstr "Réinitialisation du mot de passe de %(site_name)s"
@@ -67,28 +189,27 @@ msgid "Home"
 msgstr "Acceuil"
 
 #: interlab/templates/menu-mobile.html:13
-#: interlab/templates/navbar-header.html:15
+#: interlab/templates/navbar-header.html:18
 msgid "Calendar"
 msgstr "Calendrier"
 
 #: interlab/templates/menu-mobile.html:19
-#: interlab/templates/navbar-header.html:18
+#: interlab/templates/navbar-header.html:21
 msgid "Reservations"
 msgstr "Réservations"
 
-#: interlab/templates/menu-mobile.html:25
-#: interlab/templates/navbar-header.html:22
-msgid "Profile"
-msgstr "Profil"
-
-#: interlab/templates/menu-mobile.html:31
-#: interlab/templates/navbar-header.html:26
+#: interlab/templates/menu-mobile.html:30
+#: interlab/templates/navbar-header.html:29
 msgid "Login"
 msgstr "Connexion"
 
-#: interlab/templates/menu-mobile.html:38
+#: interlab/templates/menu-mobile.html:37
 msgid "Dashboard"
 msgstr "Tableau de bord"
+
+#: interlab/templates/navbar-header.html:25
+msgid "Profile"
+msgstr "Profil"
 
 #: interlab/templates/registration/login.html:11
 #: interlab/templates/registration/password_reset_complete.html:12
@@ -108,17 +229,31 @@ msgstr "S'inscrire"
 msgid "Logged out"
 msgstr "Déconnecté"
 
+#: interlab/templates/registration/password_change_done.html:4
+msgid "Documentation"
+msgstr ""
+
+#: interlab/templates/registration/password_change_done.html:4
+msgid "Log out"
+msgstr "Se Déconnecter"
+
+#: interlab/templates/registration/password_change_done.html:11
+msgid "Your password was changed."
+msgstr "Votre mot de passe a été changé"
+
+#: interlab/templates/registration/password_change_done.html:13
+msgid "My account"
+msgstr "Mon compte"
+
 #: interlab/templates/registration/password_reset_complete.html:10
 msgid "Password reset successfully"
 msgstr "Réinitialisation du mot de passe terminée"
 
 #: interlab/templates/registration/password_reset_confirm.html:14
-#| msgid "Forgot password"
 msgid "Set a new password"
 msgstr "Saisissez votre nouveau mot de passe"
 
 #: interlab/templates/registration/password_reset_confirm.html:18
-#| msgid "Forgot password"
 msgid "Change my password"
 msgstr "Modifier mon mot de passe"
 
@@ -139,7 +274,6 @@ msgstr ""
 "avec laquelle vous vous êtes enregistré et contrôlez votre dossier de spam."
 
 #: interlab/templates/registration/password_reset_form.html:10
-#| msgid "Forgot password"
 msgid "Forgotten your password?"
 msgstr "Mot de passe oublié?"
 
@@ -151,6 +285,7 @@ msgstr "Réinitaliser"
 #, python-format
 msgid "Password reset on %(site_name)s"
 msgstr "Réinitialiser votre mot de passe - %(site_name)s"
+
 #: newsletter/templates/forms/newsletter.html:7
 msgid "Stay informed"
 msgstr "Restez informé"
@@ -167,8 +302,29 @@ msgstr "Adresse email"
 msgid "Thank you !"
 msgstr "Merci !"
 
-#~ msgid "Not member"
-#~ msgstr "Non membre"
+msgid "already_activated"
+msgstr "Le compte est déjà activé !"
 
-#~ msgid "fr"
-#~ msgstr "fr"
+msgid "bad_username"
+msgstr "Le nom d'utilisateur ne correspond pas !"
+
+msgid "expired"
+msgstr "L'activation a expiré, veuillez réessayer."
+
+msgid "invalid_key"
+msgstr "La clé d'activation est invalide, veuillez réessayer."
+
+msgid "newsletter"
+msgstr "Newsletter"
+
+msgid "Your profile has been updated successfully"
+msgstr "Votre compte a été mis à jour avec succès"
+
+msgid "Your account has been successfully deleted"
+msgstr "Votre compte a été supprimé avec succès"
+
+msgid "Not member"
+msgstr "Non membre"
+
+msgid "fr"
+msgstr "fr"

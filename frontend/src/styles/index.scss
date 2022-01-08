@@ -1,5 +1,6 @@
 @import "custom.scss";
 @import "~bootstrap/scss/bootstrap.scss";
+@import "alerts.scss";
 @import "type.scss";
 @import "navbar.scss";
 @import "buttons.scss";
@@ -15,4 +16,16 @@ footer {
 
 a {
   text-decoration: none;
+}
+
+.text-red {
+  color: $custom-red;
+}
+
+.text-blue {
+  color: $custom-blue;
+}
+
+.cms-messages {
+  display: none !important;
 }

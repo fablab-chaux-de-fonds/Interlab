@@ -6,12 +6,12 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user_profile', '0007_auto_20211003_2110'),
+        ('accounts', '0007_auto_20211003_2110'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='profile',
+            model_name='accounts',
             name='active',
             field=models.BooleanField(default=True),
         ),

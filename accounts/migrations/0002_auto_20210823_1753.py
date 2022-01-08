@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user_profile', '0001_initial'),
+        ('accounts', '0001_initial'),
     ]
 
     operations = [
@@ -16,11 +16,11 @@ class Migration(migrations.Migration):
             options={'verbose_name_plural': 'Subscription Categories'},
         ),
         migrations.RemoveField(
-            model_name='profile',
+            model_name='accounts',
             name='newsletter',
         ),
         migrations.AddField(
-            model_name='profile',
+            model_name='accounts',
             name='active',
             field=models.BooleanField(blank=True, null=True),
         ),
@@ -40,13 +40,13 @@ class Migration(migrations.Migration):
             field=models.BooleanField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='profile',
+            model_name='accounts',
             name='subscription',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='user_profile.subscription'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='accounts.subscription'),
         ),
         migrations.AlterField(
             model_name='subscription',
             name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='user_profile.subscriptioncategory'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='accounts.subscriptioncategory'),
         ),
     ]

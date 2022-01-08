@@ -1,6 +1,15 @@
 //navbar header
 .navbar-header {
-  background-color: $custom-green-light;
+  background-color: $custom-red-light;
+}
+
+.nav-link-header {
+  &:hover {
+    background: transparent;
+    border-radius: 10px;
+    height: 0;
+    box-shadow: 0 40px 0 -5px;
+  }
 }
 
 // mobile navbar
@@ -29,5 +38,9 @@
 
 .modal-dialog-mobile {
   max-width: 300px;
+  margin: auto;
+}
+
+.navbar-mobile-title {
   margin: auto;
 }

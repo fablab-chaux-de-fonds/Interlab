@@ -1,0 +1,91 @@
+{% load i18n interlab_tags %}
+
+<nav class="nav flex-column">
+    <a class="nav-link px-0 text-blue" href="#">
+        <div class="row">
+            <div class="col-10">
+                <h2>{% trans "My reservations" %}</h2>
+                <p>{% trans "Machines"%}, {% trans "trainings" %}, {% trans "events"%}</p>
+            </div>
+            <div class="col-2">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+    </a>
+    <hr>
+    <a class="nav-link px-0 text-blue" href="#">
+        <div class="row">
+            <div class="col-10">
+                <h2>{% trans "My subscription" %}</h2>
+                <p>{% trans "Manage subscription members" %}</p>
+            </div>
+            <div class="col-2">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+
+    </a>
+    <hr>
+    <a class="nav-link px-0 text-blue" href="edit">
+        <div class="row">
+            <div class="col-10">
+                <h2>{% trans "My profile" %}</h2>
+                <p>{% trans "Name" %}, {% trans "e-mail" %}, {% trans "password" %}, {% trans "Delete account" %}</p>
+            </div>
+            <div class="col-2">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+    </a>
+    <hr>
+    <a class="nav-link px-0 text-blue" href="/accounts/logout">
+        <div class="row">
+            <div class="col-10">
+                <h2>{% trans "Logout" %}</h2>
+            </div>
+            <div class="col-2">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+    </a>
+    {% if request.user|has_group:"superuser" %}
+    <hr class="text-red">
+        <h1 class="text-red">{%trans "Superuser area" %}</h1>
+    <hr class="text-red">
+    <a class="nav-link px-0" href="#">
+        <div class="row">
+            <div class="col-10">
+                <h2>{% trans "Openings" %}</h2>
+                <p>{% trans "my next openings" %}, {% trans "my history" %}, {% trans "my machines" %}</p>
+            </div>
+            <div class="col-2">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+    </a>
+    <hr class="text-red">
+    <a class="nav-link px-0" href="#">
+        <div class="row">
+            <div class="col-10">
+                <h2>{% trans "Trainings" %}</h2>
+                <p>{% trans "my next trainings" %}, {% trans "my history" %}, {% trans "validation" %}</p>
+            </div>
+            <div class="col-2">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+    </a>
+    <hr class="text-red">
+    <a class="nav-link px-0" href="#">
+        <div class="row">
+            <div class="col-10">
+                <h2>{% trans "Users" %}</h2>
+                <p>{% trans "training validation" %}, {% trans "subscription" %}</p>
+            </div>
+            <div class="col-2">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+    </a>
+    {% endif %}
+</nav>

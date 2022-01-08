@@ -21,3 +21,13 @@
 .btn-text-left {
   text-align: left;
 }
+
+.btn-secondary {
+  background-color: white;
+  color: $custom-red;
+
+  &:hover {
+    background-color: $custom-red-light;
+    color: $custom-red;
+  }
+}

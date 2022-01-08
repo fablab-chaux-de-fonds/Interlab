@@ -1,6 +1,3 @@
-import os  # isort:skip
-gettext = lambda s: s
-DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 """
 Django settings for interlab project.
 
@@ -12,10 +9,12 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-import os
 from pathlib import Path
 import distutils.util
+import os  # isort:skip
 
+gettext = lambda s: s
+DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -147,10 +146,11 @@ MIDDLEWARE = [
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'cms.middleware.user.CurrentUserMiddleware',
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
-    'cms.middleware.language.LanguageCookieMiddleware'
+    'cms.middleware.language.LanguageCookieMiddleware',
 ]
 
 INSTALLED_APPS = [
@@ -195,9 +195,10 @@ INSTALLED_APPS = [
     'djangocms_video',
     'django_registration',
     'crispy_forms',
-    "crispy_bootstrap5",
+    'crispy_bootstrap5',
     'interlab',
-    'user_profile',
+    'accounts',
+    'debug_toolbar',
     'newsletter.apps.NewsletterConfig'
 ]
 
@@ -294,6 +295,13 @@ WEBPACK_LOADER = {
 # Crispy form
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+#django-debug-toolbar
+if DEBUG:
+    import os  # only if you haven't already imported this
+    import socket  # only if you haven't already imported this
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + ['127.0.0.1', '10.0.2.2']
 
 # This is required to have correct protocol on links generated
 # PLEASE READ WARNING INFO: 

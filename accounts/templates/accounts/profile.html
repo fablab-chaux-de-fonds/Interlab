@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 py-5 d-none d-md-block">
+        {% include 'accounts/nav.html' %}
+    </div>
+    <div class="col-md-8 py-5 text-center">
+        <img src="https://eu.ui-avatars.com/api/?rounded=true&name={{user.first_name}}+{{user.last_name}}&color=fff&background=0b1783"
+            class="img my-2" alt="avatar"> </br>
+        <h1> {{ user.first_name }} {{ user.last_name }} </h1>
+        {% if subscription %}
+        <p> <small> {{ subscription_category.title }} {% trans "valid until" %} {{ subscription.end|date:'d.m.Y' }} </small> </p>
+        {%else%}
+        <a href="#" class="my-5">
+            <button class="btn btn-primary mt-5">
+                Voir les abonements
+            </button>
+        </a> 
+        {% endif %}
+
+    </div>
+    <div class="col-md-4 py-5 d-md-none">
+        <hr>
+        {% include 'accounts/nav.html' %}
+    </div>
+</div>
+
+{% endblock content %}

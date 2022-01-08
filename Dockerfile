@@ -20,8 +20,8 @@ RUN apt-get update \
 COPY manage.py /code/
 COPY frontend /code/frontend/
 COPY interlab /code/interlab/
+COPY accounts /code/accounts/
 COPY newsletter /code/newsletter/
-COPY user_profile /code/user_profile/
 COPY locale /code/locale/
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -39,9 +39,6 @@ WORKDIR /code/
 
 # Static files collection
 RUN ["/bin/bash", "-c", "SECRET_KEY=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 32 ; echo '') python manage.py collectstatic --noinput --clear"]
-
-# Translation collection
-RUN django-admin makemessages -l fr -e html,txt --ignore 'build/*' --ignore 'frontend/*'
 
 # Prepare LC translation binary file
 RUN django-admin compilemessages

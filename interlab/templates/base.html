@@ -1,5 +1,5 @@
 {% load static %}
-{% load cms_tags sekizai_tags menu_tags %}
+{% load i18n cms_tags sekizai_tags menu_tags %}
 {% load render_bundle from webpack_loader %}
 <!doctype html>
 <html class="{% block html_class %}{% endblock %}">
@@ -21,6 +21,7 @@
     {% cms_toolbar %}
     {% block navbar-header %} {% include 'navbar-header.html' %} {% endblock navbar-header %}
     <div class="container">
+        {% include 'alerts.html' %}
         {% block content %} {% endblock content %}
     </div>
     
@@ -30,6 +31,7 @@
             <div class="row py-4">
                 {% include 'forms/newsletter.html' with form=newsletter_form %}
             </div>
+            <hr>
             {% static_placeholder 'footer' %}
         </div>    
     </footer>

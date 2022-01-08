@@ -26,3 +26,4 @@ pytz
 django-webpack-loader
 django-crispy-forms
 crispy-bootstrap5
+django-debug-toolbar

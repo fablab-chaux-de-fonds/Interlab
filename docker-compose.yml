@@ -7,6 +7,8 @@ services:
       - ./data/db:/var/lib/postgresql/data
     env_file:
         - .env
+    ports:
+      - "6543:5432"
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -14,7 +16,7 @@ services:
       - .env
     volumes:
       - ./interlab:/code/interlab
-      - ./user_profile:/code/user_profile
+      - ./accounts:/code/accounts
       - ./newsletter:/code/newsletter
       - ./frontend:/code/frontend
       - ./locale:/code/locale

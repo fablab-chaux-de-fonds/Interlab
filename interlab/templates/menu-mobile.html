@@ -22,10 +22,9 @@
             {% if user.is_authenticated %}
             <a href="/accounts/profile" role="button" class="btn btn-mobile-navbar btn-lg">
                 <i class="bi bi-person"></i>
-                <div>{% trans "Profile" %}</div>
+                <div>{% trans page_title %}</div>
             </a>
             {% else %}
-
             <a href="/accounts/login" role="button" class="btn btn-mobile-navbar btn-lg">
                 <i class="bi bi-box-arrow-in-right"></i>
                 <div>{% trans "Login" %}</div>

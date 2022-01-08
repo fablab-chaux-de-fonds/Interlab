@@ -4,8 +4,8 @@ from django.contrib import admin
 from .models import *
 
 @admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'active', 'subscription']
+class AccountsAdmin(admin.ModelAdmin):
+    list_display = ['user', 'subscription']
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
