@@ -19,8 +19,8 @@
         {% endif %}
 
         <p> <small>   
-        {% if request.user.profile.subscription %}
-            {{ request.user.profile.subscription.subscription_category.title }} {% trans "valid until" %} {{ request.user.profile.subscription.end|date:'d.m.Y' }} </br>
+        {% if subscription %}
+            {{ subscription_category.title }} {% trans "valid until" %} {{ subscription.end|date:'d.m.Y' }} </br>
             {% if organization %}
             {% load org_tags %}
                 {% if organization|is_owner:user %}
