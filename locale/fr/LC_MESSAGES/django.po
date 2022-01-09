@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-01 13:28+0000\n"
+"POT-Creation-Date: 2022-01-09 15:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,81 +34,81 @@ msgstr "formations"
 msgid "events"
 msgstr "évènements"
 
-#: accounts/templates/accounts/nav.html:19
+#: accounts/templates/accounts/nav.html:23
 msgid "My subscription"
 msgstr "Mon abonnement"
 
-#: accounts/templates/accounts/nav.html:20
+#: accounts/templates/accounts/nav.html:24
 msgid "Manage subscription members"
 msgstr "Gérer les membres de mon abonnement"
 
-#: accounts/templates/accounts/nav.html:32
+#: accounts/templates/accounts/nav.html:40
 msgid "My profile"
 msgstr "Mon Profil"
 
-#: accounts/templates/accounts/nav.html:33
+#: accounts/templates/accounts/nav.html:41
 msgid "Name"
 msgstr "Nom"
 
-#: accounts/templates/accounts/nav.html:33
+#: accounts/templates/accounts/nav.html:41
 msgid "e-mail"
 msgstr "e-mail"
 
-#: accounts/templates/accounts/nav.html:33
+#: accounts/templates/accounts/nav.html:41
 msgid "password"
 msgstr "mot de passe"
 
-#: accounts/templates/accounts/nav.html:33
+#: accounts/templates/accounts/nav.html:41
 #: accounts/templates/accounts/profile_edit.html:16
 msgid "Delete account"
 msgstr "Supprimer mon compte"
 
-#: accounts/templates/accounts/nav.html:44
+#: accounts/templates/accounts/nav.html:52
 msgid "Logout"
 msgstr "Se déconnecter"
 
-#: accounts/templates/accounts/nav.html:53
+#: accounts/templates/accounts/nav.html:61
 msgid "Superuser area"
 msgstr "Espace Superutilisateur"
 
-#: accounts/templates/accounts/nav.html:58
+#: accounts/templates/accounts/nav.html:66
 msgid "Openings"
 msgstr "Ouvertures"
 
-#: accounts/templates/accounts/nav.html:59
+#: accounts/templates/accounts/nav.html:67
 msgid "my next openings"
 msgstr "Mes prochaines ouvertures"
 
-#: accounts/templates/accounts/nav.html:59
-#: accounts/templates/accounts/nav.html:71
+#: accounts/templates/accounts/nav.html:67
+#: accounts/templates/accounts/nav.html:79
 msgid "my history"
 msgstr "mon historique"
 
-#: accounts/templates/accounts/nav.html:59
+#: accounts/templates/accounts/nav.html:67
 msgid "my machines"
 msgstr "mes machines"
 
-#: accounts/templates/accounts/nav.html:70
+#: accounts/templates/accounts/nav.html:78
 msgid "Trainings"
 msgstr "Formations"
 
-#: accounts/templates/accounts/nav.html:71
+#: accounts/templates/accounts/nav.html:79
 msgid "my next trainings"
 msgstr "Mes prochaines formations"
 
-#: accounts/templates/accounts/nav.html:71
+#: accounts/templates/accounts/nav.html:79
 msgid "validation"
 msgstr "validation"
 
-#: accounts/templates/accounts/nav.html:82
+#: accounts/templates/accounts/nav.html:90
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: accounts/templates/accounts/nav.html:83
+#: accounts/templates/accounts/nav.html:91
 msgid "training validation"
 msgstr "validation de formations"
 
-#: accounts/templates/accounts/nav.html:83
+#: accounts/templates/accounts/nav.html:91
 msgid "subscription"
 msgstr "Abonnements"
 
@@ -117,19 +117,33 @@ msgstr "Abonnements"
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: accounts/templates/accounts/profile.html:14
+#: accounts/templates/accounts/profile.html:23
 msgid "valid until"
 msgstr "valable jusqu'au"
+
+#: accounts/templates/accounts/profile.html:27
+msgid "You are the owner of the subscription"
+msgstr "Vous êtes le propriétaire de l'abonnement"
+
+#: accounts/templates/accounts/profile.html:29
+msgid "The owner of the subscription"
+msgstr "Le propriétaire de l'abonnement"
+
+#: accounts/templates/accounts/profile.html:29
+msgid "is"
+msgstr "est"
 
 #: accounts/templates/accounts/profile_delete.html:9
 msgid "Are you sure you want to delete your account ?"
 msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 
 #: accounts/templates/accounts/profile_delete.html:13
+#: accounts/templates/organizations/organizationuser_confirm_delete.html:19
 msgid "Whoops, no !"
 msgstr "Oups, non !"
 
 #: accounts/templates/accounts/profile_delete.html:18
+#: accounts/templates/organizations/organizationuser_confirm_delete.html:24
 msgid "Yes, I'm sure"
 msgstr "Oui, je suis sûr"
 
@@ -138,6 +152,68 @@ msgstr "Oui, je suis sûr"
 #: interlab/templates/registration/password_change_form.html:10
 msgid "Change password"
 msgstr "Changer mon mot de passe"
+
+#: accounts/templates/organizations/invitations_token_error.html:9
+msgid "Your URL may have expired."
+msgstr "Votre URL a expiré."
+
+#: accounts/templates/organizations/invitations_token_error.html:11
+#: interlab/templates/menu-mobile.html:8
+msgid "Home"
+msgstr "Acceuil"
+
+#: accounts/templates/organizations/organization_detail.html:16
+msgid "Access number"
+msgstr "Nombre d'accès"
+
+#: accounts/templates/organizations/organization_detail.html:18
+msgid "Your team members"
+msgstr "Les membres de votre équipe"
+
+#: accounts/templates/organizations/organization_users.html:24
+#: accounts/templates/organizations/organizationuser_form.html:9
+msgid "This is you"
+msgstr "c'est vous"
+
+#: accounts/templates/organizations/organization_users.html:29
+msgid "activated"
+msgstr "activé"
+
+#: accounts/templates/organizations/organization_users.html:31
+msgid "invitation sent"
+msgstr "Invitation envoyée"
+
+#: accounts/templates/organizations/organization_users.html:56
+msgid "Invite a new user"
+msgstr "Inviter un nouvelle utilisateur"
+
+#: accounts/templates/organizations/organizationuser_confirm_delete.html:9
+msgid "Are you sure you want to remove "
+msgstr "Êtes-vous sûr de vouloir supprimer "
+
+#: accounts/templates/organizations/organizationuser_confirm_delete.html:15
+msgid "from the team"
+msgstr "de l'equipe"
+
+#: accounts/templates/organizations/organizationuser_form.html:8
+msgid "Update your profile"
+msgstr "Mettre à jour mon profil"
+
+#: accounts/templates/organizations/organizationuser_form.html:11
+msgid "Delete"
+msgstr "Supprimer"
+
+#: accounts/templates/organizations/organizationuser_form.html:15
+msgid "Invite a member to join the team"
+msgstr "Inviter un membre à rejoindre l'équipe"
+
+#: accounts/templates/organizations/organizationuser_form.html:21
+msgid "Send invitation"
+msgstr "Envoyer l'invitation"
+
+#: accounts/templates/organizations/register_form.html:6
+msgid "Join the team"
+msgstr "Rejoindre l'équipe"
 
 #: interlab/templates/django_registration/activate.html:12
 #: interlab/templates/django_registration/activation_failed.html:5
@@ -227,7 +303,7 @@ msgstr "Déconnecté"
 
 #: interlab/templates/registration/password_change_done.html:4
 msgid "Documentation"
-msgstr ""
+msgstr "Documentation"
 
 #: interlab/templates/registration/password_change_done.html:4
 msgid "Log out"
@@ -298,29 +374,67 @@ msgstr "Adresse email"
 msgid "Thank you !"
 msgstr "Merci !"
 
-msgid "already_activated"
-msgstr "Le compte est déjà activé !"
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "Hello,\n"
+#~ "\n"
+#~ "You (%(email)s) have been invited to join %(site_name)s\n"
+#~ "\n"
+#~ "If you'd like to join, please go to %(invite_url)s\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "Bonjour,\n"
+#~ "\n"
+#~ "Vous (%(email)s) avez été invité à rejoindre le %(site_name)s\n"
+#~ "\n"
+#~ "Si vous souhaitez vous joindre à nous, veuillez vous rendre à l'adresse "
+#~ "suivante:  %(invite_url)s\n"
+#~ "\n"
+#~ "Meilleurs salutations,\n"
+#~ "L'équipe du %(site_name)s\n"
 
-msgid "bad_username"
-msgstr "Le nom d'utilisateur ne correspond pas !"
+#~ msgid "Invitation to join %(site_name)s"
+#~ msgstr "Invitation à joindre le %(site_name)s"
 
-msgid "expired"
-msgstr "L'activation a expiré, veuillez réessayer."
+#~ msgid "Invite"
+#~ msgstr "Inviter"
 
-msgid "invalid_key"
-msgstr "La clé d'activation est invalide, veuillez réessayer."
+#~ msgid ""
+#~ "Please add an email below. The user will receive an email with "
+#~ "instructions."
+#~ msgstr ""
+#~ "Veuillez ajouter une adresse électronique ci-dessous. L'utilisateur "
+#~ "recevra un e-mail avec des instructions."
 
-msgid "newsletter"
-msgstr "Newsletter"
+#~ msgid "Email"
+#~ msgstr "e-mail"
 
-msgid "Your profile has been updated successfully"
-msgstr "Votre compte a été mis à jour avec succès"
+#~ msgid "newsletter"
+#~ msgstr "newsletter"
 
-msgid "Your account has been successfully deleted"
-msgstr "Votre compte a été supprimé avec succès"
+#~ msgid "Your profile has been updated successfully"
+#~ msgstr "Votre compte a été mis à jour avec succès"
 
-msgid "Not member"
-msgstr "Non membre"
+#~ msgid "Your account has been successfully deleted"
+#~ msgstr "Votre compte a été supprimé avec succès"
 
-msgid "fr"
-msgstr "fr"
+#~ msgid "already_activated"
+#~ msgstr "Le compte est déjà activé !"
+
+#~ msgid "bad_username"
+#~ msgstr "Le nom d'utilisateur ne correspond pas !"
+
+#~ msgid "expired"
+#~ msgstr "L'activation a expiré, veuillez réessayer."
+
+#~ msgid "invalid_key"
+#~ msgstr "La clé d'activation est invalide, veuillez réessayer."
+
+#~ msgid "Not member"
+#~ msgstr "Non membre"
+
+#~ msgid "fr"
+#~ msgstr "fr"
