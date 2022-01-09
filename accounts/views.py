@@ -29,7 +29,7 @@ def AccountsView(request):
     subscription = Profile.objects.get(user_id=user.id).subscription
     if subscription is not None:
         context['subscription'] = subscription
-        context['subscription_category']=SubscriptionCategory.objects.get(pk=subscription.category_id)
+        context['subscription_category']=SubscriptionCategory.objects.get(pk=subscription.subscription_category_id)
         
     return HttpResponse(template.render(context, request))
 
