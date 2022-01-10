@@ -1,0 +1,28 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n crispy_forms_tags %}
+
+{% block content_form %}
+
+{% if organization_user %}
+
+<h1>{% trans "Update your profile" %}</h1>
+{% if user == organization_user.user %}{% trans "This is you" %}!{% endif %}
+
+<a href="{% url "organization_user_delete" organization.pk organization_user.user.pk %}">{% trans "Delete" %}</a>
+
+{% else %}
+
+<h1> {% trans 'Invite a member to join the team' %} {{ organization }}</h1>
+
+<form action="." method="post">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <div class="col">
+        <input class="btn d-block mx-auto" type="submit" value="{% trans 'Send invitation' %}">
+    </div>
+</form>
+
+{% endif %}
+
+
+{% endblock %}

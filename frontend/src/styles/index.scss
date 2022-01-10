@@ -1,12 +1,15 @@
 @import "custom.scss";
 @import "~bootstrap/scss/bootstrap.scss";
 @import "alerts.scss";
+@import "badges.scss";
 @import "type.scss";
 @import "navbar.scss";
 @import "buttons.scss";
 @import "icons.scss";
 @import "navbar.scss";
 @import "forms.scss";
+@import "images.scss";
+@import "navbar.scss";
 @import "type.scss";
 
 footer {
@@ -28,4 +31,8 @@ a {
 
 .cms-messages {
   display: none !important;
+}
+
+#div_id_is_admin {
+  display: none;
 }

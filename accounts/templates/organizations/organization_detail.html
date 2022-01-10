@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load org_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 py-5 d-none d-md-block">
+        {% include 'accounts/nav.html' %}
+    </div>
+    <div class="col-md-8 p-5">
+        <div class="img-head mx-auto">
+            <i class="bi bi-people-fill"></i>
+        </div>    
+        <h2 class="text-center"> {{ user.profile.subscription.subscription_category.title }} </h2>
+        <h3 class="text-center">{{ organization.name }}</h3>
+        <p class="text-center"> {% trans 'Access number' %} : {{ user.profile.subscription.access_number }} </p>
+        <hr>
+        <h2>{% trans 'Your team members' %}</h2> 
+
+        {% organization_users organization %}            
+              
+    </div>
+    <div class="col-md-4 py-5 d-md-none">
+        <hr>
+        {% include 'accounts/nav.html' %}
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+
+

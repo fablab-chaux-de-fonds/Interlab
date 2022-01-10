@@ -1,0 +1,67 @@
+{% load i18n static %}
+
+{% for organization_user in organization_users %}
+
+{% if user != organization_user.user or organization_user.is_owner %}
+<a class="text-blue" href="{% url "organization_user_delete" organization.pk organization_user.user.pk %}">
+{% endif %}    
+    <div class="row">
+        <div class="col-2 my-auto text-center">
+                {% if organization_user.user.is_active %}
+                    <i class="bi bi-person-check-fill img-sm"></i>
+                {% else %}          
+                    {% include 'organizations/icon_person_pending_fill.html' %}
+                {% endif %}
+        </div>
+        <div class="col-8 my-auto">
+            <p class="my-auto">
+                {% if organization_user.user.first_name %}
+                    {{ organization_user.user.first_name }} {{ organization_user.user.last_name }} 
+                {% else %} 
+                    {{ organization_user.user.email }}
+                {% endif %}
+                <span class="fs-6">
+                    {% if user == organization_user.user %}({% trans "This is you" %}!){% endif %}
+                </span>
+                 </br>
+                <span class="fs-6">
+                    {% if organization_user.user.is_active %}
+                        <span class="badge rounded-pill bg-success"> <i class="bi bi-check-circle-fill"></i> {% trans 'activated' %} </span>
+                    {% else %}  
+                        <span class="badge rounded-pill bg-info"> <i class="bi bi-arrow-right-circle-fill"></i> {% trans 'invitation sent' %} </span>
+                    {% endif %}
+                </span>
+            </p>
+        </div>
+        <div class="col-2 my-auto">
+            {% if user != organization_user.user  or organization_user.is_owner %}
+            <h1><i class="bi bi-trash"></i></h1>
+            {% endif %}
+        </div>
+    </div>
+{% if user != organization_user.user or organization_user.is_owner %} 
+</a>
+{% endif %}  
+
+{% endfor %}
+
+{% if organization_users.count < user.profile.subscription.access_number  %}
+        
+<a class="text-blue" href="{% url "organization_user_add" organization.pk %}">
+<div class="row">
+    <div class="col-2 text-center">
+        <i class="bi bi-person-plus-fill img-sm" ></i>
+    </div>
+    <div class="col-8 my-auto">
+        {% trans 'Invite a new user' %}
+    </div>
+    <div class="col-2">
+        <h1><i class="bi bi-arrow-right-square"></i></h1>
+    </div>
+</div>
+</a>
+        
+{% endif %}
+
+
+

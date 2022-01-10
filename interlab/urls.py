@@ -9,6 +9,8 @@ from django.views.generic import TemplateView
 from . import views
 import debug_toolbar
 
+from organizations.backends import invitation_backend
+
 admin.autodiscover()
 
 urlpatterns = [
@@ -20,6 +22,7 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),
+    path('invitations/', include(invitation_backend().get_urls())),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path('bootstrap/', views.bootstrap, name='bootstrap'),
     path("", include("newsletter.urls")),

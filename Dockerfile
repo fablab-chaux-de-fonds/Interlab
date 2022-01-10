@@ -41,4 +41,4 @@ WORKDIR /code/
 RUN ["/bin/bash", "-c", "SECRET_KEY=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 32 ; echo '') python manage.py collectstatic --noinput --clear"]
 
 # Prepare LC translation binary file
-RUN django-admin compilemessages
+RUN django-admin compilemessages --use-fuzzy
