@@ -1,15 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sessions.models import Session
 from django.http import HttpResponse    
 from django.template import loader
 from django.utils.translation import ugettext as _
 from django.shortcuts import redirect, render
 
-from .forms import EditProfileForm
-from .forms import CustomOrganizationUserAddForm, CustomRegistrationForm
-from .models import Profile
+from .models import Profile, SubscriptionCategory
+from .forms import EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm
 
 from organizations.views.base import BaseOrganizationUserCreate
 from organizations.views.base import BaseOrganizationUserDelete
@@ -36,14 +36,21 @@ class CustomRegistrationView(RegistrationView):
         )
         return new_user
 
-
 @login_required
 def AccountsView(request):
+    user = request.user
     template = loader.get_template('accounts/profile.html')
     context = {
         'page_title': "My account",
-        'organization': request.user.organizations_organization.first()
+        'organization': request.user.organizations_organization.first(),
+        'user': user
     }
+
+    subscription = Profile.objects.get(user_id=user.id).subscription
+    if subscription is not None:
+        context['subscription'] = subscription
+        context['subscription_category']=SubscriptionCategory.objects.get(pk=subscription.subscription_category_id)
+        
     return HttpResponse(template.render(context, request))
 
 @login_required

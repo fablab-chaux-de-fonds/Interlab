@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-18 18:56+0000\n"
+"POT-Creation-Date: 2022-01-09 15:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,6 +216,7 @@ msgid "Join the team"
 msgstr "Rejoindre l'équipe"
 
 #: interlab/templates/django_registration/activate.html:12
+#: interlab/templates/django_registration/activation_failed.html:5
 msgid "Account activation failed"
 msgstr "L'activation à échoué"
 
@@ -357,10 +358,22 @@ msgstr "Réinitaliser"
 msgid "Password reset on %(site_name)s"
 msgstr "Réinitialiser votre mot de passe - %(site_name)s"
 
-#~ msgid "Recipient address rejected: Domain not found"
-#~ msgstr "Adresse du destinataire rejetée : Domaine non trouvé"
+#: newsletter/templates/forms/newsletter.html:7
+msgid "Stay informed"
+msgstr "Restez informé"
 
-#, python-format
+#: newsletter/templates/forms/newsletter.html:8
+msgid "about one letter a month"
+msgstr "Environ une newsletter par mois"
+
+#: newsletter/templates/forms/newsletter.html:13
+msgid "Email address"
+msgstr "Adresse email"
+
+#: newsletter/templates/forms/newsletter.html:24
+msgid "Thank you !"
+msgstr "Merci !"
+
 #~ msgid ""
 #~ "\n"
 #~ "\n"
@@ -404,24 +417,21 @@ msgstr "Réinitialiser votre mot de passe - %(site_name)s"
 
 #~ msgid "Your profile has been updated successfully"
 #~ msgstr "Votre compte a été mis à jour avec succès"
-#: newsletter/templates/forms/newsletter.html:7
-msgid "Stay informed"
-msgstr "Restez informé"
-
-#: newsletter/templates/forms/newsletter.html:8
-msgid "about one letter a month"
-msgstr "Environ une newsletter par mois"
-
-#: newsletter/templates/forms/newsletter.html:13
-msgid "Email address"
-msgstr "Adresse email"
-
-#: newsletter/templates/forms/newsletter.html:24
-msgid "Thank you !"
-msgstr "Merci !"
 
 #~ msgid "Your account has been successfully deleted"
 #~ msgstr "Votre compte a été supprimé avec succès"
+
+#~ msgid "already_activated"
+#~ msgstr "Le compte est déjà activé !"
+
+#~ msgid "bad_username"
+#~ msgstr "Le nom d'utilisateur ne correspond pas !"
+
+#~ msgid "expired"
+#~ msgstr "L'activation a expiré, veuillez réessayer."
+
+#~ msgid "invalid_key"
+#~ msgstr "La clé d'activation est invalide, veuillez réessayer."
 
 #~ msgid "fr"
 #~ msgstr "fr"

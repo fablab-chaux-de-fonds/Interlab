@@ -1,6 +1,3 @@
-import os  # isort:skip
-gettext = lambda s: s
-DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 """
 Django settings for interlab project.
 
@@ -12,12 +9,15 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-import os
 from pathlib import Path
+import distutils.util
+import os  # isort:skip
+
+gettext = lambda s: s
+DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -26,7 +26,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+ENVIRON_DEBUG = os.environ.get('DEBUG')
+if ENVIRON_DEBUG != None:
+    DEBUG = distutils.util.strtobool(ENVIRON_DEBUG)
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
@@ -305,3 +309,10 @@ INVITATION_BACKEND = 'accounts.backends.CustomInvitationsBackend'
 
 # Logout redirection
 LOGOUT_REDIRECT_URL = '/'
+
+# This is required to have correct protocol on links generated
+# PLEASE READ WARNING INFO: 
+#  * https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-SECURE_PROXY_SSL_HEADER
+if DEBUG == False:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
