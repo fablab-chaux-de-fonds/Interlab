@@ -23,6 +23,7 @@ COPY interlab /code/interlab/
 COPY accounts /code/accounts/
 COPY newsletter /code/newsletter/
 COPY locale /code/locale/
+COPY build /code/build/
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # Front-end generation
