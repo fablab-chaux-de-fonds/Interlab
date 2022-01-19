@@ -433,8 +433,5 @@ msgstr "Merci !"
 #~ msgid "invalid_key"
 #~ msgstr "La clé d'activation est invalide, veuillez réessayer."
 
-#~ msgid "Not member"
-#~ msgstr "Non membre"
-
 #~ msgid "fr"
 #~ msgstr "fr"

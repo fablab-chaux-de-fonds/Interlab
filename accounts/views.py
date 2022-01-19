@@ -9,12 +9,32 @@ from django.utils.translation import ugettext as _
 from django.shortcuts import redirect, render
 
 from .models import Profile, SubscriptionCategory
-from .forms import EditProfileForm, CustomOrganizationUserAddForm
+from .forms import EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm
 
 from organizations.views.base import BaseOrganizationUserCreate
 from organizations.views.base import BaseOrganizationUserDelete
 from organizations.views.mixins import OwnerRequiredMixin
 
+from django_registration.backends.activation.views import RegistrationView
+from django_registration import signals
+
+from newsletter.views import register_email
+
+class CustomRegistrationView(RegistrationView):
+    template_name = 'registration/registration_form.html'
+    form_class = CustomRegistrationForm
+
+    def register(self, form):
+        new_user = self.create_inactive_user(form)
+
+        # Add user to newsletter list
+        if form.cleaned_data['newsletter']: 
+            register_email(form.cleaned_data['email'])
+        
+        signals.user_registered.send(
+            sender=self.__class__, user=new_user, request=self.request
+        )
+        return new_user
 
 @login_required
 def AccountsView(request):

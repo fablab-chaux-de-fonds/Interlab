@@ -154,6 +154,7 @@ MIDDLEWARE = [
 ]
 
 INSTALLED_APPS = [
+    'accounts',
     'djangocms_admin_style',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -197,7 +198,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'interlab',
-    'accounts',
     'debug_toolbar',
     'organizations',
     'newsletter.apps.NewsletterConfig'
@@ -305,7 +305,10 @@ if DEBUG:
     INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + ['127.0.0.1', '10.0.2.2']
 
 # django-organizations
-INVITATION_BACKEND = 'accounts.backends.CustomInvitations'
+INVITATION_BACKEND = 'accounts.backends.CustomInvitationsBackend'
+
+# Logout redirection
+LOGOUT_REDIRECT_URL = '/'
 
 # This is required to have correct protocol on links generated
 # PLEASE READ WARNING INFO: 

@@ -2,6 +2,9 @@ from django.urls import include, path
 from . import views
 
 urlpatterns =[
+    path('register/', views.CustomRegistrationView.as_view(), name='django_registration_register'),
+    path('', include('django_registration.backends.activation.urls')),
+    path('', include('django.contrib.auth.urls')),
     path('profile/', views.AccountsView, name='profile'),
     path('profile/edit/', views.EditProfileView, name='edit-profile'),
     path('profile/delete/', views.DeleteProfileView, name='delete-profile'),

@@ -10,6 +10,8 @@ from django.utils.translation import gettext_lazy as _
 from organizations.forms import OrganizationUserAddForm
 from organizations.backends import invitation_backend
 
+from django_registration.forms import RegistrationForm
+
 class EditProfileForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
@@ -17,7 +19,7 @@ class EditProfileForm(UserChangeForm):
 
     class Meta:
         model = User
-        fields = ('username','email','first_name','last_name')
+        fields = ('first_name','last_name','username','email',)
 
         
 class CustomOrganizationUserAddForm(OrganizationUserAddForm):
@@ -48,3 +50,18 @@ class CustomOrganizationUserAddForm(OrganizationUserAddForm):
             )
 
         return email
+
+class CustomRegistrationForm(RegistrationForm):
+    "This form is used for registration - Base class form Django"
+    newsletter = forms.BooleanField(required=False)
+    class Meta(RegistrationForm.Meta):
+            model = get_user_model()
+            help_texts  = {
+                'newsletter ': _('about once a month'),
+            }
+            fields = ['first_name','last_name','username','email','password1','password2', 'newsletter']
+
+class CustomUserRegistrationForm(CustomRegistrationForm):
+    "This form is used when the user in invited with django-organization"
+    email = forms.EmailField(widget=forms.TextInput(
+        attrs={'class': 'disabled', 'readonly': 'readonly'}))

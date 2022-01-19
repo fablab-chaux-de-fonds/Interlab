@@ -10,14 +10,20 @@ from django.utils.translation import gettext as _
 from django.urls import reverse
 
 from .models import Profile
+from .forms import CustomUserRegistrationForm
 
 from organizations.backends.defaults import InvitationBackend
 
-class CustomInvitations(InvitationBackend):
+from newsletter.views import register_email
+
+class CustomInvitationsBackend(InvitationBackend):
     """
     A backend for inviting new users to join the site as members of an
     organization.
     """
+
+    form_class = CustomUserRegistrationForm
+
     def get_success_url(self):
         return reverse("profile")
 
@@ -81,6 +87,8 @@ class CustomInvitations(InvitationBackend):
 
         if form.is_valid():
             form.instance.is_active = True
+            if form.cleaned_data['newsletter']: 
+                register_email(form.cleaned_data['email'])
             user = form.save()
             user.set_password(form.cleaned_data["password1"])
             user.save()
@@ -92,4 +100,9 @@ class CustomInvitations(InvitationBackend):
 
             login(request, user)
             return redirect(self.get_success_url())
-        return render(request, self.registration_form_template, {"form": form})
+
+        context = {
+            "form": form,
+            "organization": user.organizations_organization.first()
+        }
+        return render(request, self.registration_form_template, context)
