@@ -5,18 +5,9 @@
 {% block content_form_img %}
 {% include 'forms/forms_success.html' %}
 {% endblock content_form_img %}
-
+    
 
 {% block content_form %}
 <p class="text-center">{% trans "Your account is now activated." %}</p>
-
-<div class="row text-center align-items-center my-5">
-    <div class="col">
-        <a class="btn btn-secondary" href="/">{% trans 'Home page' %} </a>
-    </div>
-    <div class="col">
-        <a class="btn mx-auto" href="{% url 'login' %}">{% trans "Log in" %}</a>
-    </div>
-</div>
-
+{% include 'menu-mobile.html' %}
 {% endblock %}

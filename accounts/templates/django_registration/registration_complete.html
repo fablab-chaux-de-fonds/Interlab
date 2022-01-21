@@ -1,16 +1,6 @@
-{% extends 'forms/base_forms.html' %}
+{% extends "base.html" %}
 {% load i18n %}
 
 {% block content %}
-
-{% block content_form_img %}
-    <i class="bi bi-envelope mb-5 img-form-logo mx-auto d-block"></i>
-{% endblock content_form_img %}
-
-<div class="text-center">
-    <h1> {% trans 'Your account has been successfully created' %}</h1>
-    <p>{% trans "Please check your mailbox to activate your account." %}</p>
-
-    <a class="btn" href="/">{% trans 'Home page' %} </a>
-</div>
+<p>{% trans "You are now registered. Activation email sent." %}</p>
 {% endblock %}

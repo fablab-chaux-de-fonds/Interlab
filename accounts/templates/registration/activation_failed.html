@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans "Account activation failed" %}</h1>
+<p>{% trans activation_error.code %}</p>
+{% endblock %}

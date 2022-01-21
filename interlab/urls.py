@@ -19,6 +19,8 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
+    path('accounts/', include('django_registration.backends.activation.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),
     path('invitations/', include(invitation_backend().get_urls())),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
@@ -35,7 +37,7 @@ if settings.DEBUG:
     
     import debug_toolbar
     urlpatterns += i18n_patterns(
-       path('__debug__', include(debug_toolbar.urls)),
+       path(r'^__debug__/', include(debug_toolbar.urls)),
        prefix_default_language=False
     )
 

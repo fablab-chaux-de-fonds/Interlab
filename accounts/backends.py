@@ -38,8 +38,9 @@ class CustomInvitationsBackend(InvitationBackend):
 
             # link profile / account / organization / subscription if user already exist
             Profile.objects.update_or_create(user=user, defaults={'subscription':sender.profile.subscription})
-
-        except:
+            
+        except self.user_model.DoesNotExist:
+            # TODO break out user creation process
             if (
                 "username"
                 in inspect.getfullargspec(self.user_model.objects.create_user).args
