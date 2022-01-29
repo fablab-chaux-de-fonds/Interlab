@@ -200,7 +200,8 @@ INSTALLED_APPS = [
     'interlab',
     'debug_toolbar',
     'organizations',
-    'newsletter.apps.NewsletterConfig'
+    'newsletter.apps.NewsletterConfig',
+    'machines',
 ]
 
 LANGUAGES = (
@@ -311,7 +312,7 @@ INVITATION_BACKEND = 'accounts.backends.CustomInvitationsBackend'
 LOGOUT_REDIRECT_URL = '/'
 
 # This is required to have correct protocol on links generated
-# PLEASE READ WARNING INFO: 
+# PLEASE READ WARNING INFO:
 #  * https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-SECURE_PROXY_SSL_HEADER
 if DEBUG == False:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

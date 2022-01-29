@@ -22,6 +22,7 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),
+    path('machines/', include('machines.urls')),
     path('invitations/', include(invitation_backend().get_urls())),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path('bootstrap/', views.bootstrap, name='bootstrap'),
@@ -34,7 +35,7 @@ urlpatterns += i18n_patterns(
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    
+
     import debug_toolbar
     urlpatterns += i18n_patterns(
        path(r'^__debug__/', include(debug_toolbar.urls)),

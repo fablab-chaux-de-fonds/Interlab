@@ -1,0 +1,46 @@
+$training-boxes-size: 10rem;
+$training-boxes-border-radius: $training-boxes-size * 0.05;
+
+.training-container {
+  position: relative;
+  max-width: $training-boxes-size;
+  max-height: $training-boxes-size;
+  float: left;
+  margin: 15px;
+  text-align: center;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.training-img {
+  display: block;
+  width: 100%;
+  height: $training-boxes-size;
+  clip: auto;
+  border: 4px solid $red;
+  border-radius: $training-boxes-border-radius;
+}
+
+.training-title {
+  position: absolute;
+  bottom: 0;
+  background: rgba($red, .6);
+  width: 100%;
+  height: 40%;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 0% 0% $training-boxes-border-radius $training-boxes-border-radius;
+}
+
+div.clear {
+  clear: both;
+}
+
+.big-icon {
+  font-size: $training-boxes-size * 2 / 3;
+  width: $training-boxes-size;
+  height: $training-boxes-size;
+}
