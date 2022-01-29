@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n crispy_forms_tags %}
+
+{% block title %}{{block.super}} - {% if obj %}{% blocktrans %}Edit {{obj}}{% endblocktrans %}{% else %}{% trans "Add a training" %}{% endif %}{% endblock %}
+
+{% block content %}
+<form action="" method="POST" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-12 col-md-9 col-xl-8 py-md-3">
+            <h2>{% if obj %}{% blocktrans %}Edit {{obj}}{% endblocktrans %}{% else %}{% trans "Add a training" %}{% endif %}</h2>
+
+            {% csrf_token %}
+            {{ form | crispy }}
+
+            <a href="{% url 'machines:trainings.list' %}" class="btn btn-secondary"> <!-- TODO pourquoi avoir mis les boutons en width=100% ? -->
+                {% trans "Cancel" %}
+            </a>
+
+            <button class="btn btn-primary">
+                {% trans "Save" %}
+            </button>
+        </div>
+    </div>
+</form>
+{% endblock %}

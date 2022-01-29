@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{{block.super}} - {% trans "Trainings" %}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 col-md-9 col-xl-8 py-md-3">
+        <h2>{% trans "Trainings" %}</h2>
+        <p>{% trans "The trainings are available for everyone, no need to be part of the association (it is only required to create an online account)." %}</p>
+
+        {% if trainings %}
+
+        {% for obj in trainings %}
+        <div class="training-container">
+            <a href="{% url 'machines:trainings.show' obj.pk %}">
+                <img class="training-img" src="{{obj.photo.url}}">
+                <div class="training-title">{{obj}}</div>
+            </a>
+        </div>
+        {% endfor %}
+
+        {% else %}
+        <p>{% trans "Sadly, no training is currently available." %}</p>
+        {% endif %}
+
+        {% if request.user.is_superuser %}
+        <div class="training-container">
+            <a href="{% url 'machines:trainings.edit' %}">
+                <i class="training-img bi-plus big-icon"></i>
+            </a>
+        </div>
+        {% endif %}
+
+        <div class="clear"></div>
+
+        <p>{% trans "One training is offered (alone or accompanied by a person) if you become a member of the association." %}</p>
+    </div>
+</div>
+{% endblock %}
