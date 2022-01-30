@@ -2,7 +2,7 @@ const Path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const BundleTracker = require('webpack-bundle-tracker');
+const BundleTracker = require('webpack-bundle-tracker'); 
 
 module.exports = {
   entry: {
@@ -30,7 +30,9 @@ module.exports = {
   resolve: {
     alias: {
       '~': Path.resolve(__dirname, '../src'),
+      'vue$': 'vue/dist/vue.esm.js',
     },
+    extensions: ["*", ".js", ".vue", ".json"],
   },
   module: {
     rules: [
