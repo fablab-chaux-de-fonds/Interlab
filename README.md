@@ -1,4 +1,4 @@
-# Interfab
+# Interlab
 
 ## Start using docker
 
