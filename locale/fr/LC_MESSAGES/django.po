@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-29 17:06+0100\n"
+"POT-Creation-Date: 2022-02-27 10:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#: accounts/forms.py:28
-msgid "There is already an organization member with this email address!"
-msgstr ""
-
-#: accounts/forms.py:32
-msgid "This email address has been used multiple times."
-msgstr ""
-
-#: accounts/forms.py:47
-msgid "Recipient address rejected: Domain not found"
-msgstr ""
 
 #: accounts/templates/accounts/nav.html:7
 msgid "My reservations"
@@ -58,7 +46,8 @@ msgstr "Gérer les membres de mon abonnement"
 msgid "My profile"
 msgstr "Mon Profil"
 
-#: accounts/templates/accounts/nav.html:41 machines/models.py:47
+#: accounts/templates/accounts/nav.html:41
+#: env/lib/python3.10/site-packages/organizations/templates/organizations/organizationuser_detail.html:7
 msgid "Name"
 msgstr "Nom"
 
@@ -101,8 +90,8 @@ msgid "my machines"
 msgstr "mes machines"
 
 #: accounts/templates/accounts/nav.html:78
-#: machines/templates/machines/trainings/list.html:4
-#: machines/templates/machines/trainings/list.html:9
+#: machines/templates/trainings/list.html:4
+#: machines/templates/trainings/list.html:9
 msgid "Trainings"
 msgstr "Formations"
 
@@ -167,6 +156,18 @@ msgstr "Oui, je suis sûr"
 msgid "Change password"
 msgstr "Changer mon mot de passe"
 
+#: accounts/templates/django_registration/activation_complete.html:11
+msgid "Your account is now activated."
+msgstr "Votre accompte est activé"
+
+#: accounts/templates/django_registration/registration_closed.html:5
+msgid "Registration is currently closed."
+msgstr "La réinitialisation de mot de passe est désactivée"
+
+#: accounts/templates/django_registration/registration_complete.html:5
+msgid "You are now registered. Activation email sent."
+msgstr "Vous êtes enregistré. E-mail d'activation envoyé"
+
 #: accounts/templates/organizations/invitations_token_error.html:9
 msgid "Your URL may have expired."
 msgstr "Votre URL a expiré."
@@ -186,6 +187,8 @@ msgstr "Les membres de votre équipe"
 
 #: accounts/templates/organizations/organization_users.html:24
 #: accounts/templates/organizations/organizationuser_form.html:9
+#: env/lib/python3.10/site-packages/organizations/templates/organizations/organizationuser_detail.html:5
+#: env/lib/python3.10/site-packages/organizations/templates/organizations/organizationuser_form.html:9
 msgid "This is you"
 msgstr "c'est vous"
 
@@ -210,10 +213,16 @@ msgid "from the team"
 msgstr "de l'equipe"
 
 #: accounts/templates/organizations/organizationuser_form.html:8
+#: env/lib/python3.10/site-packages/organizations/templates/organizations/organizationuser_form.html:5
 msgid "Update your profile"
 msgstr "Mettre à jour mon profil"
 
 #: accounts/templates/organizations/organizationuser_form.html:11
+#: env/lib/python3.10/site-packages/oauth2_provider/templates/oauth2_provider/application_confirm_delete.html:13
+#: env/lib/python3.10/site-packages/oauth2_provider/templates/oauth2_provider/application_detail.html:38
+#: env/lib/python3.10/site-packages/oauth2_provider/templates/oauth2_provider/authorized-token-delete.html:7
+#: env/lib/python3.10/site-packages/organizations/templates/organizations/organization_detail.html:8
+#: env/lib/python3.10/site-packages/organizations/templates/organizations/organizationuser_detail.html:12
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -225,74 +234,90 @@ msgstr "Inviter un membre à rejoindre l'équipe"
 msgid "Send invitation"
 msgstr "Envoyer l'invitation"
 
-#: accounts/templates/organizations/register_form.html:6
+#: accounts/templates/organizations/register_form.html:8
 msgid "Join the team"
 msgstr "Rejoindre l'équipe"
 
-#: accounts/views.py:47
-msgid "Your profile has been updated successfully"
-msgstr "Votre compte a été mis à jour avec succès"
-
-#: accounts/views.py:67
-msgid "Your account has been successfully deleted"
-msgstr "Votre compte a été supprimé avec succès"
-
-#: accounts/views.py:88
-msgid " has been removed succesffully from the team."
-msgstr ""
-
-#: accounts/views.py:90
-msgid " has been removed successfully from the team."
-msgstr ""
-
-#: interlab/settings.py:209 interlab/settings.py:217
-msgid "fr"
-msgstr "fr"
-
-#: interlab/templates/django_registration/activate.html:12
-#: interlab/templates/django_registration/activation_failed.html:5
+#: accounts/templates/registration/activate.html:12
+#: accounts/templates/registration/activation_failed.html:5
 msgid "Account activation failed"
 msgstr "L'activation à échoué"
 
-#: interlab/templates/django_registration/activation_complete.html:11
-msgid "Your account is now activated."
-msgstr "Votre accompte est activé"
+#: accounts/templates/registration/login.html:11
+#: accounts/templates/registration/password_reset_complete.html:12
+#: interlab/templates/registration/password_reset_complete.html:12
+msgid "Log in"
+msgstr "Se connecter"
 
-#: interlab/templates/django_registration/activation_email_body.txt:2
-msgid "Activate account at"
-msgstr "Activation de compte de"
+#: accounts/templates/registration/login.html:16
+msgid "Forgot password"
+msgstr "Mot de passe oublié"
 
-#: interlab/templates/django_registration/activation_email_body.txt:6
-#, python-format
-msgid "Link is valid for %(expiration_days)s days."
-msgstr "Le lien est valide pendant %(expiration_days)s jours."
+#: accounts/templates/registration/login.html:17
+#: newsletter/templates/forms/newsletter.html:29
+msgid "Sign up"
+msgstr "S'inscrire"
 
-#: interlab/templates/django_registration/activation_email_subject.txt:1
-msgid "Account activation on"
-msgstr "Activation de compte sur"
-
-#: interlab/templates/django_registration/password_change_done.html:9
+#: accounts/templates/registration/password_change_done.html:9
 msgid "Password changed"
 msgstr "Mot de passe changé"
 
-#: interlab/templates/django_registration/password_change_form.html:9
-#: interlab/templates/django_registration/registration_form.html:10
-msgid "Submit"
-msgstr "Envoi"
+#: accounts/templates/registration/password_change_form.html:10
+#: accounts/templates/registration/password_reset_form.html:10
+#: env/lib/python3.10/site-packages/organizations/templates/organizations/login.html:10
+#: interlab/templates/registration/password_reset_form.html:10
+msgid "Forgotten your password?"
+msgstr "Mot de passe oublié?"
 
-#: interlab/templates/django_registration/password_reset_email.html:2
-#: interlab/templates/registration/password_reset_email.txt:2
+#: accounts/templates/registration/password_change_form.html:15
+#: accounts/templates/registration/password_reset_form.html:15
+#: env/lib/python3.10/site-packages/organizations/templates/organizations/login.html:10
+#: interlab/templates/registration/password_reset_form.html:15
+msgid "Reset it"
+msgstr "Réinitaliser"
+
+#: accounts/templates/registration/password_reset_complete.html:10
+#: interlab/templates/registration/password_reset_complete.html:10
+msgid "Password reset successfully"
+msgstr "Réinitialisation du mot de passe terminée"
+
+#: accounts/templates/registration/password_reset_confirm.html:14
+#: interlab/templates/registration/password_reset_confirm.html:14
+msgid "Set a new password"
+msgstr "Saisissez votre nouveau mot de passe"
+
+#: accounts/templates/registration/password_reset_confirm.html:18
+#: interlab/templates/registration/password_reset_confirm.html:18
+msgid "Change my password"
+msgstr "Modifier mon mot de passe"
+
+#: accounts/templates/registration/password_reset_confirm.html:23
+#: interlab/templates/registration/password_reset_confirm.html:23
+msgid "Password reset failed"
+msgstr "Échec de la réinitialisation du mot de passe"
+
+#: accounts/templates/registration/password_reset_done.html:9
+#: interlab/templates/registration/password_reset_done.html:9
+msgid "Email with password reset instructions has been sent."
+msgstr "E-mail de réinitialisation du mot de passe envoyé"
+
+#: accounts/templates/registration/password_reset_done.html:11
+#: interlab/templates/registration/password_reset_done.html:11
+msgid ""
+"If you do not receive a message, check that you have entered the address you "
+"registered with and check your spam folder."
+msgstr ""
+"Si vous ne recevez pas de message, vérifiez que vous avez saisi l’adresse "
+"avec laquelle vous vous êtes enregistré et contrôlez votre dossier de spam."
+
+#: accounts/templates/registration/password_reset_email.html:2
 #, python-format
 msgid "Reset password at %(site_name)s"
 msgstr "Réinitialisation du mot de passe de %(site_name)s"
 
-#: interlab/templates/django_registration/registration_closed.html:5
-msgid "Registration is currently closed."
-msgstr "La réinitialisation de mot de passe est désactivée"
-
-#: interlab/templates/django_registration/registration_complete.html:5
-msgid "You are now registered. Activation email sent."
-msgstr "Vous êtes enregistré. E-mail d'activation envoyé"
+#: accounts/templates/registration/registration_form.html:12
+msgid "Submit"
+msgstr "Envoi"
 
 #: interlab/templates/menu-mobile.html:13
 #: interlab/templates/navbar-header.html:18
@@ -317,24 +342,6 @@ msgstr "Tableau de bord"
 msgid "Profile"
 msgstr "Profil"
 
-#: interlab/templates/registration/login.html:11
-#: interlab/templates/registration/password_reset_complete.html:12
-msgid "Log in"
-msgstr "Se connecter"
-
-#: interlab/templates/registration/login.html:16
-msgid "Forgot password"
-msgstr "Mot de passe oublié"
-
-#: interlab/templates/registration/login.html:17
-#: newsletter/templates/forms/newsletter.html:29
-msgid "Sign up"
-msgstr "S'inscrire"
-
-#: interlab/templates/registration/logout.html:5
-msgid "Logged out"
-msgstr "Déconnecté"
-
 #: interlab/templates/registration/password_change_done.html:4
 msgid "Documentation"
 msgstr "Documentation"
@@ -351,116 +358,18 @@ msgstr "Votre mot de passe a été changé"
 msgid "My account"
 msgstr "Mon compte"
 
-#: interlab/templates/registration/password_reset_complete.html:10
-msgid "Password reset successfully"
-msgstr "Réinitialisation du mot de passe terminée"
-
-#: interlab/templates/registration/password_reset_confirm.html:14
-msgid "Set a new password"
-msgstr "Saisissez votre nouveau mot de passe"
-
-#: interlab/templates/registration/password_reset_confirm.html:18
-msgid "Change my password"
-msgstr "Modifier mon mot de passe"
-
-#: interlab/templates/registration/password_reset_confirm.html:23
-msgid "Password reset failed"
-msgstr "Échec de la réinitialisation du mot de passe"
-
-#: interlab/templates/registration/password_reset_done.html:9
-msgid "Email with password reset instructions has been sent."
-msgstr "E-mail de réinitialisation du mot de passe envoyé"
-
-#: interlab/templates/registration/password_reset_done.html:11
-msgid ""
-"If you do not receive a message, check that you have entered the address you "
-"registered with and check your spam folder."
-msgstr ""
-"Si vous ne recevez pas de message, vérifiez que vous avez saisi l’adresse "
-"avec laquelle vous vous êtes enregistré et contrôlez votre dossier de spam."
-
-#: interlab/templates/registration/password_reset_form.html:10
-msgid "Forgotten your password?"
-msgstr "Mot de passe oublié?"
-
-#: interlab/templates/registration/password_reset_form.html:15
-msgid "Reset it"
-msgstr "Réinitaliser"
-
-#: interlab/templates/registration/password_reset_subject.txt:3
-#, python-format
-msgid "Password reset on %(site_name)s"
-msgstr "Réinitialiser votre mot de passe - %(site_name)s"
-
-#: machines/models.py:6 machines/models.py:46
-msgid "Title"
-msgstr "Titre"
-
-#: machines/models.py:7 machines/models.py:41
-msgid "Description"
-msgstr "Description"
-
-#: machines/models.py:8
-msgid "Price"
-msgstr "Prix"
-
-# For the trainings models
-#: machines/models.py:22
-msgid "Beginner"
-msgstr "Débutant"
-
-#: machines/models.py:23
-msgid "Intermediate"
-msgstr "Intermédiaire"
-
-#: machines/models.py:24
-msgid "Advanced"
-msgstr "Avancé"
-
-#: machines/models.py:27
-msgid "Machine category"
-msgstr "Catégorie de machine"
-
-#: machines/models.py:28
-msgid "Level"
-msgstr "Niveau"
-
-#: machines/models.py:29
-msgid "Duration"
-msgstr "Durée"
-
-#: machines/models.py:33
-msgid "Photo"
-msgstr "Photo"
-
-#: machines/models.py:53
-msgid "Question"
-msgstr "Question"
-
-#: machines/models.py:54
-msgid "Answer"
-msgstr "Réponse"
-
-#: machines/templates/machines/trainings/edit.html:4
-#: machines/templates/machines/trainings/edit.html:10
+#: machines/templates/trainings/edit.html:4
+#: machines/templates/trainings/edit.html:10
 #, python-format
 msgid "Edit %(obj)s"
 msgstr "Editer %(obj)s"
 
-#: machines/templates/machines/trainings/edit.html:4
-#: machines/templates/machines/trainings/edit.html:10
+#: machines/templates/trainings/edit.html:4
+#: machines/templates/trainings/edit.html:10
 msgid "Add a training"
 msgstr "Ajouter une formation"
 
-#: machines/templates/machines/trainings/edit.html:16
-msgid "Cancel"
-msgstr ""
-
-#: machines/templates/machines/trainings/edit.html:20
-msgid "Save"
-msgstr "Sauver"
-
-#: machines/templates/machines/trainings/list.html:10
+#: machines/templates/trainings/list.html:10
 msgid ""
 "The trainings are available for everyone, no need to be part of the "
 "association (it is only required to create an online account)."
@@ -468,11 +377,11 @@ msgstr ""
 "Les formations sont accessibles à tout un chacun, pas besoin d'être membre "
 "de l'association (il est seulement requis de se créer un compte en ligne)."
 
-#: machines/templates/machines/trainings/list.html:24
+#: machines/templates/trainings/list.html:24
 msgid "Sadly, no training is currently available."
 msgstr "Malheureusement, aucune formation n'est disponible pour le moment."
 
-#: machines/templates/machines/trainings/list.html:37
+#: machines/templates/trainings/list.html:37
 msgid ""
 "One training is offered (alone or accompanied by a person) if you become a "
 "member of the association."
@@ -480,13 +389,18 @@ msgstr ""
 "Une formation est offerte (seul(e) ou accompagné(e) d'une personne) si vous "
 "devenez membre de l'association."
 
-#: machines/views.py:31
-msgid "Training updated!"
-msgstr "Formation mise à jour !"
+#: machines/templates/trainings/show.html:33
+#| msgid "my next trainings"
+msgid "Our upcoming trainings"
+msgstr "Nos prochaines formations"
 
-#: machines/views.py:31
-msgid "Training created!"
-msgstr "Formation créée !"
+#: machines/templates/trainings/show.html:36
+msgid "During this training you will learn..."
+msgstr "Durant cette formation vous apprendrez..."
+
+#: machines/templates/trainings/show.html:61
+msgid "List of the materials prices"
+msgstr "Liste des prix matière"
 
 #: newsletter/templates/forms/newsletter.html:7
 msgid "Stay informed"
@@ -504,48 +418,74 @@ msgstr "Adresse email"
 msgid "Thank you !"
 msgstr "Merci !"
 
-#, fuzzy
-#~| msgid "Documentation"
-#~ msgid "Django Documentation"
-#~ msgstr "Documentation"
+#~ msgid "Your profile has been updated successfully"
+#~ msgstr "Votre compte a été mis à jour avec succès"
 
-#, fuzzy
-#~| msgid "Are you sure you want to delete your account ?"
-#~ msgid "Are you sure to delete the application"
-#~ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
+#~ msgid "Your account has been successfully deleted"
+#~ msgstr "Votre compte a été supprimé avec succès"
 
-#, fuzzy
-#~| msgid "validation"
-#~ msgid "Edit application"
-#~ msgstr "validation"
+#~ msgid "fr"
+#~ msgstr "fr"
 
-#, fuzzy
-#~| msgid "Are you sure you want to delete your account ?"
-#~ msgid "Are you sure you want to delete this token?"
-#~ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
+#~ msgid "Activate account at"
+#~ msgstr "Activation de compte de"
 
-#, fuzzy
-#~| msgid "Are you sure you want to delete your account ?"
-#~ msgid "Are you sure you want to delete this organization?"
-#~ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
+#, python-format
+#~ msgid "Link is valid for %(expiration_days)s days."
+#~ msgstr "Le lien est valide pendant %(expiration_days)s jours."
 
-#, fuzzy
-#~| msgid "Not member"
-#~ msgid "Add a member"
-#~ msgstr "Non membre"
+#~ msgid "Account activation on"
+#~ msgstr "Activation de compte sur"
 
-#, fuzzy
-#~| msgid "validation"
-#~ msgid "organizations"
-#~ msgstr "validation"
+#~ msgid "Logged out"
+#~ msgstr "Déconnecté"
 
-#~ msgid "Email"
-#~ msgstr "e-mail"
+#, python-format
+#~ msgid "Password reset on %(site_name)s"
+#~ msgstr "Réinitialiser votre mot de passe - %(site_name)s"
 
-#, fuzzy
-#~| msgid "Thank you !"
-#~ msgid "Thanks!"
-#~ msgstr "Merci !"
+#~ msgid "Title"
+#~ msgstr "Titre"
+
+#~ msgid "Description"
+#~ msgstr "Description"
+
+#~ msgid "Price"
+#~ msgstr "Prix"
+
+# For the trainings models
+msgid "Beginner"
+msgstr "Débutant"
+
+msgid "Intermediate"
+msgstr "Intermédiaire"
+
+msgid "Advanced"
+msgstr "Avancé"
+
+msgid "Machine category"
+msgstr "Catégorie de machine"
+
+msgid "Level"
+msgstr "Niveau"
+
+msgid "Duration"
+msgstr "Durée"
+
+msgid "Photo"
+msgstr "Photo"
+
+msgid "Question"
+msgstr "Question"
+
+msgid "Answer"
+msgstr "Réponse"
+
+msgid "Training updated!"
+msgstr "Formation mise à jour !"
+
+msgid "Training created!"
+msgstr "Formation créée !"
 
 #~ msgid ""
 #~ "\n"
@@ -596,6 +536,3 @@ msgstr "Merci !"
 
 #~ msgid "invalid_key"
 #~ msgstr "La clé d'activation est invalide, veuillez réessayer."
-
-#~ msgid "fr"
-#~ msgstr "fr"

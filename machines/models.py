@@ -7,6 +7,9 @@ class ItemForRent(models.Model):
     description = models.TextField(verbose_name=_('Description'))
     price = models.FloatField(verbose_name=_('Price'))
 
+    def __str__(self):
+        return self.title
+
 
 class MachineCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -29,7 +32,7 @@ class Training(ItemForRent):
 
     machine_category = models.ForeignKey(MachineCategory, on_delete=models.CASCADE, verbose_name=_('Machine category'))
     level = models.CharField(max_length=3, choices=LEVEL_CHOICES, verbose_name=_('Level'))
-    duration = models.DurationField(verbose_name=_('Duration'))
+    duration = models.DurationField(verbose_name=_('Duration'), help_text=_('Use the format HH:MM'))
     # header = ??? # like html header?
     # support = ??? # isn't it linked to machine instead?
     # sort = ??? # is it to enforce an order?
@@ -37,6 +40,14 @@ class Training(ItemForRent):
 
     def __str__(self):
         return self.title
+
+    @property
+    def faq_list(self):
+        return self.faq_set.all()
+
+    @property
+    def outcome_list(self):
+        return self.outcomelistitem_set.all()
 
 
 class OutcomeListItem(models.Model):

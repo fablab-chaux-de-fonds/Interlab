@@ -26,7 +26,7 @@ $training-boxes-border-radius: $training-boxes-size * 0.05;
 .training-title {
   position: absolute;
   bottom: 0;
-  background: rgba($red, .6);
+  background: rgba($red, 0.6);
   width: 100%;
   height: 40%;
   color: white;
@@ -43,4 +43,32 @@ div.clear {
   font-size: $training-boxes-size * 2 / 3;
   width: $training-boxes-size;
   height: $training-boxes-size;
+}
+
+div.training-img-header {
+  width: 100%;
+  overflow: hidden;
+  margin: 1rem auto;
+  position: relative;
+  box-sizing: border-box;
+  padding: 15%;
+
+  .training-img-show {
+    width: 100%;
+    position: absolute;
+    top: -50%;
+    left: 0;
+  }
+}
+
+.training-icon-container {
+  float: left;
+  width: 33%;
+  margin: auto;
+  text-align: center;
+
+  .training-icon {
+    display: block;
+    font-size: 2rem;
+  }
 }
