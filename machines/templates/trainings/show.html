@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load i18n training_extras %}
+
+{% block title %}{{block.super}} - {{obj.title}} {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 col-md-9 col-xl-8 py-md-3">
+        <h2>{{obj}}</h2>
+
+        <div class="training-img-header">
+            <img class="training-img-show" src="{{obj.photo.url}}">
+        </div>
+
+        <p>{{obj.description}}</p>
+
+        <div class="training-icon-container">
+            <i class="bi bi-cash training-icon"></i>
+            {{obj.price|price_format}}
+        </div>
+        <div class="training-icon-container">
+            <i class="bi bi-clock training-icon"></i>
+            {{obj.duration|duration_format}}
+        </div>
+        <div class="training-icon-container">
+            <i class="bi bi-bar-chart-fill training-icon"></i> <!-- TODO make different icons for levels -->
+            {{obj.level|level_format}}
+        </div>
+
+        <div class="clear"></div>
+
+        <a href="#" class="btn btn-primary">
+            {% trans "Our upcoming trainings" as next %}{{next|upper}}
+        </a>
+
+        <h3>{% trans "During this training you will learn..." as learn_title %}{{learn_title|upper}}</h3>
+        <ul>
+            {% for outcome in obj.outcome_list %}
+            <li>{{outcome.description}}</li>
+            {% endfor %}
+        </ul>
+
+        <div class="accordion">
+            {% for faq in obj.faq_list %}
+            <div class="accordion-item">
+                <h3 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panel-{{faq.pk}}">
+                        {{faq.question|upper}}
+                    </button>
+                </h3>
+                <div id="panel-{{faq.pk}}" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        {{faq.answer}}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <a href="#" class="btn btn-secondary">
+            {% trans "List of the materials prices" as list_prices %}{{list_prices|upper}}
+        </a>
+
+
+    </div>
+</div>
+{% endblock %}

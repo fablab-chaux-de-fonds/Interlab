@@ -1,10 +1,10 @@
 from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 from django.contrib.admin.views.decorators import staff_member_required
 
 
-from .models import Training
+from .models import Faq, Training
 from .forms import TrainingForm
 
 
@@ -40,5 +40,7 @@ def training_edit(request, pk=None):
 
 
 def training_show(request, pk):
-    pass
+    obj = get_object_or_404(Training, pk=pk)
+
+    return render(request, 'trainings/show.html', {'obj': obj})
 
