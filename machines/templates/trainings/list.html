@@ -24,14 +24,6 @@
         <p>{% trans "Sadly, no training is currently available." %}</p>
         {% endif %}
 
-        {% if request.user.is_superuser %}
-        <div class="training-container">
-            <a href="{% url 'machines:trainings.edit' %}">
-                <i class="training-img bi-plus big-icon"></i>
-            </a>
-        </div>
-        {% endif %}
-
         <div class="clear"></div>
 
         <p>{% trans "One training is offered (alone or accompanied by a person) if you become a member of the association." %}</p>

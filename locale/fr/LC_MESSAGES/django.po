@@ -453,40 +453,6 @@ msgstr "Merci !"
 #~ msgid "Price"
 #~ msgstr "Prix"
 
-# For the trainings models
-msgid "Beginner"
-msgstr "Débutant"
-
-msgid "Intermediate"
-msgstr "Intermédiaire"
-
-msgid "Advanced"
-msgstr "Avancé"
-
-msgid "Machine category"
-msgstr "Catégorie de machine"
-
-msgid "Level"
-msgstr "Niveau"
-
-msgid "Duration"
-msgstr "Durée"
-
-msgid "Photo"
-msgstr "Photo"
-
-msgid "Question"
-msgstr "Question"
-
-msgid "Answer"
-msgstr "Réponse"
-
-msgid "Training updated!"
-msgstr "Formation mise à jour !"
-
-msgid "Training created!"
-msgstr "Formation créée !"
-
 #~ msgid ""
 #~ "\n"
 #~ "\n"
