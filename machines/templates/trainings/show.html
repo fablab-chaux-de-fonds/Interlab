@@ -4,7 +4,7 @@
 {% block title %}{{block.super}} - {{obj.title}} {% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row d-flex justify-content-center">
     <div class="col-12 col-md-9 col-xl-8 py-md-3">
         <h2>{{obj}}</h2>
 
@@ -29,7 +29,7 @@
 
         <div class="clear"></div>
 
-        <a href="#" class="btn btn-primary">
+        <a href="#" class="btn btn-primary btn-middle"> <!-- TODO faire le calendrier et mettre à jour le lien -->
             {% trans "Our upcoming trainings" as next %}{{next|upper}}
         </a>
 
@@ -57,7 +57,19 @@
             {% endfor %}
         </div>
 
-        <a href="#" class="btn btn-secondary">
+        <!-- TODO: Section machines associées:
+            - récupérer avec une query les machines qui ont la même machine_category que le training
+            - réutiliser l'affichage utilisé pour la liste de formations
+            - ajouter un lien vers le support de formation pour chaque
+            - implémenter un scroll horizontal (je sais pas comment faire, mais ça devrait être faisable en CSS)
+        -->
+
+        <!-- TODO: Section faire soi-même:
+            - un peu comme pour les FAQ, mais doit permettre des liens cliquables
+            - détecter que si c'est une url de vidéo youtube, mettre un lecteur "imbriqué"
+        -->
+
+        <a href="#" class="btn btn-secondary"> <!-- TODO: faire la page des prix matières et mettre à jour le lien -->
             {% trans "List of the materials prices" as list_prices %}{{list_prices|upper}}
         </a>
 

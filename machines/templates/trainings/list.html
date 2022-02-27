@@ -4,7 +4,7 @@
 {% block title %}{{block.super}} - {% trans "Trainings" %}{% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row d-flex justify-content-center">
     <div class="col-12 col-md-9 col-xl-8 py-md-3">
         <h2>{% trans "Trainings" %}</h2>
         <p>{% trans "The trainings are available for everyone, no need to be part of the association (it is only required to create an online account)." %}</p>
@@ -12,12 +12,12 @@
         {% if trainings %}
 
         {% for obj in trainings %}
-        <div class="training-container">
-            <a href="{% url 'machines:trainings.show' obj.pk %}">
+        <a href="{% url 'machines:trainings.show' obj.pk %}">
+            <div class="training-container">
                 <img class="training-img" src="{{obj.photo.url}}">
                 <div class="training-title">{{obj}}</div>
-            </a>
-        </div>
+            </div>
+        </a>
         {% endfor %}
 
         {% else %}
