@@ -32,7 +32,7 @@ class Training(ItemForRent):
 
     machine_category = models.ForeignKey(MachineCategory, on_delete=models.CASCADE, verbose_name=_('Machine category'))
     level = models.CharField(max_length=3, choices=LEVEL_CHOICES, verbose_name=_('Level'))
-    duration = models.DurationField(verbose_name=_('Duration'), help_text=_('Use the format HH:MM'))
+    duration = models.DurationField(verbose_name=_('Duration'), help_text=_('Use the format HH:MM:SS')) # TODO essayer de trouver un truc plus pratique pour dire la durée
     # header = ??? # like html header?
     # support = ??? # isn't it linked to machine instead?
     # sort = ??? # is it to enforce an order?
