@@ -9,7 +9,7 @@
     {{ edit_profile_form | crispy }}
     <div class="d-grid">
         <a class="btn btn-secondary my-4" href="../../password_change/"> {% trans "Change password" %} </a>
-        <a class="text-center" href="{% url 'delete-profile' %}">{% trans "Delete account" %}</a> 
+        <a class="text-center" href="{% url 'delete-profile' %}">{% trans "delete account"|capfirst %}</a> 
     </div>
 
     <div class="row text-center align-items-center my-5">
