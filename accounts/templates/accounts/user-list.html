@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n org_tags %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h3 class="mt-4">
+      {% trans 'Search Contacts' %}
+    </h3>
+
+    <input class="form-control" type="text" name="search" hx-post="user-list-filtered"
+      hx-trigger="keyup changed delay:500ms" hx-target="#search-results" hx-indicator=".htmx-indicator">
+  </div>
+</div>
+
+
+<div class="my-4" id="search-results">
+  {% include 'accounts/user-list-filtered.html' %}
+</div>
+
+{% endblock content %}
+
+{% block js_footer %}
+<script>
+  document.body.addEventListener('htmx:configRequest', (event) => {
+    event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+  })
+</script>
+{% endblock js_footer %}

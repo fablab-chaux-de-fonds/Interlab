@@ -17,6 +17,14 @@
   margin-left: auto;
   margin-right: auto;
 
+  > a:first-child {
+    padding-left: 24px;
+  }
+
+  > a:last-child {
+    padding-right: 24px;
+  }
+
   > .btn-lg {
     padding-left: 0.8rem;
     padding-right: 0.8rem;
@@ -24,10 +32,11 @@
 }
 
 .btn-mobile-navbar {
-  font-size: $font-size-base*0.6 !important;
+  font-size: $font-size-base*0.7 !important;
+  width: 80px;
 
   i {
-    font-size: $font-size-base*2;
+    font-size: $font-size-base*1.3;
   }
 }
 

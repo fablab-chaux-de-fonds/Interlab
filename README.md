@@ -25,7 +25,7 @@ $ docker exec -it interlab-web-1 python manage.py migrate
 
 ### Update PO file with new keys
 ```shell
-docker exec -it interlab-web-1 django-admin makemessages -l fr -e html,txt
+docker exec -it interlab-web-1 django-admin makemessages -l fr -e html,txt,py
 ```
 
 ### Regenerate translation compiled messages

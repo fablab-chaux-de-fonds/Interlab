@@ -1,14 +1,15 @@
 @import "custom.scss";
 @import '~vuetify/dist/vuetify.min.css';
 @import "~bootstrap/scss/bootstrap.scss";
-@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 @import "alerts.scss";
 @import "badges.scss";
 @import "buttons.scss";
-@import "icons.scss";
-@import "navbar.scss";
 @import "forms.scss";
+@import "icons.scss";
 @import "images.scss";
+@import "navbar.scss";
+@import "pagination.scss";
 @import "type.scss";
 
 footer {

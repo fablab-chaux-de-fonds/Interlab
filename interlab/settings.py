@@ -200,7 +200,8 @@ INSTALLED_APPS = [
     'interlab',
     'debug_toolbar',
     'organizations',
-    'newsletter.apps.NewsletterConfig'
+    'newsletter.apps.NewsletterConfig',
+    'mathfilters'
 ]
 
 LANGUAGES = (
