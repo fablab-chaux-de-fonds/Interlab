@@ -1,5 +1,3 @@
-@use "button-variant";
-
 .btn {
   @include button-variant($custom-red, $custom-red, white);
 
