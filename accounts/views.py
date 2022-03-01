@@ -80,12 +80,19 @@ class CustomActivationView(ActivationView):
 
 @login_required
 def AccountsView(request):
+    user = request.user
     template = loader.get_template('accounts/profile.html')
     context = {
         'page_title': "My account",
-        'organization': request.user.organizations_organization.first(),
-        'user' : request.user
+        'organization': user.organizations_organization.first(),
+        'user': user
     }
+
+    subscription = Profile.objects.get(user_id=user.id).subscription
+    if subscription is not None:
+        context['subscription'] = subscription
+        context['subscription_category']=SubscriptionCategory.objects.get(pk=subscription.subscription_category_id)
+        
     return HttpResponse(template.render(context, request))
 
 @login_required

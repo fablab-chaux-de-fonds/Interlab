@@ -19,10 +19,13 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
+    path('accounts/', include('django_registration.backends.activation.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),
     path('invitations/', include(invitation_backend().get_urls())),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path('bootstrap/', views.bootstrap, name='bootstrap'),
+    path('vuejs/', views.vuejs, name='vuejs'),
     path("", include("newsletter.urls")),
     path("", include("cms.urls")),
     prefix_default_language=False
@@ -35,7 +38,7 @@ if settings.DEBUG:
     
     import debug_toolbar
     urlpatterns += i18n_patterns(
-       path('__debug__', include(debug_toolbar.urls)),
+       path(r'^__debug__/', include(debug_toolbar.urls)),
        prefix_default_language=False
     )
 

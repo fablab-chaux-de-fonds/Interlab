@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 # Register your models here.
 from .models import *
@@ -15,7 +14,3 @@ class SubscriptionAdmin(admin.ModelAdmin):
 @admin.register(SubscriptionCategory)
 class SubscriptionCategoryAdmin(admin.ModelAdmin):
     list_display = ['title', 'price', 'default_access_number', 'duration', 'star_flag', 'sort']
-
-@admin.register(CustomUser)
-class CustomUserAdmin(BaseUserAdmin):
-    pass

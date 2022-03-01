@@ -1,4 +1,4 @@
-# Interfab
+# Interlab
 
 ## Start using docker
 
@@ -51,7 +51,7 @@ $ npm install
 $ npm run start
 ```
 
-### production
+### Production
 
 Install dependencies and build
 ```shell
@@ -59,4 +59,67 @@ $ cd frontend
 $ npm install
 $ npm run build
 $ docker exec -it interlab-web-1 python manage.py collectstatic --noinput --clear
+```
+
+
+#### Production docker-compose example
+Note the hosted network and the volume on static files
+```
+version: "3.3"
+   
+services:
+  web:
+    image: registry.fablab-chaux-de-fonds.ch/flcdf/interlab
+    command: python manage.py runserver 127.0.0.1:8000
+    env_file:
+      - .env
+    volumes:
+      - /var/run/postgresql/:/var/run/postgresql/
+      - static:/code/static
+    network_mode: "host"
+
+volumes:
+    static:
+```
+
+#### Setup nginx
+Setup Nginx to serve files, when DEBUG=False runserver will not serve static files.
+
+Create two directory www/static where you want the static files to be binded (for instance in the same directory as docker-compose)
+```shell
+$ mkdir -p /your/custom/path/www/static
+$ chown -R www-data:www-data /your/custom/path/www/static
+```
+
+Edit nginx site config file:
+```
+[...]
+location /static/ {
+    root /your/custom/path/www;
+}
+[...]
+```
+
+#### BindFS with user and permissions changes
+We want to access volume from the host but using different user and permission. 
+This is possible to do that using BindFS
+
+Edit /etc/fstab:
+```
+bindfs#/var/lib/docker/volumes/interlab_static/_data	/your/custom/path/static	fuse	force-user=www-data,perms=0000:u+rx	0	0
+```
+
+You can find the right source directory depending on docker config using docker volume ls / inspect
+
+### After update
+Don't forget to remove volume on image update
+```shell
+$ docker-compose down
+$ docker volume rm interlab_static
+$ docker-compose up -d
+```
+
+And remount BindFS after update
+```shell
+$ sudo mount -a
 ```

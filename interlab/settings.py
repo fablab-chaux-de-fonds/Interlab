@@ -1,6 +1,3 @@
-import os  # isort:skip
-gettext = lambda s: s
-DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 """
 Django settings for interlab project.
 
@@ -12,10 +9,12 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-import os
 from pathlib import Path
 import distutils.util
+import os  # isort:skip
 
+gettext = lambda s: s
+DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -299,7 +298,6 @@ WEBPACK_LOADER = {
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-
 #django-debug-toolbar
 if DEBUG:
     import os  # only if you haven't already imported this
@@ -319,7 +317,3 @@ LOGOUT_REDIRECT_URL = '/'
 if DEBUG == False:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
-
-# Login with email
-AUTH_USER_MODEL = 'accounts.CustomUser'
-AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
