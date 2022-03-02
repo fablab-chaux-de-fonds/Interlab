@@ -114,13 +114,8 @@ msgid "My profile"
 msgstr "Mon profil"
 
 #: accounts/templates/accounts/nav.html:41
-#: env/lib/python3.10/site-packages/organizations/templates/organizations/organizationuser_detail.html:7
-msgid "Name"
-msgstr "Nom"
-
-#: accounts/templates/accounts/nav.html:41
-msgid "e-mail"
-msgstr "e-mail"
+msgid "name"
+msgstr ""
 
 #: accounts/templates/accounts/nav.html:41
 #: accounts/templates/registration/login.html:15
@@ -218,6 +213,12 @@ msgstr "Modifier mon Profil"
 #: accounts/templates/registration/password_change_done.html:4
 msgid "Change password"
 msgstr "Changer mon mot de passe"
+
+#: accounts/templates/accounts/profile_edit.html:12
+#, fuzzy
+#| msgid "delete account"
+msgid "Delete account"
+msgstr "supprimer mon compte"
 
 #: accounts/templates/accounts/user-edit.html:17
 msgid "Subscription"
@@ -377,6 +378,10 @@ msgstr "La réinitialisation de mot de passe est désactivée"
 msgid "You are now registered. Activation email sent."
 msgstr "Vous êtes enregistré. E-mail d'activation envoyé"
 
+#: accounts/templates/django_registration/registration_form.html:12
+msgid "Subscribe"
+msgstr "S'inscrire"
+
 #: accounts/templates/organizations/invitations_token_error.html:9
 msgid "Your URL may have expired."
 msgstr "Votre URL a expiré."
@@ -396,8 +401,6 @@ msgstr "Les membres de votre équipe"
 
 #: accounts/templates/organizations/organization_users.html:24
 #: accounts/templates/organizations/organizationuser_form.html:9
-#: env/lib/python3.10/site-packages/organizations/templates/organizations/organizationuser_detail.html:5
-#: env/lib/python3.10/site-packages/organizations/templates/organizations/organizationuser_form.html:9
 msgid "This is you"
 msgstr "c'est vous"
 
@@ -422,16 +425,10 @@ msgid "from the team"
 msgstr "de l'équipe"
 
 #: accounts/templates/organizations/organizationuser_form.html:8
-#: env/lib/python3.10/site-packages/organizations/templates/organizations/organizationuser_form.html:5
 msgid "Update your profile"
 msgstr "Mettre à jour mon profil"
 
 #: accounts/templates/organizations/organizationuser_form.html:11
-#: env/lib/python3.10/site-packages/oauth2_provider/templates/oauth2_provider/application_confirm_delete.html:13
-#: env/lib/python3.10/site-packages/oauth2_provider/templates/oauth2_provider/application_detail.html:38
-#: env/lib/python3.10/site-packages/oauth2_provider/templates/oauth2_provider/authorized-token-delete.html:7
-#: env/lib/python3.10/site-packages/organizations/templates/organizations/organization_detail.html:8
-#: env/lib/python3.10/site-packages/organizations/templates/organizations/organizationuser_detail.html:12
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -624,11 +621,9 @@ msgstr "Malheureusement, aucune formation n'est disponible pour le moment."
 
 #: machines/templates/trainings/list.html:37
 msgid ""
-"One training is offered (alone or accompanied by a person) if you become a "
-"member of the association."
+"If you do not receive a message, check that you have entered the address you "
+"registered with and check your spam folder."
 msgstr ""
-"Une formation est offerte (seul(e) ou accompagné(e) d'une personne) si vous "
-"devenez membre de l'association."
 
 #: machines/templates/trainings/show.html:33
 #| msgid "my next trainings"
@@ -668,7 +663,7 @@ msgstr "Abonnement supprimé avec succès pour l'utilisateur "
 msgid "Subcription updated to %(subcription_category)s for user "
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
-#: interlab/settings.py:209 interlab/settings.py:217
+#: interlab/settings.py:210 interlab/settings.py:218
 msgid "fr"
 msgstr "fr"
 
@@ -738,3 +733,43 @@ msgstr "Formation mise à jour !"
 msgid "Training created!"
 msgstr "Formation créée !"
 
+#~ msgid "Name"
+#~ msgstr "Nom"
+
+#~ msgid "e-mail"
+#~ msgstr "e-mail"
+
+#~ msgid "Submit"
+#~ msgstr "Envoi"
+
+#~ msgid "Calendar"
+#~ msgstr "Calendrier"
+
+#~ msgid "Reservations"
+#~ msgstr "Réservations"
+
+#~ msgid "Dashboard"
+#~ msgstr "Tableau de bord"
+
+#~ msgid "Profile"
+#~ msgstr "Profil"
+
+#~ msgid ""
+#~ "One training is offered (alone or accompanied by a person) if you become "
+#~ "a member of the association."
+#~ msgstr ""
+#~ "Une formation est offerte (seul(e) ou accompagné(e) d'une personne) si "
+#~ "vous devenez membre de l'association."
+
+#~| msgid "my next trainings"
+#~ msgid "Our upcoming trainings"
+#~ msgstr "Nos prochaines formations"
+
+#~ msgid "During this training you will learn..."
+#~ msgstr "Durant cette formation vous apprendrez..."
+
+#~ msgid "List of the materials prices"
+#~ msgstr ""
+#~ "Liste des prix matièreSi vous ne recevez pas de message, vérifiez que "
+#~ "vous avez saisi l'adresse avec laquelle vous vous êtes enregistré·e et "
+#~ "contrôlez votre dossier de spam."
