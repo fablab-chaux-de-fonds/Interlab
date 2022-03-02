@@ -202,6 +202,7 @@ INSTALLED_APPS = [
     'organizations',
     'newsletter.apps.NewsletterConfig',
     'machines',
+    'mathfilters'
 ]
 
 LANGUAGES = (

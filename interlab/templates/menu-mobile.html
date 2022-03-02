@@ -1,44 +1,34 @@
 {% load i18n interlab_tags %}
 
 <nav class="navbar fixed-bottom d-md-none">
-    <div class="container">
-        <div class="btn-group navbar-mobile" role="group" aria-label="Button group with nested dropdown">
-            <a href="/" role="button" class="btn btn-mobile-navbar btn-lg active">
-                <i class="bi bi-house"></i>
-                <div>{% trans "Home" %}</div>
-            </a>
+    <div class="btn-group navbar-mobile" role="group" aria-label="Button group with nested dropdown">
 
-            <a href="/calendar" role="button" class="btn btn-mobile-navbar btn-lg">
-                <i class="bi bi-calendar-week"></i>
-                <div>{% trans "Calendar" %}</div>
-            </a>
+        <a href="/" role="button" class="btn btn-mobile-navbar btn-lg" style="width: 80px;">
+            <i class="bi bi-house"></i>
+            <div>{% trans "Home" %}</div>
+        </a>
 
-            <a role="button" class="btn btn-mobile-navbar btn-lg" data-bs-toggle="modal"
-                data-bs-target="#calendar-menu">
-                <i class="bi bi-calendar-plus"></i>
-                <div>{% trans "Reservations" %}</div>
-            </a>
+        <a href="#" role="button" class="btn btn-mobile-navbar btn-lg" style="width: 60px;">
+            <i class="bi bi-calendar-week"></i>
+            <div>{% trans "Schedule" %}</div>
+        </a>
 
-            {% if user.is_authenticated %}
-            <a href="/accounts/profile" role="button" class="btn btn-mobile-navbar btn-lg">
-                <i class="bi bi-person"></i>
-                <div>{% trans page_title %}</div>
-            </a>
-            {% else %}
-            <a href="/accounts/login" role="button" class="btn btn-mobile-navbar btn-lg">
-                <i class="bi bi-box-arrow-in-right"></i>
-                <div>{% trans "Login" %}</div>
-            </a>
-            {% endif %}
+        <a href="#" role="button" class="btn btn-mobile-navbar btn-lg" style="width: 80px;">
+            <i class="bi bi-calendar-event"></i>
+            <div>{% trans "Reservation" %}</div>
+        </a>
 
-<!--             {% if request.user|has_group:"superuser" %}
-            <button type="button" class="btn  btn-mobile-navbar btn-lg">
-                <i class="bi bi-speedometer"></i> <br>
-                <div>{% trans "Dashboard" %}</div>
-            </button>
-            {% endif %} -->
-
-        </div>
+        {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" role="button" class="btn btn-mobile-navbar btn-lg" style="width: 100px;">
+            <i class="bi bi-person"></i>
+            <div>{% trans "My account" %}</div>
+        </a>
+        {% else %}
+        <a href="{% url 'login' %}" role="button" class="btn btn-mobile-navbar btn-lg" style="width: 80px;">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <div>{% trans "Login" %}</div>
+        </a>
+        {% endif %}
 </nav>
 
 <!-- Modal -->

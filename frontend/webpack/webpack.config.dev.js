@@ -50,8 +50,25 @@ module.exports = merge(common, {
         loader: 'babel-loader',
       },
       {
-        test: /\.s?css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader?sourceMap=true', 'postcss-loader', 'sass-loader'],
+        test: /\.css$/,
+        loader: 'css-loader'
+      },
+      {
+        test: /.vue$/, 
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.s(c|a)ss$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: require('sass'),
+            },
+          },
+        ],
       },
     ],
   },
