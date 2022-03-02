@@ -17,6 +17,7 @@ services:
     volumes:
       - ./interlab:/code/interlab
       - ./accounts:/code/accounts
+      - ./machines:/code/machines
       - ./newsletter:/code/newsletter
       - ./frontend:/code/frontend
       - ./locale:/code/locale

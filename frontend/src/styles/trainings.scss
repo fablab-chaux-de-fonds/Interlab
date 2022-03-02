@@ -1,0 +1,73 @@
+$training-boxes-size: 10rem;
+$training-boxes-border-radius: $training-boxes-size * 0.05;
+
+.training-container {
+  position: relative;
+  max-width: $training-boxes-size;
+  max-height: $training-boxes-size;
+  float: left;
+  margin: 15px;
+  text-align: center;
+  border: 4px solid $red;
+  border-radius: $training-boxes-border-radius;
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.training-img {
+  display: block;
+  height: $training-boxes-size;
+  transform: translateX(-20%); // TODO might need to use Javascript to move it according to image dimensions
+}
+
+.training-title {
+  position: absolute;
+  bottom: 0;
+  background: rgba($red, 0.6);
+  width: 100%;
+  height: 40%;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+div.clear {
+  clear: both;
+}
+
+.big-icon {
+  font-size: $training-boxes-size * 2 / 3;
+  width: $training-boxes-size;
+  height: $training-boxes-size;
+}
+
+div.training-img-header {
+  width: 100%;
+  overflow: hidden;
+  margin: 1rem auto;
+  position: relative;
+  box-sizing: border-box;
+  padding: 15%;
+
+  .training-img-show {
+    width: 100%;
+    position: absolute;
+    top: -50%;
+    left: 0;
+  }
+}
+
+.training-icon-container {
+  float: left;
+  width: 33%;
+  margin: auto;
+  text-align: center;
+
+  .training-icon {
+    display: block;
+    font-size: 2rem;
+  }
+}
