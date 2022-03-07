@@ -108,4 +108,5 @@ class UserSubcriptionForm(forms.Form):
     subscription_category = forms.ModelChoiceField(
         queryset=SubscriptionCategory.objects.all(),
         empty_label=_('No Subscription'),
+        required=False,
         widget=forms.RadioSelect)

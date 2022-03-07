@@ -18,10 +18,14 @@
             </h1>
             {% csrf_token %}
             <fieldset>
-                {% for radio in subcription_form.subscription_category %}
-                <div class="myradio">
-                    {{ radio }}
+                <div>
+                    <label>
+                        <input type="radio" value="" name="subscription_category" {% if not user.subscription %}checked=""{% endif %}/>
+                        {% trans 'No Subscription' %}
+                    </label>
                 </div>
+                {% for category in subcription_form.subscription_category %}
+                <div>{{ category }}</div>
                 {% endfor %}
             </fieldset>
 

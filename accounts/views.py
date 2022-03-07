@@ -222,7 +222,7 @@ def user_edit(request, user_pk):
         subcription_form = UserSubcriptionForm(request.POST)
         if subcription_form.is_valid():
             if str(initial['subscription_category']) != subcription_form.cleaned_data['subscription_category']:
-                if subcription_form.cleaned_data['subscription_category'] == 'no-subscription':
+                if not subcription_form.cleaned_data['subscription_category']   :
                     s = None
                     message = _("Subscription deleted successfully for user ") 
                     if user.first_name:
@@ -230,7 +230,7 @@ def user_edit(request, user_pk):
                     else:
                         message += user.email
                 else: 
-                    subcription_category = SubscriptionCategory.objects.get(pk=subcription_form.cleaned_data['subscription_category'])
+                    subcription_category = subcription_form.cleaned_data['subscription_category']
                     kwargs = {
                             "start" : datetime.datetime.now(),
                             "end" : datetime.datetime.now() + datetime.timedelta(days=subcription_category.duration),
