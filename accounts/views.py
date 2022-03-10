@@ -221,8 +221,15 @@ def user_edit(request, user_pk):
     if request.method == 'POST':
         subcription_form = UserSubcriptionForm(request.POST)
         if subcription_form.is_valid():
-            if str(initial['subscription_category']) != subcription_form.cleaned_data['subscription_category']:
-                if not subcription_form.cleaned_data['subscription_category']   :
+            has_changed = False
+            if len(subcription_form.changed_data)==0:
+                if initial['subscription_category'] != 'no-subscription' and subcription_form.cleaned_data != None:
+                    has_changed = True
+            if 'subscription_category' in subcription_form.changed_data:
+                if initial['subscription_category'] != subcription_form.cleaned_data['subscription_category'].pk:
+                    has_changed = True
+            if has_changed:
+                if not subcription_form.cleaned_data['subscription_category'] :
                     s = None
                     message = _("Subscription deleted successfully for user ") 
                     if user.first_name:
