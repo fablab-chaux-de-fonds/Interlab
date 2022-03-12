@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-12 20:30+0000\n"
+"POT-Creation-Date: 2022-03-12 21:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -108,7 +108,7 @@ msgid "password"
 msgstr "mot de passe"
 
 #: accounts/templates/accounts/nav.html:41
-#: accounts/templates/accounts/profile_edit.html:12
+#: accounts/templates/accounts/profile_edit.html:13
 msgid "delete account"
 msgstr "supprimer mon compte"
 
@@ -160,7 +160,7 @@ msgid "subscription"
 msgstr "abonnement"
 
 #: accounts/templates/accounts/password-change.html:10
-#: accounts/templates/accounts/profile_edit.html:20
+#: accounts/templates/accounts/profile_edit.html:21
 #: accounts/templates/accounts/user-edit.html:42
 msgid "Update"
 msgstr "Mettre à jour"
@@ -170,7 +170,7 @@ msgid "Are you sure you want to delete your account ?"
 msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 
 #: accounts/templates/accounts/profile_delete.html:13
-#: accounts/templates/accounts/profile_edit.html:17
+#: accounts/templates/accounts/profile_edit.html:18
 #: accounts/templates/organizations/organizationuser_confirm_delete.html:19
 #: accounts/templates/registration/password_reset_form.html:22
 msgid "Whoops, no !"
@@ -181,7 +181,11 @@ msgstr "Oups, non !"
 msgid "Yes, I'm sure"
 msgstr "Oui, je suis sûr"
 
-#: accounts/templates/accounts/profile_edit.html:11
+#: accounts/templates/accounts/profile_edit.html:7
+msgid "Edit my profile"
+msgstr "Modifier mon Profil"
+
+#: accounts/templates/accounts/profile_edit.html:12
 #: interlab/templates/registration/password_change_done.html:4
 #: interlab/templates/registration/password_change_form.html:10
 msgid "Change password"
@@ -229,8 +233,9 @@ msgstr "Hello"
 msgid ""
 " To activate your account and confirm your email address, simply click on "
 "this link: "
-msgstr " Pour activer votre compte et confirmer votre adresse e-mail, il suffit de cliquer sur "
-"ce lien : "
+msgstr ""
+" Pour activer votre compte et confirmer votre adresse e-mail, il suffit de "
+"cliquer sur ce lien : "
 
 #: accounts/templates/django_registration/activation_email_body.txt:9
 #, fuzzy, python-format
@@ -432,8 +437,8 @@ msgid ""
 "If this request does not come from you, delete this email and nothing will "
 "be changed. "
 msgstr ""
-"Si cette demande ne vient pas de vous, supprimez cet email et rien ne "
-"sera changé. "
+"Si cette demande ne vient pas de vous, supprimez cet email et rien ne sera "
+"changé. "
 
 #: accounts/templates/registration/password_reset_email.txt:2
 #: interlab/templates/registration/password_reset_email.txt:2

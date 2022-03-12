@@ -4,6 +4,7 @@
 
 {% block content_form %}
 
+<h1>{% trans "Edit my profile" %}</h1> 
 <form action="." method="POST">
     {% csrf_token %}
     {{ edit_profile_form | crispy }}
