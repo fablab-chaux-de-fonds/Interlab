@@ -38,7 +38,7 @@ if settings.DEBUG:
     
     import debug_toolbar
     urlpatterns += i18n_patterns(
-       path(r'__debug__/', include(debug_toolbar.urls)),
+       path('__debug__', include(debug_toolbar.urls)),
        prefix_default_language=False
     )
 

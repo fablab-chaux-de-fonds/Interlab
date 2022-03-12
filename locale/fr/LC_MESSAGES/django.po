@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-01 10:28+0000\n"
+"POT-Creation-Date: 2022-03-12 20:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,7 +63,7 @@ msgstr ""
 "150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
 "\", \".\", \"+\", \"-\" and \"_\"."
 
-#: accounts/forms.py:109
+#: accounts/forms.py:110 accounts/templates/accounts/user-edit.html:24
 msgid "No Subscription"
 msgstr "Pas d'abonnement"
 
@@ -108,6 +108,7 @@ msgid "password"
 msgstr "mot de passe"
 
 #: accounts/templates/accounts/nav.html:41
+#: accounts/templates/accounts/profile_edit.html:12
 msgid "delete account"
 msgstr "supprimer mon compte"
 
@@ -137,7 +138,7 @@ msgid "my machines"
 msgstr "mes machines"
 
 #: accounts/templates/accounts/nav.html:78
-#: accounts/templates/accounts/user-edit.html:31
+#: accounts/templates/accounts/user-edit.html:35
 msgid "Trainings"
 msgstr "Formations"
 
@@ -160,30 +161,9 @@ msgstr "abonnement"
 
 #: accounts/templates/accounts/password-change.html:10
 #: accounts/templates/accounts/profile_edit.html:20
-#: accounts/templates/accounts/user-edit.html:38
+#: accounts/templates/accounts/user-edit.html:42
 msgid "Update"
 msgstr "Mettre à jour"
-
-#: accounts/templates/accounts/profile.html:23
-#: accounts/templates/accounts/user-summary.html:16
-#: accounts/templates/organizations/organization_detail.html:16
-msgid "valid until"
-msgstr "valable jusqu'au"
-
-#: accounts/templates/accounts/profile.html:27
-#: accounts/templates/accounts/user-summary.html:22
-msgid "You are the owner of the subscription"
-msgstr "Vous êtes le propriétaire de l'abonnement"
-
-#: accounts/templates/accounts/profile.html:29
-#: accounts/templates/accounts/user-summary.html:24
-msgid "The owner of the subscription"
-msgstr "Le propriétaire de l'abonnement"
-
-#: accounts/templates/accounts/profile.html:29
-#: accounts/templates/accounts/user-summary.html:24
-msgid "is"
-msgstr "est"
 
 #: accounts/templates/accounts/profile_delete.html:9
 msgid "Are you sure you want to delete your account ?"
@@ -219,24 +199,53 @@ msgstr "Oups, pas d'utilisateur trouvé"
 msgid "Search Contacts"
 msgstr "Chercher un utilisateur"
 
+#: accounts/templates/accounts/user-summary.html:17
+#: accounts/templates/organizations/organization_detail.html:17
+msgid "valid until"
+msgstr "valable jusqu'au"
+
+#: accounts/templates/accounts/user-summary.html:23
+msgid "You are the owner of the subscription"
+msgstr "Vous êtes le propriétaire de l'abonnement"
+
+#: accounts/templates/accounts/user-summary.html:25
+msgid "The owner of the subscription"
+msgstr "Le propriétaire de l'abonnement"
+
+#: accounts/templates/accounts/user-summary.html:25
+msgid "is"
+msgstr "est"
+
 #: accounts/templates/django_registration/activation_complete.html:11
 msgid "Your account is now activated."
 msgstr "Votre accompte est activé"
 
-#: accounts/templates/django_registration/activation_email_body.txt:2
-#, fuzzy
-#| msgid "Activate your account"
-msgid "Activate account at"
-msgstr "Activez votre compte"
+#: accounts/templates/django_registration/activation_email_body.txt:3
+#: accounts/templates/registration/password_reset_email.html:3
+msgid "Hello"
+msgstr "Hello"
 
-#: accounts/templates/django_registration/activation_email_body.txt:6
+#: accounts/templates/django_registration/activation_email_body.txt:5
+msgid ""
+" To activate your account and confirm your email address, simply click on "
+"this link: "
+msgstr " Pour activer votre compte et confirmer votre adresse e-mail, il suffit de cliquer sur "
+"ce lien : "
+
+#: accounts/templates/django_registration/activation_email_body.txt:9
 #, fuzzy, python-format
-msgid "Link is valid for %(expiration_days)s days."
+msgid "This link is only valid for %(expiration_days)s days."
 msgstr "Ce lien est valide uniquement pendant %(expiration_days)s jours"
 
+#: accounts/templates/django_registration/activation_email_body.txt:11
+msgid "We welcome you to the FabLab!"
+msgstr ""
+
 #: accounts/templates/django_registration/activation_email_subject.txt:1
-msgid "Account activation on"
-msgstr "L'activation à échoué"
+#, fuzzy
+#| msgid "Activate your account"
+msgid "Activate your account"
+msgstr "Activez votre compte"
 
 #: accounts/templates/django_registration/activation_failed.html:11
 msgid "Unfortunately this link has expired."
@@ -269,9 +278,19 @@ msgstr "Se connecter"
 msgid "Registration is currently closed."
 msgstr "La réinitialisation de mot de passe est désactivée."
 
-#: accounts/templates/django_registration/registration_complete.html:5
-msgid "You are now registered. Activation email sent."
-msgstr ""
+#: accounts/templates/django_registration/registration_complete.html:11
+msgid "Your account has been successfully created"
+msgstr "Votre compte a été supprimé avec succès"
+
+#: accounts/templates/django_registration/registration_complete.html:12
+msgid "Please check your mailbox to activate your account."
+msgstr "Veuillez vérifier votre boîte mail pour activer votre compte."
+
+#: accounts/templates/django_registration/registration_complete.html:14
+#: accounts/templates/registration/password_reset_complete.html:14
+#: accounts/templates/registration/password_reset_done.html:15
+msgid "Home page"
+msgstr "Page d'acceuil"
 
 #: accounts/templates/django_registration/registration_form.html:12
 #: accounts/templates/registration/registration_form.html:12
@@ -287,11 +306,11 @@ msgstr "Votre URL a expiré."
 msgid "Home"
 msgstr "Acceuil"
 
-#: accounts/templates/organizations/organization_detail.html:17
+#: accounts/templates/organizations/organization_detail.html:18
 msgid "Access number"
 msgstr "Nombre d'accès"
 
-#: accounts/templates/organizations/organization_detail.html:19
+#: accounts/templates/organizations/organization_detail.html:21
 msgid "Your team members"
 msgstr "Les membres de votre équipe"
 
@@ -375,11 +394,6 @@ msgstr "Réinitaliser"
 msgid "Password reset successfully"
 msgstr "Réinitialisation du mot de passe terminée"
 
-#: accounts/templates/registration/password_reset_complete.html:14
-#: accounts/templates/registration/password_reset_done.html:15
-msgid "Home page"
-msgstr "Page d'acceuil"
-
 #: accounts/templates/registration/password_reset_confirm.html:14
 #: interlab/templates/registration/password_reset_confirm.html:14
 msgid "Set a new password"
@@ -409,7 +423,18 @@ msgstr ""
 "Si vous ne recevez pas de message, vérifiez que vous avez saisi l'adresse "
 "avec laquelle vous vous êtes enregistré·e et contrôlez votre dossier de spam."
 
-#: accounts/templates/registration/password_reset_email.html:2
+#: accounts/templates/registration/password_reset_email.html:5
+msgid "To reset your password, click on the following link: "
+msgstr "Pour réinitialiser votre mot de passe, cliquez sur le lien suivant : "
+
+#: accounts/templates/registration/password_reset_email.html:11
+msgid ""
+"If this request does not come from you, delete this email and nothing will "
+"be changed. "
+msgstr ""
+"Si cette demande ne vient pas de vous, supprimez cet email et rien ne "
+"sera changé. "
+
 #: accounts/templates/registration/password_reset_email.txt:2
 #: interlab/templates/registration/password_reset_email.txt:2
 #, fuzzy, python-format
@@ -448,11 +473,11 @@ msgstr "Votre compte a été supprimé avec succès"
 msgid " has been removed successfully from the team."
 msgstr " a été retiré de l'équipe avec succès."
 
-#: accounts/views.py:227
+#: accounts/views.py:234
 msgid "Subscription deleted successfully for user "
 msgstr "Abonnement supprimé avec succès pour l'utilisateur "
 
-#: accounts/views.py:243
+#: accounts/views.py:250
 #, python-format
 msgid "Subcription updated to %(subcription_category)s for user "
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
@@ -484,7 +509,7 @@ msgstr "Connexion"
 
 #: interlab/templates/registration/password_change_done.html:4
 msgid "Documentation"
-msgstr ""
+msgstr "Documentation"
 
 #: interlab/templates/registration/password_change_done.html:4
 msgid "Log out"
@@ -501,3 +526,6 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 #: newsletter/templates/forms/newsletter.html:27
 msgid "Thank you !"
 msgstr "Merci !"
+
+#~ msgid "Account activation on"
+#~ msgstr "L'activation à échoué"
