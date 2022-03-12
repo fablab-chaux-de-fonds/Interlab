@@ -10,7 +10,7 @@ class SubscriptionCategory(models.Model):
     title = models.CharField(max_length=255)
     price = models.FloatField()
     default_access_number = models.PositiveSmallIntegerField(default=1)
-    duration = models.PositiveSmallIntegerField(default=360) # in days
+    duration = models.PositiveSmallIntegerField(default=365) # in days
     star_flag = models.BooleanField()
     sort = models.PositiveSmallIntegerField()
 
