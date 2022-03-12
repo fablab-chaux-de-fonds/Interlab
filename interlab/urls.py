@@ -31,8 +31,8 @@ if settings.DEBUG:
 urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
     path('accounts/', include('django_registration.backends.activation.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('invitations/', include(invitation_backend().get_urls())),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path('bootstrap/', views.bootstrap, name='bootstrap'),
