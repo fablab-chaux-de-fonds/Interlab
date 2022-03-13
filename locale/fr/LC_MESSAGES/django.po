@@ -285,7 +285,7 @@ msgstr "La réinitialisation de mot de passe est désactivée."
 
 #: accounts/templates/django_registration/registration_complete.html:11
 msgid "Your account has been successfully created"
-msgstr "Votre compte a été supprimé avec succès"
+msgstr "Votre compte a été créé avec succès"
 
 #: accounts/templates/django_registration/registration_complete.html:12
 msgid "Please check your mailbox to activate your account."
