@@ -7,7 +7,6 @@ from django.urls import include, path
 from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import TemplateView
 from . import views
-import debug_toolbar
 
 from organizations.backends import invitation_backend
 
