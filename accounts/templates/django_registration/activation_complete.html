@@ -1,13 +1,8 @@
-{% extends 'forms/base_forms.html' %}
+{% extends 'base.html' %}
 {% load i18n %}
 
-
-{% block content_form_img %}
+{% block content %}
 {% include 'forms/forms_success.html' %}
-{% endblock content_form_img %}
-    
-
-{% block content_form %}
 <p class="text-center">{% trans "Your account is now activated." %}</p>
 {% include 'menu-mobile.html' %}
 {% endblock %}
