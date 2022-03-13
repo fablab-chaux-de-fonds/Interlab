@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.sessions.models import Session
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.db.models import Q 
 from django.http import HttpResponse
@@ -87,8 +88,14 @@ def AccountsView(request):
         'organization': user.organizations_organization.first(),
         'user': user
     }
+    try:
+        subscription = Profile.objects.get(user_id=user.id).subscription
+    except ObjectDoesNotExist:
+        profile = Profile(user=request.user, subscription=None)
+        profile.save()
 
-    subscription = Profile.objects.get(user_id=user.id).subscription
+        subscription = Profile.objects.get(user_id=user.id).subscription
+
     if subscription is not None:
         context['subscription'] = subscription
         context['subscription_category']=SubscriptionCategory.objects.get(pk=subscription.subscription_category_id)
