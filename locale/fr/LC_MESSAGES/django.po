@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-12 21:14+0000\n"
+"POT-Creation-Date: 2022-03-13 09:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,7 +61,7 @@ msgid ""
 "\", \"+\", \"-\" and \"_\"."
 msgstr ""
 "150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
-"\", \".\", \"+\", \"-\" and \"_\"."
+"\", \".\", \"+\", \"-\" et \"_\"."
 
 #: accounts/forms.py:110 accounts/templates/accounts/user-edit.html:24
 msgid "No Subscription"
@@ -203,29 +203,30 @@ msgstr "Oups, pas d'utilisateur trouvé"
 msgid "Search Contacts"
 msgstr "Chercher un utilisateur"
 
-#: accounts/templates/accounts/user-summary.html:17
+#: accounts/templates/accounts/user-summary.html:18
 #: accounts/templates/organizations/organization_detail.html:17
 msgid "valid until"
 msgstr "valable jusqu'au"
 
-#: accounts/templates/accounts/user-summary.html:23
+#: accounts/templates/accounts/user-summary.html:24
 msgid "You are the owner of the subscription"
 msgstr "Vous êtes le propriétaire de l'abonnement"
 
-#: accounts/templates/accounts/user-summary.html:25
+#: accounts/templates/accounts/user-summary.html:26
 msgid "The owner of the subscription"
 msgstr "Le propriétaire de l'abonnement"
 
-#: accounts/templates/accounts/user-summary.html:25
+#: accounts/templates/accounts/user-summary.html:26
 msgid "is"
 msgstr "est"
 
-#: accounts/templates/django_registration/activation_complete.html:11
+#: accounts/templates/django_registration/activation_complete.html:6
 msgid "Your account is now activated."
 msgstr "Votre accompte est activé"
 
 #: accounts/templates/django_registration/activation_email_body.txt:3
 #: accounts/templates/registration/password_reset_email.html:3
+#: interlab/templates/registration/password_reset_email.txt:3
 msgid "Hello"
 msgstr "Hello"
 
@@ -238,7 +239,6 @@ msgstr ""
 "cliquer sur ce lien : "
 
 #: accounts/templates/django_registration/activation_email_body.txt:9
-#, fuzzy, python-format
 msgid "This link is only valid for %(expiration_days)s days."
 msgstr "Ce lien est valide uniquement pendant %(expiration_days)s jours"
 
@@ -247,8 +247,6 @@ msgid "We welcome you to the FabLab!"
 msgstr "Nous vous souhaitons la bienvenue au FabLab !"
 
 #: accounts/templates/django_registration/activation_email_subject.txt:1
-#, fuzzy
-#| msgid "Activate your account"
 msgid "Activate your account"
 msgstr "Activez votre compte"
 
@@ -429,10 +427,12 @@ msgstr ""
 "avec laquelle vous vous êtes enregistré·e et contrôlez votre dossier de spam."
 
 #: accounts/templates/registration/password_reset_email.html:5
+#: interlab/templates/registration/password_reset_email.txt:5
 msgid "To reset your password, click on the following link: "
 msgstr "Pour réinitialiser votre mot de passe, cliquez sur le lien suivant : "
 
 #: accounts/templates/registration/password_reset_email.html:11
+#: interlab/templates/registration/password_reset_email.txt:11
 msgid ""
 "If this request does not come from you, delete this email and nothing will "
 "be changed. "
@@ -441,9 +441,6 @@ msgstr ""
 "changé. "
 
 #: accounts/templates/registration/password_reset_email.txt:2
-#: interlab/templates/registration/password_reset_email.txt:2
-#, fuzzy, python-format
-#| msgid "Password reset on %(site_name)s"
 msgid "Reset password at %(site_name)s"
 msgstr "Réinitialiser votre mot de passe - %(site_name)s"
 
