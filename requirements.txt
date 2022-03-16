@@ -31,3 +31,5 @@ django-organizations
 django-extensions
 debugpy==1.5.1
 django-mathfilters
+celery
+redis

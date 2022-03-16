@@ -7,8 +7,6 @@ services:
       - ./data/db:/var/lib/postgresql/data
     env_file:
         - .env
-    ports:
-      - "6543:5432"
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -25,4 +23,17 @@ services:
       - 3000:3000
     depends_on:
       - db
+  celery:
+    build: .
+    command: celery -A interlab worker -l INFO
+    volumes:
+      - ./interlab:/code/interlab
+    env_file:
+      - .env
+    depends_on: 
+      - web
+      - redis
+      - db
 
+  redis:
+    image: redis:alpine

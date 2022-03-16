@@ -25,7 +25,9 @@ from django_registration.backends.activation.views import RegistrationView, Acti
 from django_registration import signals
 from django_registration.exceptions import ActivationError
 
-from newsletter.views import register_email, get_contact, update_contact
+from newsletter.views import get_contact, update_contact
+from newsletter.tasks import register_email
+
 class CustomLoginView(LoginView):
     form_class = CustomAuthenticationForm
 class CustomRegistrationView(RegistrationView):
@@ -37,7 +39,7 @@ class CustomRegistrationView(RegistrationView):
 
         # Add user to newsletter list
         if form.cleaned_data['newsletter']: 
-            register_email(form.cleaned_data['email'])
+            register_email.delay(form.cleaned_data['email'])
         
         signals.user_registered.send(
             sender=self.__class__, user=new_user, request=self.request

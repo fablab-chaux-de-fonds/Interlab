@@ -6,6 +6,7 @@ import sys
 
 from .forms import RegisterForm
 from .apps import NewsletterConfig
+from .tasks import register_email
 
 def register(request):
     """This action handle newsletter registering email"""
@@ -15,7 +16,7 @@ def register(request):
         form.success = False
         if form.is_valid():
             try:
-                response = register_email(form.cleaned_data['email'])    
+                response = register_email.delay(form.cleaned_data['email'])    
                 if response['result'] != 'success':
                     form.add_error('email', ValidationError('Registration refused', 'registration_refused'))
                 else:
@@ -27,13 +28,6 @@ def register(request):
     if not form:
         form = RegisterForm()
     return render(request, 'forms/newsletter.html', {'form': form })
-
-def register_email(email):
-    """Utility method to register email in configured mailing list newsletter"""
-    app = apps.get_app_config(NewsletterConfig.name)
-    resp = requests.post(url=app.newsletter_url_importcontact(), auth=app.newsletter_auth(), json={'contacts':[{'email':email}]})
-    resp.raise_for_status()
-    return resp.json()
 
 def get_contact():
     """Utility to get contact in configured mailing list newsletter"""
