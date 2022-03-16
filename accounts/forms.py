@@ -30,6 +30,7 @@ class EditProfileForm(UserChangeForm):
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(label=_('Email / Username'))
+    password= forms.PasswordInput(attrs={'data-toggle': 'password'})
 
     def clean(self):
         username = self.cleaned_data.get('username')
