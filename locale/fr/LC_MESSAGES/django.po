@@ -229,7 +229,7 @@ msgid ""
 "Your account is activated, you can now follow a training or register for an "
 "event."
 msgstr ""
-"Votre compte est activé, vous pouvez désormais suivre une formation ou vous"
+"Votre compte est activé, vous pouvez désormais suivre une formation ou vous "
 "inscrire à un évènement"
 
 #: accounts/templates/django_registration/activation_complete.html:9
