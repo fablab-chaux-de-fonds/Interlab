@@ -3,6 +3,9 @@
 
 {% block content %}
 {% include 'forms/forms_success.html' %}
-<p class="text-center">{% trans "Your account is now activated." %}</p>
-{% include 'menu-mobile.html' %}
+<div class="text-center">
+    <h1>{% trans "Your account is now activated." %}</h1>
+    <p>{%trans "Your account is activated, you can now follow a training or register for an event." %} </p>
+    <a href="{% url 'login' %}" class="btn btn-primary">{%trans "Log in" %}</a>
+</div>
 {% endblock %}

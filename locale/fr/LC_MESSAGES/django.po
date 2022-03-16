@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-13 19:02+0000\n"
+"POT-Creation-Date: 2022-03-16 09:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: accounts/forms.py:26 accounts/templates/accounts/nav.html:41
+#: accounts/forms.py:27 accounts/templates/accounts/nav.html:41
 msgid "email"
 msgstr "e-mail"
 
-#: accounts/forms.py:31
+#: accounts/forms.py:32
 msgid "Email / Username"
 msgstr "E-mail / Nom d'utilisateur"
 
-#: accounts/forms.py:51
+#: accounts/forms.py:52
 msgid ""
 "You have not yet validated your e-mail. Please click on the activation link "
 "that we sent you by email when you created your account."
@@ -35,27 +35,27 @@ msgstr ""
 "d'activation que nous vous avons envoyé par e-mail lorsque vous avez créé "
 "votre compte."
 
-#: accounts/forms.py:68
+#: accounts/forms.py:69
 msgid "There is already an organization member with this email address!"
 msgstr "Il y a déjà un membre de l'organisation avec cette adresse e-mail !"
 
-#: accounts/forms.py:72
+#: accounts/forms.py:73
 msgid "This email address has been used multiple times."
 msgstr "Cette adresse mail a été utilisée plusieurs fois."
 
-#: accounts/forms.py:87
+#: accounts/forms.py:88
 msgid "Recipient address rejected: Domain not found"
 msgstr "Adresse du destinataire rejetée : Domaine non trouvé"
 
-#: accounts/forms.py:94
+#: accounts/forms.py:95
 msgid "I subscribe to the newsletter"
 msgstr "Je m'abonne à la newsletter"
 
-#: accounts/forms.py:94 newsletter/templates/forms/newsletter.html:8
+#: accounts/forms.py:95 newsletter/templates/forms/newsletter.html:8
 msgid "about once a month"
 msgstr "environ une par mois"
 
-#: accounts/forms.py:98
+#: accounts/forms.py:99
 msgid ""
 "150 characters maximum. Only letters, numbers and the characters \"@\", \"."
 "\", \"+\", \"-\" and \"_\"."
@@ -63,7 +63,7 @@ msgstr ""
 "150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
 "\", \".\", \"+\", \"-\" et \"_\"."
 
-#: accounts/forms.py:110 accounts/templates/accounts/user-edit.html:24
+#: accounts/forms.py:111 accounts/templates/accounts/user-edit.html:24
 msgid "No Subscription"
 msgstr "Pas d'abonnement"
 
@@ -161,7 +161,7 @@ msgstr "abonnement"
 
 #: accounts/templates/accounts/password-change.html:10
 #: accounts/templates/accounts/profile_edit.html:21
-#: accounts/templates/accounts/user-edit.html:42
+#: accounts/templates/accounts/user-edit.html:45
 msgid "Update"
 msgstr "Mettre à jour"
 
@@ -171,6 +171,7 @@ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 
 #: accounts/templates/accounts/profile_delete.html:13
 #: accounts/templates/accounts/profile_edit.html:18
+#: accounts/templates/accounts/user-edit.html:42
 #: accounts/templates/organizations/organizationuser_confirm_delete.html:19
 #: accounts/templates/registration/password_reset_form.html:22
 msgid "Whoops, no !"
@@ -219,9 +220,24 @@ msgstr "Le propriétaire de l'abonnement"
 msgid "is"
 msgstr "est"
 
-#: accounts/templates/django_registration/activation_complete.html:6
+#: accounts/templates/django_registration/activation_complete.html:7
 msgid "Your account is now activated."
 msgstr "Votre accompte est activé"
+
+#: accounts/templates/django_registration/activation_complete.html:8
+msgid ""
+"Your account is activated, you can now follow a training or register for an "
+"event."
+msgstr ""
+"Votre compte est activé, vous pouvez désormais suivre une formation ou vous"
+"inscrire à un évènement"
+
+#: accounts/templates/django_registration/activation_complete.html:9
+#: accounts/templates/django_registration/already_activated.html:14
+#: accounts/templates/registration/login.html:11
+#: accounts/templates/registration/password_reset_complete.html:18
+msgid "Log in"
+msgstr "Se connecter"
 
 #: accounts/templates/django_registration/activation_email_body.txt:3
 #: accounts/templates/registration/password_reset_email.html:3
@@ -234,8 +250,8 @@ msgid ""
 " To activate your account and confirm your email address, simply click on "
 "this link: "
 msgstr ""
-" Pour activer votre compte et confirmer votre adresse e-mail, il vous suffit de "
-"cliquer sur ce lien : "
+" Pour activer votre compte et confirmer votre adresse e-mail, il vous suffit "
+"de cliquer sur ce lien : "
 
 #: accounts/templates/django_registration/activation_email_body.txt:9
 #, python-format
@@ -270,12 +286,6 @@ msgstr "Ce lien a déjà été utilisé."
 #: accounts/templates/django_registration/already_activated.html:12
 msgid "Your account has already been activated."
 msgstr "Votre compte a déjà été activé."
-
-#: accounts/templates/django_registration/already_activated.html:14
-#: accounts/templates/registration/login.html:11
-#: accounts/templates/registration/password_reset_complete.html:18
-msgid "Log in"
-msgstr "Se connecter"
 
 #: accounts/templates/django_registration/registration_closed.html:5
 msgid "Registration is currently closed."
