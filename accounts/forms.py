@@ -43,7 +43,7 @@ class CustomAuthenticationForm(AuthenticationForm):
             User = get_user_model()
             try:
                 user = User.objects.get(username=self.user_cache.username)
-            except ObjectDoesNotExist:
+            except AttributeError:
                 raise self.get_invalid_login_error()
 
             if not user.is_active and self.user_cache is None:
