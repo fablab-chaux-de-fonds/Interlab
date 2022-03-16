@@ -234,7 +234,7 @@ msgid ""
 " To activate your account and confirm your email address, simply click on "
 "this link: "
 msgstr ""
-" Pour activer votre compte et confirmer votre adresse e-mail, il suffit de "
+" Pour activer votre compte et confirmer votre adresse e-mail, il vous suffit de "
 "cliquer sur ce lien : "
 
 #: accounts/templates/django_registration/activation_email_body.txt:9
