@@ -1,13 +1,14 @@
 {% extends 'forms/base_forms.html' %}
 {% load i18n crispy_forms_tags %}
 
+{% block html_class %} {% endblock %}
+
 {% block content_form %}
 
 <form method="post" action=".">
   {% csrf_token %}
   {{ form | crispy }}
-  <div class="d-grid">
-    <input class="btn my-4" type="submit" value="{% trans 'Change password' %}" />
-  </div>
+
+  <input class="btn my-4 mx-auto d-block" type="submit" value="{% trans 'Subscribe' %}" />
 </form>
-{% endblock content_form %}
+{% endblock %}

@@ -6,7 +6,7 @@ def bootstrap(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
-def vuejs(request):
+def schedule(request):
     template = loader.get_template('vuejs.html')
     context = {}
     return HttpResponse(template.render(context, request))

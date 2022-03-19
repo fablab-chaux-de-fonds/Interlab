@@ -1,5 +1,6 @@
 import "../styles/index.scss";
 import "bootstrap/dist/js/bootstrap.bundle";
+import "bootstrap-show-password/dist/bootstrap-show-password.js";
 import "htmx.org";
 import Vue from 'vue';
 import Vuetify from 'vuetify';
