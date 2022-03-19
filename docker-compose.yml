@@ -24,11 +24,24 @@ services:
       - 3000:3000
     depends_on:
       - db
-  celery:
+  celery-worker:
     build: .
     command: celery -A interlab worker -l INFO
     volumes:
       - ./interlab:/code/interlab
+      - ./accounts:/code/accounts
+    env_file:
+      - .env
+    depends_on: 
+      - web
+      - redis
+      - db
+  celery-beat:
+    build: .
+    command: celery -A interlab beat -l INFO
+    volumes:
+      - ./interlab:/code/interlab
+      - ./accounts:/code/accounts
     env_file:
       - .env
     depends_on: 
