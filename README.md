@@ -19,6 +19,7 @@ $ docker compose up -d
 
 ```shell
 $ docker exec -it interlab-web-1 python manage.py migrate
+$ docker exec -it interlab-web-1 python manage.py createsuperuser
 ```
 
 ## Generate translation file
@@ -50,6 +51,7 @@ $ cd frontend
 $ npm install
 $ npm run start
 ```
+Keep the instance running in order to serve assets to django when developping. 
 
 ### Production
 

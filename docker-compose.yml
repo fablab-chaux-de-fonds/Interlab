@@ -18,6 +18,7 @@ services:
       - ./newsletter:/code/newsletter
       - ./frontend:/code/frontend
       - ./locale:/code/locale
+      - ./build:/code/build
     ports:
       - "8000:8000"
       - 3000:3000

@@ -18,10 +18,14 @@
             </h1>
             {% csrf_token %}
             <fieldset>
-                {% for radio in subcription_form.subscription_category %}
-                <div class="myradio">
-                    {{ radio }}
+                <div>
+                    <label>
+                        <input type="radio" value="" name="subscription_category" {% if not user.subscription %}checked=""{% endif %}/>
+                        {% trans 'No Subscription' %}
+                    </label>
                 </div>
+                {% for category in subcription_form.subscription_category %}
+                <div>{{ category }}</div>
                 {% endfor %}
             </fieldset>
 
@@ -33,8 +37,11 @@
         </div>
     </div>
 
-    <div class="row my-4">
-        <div class="d-grid gap-2 col-md-6 mx-auto">
+    <div class="row justify-content-center align-items-center my-4">
+        <div class="col-2">
+            <a href="{{request.META.HTTP_REFERER}}">{% trans 'Whoops, no !' %} </a>
+        </div> 
+        <div class="col-2">
             <input class="btn mx-auto" type="submit" value="{% trans 'Update' %}">
         </div>
     </div>

@@ -1,7 +1,12 @@
-You've been invited to join {{ organization|safe }} on {{ domain.name }} by {{ sender.first_name|safe }} {{ sender.last_name|safe }}.
+{% load i18n %}
 
-Follow this link to create your user account.
+{{ sender.first_name|safe }} {{ sender.last_name|safe }} {% trans "invites you to join the team of " %} {{ organization|safe }} {% trans "on the site of" %} {{ domain.name }}
 
-http://{{ domain.domain }}{% url "invitations_register" user.pk token %}
+{% trans "If you do not have an account with the email address" %} {{ user.email }}, {% trans "follow this link to create your account : " %}
+https://{{ domain.domain }}{% url "invitations_register" user.pk token %}
 
-If you are unsure about this link please contact the sender.
+{% trans "If you are unsure about this email or have any questions, please reply to this email."%}
+
+{% trans 'We welcome you to the FabLab!' %}
+
+{% include 'email/signature.txt' %}

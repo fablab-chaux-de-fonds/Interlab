@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.sessions.models import Session
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.db.models import Q 
 from django.http import HttpResponse
@@ -89,8 +90,14 @@ def AccountsView(request):
         'organization': user.organizations_organization.first(),
         'user': user
     }
+    try:
+        subscription = Profile.objects.get(user_id=user.id).subscription
+    except ObjectDoesNotExist:
+        profile = Profile(user=request.user, subscription=None)
+        profile.save()
 
-    subscription = Profile.objects.get(user_id=user.id).subscription
+        subscription = Profile.objects.get(user_id=user.id).subscription
+
     if subscription is not None:
         context['subscription'] = subscription
         context['subscription_category']=SubscriptionCategory.objects.get(pk=subscription.subscription_category_id)
@@ -223,8 +230,15 @@ def user_edit(request, user_pk):
     if request.method == 'POST':
         subcription_form = UserSubcriptionForm(request.POST)
         if subcription_form.is_valid():
-            if str(initial['subscription_category']) != subcription_form.cleaned_data['subscription_category']:
-                if subcription_form.cleaned_data['subscription_category'] == 'no-subscription':
+            has_changed = False
+            if len(subcription_form.changed_data)==0:
+                if initial['subscription_category'] != 'no-subscription' and subcription_form.cleaned_data != None:
+                    has_changed = True
+            if 'subscription_category' in subcription_form.changed_data:
+                if initial['subscription_category'] != subcription_form.cleaned_data['subscription_category'].pk:
+                    has_changed = True
+            if has_changed:
+                if not subcription_form.cleaned_data['subscription_category'] :
                     s = None
                     message = _("Subscription deleted successfully for user ") 
                     if user.first_name:
@@ -232,7 +246,7 @@ def user_edit(request, user_pk):
                     else:
                         message += user.email
                 else: 
-                    subcription_category = SubscriptionCategory.objects.get(pk=subcription_form.cleaned_data['subscription_category'])
+                    subcription_category = subcription_form.cleaned_data['subscription_category']
                     kwargs = {
                             "start" : datetime.datetime.now(),
                             "end" : datetime.datetime.now() + datetime.timedelta(days=subcription_category.duration),

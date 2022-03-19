@@ -5,7 +5,8 @@ from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.forms import UserChangeForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.core.exceptions import ValidationError
+from django.db.models import Q 
 from django.utils.translation import gettext_lazy as _
 
 from organizations.forms import OrganizationUserAddForm
@@ -28,7 +29,9 @@ class EditProfileForm(UserChangeForm):
         fields = ('first_name','last_name','username','email',)
 
 class CustomAuthenticationForm(AuthenticationForm):
-    
+    username = forms.CharField(label=_('Email / Username'))
+    password= forms.PasswordInput(attrs={'data-toggle': 'password'})
+
     def clean(self):
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
@@ -40,9 +43,9 @@ class CustomAuthenticationForm(AuthenticationForm):
             # Check if user active before check password
             # https://github.com/django/django/blob/main/django/contrib/auth/forms.py
             User = get_user_model()
-            try:
-                user = User.objects.get(username=username)
-            except ObjectDoesNotExist:
+            try: 
+                user = User.objects.get( Q(username=username) | Q(email=username) )
+            except User.DoesNotExist:
                 raise self.get_invalid_login_error()
 
             if not user.is_active and self.user_cache is None:
@@ -104,6 +107,8 @@ class CustomUserRegistrationForm(CustomRegistrationForm):
         attrs={'class': 'disabled', 'readonly': 'readonly'}))
 
 class UserSubcriptionForm(forms.Form):
-    subscription_category = forms.ChoiceField(
-        choices=[('no-subscription', _('No Subscription'))] + [(x.pk, x.title) for x in SubscriptionCategory.objects.all()], 
+    subscription_category = forms.ModelChoiceField(
+        queryset=SubscriptionCategory.objects.all(),
+        empty_label=_('No Subscription'),
+        required=False,
         widget=forms.RadioSelect)
