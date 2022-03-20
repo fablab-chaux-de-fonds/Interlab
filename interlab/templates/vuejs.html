@@ -1,4 +1,6 @@
+
 {% extends 'base.html' %}
+{% load render_bundle from webpack_loader %}
 {% block header %}
 {% render_bundle 'vue' 'css' %}
 {% endblock header %}
@@ -30,3 +32,6 @@
     </v-app>
 </div>
 {% endblock content %}
+{% block js_footer %}
+{% render_bundle 'vue' 'js' %}
+{% endblock js_footer %}
