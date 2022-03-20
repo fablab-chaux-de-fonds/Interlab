@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
-
+{% block header %}
+{% render_bundle 'vue' 'css' %}
+{% endblock header %}
 {% block content %}
 <div id="app">
     <v-app id="inspire">
