@@ -8,29 +8,8 @@
     </div>
     <div class="col-md-8 py-5 text-center">
         
-        {% if request.user.first_name %}
-        <img src="https://eu.ui-avatars.com/api/?rounded=true&name={{request.user.first_name}}+{{request.user.last_name}}&color=fff&background=0b1783"
-            class="img my-2" alt="avatar"> </br>
-        <h1> {{ request.user.first_name }} {{ request.user.last_name }} </h1>
-            {% else %}
-        <img src="https://eu.ui-avatars.com/api/?rounded=true&name={{user.username}}&color=fff&background=0b1783"
-            class="img my-2" alt="avatar"> </br>
-        <h1> {{ request.user.username }} </h1>
-        {% endif %}
-
-        <p> <small>   
-        {% if subscription %}
-            {{ subscription_category.title }} {% trans "valid until" %} {{ subscription.end|date:'d.m.Y' }} </br>
-            {% if organization %}
-            {% load org_tags %}
-                {% if organization|is_owner:user %}
-                    {% trans 'You are the owner of the subscription' %} {{organization.name}}</br>
-                {% else %}
-                    {% trans 'The owner of the subscription' %} {{organization.name}} {% trans 'is' %} {{organization.owner.organization_user.name}}</br>
-                {% endif %}
-            {% endif %}
-        </small> </p>
-        {%else%}
+    {% include 'accounts/user-summary.html' %}
+    {% if not user.profile.subscription %}
         <a href="#" class="my-5">
             <button class="btn btn-primary mt-5">
                 Voir les abonements

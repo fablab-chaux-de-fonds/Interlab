@@ -21,7 +21,7 @@
                     {{ organization_user.user.email }}
                 {% endif %}
                 <span class="fs-6">
-                    {% if user == organization_user.user %}({% trans "This is you" %}!){% endif %}
+                    {% if user == organization_user.user %} <span class="badge rounded-pill bg-info">{% trans "This is you" %}!</span> {% endif %}
                 </span>
                  </br>
                 <span class="fs-6">
