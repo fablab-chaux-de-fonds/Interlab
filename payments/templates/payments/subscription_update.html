@@ -15,7 +15,7 @@
   <div class="product">
     <div class="text-center">
       <h1>{{user.profile.subscription.subscription_category.price}} CHF </h1>
-      <h3>{{user.profile.subscription.subscription_category.title}}</h3>
+      <h3>{{user.profile.subscription.subscription_category.title}} {% trans "valid until" %} {{ user.profile.subscription.end|date:'d.m.Y' }}</h3>
     </div>
     <p>{% trans "Renew your subscription for a new year in one click" %}</h1>
   </div>

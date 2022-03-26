@@ -1,0 +1,12 @@
+{%extend "email/base_email.html"}
+{% load i18n %}
+
+{% block content %}
+<p> Hello {{profile.user.firstname}}, </p> 
+<p>{%trans "Your subscription has been updated successfully until "%} {{ profile.subscription.end|date:'d.m.Y' }}</p>
+<p>{%trans "You can continue to use the fablab with premium prices" %} </p>
+<div class="btn btn-primary text-center">
+    <a href="#" class="btn btn-primary">{%trans "Book a machine" %}</a>
+</div>
+{include "email/signature.txt"}
+{% endblock content %} 

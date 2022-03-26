@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-26 14:18+0000\n"
+"POT-Creation-Date: 2022-03-26 17:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,6 +70,20 @@ msgstr "Pas d'abonnement"
 #: accounts/models.py:7
 msgid "email address"
 msgstr "adresse e-mail"
+
+#: accounts/templates/accounts/email/subscription_updated.html:6
+msgid "Your subscription has been updated successfully until "
+msgstr "Votre abonnement a été mis à jour avec succès jusqu'au "
+
+#: accounts/templates/accounts/email/subscription_updated.html:7
+#: payments/templates/payments/subscription_update_success.html:9
+msgid "You can continue to use the fablab with premium prices"
+msgstr "Vous pouvez continuer à utiliser le fablab à des prix préférentiels."
+
+#: accounts/templates/accounts/email/subscription_updated.html:9
+#: payments/templates/payments/subscription_update_success.html:10
+msgid "Book a machine"
+msgstr "Réserver une machine"
 
 #: accounts/templates/accounts/nav.html:7
 msgid "My reservations"
@@ -207,6 +221,7 @@ msgstr "Chercher un utilisateur"
 
 #: accounts/templates/accounts/user-summary.html:18
 #: accounts/templates/organizations/organization_detail.html:17
+#: payments/templates/payments/subscription_update.html:18
 msgid "valid until"
 msgstr "valable jusqu'au"
 
@@ -573,16 +588,22 @@ msgstr ""
 "contacter le Fablab la Chaux-de-Fonds"
 
 #: payments/templates/payments/subscription_update_success.html:7
-msgid "Your subscription has been updated successfully until "
+#, fuzzy
+#| msgid "Your subscription has been updated successfully until "
+msgid "Your subscription has been updated successfully "
 msgstr "Votre abonnement a été mis à jour avec succès jusqu'au "
 
 #: payments/templates/payments/subscription_update_success.html:8
-msgid "You can continue to use the fablab with premium prices"
-msgstr "Vous pouvez continuer à utiliser le fablab à des prix préférentiels."
+msgid "We have sent you an email to confirme the subscription update."
+msgstr ""
+"Nous vous avons envoyé un e-mail pour confirmer la mise à jour de "
+"l'abonnement."
 
-#: payments/templates/payments/subscription_update_success.html:9
-msgid "Book a machine"
-msgstr "Réserver une machine"
+#: payments/views.py:114
+#, fuzzy
+#| msgid "Your subscription has been updated successfully until "
+msgid "Your subsription has been updated successfully"
+msgstr "Votre abonnement a été mis à jour avec succès"
 
 #~ msgid "Password changed"
 #~ msgstr "Mot de passe changé"
