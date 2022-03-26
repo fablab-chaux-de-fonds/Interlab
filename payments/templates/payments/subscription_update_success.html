@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+{% include 'forms/forms_success.html' %}
+<div class="text-center">
+    <h1>{% trans "Your subscription has been updated successfully until " %} {{ request.user.profile.subscription.end|date:'d.m.Y' }}</h1>
+    <p>{%trans "You can continue to use the fablab with premium prices" %} </p>
+    <a href="#" class="btn btn-primary">{%trans "Book a machine" %}</a>
+</div>
+{% endblock %}

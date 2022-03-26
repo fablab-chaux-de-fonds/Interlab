@@ -1,0 +1,35 @@
+{% extends 'forms/base_forms.html' %}
+{% load i18n %}
+
+{% block js_footer %}
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script>
+{% endblock js_footer %}
+
+{% block content_form_img %}
+    <i class="bi bi-arrow-clockwise mb-5 img-form-logo mx-auto d-block icon-135"></i>
+{% endblock %}
+
+{% block content_form %}
+<section>
+  <div class="product">
+    <div class="text-center">
+      <h1>{{user.profile.subscription.subscription_category.price}} CHF </h1>
+      <h3>{{user.profile.subscription.subscription_category.title}}</h3>
+    </div>
+    <p>{% trans "Renew your subscription for a new year in one click" %}</h1>
+  </div>
+  <form action="/payments/create-checkout-session/" method="POST">
+    {% csrf_token %}
+    
+    <div class="row text-center align-items-center my-5">
+      <div class="col">
+          <a href="/">{% trans 'Whoops, no !' %} </a>
+      </div> 
+      <div class="col">
+        <button class="btn btn-primary" type="submit" id="checkout-button">{% trans "Renew my subscription" %}</button>
+      </div>
+  </div>
+  </form>
+</section>
+{% endblock content_form %}
