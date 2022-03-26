@@ -149,3 +149,4 @@ build
 
 # Pylint
 .pylintrc
+stripe.exe
