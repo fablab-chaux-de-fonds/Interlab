@@ -227,7 +227,8 @@ INSTALLED_APPS = [
     'share',
     'django_htmx',
     'analytical',
-    'phonenumber_field',
+    'phonenumber_field',, 
+    'payments.apps.PaymentsConfig'
 ]
 
 LANGUAGES = (
@@ -432,3 +433,9 @@ LOGGING = {
 # Matomo
 MATOMO_DOMAIN_PATH = os.environ.get('MATOMO_DOMAIN_PATH')
 MATOMO_SITE_ID = os.environ.get('MATOMO_SITE_ID')
+
+# STRIPE
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET')
+STRIPE_CURRENCY = os.environ.get('STRIPE_CURRENCY')

@@ -13,7 +13,7 @@ class CustomUser(AbstractUser):
 
 class SubscriptionCategory(models.Model):
     title = models.CharField(max_length=255)
-    price = models.FloatField()
+    price = models.IntegerField() # Swiss Franc
     default_access_number = models.PositiveSmallIntegerField(default=1)
     duration = models.PositiveSmallIntegerField(default=365) # in days
     star_flag = models.BooleanField()
@@ -24,6 +24,9 @@ class SubscriptionCategory(models.Model):
 
     class Meta:
         verbose_name_plural = "Subscription Categories"
+
+    def get_display_price(self):
+            return "{0:.2f}".format(self.price / 100)
 
 class Subscription(models.Model):
     start = models.DateField()
