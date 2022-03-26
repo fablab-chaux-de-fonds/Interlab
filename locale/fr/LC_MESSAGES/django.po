@@ -588,10 +588,8 @@ msgstr ""
 "contacter le Fablab la Chaux-de-Fonds"
 
 #: payments/templates/payments/subscription_update_success.html:7
-#, fuzzy
-#| msgid "Your subscription has been updated successfully until "
-msgid "Your subscription has been updated successfully "
-msgstr "Votre abonnement a été mis à jour avec succès jusqu'au "
+msgid "Your subscription has been updated successfully"
+msgstr "Votre abonnement a été mis à jour avec succès"
 
 #: payments/templates/payments/subscription_update_success.html:8
 msgid "We have sent you an email to confirme the subscription update."
