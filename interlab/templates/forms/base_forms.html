@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 <!-- No header -->
 {% block navbar-header %} {% endblock navbar-header %}
@@ -16,11 +17,10 @@
 <!-- Content -->
 {% block content %}
 <div class="form-full-page mx-auto">
-    
     {% block content_form_img %}
         <img class="mb-5 img-form-logo mx-auto d-block" src="{% static 'src/img/logo-FL-red.svg' %}" alt="">
     {% endblock content_form_img %}
-
+    {{ form|as_crispy_errors }}
     {% block content_form %} {% endblock content_form %}
 </div>
 {% endblock %}
