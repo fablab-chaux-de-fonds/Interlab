@@ -31,7 +31,7 @@
                         <li><a class="dropdown-item" href="{% url 'organization_detail' organization.pk %}">{% trans "My subscription" %}</a> </li>
                         {% endif %}
                         {% endif %}
-                        <li><a class="dropdown-item" href="/accounts/logout">{% trans "Logout" %}</a></li>
+                        
                         {% if request.user|has_group:"superuser" %}
                         <li>
                             <hr class="dropdown-divider">
@@ -41,6 +41,10 @@
                         <li><a class="dropdown-item" href="#">{% trans "Trainings" %}</a></li>
                         <li><a class="dropdown-item" href="{% url 'user-list' %}">{% trans "Users" %}</a></li>
                         {% endif %}
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/accounts/logout">{% trans "Logout" %}</a></li>
                     </ul>
                 </li>
                 {% else %}
