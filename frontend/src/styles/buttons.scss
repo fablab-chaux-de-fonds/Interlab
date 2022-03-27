@@ -4,10 +4,9 @@
 
 .btn-mobile-navbar {
   @include button-variant(
-    $custom-red-light,
-    $custom-red-light,
     $custom-blue,
-    $hover-color:$custom-blue
+    $custom-blue,
+    $white,
   );
 
   font-size: $font-size-sm;
