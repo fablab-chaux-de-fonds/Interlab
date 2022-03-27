@@ -4,12 +4,12 @@
 <nav class="navbar navbar-header navbar-expand-md">
     <div class="container">
         <a class="navbar-brand" href="/">
-            <img src="{% static 'src/img/logo-FL-red.svg' %}" alt="" height="36px">
+            <img src="{% static 'src/img/logo-FL-red.svg' %}" alt="" height="64px">
         </a>
         <div class="collapse navbar-collapse d-none d-md-block">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item mx-3">
-                    <a class="nav-link active nav-link-header" aria-current="page" href="/schedule">{% trans "Schedule" %}</a>
+                    <a class="nav-link nav-link-header" aria-current="page" href="/schedule">{% trans "Schedule" %}</a>
                 </li>
                 <li class="nav-item mx-3">
                     <a class="nav-link nav-link-header" aria-current="page" href="#">{% trans "Reservation" %}</a>
@@ -25,27 +25,27 @@
                         <li><a class="dropdown-item" href="{% url 'edit-profile' %}">{% trans "Edit my profile" %}</a>
                         </li>
                         <li><a class="dropdown-item" href="#">{% trans "My reservations" %}</a></li>
-                        <li><a class="dropdown-item" href="/accounts/logout">{% trans "Logout" %}</a></li>
                         {% if organization %}
                         {% load org_tags %}
                         {% if organization|is_owner:user %}
-                        <li><a href="{% url 'organization_detail' organization.pk %}">{% trans "My subscription" %}</a>
-                        </li>
+                        <li><a class="dropdown-item" href="{% url 'organization_detail' organization.pk %}">{% trans "My subscription" %}</a> </li>
                         {% endif %}
                         {% endif %}
+                        <li><a class="dropdown-item" href="/accounts/logout">{% trans "Logout" %}</a></li>
                         {% if request.user|has_group:"superuser" %}
                         <li>
                             <hr class="dropdown-divider">
                         </li>
+                        <li class="dropdown-item-text">{% trans "Superuser area" %}</li>
                         <li><a class="dropdown-item" href="#">{% trans "Openings" %}</a></li>
                         <li><a class="dropdown-item" href="#">{% trans "Trainings" %}</a></li>
-                        <li><a class="dropdown-item" href="#">{% trans "Users" %}</a></li>
+                        <li><a class="dropdown-item" href="{% url 'user-list' %}">{% trans "Users" %}</a></li>
                         {% endif %}
                     </ul>
                 </li>
                 {% else %}
                 <li class="nav-item mx-3">
-                    <a class="nav-link active nav-link-header" aria-current="page"
+                    <a class="btn btn-primary nav-btn-header" aria-current="page"
                         href="/accounts/login">{% trans "Login" %}</a>
                 </li>
                 {% endif %}

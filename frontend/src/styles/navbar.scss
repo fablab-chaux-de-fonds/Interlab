@@ -1,7 +1,7 @@
+
 //navbar header
 
 .navbar-header {
-  background-color: $custom-red-light;
   font-size: calc(1.3rem + 0.6vw);
 }
 
@@ -12,6 +12,11 @@
     height: 0;
     box-shadow: 0 calc(1.5 * (1.3rem + 0.6vw)) 0 -5px;
   }
+}
+
+.nav-btn-header {
+  font-size: calc(1.3rem + 0.6vw);
+  border-radius: 12px;
 }
 
 .dropdown-item {
