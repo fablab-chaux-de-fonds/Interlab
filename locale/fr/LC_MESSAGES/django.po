@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-16 09:05+0000\n"
+"POT-Creation-Date: 2022-03-27 15:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "email"
 msgstr "e-mail"
 
-#: accounts/forms.py:32
+#: accounts/forms.py:32 accounts/templates/registration/login.html:10
 msgid "Email / Username"
 msgstr "E-mail / Nom d'utilisateur"
 
-#: accounts/forms.py:52
+#: accounts/forms.py:53
 msgid ""
 "You have not yet validated your e-mail. Please click on the activation link "
 "that we sent you by email when you created your account."
@@ -35,27 +35,27 @@ msgstr ""
 "d'activation que nous vous avons envoyé par e-mail lorsque vous avez créé "
 "votre compte."
 
-#: accounts/forms.py:69
+#: accounts/forms.py:70
 msgid "There is already an organization member with this email address!"
 msgstr "Il y a déjà un membre de l'organisation avec cette adresse e-mail !"
 
-#: accounts/forms.py:73
+#: accounts/forms.py:74
 msgid "This email address has been used multiple times."
 msgstr "Cette adresse mail a été utilisée plusieurs fois."
 
-#: accounts/forms.py:88
+#: accounts/forms.py:89
 msgid "Recipient address rejected: Domain not found"
 msgstr "Adresse du destinataire rejetée : Domaine non trouvé"
 
-#: accounts/forms.py:95
+#: accounts/forms.py:96
 msgid "I subscribe to the newsletter"
 msgstr "Je m'abonne à la newsletter"
 
-#: accounts/forms.py:95 newsletter/templates/forms/newsletter.html:8
+#: accounts/forms.py:96 newsletter/templates/forms/newsletter.html:8
 msgid "about once a month"
 msgstr "environ une par mois"
 
-#: accounts/forms.py:99
+#: accounts/forms.py:100
 msgid ""
 "150 characters maximum. Only letters, numbers and the characters \"@\", \"."
 "\", \"+\", \"-\" and \"_\"."
@@ -63,7 +63,7 @@ msgstr ""
 "150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
 "\", \".\", \"+\", \"-\" et \"_\"."
 
-#: accounts/forms.py:111 accounts/templates/accounts/user-edit.html:24
+#: accounts/forms.py:112 accounts/templates/accounts/user-edit.html:24
 msgid "No Subscription"
 msgstr "Pas d'abonnement"
 
@@ -89,7 +89,7 @@ msgid "events"
 msgstr "évènements"
 
 #: accounts/templates/accounts/nav.html:23
-#: interlab/templates/navbar-header.html:32
+#: interlab/templates/navbar-header.html:31
 msgid "My subscription"
 msgstr "Mon abonnement"
 
@@ -107,6 +107,7 @@ msgid "name"
 msgstr "nom"
 
 #: accounts/templates/accounts/nav.html:41
+#: accounts/templates/registration/login.html:15
 msgid "password"
 msgstr "mot de passe"
 
@@ -116,11 +117,12 @@ msgid "delete account"
 msgstr "supprimer mon compte"
 
 #: accounts/templates/accounts/nav.html:52
-#: interlab/templates/navbar-header.html:28
+#: interlab/templates/navbar-header.html:34
 msgid "Logout"
 msgstr "Se déconnecter"
 
 #: accounts/templates/accounts/nav.html:61
+#: interlab/templates/navbar-header.html:39
 msgid "Superuser area"
 msgstr "Espace Superutilisateur"
 
@@ -143,7 +145,7 @@ msgid "my machines"
 msgstr "mes machines"
 
 #: accounts/templates/accounts/nav.html:78
-#: accounts/templates/accounts/user-edit.html:31
+#: accounts/templates/accounts/user-edit.html:35
 #: interlab/templates/navbar-header.html:41
 msgid "Trainings"
 msgstr "Formations"
@@ -167,8 +169,8 @@ msgid "subscription"
 msgstr "abonnement"
 
 #: accounts/templates/accounts/password-change.html:10
-#: accounts/templates/accounts/profile_edit.html:20
-#: accounts/templates/accounts/user-edit.html:38
+#: accounts/templates/accounts/profile_edit.html:21
+#: accounts/templates/accounts/user-edit.html:45
 msgid "Update"
 msgstr "Mettre à jour"
 
@@ -190,6 +192,7 @@ msgid "Yes, I'm sure"
 msgstr "Oui, je suis sûr"
 
 #: accounts/templates/accounts/profile_edit.html:7
+#: interlab/templates/navbar-header.html:25
 msgid "Edit my profile"
 msgstr "Modifier mon Profil"
 
@@ -197,10 +200,6 @@ msgstr "Modifier mon Profil"
 #: accounts/templates/registration/password_change_done.html:4
 msgid "Change password"
 msgstr "Changer mon mot de passe"
-
-#: accounts/templates/accounts/profile_edit.html:12
-msgid "Delete account"
-msgstr "Supprimer mon compte"
 
 #: accounts/templates/accounts/user-edit.html:17
 msgid "Subscription"
@@ -245,7 +244,7 @@ msgstr ""
 
 #: accounts/templates/django_registration/activation_complete.html:9
 #: accounts/templates/django_registration/already_activated.html:14
-#: accounts/templates/registration/login.html:11
+#: accounts/templates/registration/login.html:22
 #: accounts/templates/registration/password_reset_complete.html:18
 msgid "Log in"
 msgstr "Se connecter"
@@ -349,10 +348,6 @@ msgstr ""
 msgid "invites you to join"
 msgstr "vous invite à rejoindre"
 
-#: accounts/templates/django_registration/registration_form.html:12
-msgid "Subscribe"
-msgstr "S'inscrire"
-
 #: accounts/templates/organizations/invitations_token_error.html:9
 msgid "Your URL may have expired."
 msgstr "Votre URL a expiré."
@@ -420,11 +415,11 @@ msgstr "Rejoindre l'équipe"
 msgid "Account activation failed"
 msgstr "L'activation à échoué"
 
-#: accounts/templates/registration/login.html:16
+#: accounts/templates/registration/login.html:27
 msgid "Forgot password"
 msgstr "Mot de passe oublié"
 
-#: accounts/templates/registration/login.html:17
+#: accounts/templates/registration/login.html:28
 #: newsletter/templates/forms/newsletter.html:33
 msgid "Sign up"
 msgstr "S'inscrire"
@@ -443,7 +438,7 @@ msgstr "Mot de passe changé"
 
 #: accounts/templates/registration/password_change_done.html:13
 #: interlab/templates/menu-mobile.html:24
-#: interlab/templates/navbar-header.html:19
+#: interlab/templates/navbar-header.html:21
 msgid "My account"
 msgstr "Mon compte"
 
@@ -552,32 +547,10 @@ msgstr "Horaire"
 msgid "Reservation"
 msgstr "Réservation"
 
-#: interlab/templates/menu-mobile.html:24
-#: interlab/templates/navbar-header.html:21
-#: interlab/templates/registration/password_change_done.html:13
-msgid "My account"
-msgstr "Mon compte"
-
 #: interlab/templates/menu-mobile.html:29
 #: interlab/templates/navbar-header.html:49
 msgid "Login"
 msgstr "Connexion"
-
-#: interlab/templates/navbar-header.html:25
-msgid "Edit my profile"
-msgstr "Modifier mon profil"
-
-#: interlab/templates/registration/password_change_done.html:4
-msgid "Documentation"
-msgstr "Documentation"
-
-#: interlab/templates/registration/password_change_done.html:4
-msgid "Log out"
-msgstr "Se Déconnecter"
-
-#: interlab/templates/registration/password_change_done.html:11
-msgid "Your password was changed."
-msgstr "Votre mot de passe a été changé"
 
 #: newsletter/templates/forms/newsletter.html:7
 msgid "Subscribe to the newsletter to follow the FabLab news"
