@@ -1,7 +1,5 @@
 .btn {
   @include button-variant($custom-red, $custom-red, white);
-
-  width: 100%;
 }
 
 .btn-mobile-navbar {

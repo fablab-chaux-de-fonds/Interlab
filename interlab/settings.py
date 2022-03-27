@@ -317,3 +317,7 @@ LOGOUT_REDIRECT_URL = '/'
 if DEBUG == False:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
+
+# Login with email
+AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
