@@ -1,0 +1,10 @@
+{%extend "email/base_email.html"}
+
+{% block content %}
+<p> Hello {{profile.user.firstname}}, </p> 
+<p>{%trans "Your subscription expire in 7 days"%}</p>
+<div class="btn btn-primary text-center">
+    <a href="#">{% trans "Update my subscription" %}</a>
+</div>
+{include "email/signature.txt"}
+{% endblock content %}

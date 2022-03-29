@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import distutils.util
 import os  # isort:skip
+from datetime import timedelta
 
 gettext = lambda s: s
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -321,3 +322,13 @@ if DEBUG == False:
 # Login with email
 AUTH_USER_MODEL = 'accounts.CustomUser'
 AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
+
+CELERY_BEAT_SCHEDULE = {
+      'send reminder subscription email': {
+        'task': 'accounts.tasks.send_reminder_subscription_email',
+        'schedule': timedelta(days=1),
+        'options': {
+            'expires': 60.0,
+        },
+    },
+}
