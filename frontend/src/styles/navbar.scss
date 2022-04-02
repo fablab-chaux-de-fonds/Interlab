@@ -1,14 +1,33 @@
+
 //navbar header
+$font-size: 1.3rem;
+
 .navbar-header {
-  background-color: $custom-red-light;
+  font-size: $font-size;
 }
 
 .nav-link-header {
+  color: $custom-red !important;
+
   &:hover {
     background: transparent;
     border-radius: 10px;
     height: 0;
-    box-shadow: 0 40px 0 -5px;
+    box-shadow: 0 calc(1.5 * ($font-size)) 0 -5px;
+  }
+}
+
+.nav-btn-header {
+  font-size: $font-size;
+  border-radius: 12px;
+}
+
+.dropdown-item {
+  color: $custom-red;
+
+  &:hover {
+    color: $custom-red;
+    background-color: $custom-red-light;
   }
 }
 
@@ -16,6 +35,15 @@
 .navbar-mobile {
   margin-left: auto;
   margin-right: auto;
+  border-radius: 16px;
+
+  > a:first-child {
+    padding-left: 24px;
+  }
+
+  > a:last-child {
+    padding-right: 24px;
+  }
 
   > .btn-lg {
     padding-left: 0.8rem;
@@ -24,10 +52,11 @@
 }
 
 .btn-mobile-navbar {
-  font-size: $font-size-base*0.6 !important;
+  font-size: $font-size-base*0.7 !important;
+  width: 80px;
 
   i {
-    font-size: $font-size-base*2;
+    font-size: $font-size-base*1.3;
   }
 }
 

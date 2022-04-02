@@ -1,0 +1,1 @@
+You've been added to the organization {{ organization|safe }} on {{ domain.name }} by {{ sender.full_name|safe }}.`

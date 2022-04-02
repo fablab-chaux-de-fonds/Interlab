@@ -1,4 +1,4 @@
-# Interfab
+# Interlab
 
 ## Start using docker
 
@@ -19,13 +19,14 @@ $ docker compose up -d
 
 ```shell
 $ docker exec -it interlab-web-1 python manage.py migrate
+$ docker exec -it interlab-web-1 python manage.py createsuperuser
 ```
 
 ## Generate translation file
 
 ### Update PO file with new keys
 ```shell
-docker exec -it interlab-web-1 django-admin makemessages -l fr -e html,txt
+docker exec -it interlab-web-1 django-admin makemessages -l fr -e html,txt,py
 ```
 
 ### Regenerate translation compiled messages
@@ -50,6 +51,7 @@ $ cd frontend
 $ npm install
 $ npm run start
 ```
+Keep the instance running in order to serve assets to django when developping. 
 
 ### Production
 

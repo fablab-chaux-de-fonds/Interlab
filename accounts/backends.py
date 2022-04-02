@@ -2,7 +2,10 @@ import inspect
 
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+from django.contrib.auth import get_user_model
+from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -37,11 +40,9 @@ class CustomInvitationsBackend(InvitationBackend):
             user = self.user_model.objects.get(email=email)
 
             # link profile / account / organization / subscription if user already exist
-            user.profile.subscription = sender.profile.subscription
-            user.save()
+            Profile.objects.update_or_create(user=user, defaults={'subscription':sender.profile.subscription})
 
-        except self.user_model.DoesNotExist:
-            # TODO break out user creation process
+        except:
             if (
                 "username"
                 in inspect.getfullargspec(self.user_model.objects.create_user).args
@@ -106,3 +107,18 @@ class CustomInvitationsBackend(InvitationBackend):
             "organization": user.organizations_organization.first()
         }
         return render(request, self.registration_form_template, context)
+
+UserModel = get_user_model()
+
+class EmailBackend(ModelBackend):
+    def authenticate(self, request, username=None, password=None, **kwargs):
+        try:
+            user = UserModel.objects.get(Q(username__iexact=username) | Q(email__iexact=username))
+        except UserModel.DoesNotExist:
+            UserModel().set_password(password)
+            return
+        except UserModel.MultipleObjectsReturned:
+            user = UserModel.objects.filter(Q(username__iexact=username) | Q(email__iexact=username)).order_by('id').first()
+
+        if user.check_password(password) and self.user_can_authenticate(user):
+            return user

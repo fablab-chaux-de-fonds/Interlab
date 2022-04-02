@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n org_tags %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col text-center">
+        {% include 'accounts/user-summary.html' %}
+    </div>
+</div>
+<hr>
+
+<form action="" method="post">
+    <div class="row">
+        <div class="col-md-6 my-4">
+            <h1>
+                {% trans 'Subscription' %}
+            </h1>
+            {% csrf_token %}
+            <fieldset>
+                <div>
+                    <label>
+                        <input type="radio" value="" name="subscription_category" {% if not user.subscription %}checked=""{% endif %}/>
+                        {% trans 'No Subscription' %}
+                    </label>
+                </div>
+                {% for category in subcription_form.subscription_category %}
+                <div>{{ category }}</div>
+                {% endfor %}
+            </fieldset>
+
+        </div>
+        <div class="col-md-6 my-4">
+            <h1>
+                {% trans 'Trainings' %}
+            </h1>
+        </div>
+    </div>
+
+    <div class="row justify-content-center align-items-center my-4">
+        <div class="col-2">
+            <a href="{{request.META.HTTP_REFERER}}">{% trans 'Whoops, no !' %} </a>
+        </div> 
+        <div class="col-2">
+            <input class="btn mx-auto" type="submit" value="{% trans 'Update' %}">
+        </div>
+    </div>
+</form>
+{% endblock content %}

@@ -1,0 +1,16 @@
+{% extends 'forms/base_forms.html' %}
+{% load i18n %}
+
+{% block content %}
+
+{% block content_form_img %}
+    <i class="bi bi-exclamation-circle-fill mb-5 img-form-logo mx-auto d-block text-red"></i>
+{% endblock content_form_img %}
+
+<div class="text-center">
+    <h1> {% trans 'Unfortunately this link has expired.' %}</h1>
+    <p>{% trans "Please create a new account with a new username." %}</p>
+
+    <a class="btn" href="{% url 'django_registration_register' %}">{% trans 'Create a new account' %} </a>
+</div>
+{% endblock %}

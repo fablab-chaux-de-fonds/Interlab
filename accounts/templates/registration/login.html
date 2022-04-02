@@ -1,19 +1,29 @@
 {% extends 'forms/base_forms.html' %}
-{% load i18n crispy_forms_tags %}
+{% load i18n %}
 
 {% block content_form %}
 
 <form method="post" action=".">
   {% csrf_token %}
+  
+  <div class="mb-3"> 
+    <label for="username" class="form-label requiredField">{% trans "Email / Username" %}<span class="asteriskField">*</span> </label> 
+    <input type="text" name="username" maxlength="150" class="textinput textInput form-control" required="" id="username"> 
+  </div>
 
-  {{ form | crispy }}
+  <div class="input-group mb-3">
+    <label for="password" class="form-label requiredField"> {% trans "password"|capfirst %}<span class="asteriskField">*</span> </label> 
+    <input type="password" name="password" autocomplete="current-password" class="textinput textInput form-control input-group-append" required="" 
+    id="password" data-toggle="password" data-eye-class="bi" data-eye-open-class="bi-eye" data-eye-close-class="bi-eye-slash">
+    </input>    
+  </div>
 
   <input class="btn my-4 mx-auto d-block" type="submit" value="{% trans 'Log in' %}" />
   <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
 <div class="text-center mt-5 text-red">
-  <a href="{% url 'password_reset' %}">{% trans "Forgot password" %}</a> &ensp; | &ensp;  
+  <a href="{% url 'password_reset' %}">{% trans "Forgot password" %}</a> &ensp; | &ensp;
   <a href="{% url 'django_registration_register' %}">{% trans "Sign up" %}</a>
 </div>
 {% endblock content_form %}

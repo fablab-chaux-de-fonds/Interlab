@@ -7,7 +7,6 @@ from django.urls import include, path
 from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import TemplateView
 from . import views
-import debug_toolbar
 
 from organizations.backends import invitation_backend
 
@@ -17,19 +16,6 @@ urlpatterns = [
     path("sitemap.xml", sitemap, {"sitemaps": {"cmspages": CMSSitemap}}),
 ]
 
-urlpatterns += i18n_patterns(
-    path("admin/", admin.site.urls),
-    path('accounts/', include('django_registration.backends.activation.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/', include('accounts.urls')),
-    path('invitations/', include(invitation_backend().get_urls())),
-    path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
-    path('bootstrap/', views.bootstrap, name='bootstrap'),
-    path("", include("newsletter.urls")),
-    path("", include("cms.urls")),
-    prefix_default_language=False
-)
-
 # This is only needed when using runserver.
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
@@ -37,7 +23,21 @@ if settings.DEBUG:
     
     import debug_toolbar
     urlpatterns += i18n_patterns(
-       path(r'^__debug__/', include(debug_toolbar.urls)),
+       path('__debug__/', include('debug_toolbar.urls')),
        prefix_default_language=False
     )
+
+urlpatterns += i18n_patterns(
+    path("admin/", admin.site.urls),
+    path('accounts/', include('accounts.urls')),
+    path('accounts/', include('django_registration.backends.activation.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('invitations/', include(invitation_backend().get_urls())),
+    path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
+    path('bootstrap/', views.bootstrap, name='bootstrap'),
+    path('schedule/', views.schedule, name='schedule'),
+    path("", include("newsletter.urls")),
+    path("", include("cms.urls")),
+    prefix_default_language=False
+)
 

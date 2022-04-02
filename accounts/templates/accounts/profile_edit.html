@@ -4,16 +4,18 @@
 
 {% block content_form %}
 
+<h1>{% trans "Edit my profile" %}</h1> 
 <form action="." method="POST">
     {% csrf_token %}
     {{ edit_profile_form | crispy }}
     <div class="d-grid">
         <a class="btn btn-secondary my-4" href="../../password_change/"> {% trans "Change password" %} </a>
+        <a class="text-center" href="{% url 'delete-profile' %}">{% trans "delete account"|capfirst %}</a> 
     </div>
 
     <div class="row text-center align-items-center my-5">
         <div class="col">
-            <a href="{% url 'delete-profile' %}">{% trans "Delete account" %}</a> 
+            <a href="{{request.META.HTTP_REFERER}}">{% trans 'Whoops, no !' %} </a>
         </div> 
         <div class="col">
             <input class="btn mx-auto" type="submit" value="{% trans 'Update' %}">

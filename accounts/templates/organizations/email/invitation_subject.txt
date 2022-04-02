@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% spaceless %}
+{{ sender.first_name|safe }} {{ sender.last_name|safe }} {% trans "invites you to join" %} {{ domain.name }}
+{% endspaceless %}
