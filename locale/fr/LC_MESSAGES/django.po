@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-27 15:15+0000\n"
+"POT-Creation-Date: 2022-04-02 12:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,57 +116,57 @@ msgstr "mot de passe"
 msgid "delete account"
 msgstr "supprimer mon compte"
 
-#: accounts/templates/accounts/nav.html:52
-#: interlab/templates/navbar-header.html:34
-msgid "Logout"
-msgstr "Se déconnecter"
-
-#: accounts/templates/accounts/nav.html:61
+#: accounts/templates/accounts/nav.html:50
 #: interlab/templates/navbar-header.html:39
 msgid "Superuser area"
 msgstr "Espace Superutilisateur"
 
-#: accounts/templates/accounts/nav.html:66
+#: accounts/templates/accounts/nav.html:55
 #: interlab/templates/navbar-header.html:40
 msgid "Openings"
 msgstr "Ouvertures"
 
-#: accounts/templates/accounts/nav.html:67
+#: accounts/templates/accounts/nav.html:56
 msgid "my next openings"
 msgstr "mes prochaines ouvertures"
 
-#: accounts/templates/accounts/nav.html:67
-#: accounts/templates/accounts/nav.html:79
+#: accounts/templates/accounts/nav.html:56
+#: accounts/templates/accounts/nav.html:68
 msgid "my history"
 msgstr "mon historique"
 
-#: accounts/templates/accounts/nav.html:67
+#: accounts/templates/accounts/nav.html:56
 msgid "my machines"
 msgstr "mes machines"
 
-#: accounts/templates/accounts/nav.html:78
+#: accounts/templates/accounts/nav.html:67
 #: accounts/templates/accounts/user-edit.html:35
 #: interlab/templates/navbar-header.html:41
 msgid "Trainings"
 msgstr "Formations"
 
-#: accounts/templates/accounts/nav.html:79
+#: accounts/templates/accounts/nav.html:68
 msgid "my next trainings"
 msgstr "Mes prochaines formations"
 
-#: accounts/templates/accounts/nav.html:79
-#: accounts/templates/accounts/nav.html:91
+#: accounts/templates/accounts/nav.html:68
+#: accounts/templates/accounts/nav.html:80
 msgid "training validation"
 msgstr "validation de formations"
 
-#: accounts/templates/accounts/nav.html:90
+#: accounts/templates/accounts/nav.html:79
 #: interlab/templates/navbar-header.html:42
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: accounts/templates/accounts/nav.html:91
+#: accounts/templates/accounts/nav.html:80
 msgid "subscription"
 msgstr "abonnement"
+
+#: accounts/templates/accounts/nav.html:92
+#: interlab/templates/navbar-header.html:47
+msgid "Logout"
+msgstr "Se déconnecter"
 
 #: accounts/templates/accounts/password-change.html:10
 #: accounts/templates/accounts/profile_edit.html:21
@@ -244,7 +244,7 @@ msgstr ""
 
 #: accounts/templates/django_registration/activation_complete.html:9
 #: accounts/templates/django_registration/already_activated.html:14
-#: accounts/templates/registration/login.html:22
+#: accounts/templates/registration/login.html:21
 #: accounts/templates/registration/password_reset_complete.html:18
 msgid "Log in"
 msgstr "Se connecter"
@@ -312,6 +312,8 @@ msgstr "Veuillez vérifier votre boîte mail pour activer votre compte."
 #: accounts/templates/django_registration/registration_complete.html:14
 #: accounts/templates/registration/password_reset_complete.html:14
 #: accounts/templates/registration/password_reset_done.html:15
+#: interlab/templates/400.html:17 interlab/templates/403.html:15
+#: interlab/templates/404.html:15 interlab/templates/500.html:17
 msgid "Home page"
 msgstr "Page d'acceuil"
 
@@ -415,11 +417,11 @@ msgstr "Rejoindre l'équipe"
 msgid "Account activation failed"
 msgstr "L'activation à échoué"
 
-#: accounts/templates/registration/login.html:27
+#: accounts/templates/registration/login.html:26
 msgid "Forgot password"
 msgstr "Mot de passe oublié"
 
-#: accounts/templates/registration/login.html:28
+#: accounts/templates/registration/login.html:27
 #: newsletter/templates/forms/newsletter.html:33
 msgid "Sign up"
 msgstr "S'inscrire"
@@ -537,6 +539,26 @@ msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 msgid "fr"
 msgstr "fr"
 
+#: interlab/templates/400.html:11
+msgid "Whoops ! Bad request."
+msgstr "Oups ! Mauvaise requête"
+
+#: interlab/templates/400.html:12 interlab/templates/500.html:12
+msgid "If this error recurs, please contact us :"
+msgstr "Si cette erreur se répète, veuillez nous contacter :"
+
+#: interlab/templates/403.html:11
+msgid "Whoops ! Access denied"
+msgstr "Oups ! accès interdit"
+
+#: interlab/templates/404.html:11
+msgid "Whoops ! This page is not found"
+msgstr "Oups ! Page non trouvée"
+
+#: interlab/templates/500.html:11
+msgid "Whoops ! Server error"
+msgstr "Oups ! Erreur de serveur"
+
 #: interlab/templates/menu-mobile.html:13
 #: interlab/templates/navbar-header.html:12
 msgid "Schedule"
@@ -548,7 +570,7 @@ msgid "Reservation"
 msgstr "Réservation"
 
 #: interlab/templates/menu-mobile.html:29
-#: interlab/templates/navbar-header.html:49
+#: interlab/templates/navbar-header.html:53
 msgid "Login"
 msgstr "Connexion"
 

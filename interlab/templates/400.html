@@ -8,7 +8,9 @@
 
 
 {% block content_form %}
-<h3 class="text-center">{% trans "Whoops ! This page is not found" %}</h3>
+<h3 class="text-center">{% trans "Whoops ! Bad request." %}</h3>
+<p>{% trans "If this error recurs, please contact us :" %}</p>
+<a href="mailto:{{request.environ.EMAIL_HOST_USER}}">{{request.environ.EMAIL_HOST_USER}}</a>
 
 <div class="row text-center align-items-center my-5">
     <div class="col">
