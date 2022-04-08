@@ -39,6 +39,7 @@
             <li>{{outcome.description}}</li>
             {% endfor %}
         </ul>
+        {{ obj.header | safe }}
 
         <div class="accordion">
             {% for faq in obj.faq_list %}
@@ -63,16 +64,35 @@
             - ajouter un lien vers le support de formation pour chaque
             - implémenter un scroll horizontal (je sais pas comment faire, mais ça devrait être faisable en CSS)
         -->
+        <h3>{{ _("Machines") | upper }}</h3>
+                
+        {% if machines %}
 
-        <!-- TODO: Section faire soi-même:
-            - un peu comme pour les FAQ, mais doit permettre des liens cliquables
-            - détecter que si c'est une url de vidéo youtube, mettre un lecteur "imbriqué"
-        -->
+        {% for m in machines %}
+        <div class="training-container">
+        <a href="% url 'machines.show' m.pk %">
+                <img class="training-img" src="{{m.photo.url}}">
+                <div class="training-title">{{m}}</div>
+        </a>
+
+        <div class="clear"></div>
+        <a href="{{m.support}}" class="btn btn-secondary">
+            {% trans "Support" %}
+        </a>
+    </div>
+        {% endfor %}
+        
+        <div class="clear"></div>
+
+        {% else %}
+        <p>{% trans "Sadly, no machine currently available." %}</p>
+        {% endif %}
+        
+        {{ obj.support | safe }}
 
         <a href="#" class="btn btn-secondary"> <!-- TODO: faire la page des prix matières et mettre à jour le lien -->
             {% trans "List of the materials prices" as list_prices %}{{list_prices|upper}}
         </a>
-
 
     </div>
 </div>

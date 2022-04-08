@@ -26,3 +26,7 @@ class TrainingFaqAdmin(admin.ModelAdmin):
 @admin.register(Machine)
 class MachineAdmin(admin.ModelAdmin):
     list_display = ['title', 'description', 'price', 'category', 'photo']
+
+@admin.register(MachineGroup)
+class MachineGroupAdmin(admin.ModelAdmin):
+    list_display = ['title', 'description', 'sort']

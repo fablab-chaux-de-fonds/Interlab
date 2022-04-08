@@ -70,17 +70,6 @@ msgstr "Pas d'abonnement"
 #: accounts/models.py:7
 msgid "email address"
 msgstr "adresse e-mail"
-#: accounts/forms.py:28
-msgid "There is already an organization member with this email address!"
-msgstr ""
-
-#: accounts/forms.py:32
-msgid "This email address has been used multiple times."
-msgstr ""
-
-#: accounts/forms.py:47
-msgid "Recipient address rejected: Domain not found"
-msgstr ""
 
 #: accounts/templates/accounts/nav.html:7
 #: interlab/templates/navbar-header.html:27
@@ -115,7 +104,7 @@ msgstr "Mon profil"
 
 #: accounts/templates/accounts/nav.html:41
 msgid "name"
-msgstr ""
+msgstr "nom"
 
 #: accounts/templates/accounts/nav.html:41
 #: accounts/templates/registration/login.html:15
@@ -213,12 +202,6 @@ msgstr "Modifier mon Profil"
 #: accounts/templates/registration/password_change_done.html:4
 msgid "Change password"
 msgstr "Changer mon mot de passe"
-
-#: accounts/templates/accounts/profile_edit.html:12
-#, fuzzy
-#| msgid "delete account"
-msgid "Delete account"
-msgstr "supprimer mon compte"
 
 #: accounts/templates/accounts/user-edit.html:17
 msgid "Subscription"
@@ -366,21 +349,6 @@ msgstr ""
 #: accounts/templates/organizations/email/invitation_subject.txt:4
 msgid "invites you to join"
 msgstr "vous invite à rejoindre"
-#: accounts/templates/django_registration/activation_complete.html:11
-msgid "Your account is now activated."
-msgstr "Votre accompte est activé"
-
-#: accounts/templates/django_registration/registration_closed.html:5
-msgid "Registration is currently closed."
-msgstr "La réinitialisation de mot de passe est désactivée"
-
-#: accounts/templates/django_registration/registration_complete.html:5
-msgid "You are now registered. Activation email sent."
-msgstr "Vous êtes enregistré. E-mail d'activation envoyé"
-
-#: accounts/templates/django_registration/registration_form.html:12
-msgid "Subscribe"
-msgstr "S'inscrire"
 
 #: accounts/templates/organizations/invitations_token_error.html:9
 msgid "Your URL may have expired."
@@ -545,6 +513,7 @@ msgid ""
 msgstr ""
 "Votre inscription à la newsletter a été mise à jour avec succès avec "
 "l'adresse e-mail : "
+
 #: machines/models.py:6 machines/models.py:46
 msgid "Title"
 msgstr "Titre"
@@ -567,11 +536,6 @@ msgstr "Calendrier"
 msgid "Reservations"
 msgstr "Réservations"
 
-#: interlab/templates/menu-mobile.html:30
-#: interlab/templates/navbar-header.html:29
-msgid "Login"
-msgstr "Connexion"
-
 #: interlab/templates/menu-mobile.html:37
 msgid "Dashboard"
 msgstr "Tableau de bord"
@@ -579,22 +543,6 @@ msgstr "Tableau de bord"
 #: interlab/templates/navbar-header.html:25
 msgid "Profile"
 msgstr "Profil"
-
-#: interlab/templates/registration/password_change_done.html:4
-msgid "Documentation"
-msgstr "Documentation"
-
-#: interlab/templates/registration/password_change_done.html:4
-msgid "Log out"
-msgstr "Se Déconnecter"
-
-#: interlab/templates/registration/password_change_done.html:11
-msgid "Your password was changed."
-msgstr "Votre mot de passe a été changé"
-
-#: interlab/templates/registration/password_change_done.html:13
-msgid "My account"
-msgstr "Mon compte"
 
 #: machines/templates/trainings/edit.html:4
 #: machines/templates/trainings/edit.html:10
@@ -618,12 +566,6 @@ msgstr ""
 #: machines/templates/trainings/list.html:24
 msgid "Sadly, no training is currently available."
 msgstr "Malheureusement, aucune formation n'est disponible pour le moment."
-
-#: machines/templates/trainings/list.html:37
-msgid ""
-"If you do not receive a message, check that you have entered the address you "
-"registered with and check your spam folder."
-msgstr ""
 
 #: machines/templates/trainings/show.html:33
 #| msgid "my next trainings"
@@ -690,12 +632,6 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 msgid "Thank you !"
 msgstr "Merci !"
 
-#~ msgid "Title"
-#~ msgstr "Titre"
-
-#~ msgid "Description"
-#~ msgstr "Description"
-
 #~ msgid "Price"
 #~ msgstr "Prix"
 
@@ -739,37 +675,9 @@ msgstr "Formation créée !"
 #~ msgid "e-mail"
 #~ msgstr "e-mail"
 
-#~ msgid "Submit"
-#~ msgstr "Envoi"
-
-#~ msgid "Calendar"
-#~ msgstr "Calendrier"
-
-#~ msgid "Reservations"
-#~ msgstr "Réservations"
-
-#~ msgid "Dashboard"
-#~ msgstr "Tableau de bord"
-
-#~ msgid "Profile"
-#~ msgstr "Profil"
-
 #~ msgid ""
 #~ "One training is offered (alone or accompanied by a person) if you become "
 #~ "a member of the association."
 #~ msgstr ""
 #~ "Une formation est offerte (seul(e) ou accompagné(e) d'une personne) si "
 #~ "vous devenez membre de l'association."
-
-#~| msgid "my next trainings"
-#~ msgid "Our upcoming trainings"
-#~ msgstr "Nos prochaines formations"
-
-#~ msgid "During this training you will learn..."
-#~ msgstr "Durant cette formation vous apprendrez..."
-
-#~ msgid "List of the materials prices"
-#~ msgstr ""
-#~ "Liste des prix matièreSi vous ne recevez pas de message, vérifiez que "
-#~ "vous avez saisi l'adresse avec laquelle vous vous êtes enregistré·e et "
-#~ "contrôlez votre dossier de spam."

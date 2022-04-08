@@ -15,5 +15,5 @@ def trainings_list(request):
 def training_show(request, pk):
     obj = get_object_or_404(Training, pk=pk)
 
-    return render(request, 'trainings/show.html', {'obj': obj})
+    return render(request, 'trainings/show.html', {'obj': obj, 'machines': obj.machines_list})
 
