@@ -109,7 +109,7 @@ msgstr "Mon profil"
 
 #: accounts/templates/accounts/nav.html:43
 msgid "name"
-msgstr ""
+msgstr "nom"
 
 #: accounts/templates/accounts/nav.html:43
 #: accounts/templates/registration/login.html:15
@@ -210,12 +210,6 @@ msgstr "Modifier mon Profil"
 #: accounts/templates/registration/password_change_done.html:4
 msgid "Change password"
 msgstr "Changer mon mot de passe"
-
-#: accounts/templates/accounts/profile_edit.html:12
-#, fuzzy
-#| msgid "delete account"
-msgid "Delete account"
-msgstr "supprimer mon compte"
 
 #: accounts/templates/accounts/user-edit.html:17
 msgid "Subscription"
@@ -341,6 +335,12 @@ msgid ""
 "If you are unsure about this email or have any questions, please reply to "
 "this email."
 msgstr ""
+"Si vous n’êtes pas sûr de cet e-mail ou que vous avez des questions, "
+"répondez à cet e-mail."
+
+#: accounts/templates/organizations/email/invitation_subject.txt:4
+msgid "invites you to join"
+msgstr "vous invite à rejoindre"
 
 #: accounts/templates/organizations/invitations_token_error.html:9
 msgid "Your URL may have expired."
@@ -499,6 +499,76 @@ msgstr ""
 "Votre inscription à la newsletter a été mise à jour avec succès avec "
 "l'adresse e-mail : "
 
+#: machines/models.py:6 machines/models.py:46
+msgid "Title"
+msgstr "Titre"
+
+#: machines/models.py:7 machines/models.py:41
+msgid "Description"
+msgstr "Description"
+
+#: accounts/templates/registration/registration_form.html:12
+msgid "Submit"
+msgstr "Envoi"
+
+#: interlab/templates/menu-mobile.html:13
+#: interlab/templates/navbar-header.html:18
+msgid "Calendar"
+msgstr "Calendrier"
+
+#: interlab/templates/menu-mobile.html:19
+#: interlab/templates/navbar-header.html:21
+msgid "Reservations"
+msgstr "Réservations"
+
+#: interlab/templates/menu-mobile.html:37
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#: interlab/templates/navbar-header.html:25
+msgid "Profile"
+msgstr "Profil"
+
+#: machines/templates/trainings/edit.html:4
+#: machines/templates/trainings/edit.html:10
+#, python-format
+msgid "Edit %(obj)s"
+msgstr "Editer %(obj)s"
+
+#: machines/templates/trainings/edit.html:4
+#: machines/templates/trainings/edit.html:10
+msgid "Add a training"
+msgstr "Ajouter une formation"
+
+#: machines/templates/trainings/list.html:10
+msgid ""
+"The trainings are available for everyone, no need to be part of the "
+"association (it is only required to create an online account)."
+msgstr ""
+"Les formations sont accessibles à tout un chacun, pas besoin d'être membre "
+"de l'association (il est seulement requis de se créer un compte en ligne)."
+
+#: machines/templates/trainings/list.html:24
+msgid "Sadly, no training is currently available."
+msgstr "Malheureusement, aucune formation n'est disponible pour le moment."
+
+#: machines/templates/trainings/show.html:33
+#| msgid "my next trainings"
+msgid "Our upcoming trainings"
+msgstr "Nos prochaines formations"
+
+#: machines/templates/trainings/show.html:36
+msgid "During this training you will learn..."
+msgstr "Durant cette formation vous apprendrez..."
+
+#: machines/templates/trainings/show.html:61
+msgid "List of the materials prices"
+msgstr "Liste des prix matière"
+
+#: newsletter/templates/forms/newsletter.html:7
+msgid "Stay informed"
+msgstr "Restez informé"
+
 #: accounts/views.py:125
 msgid "Your profile has been updated successfully"
 msgstr "Votre compte a été mis à jour avec succès"
@@ -564,8 +634,45 @@ msgid "Subscribe to the newsletter to follow the FabLab news"
 msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 
 #: newsletter/templates/forms/newsletter.html:27
-msgid "Thank you ! You are now registered in our newsletter list"
-msgstr "Merci ! vous êtes maintenant inscrit.e dans notre liste de newsletter"
+msgid "Thank you !"
+msgstr "Merci !"
+
+#~ msgid "Price"
+#~ msgstr "Prix"
+
+# For the trainings models
+msgid "Beginner"
+msgstr "Débutant"
+
+msgid "Intermediate"
+msgstr "Intermédiaire"
+
+msgid "Advanced"
+msgstr "Avancé"
+
+msgid "Machine category"
+msgstr "Catégorie de machine"
+
+msgid "Level"
+msgstr "Niveau"
+
+msgid "Duration"
+msgstr "Durée"
+
+msgid "Photo"
+msgstr "Photo"
+
+msgid "Question"
+msgstr "Question"
+
+msgid "Answer"
+msgstr "Réponse"
+
+msgid "Training updated!"
+msgstr "Formation mise à jour !"
+
+msgid "Training created!"
+msgstr "Formation créée !"
 
 #~ msgid "Name"
 #~ msgstr "Nom"
@@ -573,37 +680,9 @@ msgstr "Merci ! vous êtes maintenant inscrit.e dans notre liste de newsletter"
 #~ msgid "e-mail"
 #~ msgstr "e-mail"
 
-#~ msgid "Submit"
-#~ msgstr "Envoi"
-
-#~ msgid "Calendar"
-#~ msgstr "Calendrier"
-
-#~ msgid "Reservations"
-#~ msgstr "Réservations"
-
-#~ msgid "Dashboard"
-#~ msgstr "Tableau de bord"
-
-#~ msgid "Profile"
-#~ msgstr "Profil"
-
 #~ msgid ""
 #~ "One training is offered (alone or accompanied by a person) if you become "
 #~ "a member of the association."
 #~ msgstr ""
 #~ "Une formation est offerte (seul(e) ou accompagné(e) d'une personne) si "
 #~ "vous devenez membre de l'association."
-
-#~| msgid "my next trainings"
-#~ msgid "Our upcoming trainings"
-#~ msgstr "Nos prochaines formations"
-
-#~ msgid "During this training you will learn..."
-#~ msgstr "Durant cette formation vous apprendrez..."
-
-#~ msgid "List of the materials prices"
-#~ msgstr ""
-#~ "Liste des prix matièreSi vous ne recevez pas de message, vérifiez que "
-#~ "vous avez saisi l'adresse avec laquelle vous vous êtes enregistré·e et "
-#~ "contrôlez votre dossier de spam."
