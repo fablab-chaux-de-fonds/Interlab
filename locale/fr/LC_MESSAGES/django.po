@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-02 10:29+0000\n"
+"POT-Creation-Date: 2022-04-10 09:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,7 +98,7 @@ msgid "Manage subscription members"
 msgstr "Gérer les membres de mon abonnement"
 
 #: accounts/templates/accounts/nav.html:40
-#: interlab/templates/navbar-header.html:24
+#: interlab/templates/navbar-header.html:25
 msgid "My profile"
 msgstr "Mon profil"
 
@@ -198,7 +198,6 @@ msgid "Yes, I'm sure"
 msgstr "Oui, je suis sûr"
 
 #: accounts/templates/accounts/profile_edit.html:7
-#: interlab/templates/navbar-header.html:25
 msgid "Edit my profile"
 msgstr "Modifier mon Profil"
 
@@ -557,6 +556,10 @@ msgstr "Réservation"
 #: interlab/templates/navbar-header.html:53
 msgid "Login"
 msgstr "Connexion"
+
+#: interlab/templates/navbar-header.html:24
+msgid "User area"
+msgstr "Espace utilisateur"
 
 #: newsletter/templates/forms/newsletter.html:7
 msgid "Subscribe to the newsletter to follow the FabLab news"
