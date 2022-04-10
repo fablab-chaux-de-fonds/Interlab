@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-10 10:09+0000\n"
+"POT-Creation-Date: 2022-04-10 14:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -191,8 +191,8 @@ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 
 #: accounts/templates/accounts/profile_delete.html:13
 #: accounts/templates/accounts/profile_edit.html:18
-#: accounts/templates/accounts/user-edit.html:42
 #: accounts/templates/organizations/organizationuser_confirm_delete.html:19
+#: accounts/templates/registration/password_change_form.html:17
 #: accounts/templates/registration/password_reset_form.html:22
 msgid "Whoops, no !"
 msgstr "Oups, non !"
@@ -214,6 +214,10 @@ msgstr "Changer mon mot de passe"
 #: accounts/templates/accounts/user-edit.html:17
 msgid "Subscription"
 msgstr "Abonnement"
+
+#: accounts/templates/accounts/user-edit.html:42
+msgid "Back to the list"
+msgstr "Revenir à la liste"
 
 #: accounts/templates/accounts/user-list-filtered.html:39
 msgid "Oups, no user founded !"
@@ -457,10 +461,10 @@ msgstr "Mon compte"
 msgid "Forgotten your password?"
 msgstr "Mot de passe oublié?"
 
-#: accounts/templates/registration/password_change_form.html:15
+#: accounts/templates/registration/password_change_form.html:20
 #: accounts/templates/registration/password_reset_form.html:25
-msgid "Reset it"
-msgstr "Réinitaliser"
+msgid "Reset my password"
+msgstr "Modifier mon mot de passe"
 
 #: accounts/templates/registration/password_reset_complete.html:10
 msgid "Password reset successfully"
