@@ -16,10 +16,10 @@
     </a>
     <hr>
     
-    {% if organization %}
+    {% if request.user.organizations_organization %}
         {% load org_tags %}
-        {% if organization|is_owner:user %}
-        <a class="nav-link px-0 text-blue" href= "{% url 'organization_detail' organization.pk %}">
+        {% if request.user.organizations_organization.first|is_owner:user %}
+        <a class="nav-link px-0 text-blue" href= "{% url 'organization_detail' request.user.organizations_organization.first.pk %}">
             <div class="row">
                 <div class="col-10">
                     <h2>{% trans "My subscription" %}</h2>

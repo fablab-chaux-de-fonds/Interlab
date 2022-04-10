@@ -86,7 +86,6 @@ def AccountsView(request):
     template = loader.get_template('accounts/profile.html')
     context = {
         'page_title': "My account",
-        'organization': user.organizations_organization.first(),
         'user': user
     }
     try:
