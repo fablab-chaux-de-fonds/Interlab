@@ -3,7 +3,7 @@
 {{ sender.first_name|safe }} {{ sender.last_name|safe }} {% trans "invites you to join the team of " %} {{ organization|safe }} {% trans "on the site of" %} {{ domain.name }}
 
 {% trans "If you do not have an account with the email address" %} {{ user.email }}, {% trans "follow this link to create your account : " %}
-https://{{ domain.domain }}{% url "invitations_register" user.pk token %}
+{{ scheme }}://{{ domain.domain }}{% url "invitations_register" user.pk token %}
 
 {% trans "If you are unsure about this email or have any questions, please reply to this email."%}
 
