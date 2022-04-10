@@ -22,8 +22,6 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="/accounts/profile">{% trans "User area"%}</a></li>
-                        <li><a class="dropdown-item" href="{% url 'edit-profile' %}">{% trans "My profile" %}</a>
-                        </li>
                         <li><a class="dropdown-item" href="#">{% trans "My reservations" %}</a></li>
                         {% if organization %}
                         {% load org_tags %}
@@ -31,6 +29,8 @@
                         <li><a class="dropdown-item" href="{% url 'organization_detail' organization.pk %}">{% trans "My subscription" %}</a> </li>
                         {% endif %}
                         {% endif %}
+                        <li><a class="dropdown-item" href="{% url 'edit-profile' %}">{% trans "My profile" %}</a>
+                        </li>
                         
                         {% if request.user|has_group:"superuser" %}
                         <li>
