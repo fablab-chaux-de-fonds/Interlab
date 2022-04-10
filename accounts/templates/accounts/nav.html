@@ -16,7 +16,7 @@
     </a>
     <hr>
     
-    {% if request.user.organizations_organization %}
+    {% if request.user.organizations_organization.first %}
         {% load org_tags %}
         {% if request.user.organizations_organization.first|is_owner:user %}
         <a class="nav-link px-0 text-blue" href= "{% url 'organization_detail' request.user.organizations_organization.first.pk %}">

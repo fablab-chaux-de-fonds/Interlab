@@ -18,7 +18,7 @@
     {{ user.profile.subscription.subscription_category.title }} {% trans "valid until" %}
     {{ user.profile.subscription.end|date:'d.m.Y' }} </br>
 
-    {% if request.user.organizations_organization %}
+    {% if request.user.organizations_organization.first %}
         {% load org_tags %}
         {% if request.user.organizations_organization.first|is_owner:user %}
             {% trans 'You are the owner of the subscription' %} {{request.user.organizations_organization.first.name}}</br>
