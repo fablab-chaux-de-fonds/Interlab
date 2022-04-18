@@ -201,13 +201,25 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'organizations',
     'newsletter.apps.NewsletterConfig',
-    'mathfilters'
+    'mathfilters',
+    'django_q',
 ]
 
 LANGUAGES = (
     ## Customize this
     ('fr', gettext('fr')),
 )
+
+
+Q_CLUSTER = {
+    'name': 'DjangORM',
+    'workers': 1,
+    'timeout': 90,
+    'retry': 120,
+    'queue_limit': 50,
+    'bulk': 10,
+    'orm': 'default'
+}
 
 CMS_LANGUAGES = {
     ## Customize this
