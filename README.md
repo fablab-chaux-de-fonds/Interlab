@@ -125,3 +125,8 @@ And remount BindFS after update
 ```shell
 $ sudo mount -a
 ```
+## Database
+Pull database form Hidora
+```shell
+./tools/pull_db.sh
+``` 
