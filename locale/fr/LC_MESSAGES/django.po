@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-02 12:55+0000\n"
+"POT-Creation-Date: 2022-04-10 14:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: accounts/forms.py:27 accounts/templates/accounts/nav.html:41
+#: accounts/forms.py:27 accounts/templates/accounts/nav.html:43
 msgid "email"
 msgstr "e-mail"
 
@@ -71,99 +71,104 @@ msgstr "Pas d'abonnement"
 msgid "email address"
 msgstr "adresse e-mail"
 
-#: accounts/templates/accounts/nav.html:7
-#: interlab/templates/navbar-header.html:27
+#: accounts/templates/accounts/nav.html:4
+#: interlab/templates/navbar-header.html:24
+msgid "User area"
+msgstr "Espace utilisateur"
+
+#: accounts/templates/accounts/nav.html:9
+#: interlab/templates/navbar-header.html:25
 msgid "My reservations"
 msgstr "Mes réservations"
 
-#: accounts/templates/accounts/nav.html:8
+#: accounts/templates/accounts/nav.html:10
 msgid "Machines"
 msgstr "Machines"
 
-#: accounts/templates/accounts/nav.html:8
+#: accounts/templates/accounts/nav.html:10
 msgid "trainings"
 msgstr "formations"
 
-#: accounts/templates/accounts/nav.html:8
+#: accounts/templates/accounts/nav.html:10
 msgid "events"
 msgstr "évènements"
 
-#: accounts/templates/accounts/nav.html:23
-#: interlab/templates/navbar-header.html:31
+#: accounts/templates/accounts/nav.html:25
+#: interlab/templates/navbar-header.html:29
 msgid "My subscription"
 msgstr "Mon abonnement"
 
-#: accounts/templates/accounts/nav.html:24
+#: accounts/templates/accounts/nav.html:26
 msgid "Manage subscription members"
 msgstr "Gérer les membres de mon abonnement"
 
-#: accounts/templates/accounts/nav.html:40
-#: interlab/templates/navbar-header.html:24
+#: accounts/templates/accounts/nav.html:42
+#: interlab/templates/navbar-header.html:32
 msgid "My profile"
 msgstr "Mon profil"
 
-#: accounts/templates/accounts/nav.html:41
+#: accounts/templates/accounts/nav.html:43
 msgid "name"
 msgstr "nom"
 
-#: accounts/templates/accounts/nav.html:41
+#: accounts/templates/accounts/nav.html:43
 #: accounts/templates/registration/login.html:15
 msgid "password"
 msgstr "mot de passe"
 
-#: accounts/templates/accounts/nav.html:41
+#: accounts/templates/accounts/nav.html:43
 #: accounts/templates/accounts/profile_edit.html:13
 msgid "delete account"
 msgstr "supprimer mon compte"
 
-#: accounts/templates/accounts/nav.html:50
+#: accounts/templates/accounts/nav.html:52
 #: interlab/templates/navbar-header.html:39
 msgid "Superuser area"
 msgstr "Espace Superutilisateur"
 
-#: accounts/templates/accounts/nav.html:55
+#: accounts/templates/accounts/nav.html:57
 #: interlab/templates/navbar-header.html:40
 msgid "Openings"
 msgstr "Ouvertures"
 
-#: accounts/templates/accounts/nav.html:56
+#: accounts/templates/accounts/nav.html:58
 msgid "my next openings"
 msgstr "mes prochaines ouvertures"
 
-#: accounts/templates/accounts/nav.html:56
-#: accounts/templates/accounts/nav.html:68
+#: accounts/templates/accounts/nav.html:58
+#: accounts/templates/accounts/nav.html:70
 msgid "my history"
 msgstr "mon historique"
 
-#: accounts/templates/accounts/nav.html:56
+#: accounts/templates/accounts/nav.html:58
 msgid "my machines"
 msgstr "mes machines"
 
-#: accounts/templates/accounts/nav.html:67
+#: accounts/templates/accounts/nav.html:69
 #: accounts/templates/accounts/user-edit.html:35
 #: interlab/templates/navbar-header.html:41
 msgid "Trainings"
 msgstr "Formations"
 
-#: accounts/templates/accounts/nav.html:68
+#: accounts/templates/accounts/nav.html:70
 msgid "my next trainings"
 msgstr "Mes prochaines formations"
 
-#: accounts/templates/accounts/nav.html:68
-#: accounts/templates/accounts/nav.html:80
+#: accounts/templates/accounts/nav.html:70
+#: accounts/templates/accounts/nav.html:82
 msgid "training validation"
 msgstr "validation de formations"
 
-#: accounts/templates/accounts/nav.html:79
+#: accounts/templates/accounts/nav.html:81
 #: interlab/templates/navbar-header.html:42
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: accounts/templates/accounts/nav.html:80
+#: accounts/templates/accounts/nav.html:82
 msgid "subscription"
 msgstr "abonnement"
 
-#: accounts/templates/accounts/nav.html:92
+#: accounts/templates/accounts/nav.html:94
 #: interlab/templates/navbar-header.html:47
 msgid "Logout"
 msgstr "Se déconnecter"
@@ -174,14 +179,20 @@ msgstr "Se déconnecter"
 msgid "Update"
 msgstr "Mettre à jour"
 
+#: accounts/templates/accounts/profile.html:15
+#, fuzzy
+#| msgid "The owner of the subscription"
+msgid "Discover the subscriptions"
+msgstr "Découvrez les abonnements"
+
 #: accounts/templates/accounts/profile_delete.html:9
 msgid "Are you sure you want to delete your account ?"
 msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 
 #: accounts/templates/accounts/profile_delete.html:13
 #: accounts/templates/accounts/profile_edit.html:18
-#: accounts/templates/accounts/user-edit.html:42
 #: accounts/templates/organizations/organizationuser_confirm_delete.html:19
+#: accounts/templates/registration/password_change_form.html:17
 #: accounts/templates/registration/password_reset_form.html:22
 msgid "Whoops, no !"
 msgstr "Oups, non !"
@@ -192,7 +203,6 @@ msgid "Yes, I'm sure"
 msgstr "Oui, je suis sûr"
 
 #: accounts/templates/accounts/profile_edit.html:7
-#: interlab/templates/navbar-header.html:25
 msgid "Edit my profile"
 msgstr "Modifier mon Profil"
 
@@ -204,6 +214,10 @@ msgstr "Changer mon mot de passe"
 #: accounts/templates/accounts/user-edit.html:17
 msgid "Subscription"
 msgstr "Abonnement"
+
+#: accounts/templates/accounts/user-edit.html:42
+msgid "Back to the list"
+msgstr "Revenir à la liste"
 
 #: accounts/templates/accounts/user-list-filtered.html:39
 msgid "Oups, no user founded !"
@@ -449,10 +463,10 @@ msgstr "Mon compte"
 msgid "Forgotten your password?"
 msgstr "Mot de passe oublié?"
 
-#: accounts/templates/registration/password_change_form.html:15
+#: accounts/templates/registration/password_change_form.html:20
 #: accounts/templates/registration/password_reset_form.html:25
-msgid "Reset it"
-msgstr "Réinitaliser"
+msgid "Reset my password"
+msgstr "Modifier mon mot de passe"
 
 #: accounts/templates/registration/password_reset_complete.html:10
 msgid "Password reset successfully"
@@ -579,5 +593,5 @@ msgid "Subscribe to the newsletter to follow the FabLab news"
 msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 
 #: newsletter/templates/forms/newsletter.html:27
-msgid "Thank you !"
-msgstr "Merci !"
+msgid "Thank you ! You are now registered in our newsletter list"
+msgstr "Merci ! vous êtes maintenant inscrit.e dans notre liste de newsletter"

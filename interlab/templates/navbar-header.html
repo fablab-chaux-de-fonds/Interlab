@@ -21,16 +21,16 @@
                         {% trans "My account" %}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/accounts/profile">{% trans "My profile"%}</a></li>
-                        <li><a class="dropdown-item" href="{% url 'edit-profile' %}">{% trans "Edit my profile" %}</a>
-                        </li>
+                        <li><a class="dropdown-item" href="/accounts/profile">{% trans "User area"%}</a></li>
                         <li><a class="dropdown-item" href="#">{% trans "My reservations" %}</a></li>
-                        {% if organization %}
+                        {% if request.user.organizations_organization.first %}
                         {% load org_tags %}
-                        {% if organization|is_owner:user %}
-                        <li><a class="dropdown-item" href="{% url 'organization_detail' organization.pk %}">{% trans "My subscription" %}</a> </li>
+                            {% if request.user.organizations_organization.first|is_owner:user %}
+                            <li><a class="dropdown-item" href="{% url 'organization_detail' request.user.organizations_organization.first.pk %}">{% trans "My subscription" %}</a> </li>
+                            {% endif %}
                         {% endif %}
-                        {% endif %}
+                        <li><a class="dropdown-item" href="{% url 'edit-profile' %}">{% trans "My profile" %}</a>
+                        </li>
                         
                         {% if request.user|has_group:"superuser" %}
                         <li>

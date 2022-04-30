@@ -26,3 +26,17 @@
     color: $custom-red;
   }
 }
+
+.btn-blue {
+  color: $white;
+  background-color: $custom-blue;
+  border: $custom-blue;
+}
+
+.btn-feedback {
+  position: fixed;
+  right: 0;
+  top: 40%;
+  transform: rotate(-90deg);
+  transform-origin: bottom right;
+}

@@ -18,13 +18,13 @@
     {{ user.profile.subscription.subscription_category.title }} {% trans "valid until" %}
     {{ user.profile.subscription.end|date:'d.m.Y' }} </br>
 
-    {% if organization %}
+    {% if request.user.organizations_organization.first %}
         {% load org_tags %}
-        {% if organization|is_owner:user %}
-            {% trans 'You are the owner of the subscription' %} {{organization.name}}</br>
+        {% if request.user.organizations_organization.first|is_owner:user %}
+            {% trans 'You are the owner of the subscription' %} {{request.user.organizations_organization.first.name}}</br>
         {% else %}
-            {% trans 'The owner of the subscription' %} {{organization.name}} {% trans 'is' %}
-            {{organization.owner.organization_user.name}}</br>
+            {% trans 'The owner of the subscription' %} {{request.user.organizations_organization.first.name}} {% trans 'is' %}
+            {{request.user.organizations_organization.first.owner.organization_user.name}}</br>
         {% endif %}
     {% endif %}
     </small> </p>
