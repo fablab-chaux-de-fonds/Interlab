@@ -13,12 +13,13 @@ services:
     env_file:
       - .env
     volumes:
-      - ./interlab:/code/interlab
       - ./accounts:/code/accounts
-      - ./newsletter:/code/newsletter
-      - ./frontend:/code/frontend
-      - ./locale:/code/locale
       - ./build:/code/build
+      - ./frontend:/code/frontend
+      - ./interlab:/code/interlab
+      - ./locale:/code/locale
+      - ./newsletter:/code/newsletter
+      - ./openings:/code/openings
     ports:
       - "8000:8000"
       - 3000:3000

@@ -35,7 +35,6 @@ urlpatterns += i18n_patterns(
     path('invitations/', include(invitation_backend().get_urls())),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path('bootstrap/', views.bootstrap, name='bootstrap'),
-    path('schedule/', views.schedule, name='schedule'),
     path("", include("newsletter.urls")),
     path("", include("cms.urls")),
     prefix_default_language=False
