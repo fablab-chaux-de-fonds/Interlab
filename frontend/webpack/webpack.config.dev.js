@@ -21,6 +21,9 @@ module.exports = merge(common, {
     port: 9091,
     headers: {
       "Access-Control-Allow-Origin": "*",
+    }, 
+    devMiddleware: {
+      writeToDisk: true,
     }
   },
   plugins: [
