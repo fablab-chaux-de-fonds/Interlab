@@ -16,9 +16,9 @@ def send_reminder_subscription_email():
         }
         html_message = render_to_string('accounts/email/subscription_reminder.html', context)
         send_mail(
-            subject=_('Your subscription exired in 7 days'),
+            subject=_('Your subscription will expire in 7 days'),
             from_email=None,
-            message = _("Your subscription exired in 7 days"),
+            message = _("Your subscription will expire in 7 days"),
             recipient_list = [profile.user.email],
             html_message=html_message
         )
