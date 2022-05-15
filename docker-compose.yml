@@ -12,6 +12,9 @@ services:
     command: python manage.py qcluster
     env_file:
       - .env
+    volumes:
+      - ./interlab:/code/interlab
+      - ./accounts:/code/accounts
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000

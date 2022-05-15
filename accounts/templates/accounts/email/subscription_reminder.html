@@ -1,0 +1,13 @@
+{% extends "email/base_email.html" %}
+{% load i18n %}
+
+{% block content %}
+<p> Hello {{profile.user.first_name}}, </p> 
+<p>{%trans "Your subscription expire in 7 days" %}</p>
+<div class="btn btn-primary text-center">
+    <a href="#">{% trans "Update my subscription" %}</a>
+</div>
+<div class="btn btn-primary text-center">
+    <a href="{{DOMAIN}}{% url 'login' %}" class="btn btn-primary">{%trans "Log in" %}</a>
+</div>
+{% endblock content %} 
