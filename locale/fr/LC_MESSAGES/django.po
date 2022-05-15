@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-15 16:59+0000\n"
+"POT-Creation-Date: 2022-05-15 17:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,22 +71,23 @@ msgstr "Pas d'abonnement"
 msgid "email address"
 msgstr "adresse e-mail"
 
-#: accounts/tasks.py:19 accounts/tasks.py:21
+#: accounts/tasks.py:26 accounts/tasks.py:27
 #: accounts/templates/accounts/email/subscription_reminder.html:6
 msgid "Your subscription will expire in 7 days"
 msgstr "Votre abonnement sera expiré dans 7 jours"
 
+#: accounts/tasks.py:41 accounts/tasks.py:42
+msgid "Your subscription expire today"
+msgstr "Votre abonnement est expiré aujourd'hui"
+
+#: accounts/templates/accounts/email/subscription_expire.html:6
+msgid "Your subscription will expire today"
+msgstr "Votre abonnement sera expiré dans 7 jours"
+
+#: accounts/templates/accounts/email/subscription_expire.html:8
 #: accounts/templates/accounts/email/subscription_reminder.html:8
 msgid "Update my subscription"
 msgstr "Renouveler mon abonnement"
-
-#: accounts/templates/accounts/email/subscription_reminder.html:11
-#: accounts/templates/django_registration/activation_complete.html:9
-#: accounts/templates/django_registration/already_activated.html:14
-#: accounts/templates/registration/login.html:21
-#: accounts/templates/registration/password_reset_complete.html:18
-msgid "Log in"
-msgstr "Se connecter"
 
 #: accounts/templates/accounts/nav.html:4
 #: interlab/templates/navbar-header.html:24
@@ -272,6 +273,13 @@ msgid ""
 msgstr ""
 "Votre compte est activé, vous pouvez désormais suivre une formation ou vous "
 "inscrire à un évènement"
+
+#: accounts/templates/django_registration/activation_complete.html:9
+#: accounts/templates/django_registration/already_activated.html:14
+#: accounts/templates/registration/login.html:21
+#: accounts/templates/registration/password_reset_complete.html:18
+msgid "Log in"
+msgstr "Se connecter"
 
 #: accounts/templates/django_registration/activation_email_body.txt:3
 #: accounts/templates/organizations/email/invitation_body.html:3
@@ -607,8 +615,3 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 #: newsletter/templates/forms/newsletter.html:27
 msgid "Thank you ! You are now registered in our newsletter list"
 msgstr "Merci ! vous êtes maintenant inscrit.e dans notre liste de newsletter"
-
-#, fuzzy
-#~| msgid "Your subscription will expire in 7 days"
-#~ msgid "Your subscription expire in 7 days"
-#~ msgstr "Votre abonnement sera expiré dans 7 jours"
