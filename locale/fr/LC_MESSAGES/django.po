@@ -326,6 +326,8 @@ msgstr "Veuillez vérifier votre boîte mail pour activer votre compte."
 #: accounts/templates/django_registration/registration_complete.html:14
 #: accounts/templates/registration/password_reset_complete.html:14
 #: accounts/templates/registration/password_reset_done.html:15
+#: interlab/templates/400.html:17 interlab/templates/403.html:15
+#: interlab/templates/404.html:15 interlab/templates/500.html:17
 msgid "Home page"
 msgstr "Page d'acceuil"
 
@@ -550,6 +552,26 @@ msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 #: interlab/settings.py:209 interlab/settings.py:217
 msgid "fr"
 msgstr "fr"
+
+#: interlab/templates/400.html:11
+msgid "Whoops ! Bad request."
+msgstr "Oups ! Mauvaise requête"
+
+#: interlab/templates/400.html:12 interlab/templates/500.html:12
+msgid "If this error recurs, please contact us :"
+msgstr "Si cette erreur se répète, veuillez nous contacter :"
+
+#: interlab/templates/403.html:11
+msgid "Whoops ! Access denied"
+msgstr "Oups ! accès interdit"
+
+#: interlab/templates/404.html:11
+msgid "Whoops ! This page is not found"
+msgstr "Oups ! Page non trouvée"
+
+#: interlab/templates/500.html:11
+msgid "Whoops ! Server error"
+msgstr "Oups ! Erreur de serveur"
 
 #: interlab/templates/menu-mobile.html:13
 #: interlab/templates/navbar-header.html:12
