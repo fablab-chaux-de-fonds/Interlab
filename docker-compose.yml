@@ -9,6 +9,7 @@ services:
         - .env
   queue:
     build: .
+    restart: always
     command: python manage.py qcluster
     env_file:
       - .env
