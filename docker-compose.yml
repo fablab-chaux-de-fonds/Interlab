@@ -7,6 +7,15 @@ services:
       - ./data/db:/var/lib/postgresql/data
     env_file:
         - .env
+  queue:
+    build: .
+    restart: always
+    command: python manage.py qcluster
+    env_file:
+      - .env
+    volumes:
+      - ./interlab:/code/interlab
+      - ./accounts:/code/accounts
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -19,9 +28,11 @@ services:
       - ./frontend:/code/frontend
       - ./locale:/code/locale
       - ./build:/code/build
+      - ./media:/code/media
     ports:
       - "8000:8000"
       - 3000:3000
     depends_on:
       - db
+      - queue
 
