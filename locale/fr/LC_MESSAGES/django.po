@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-29 11:31+0000\n"
+"POT-Creation-Date: 2022-05-29 15:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,10 +76,12 @@ msgid "Your subscription has been updated successfully until "
 msgstr "Votre abonnement a été mis à jour avec succès jusqu'au "
 
 #: accounts/templates/accounts/email/subscription_updated.html:7
+#: payments/templates/payments/subscription_update_success.html:9
 msgid "You can continue to use the fablab with premium prices"
 msgstr "Vous pouvez continuer à utiliser le fablab à des prix préférentiels."
 
 #: accounts/templates/accounts/email/subscription_updated.html:9
+#: payments/templates/payments/subscription_update_success.html:10
 msgid "Book a machine"
 msgstr "Réserver une machine"
 
@@ -206,6 +208,7 @@ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 #: accounts/templates/organizations/organizationuser_confirm_delete.html:19
 #: accounts/templates/registration/password_change_form.html:17
 #: accounts/templates/registration/password_reset_form.html:22
+#: payments/templates/payments/subscription_update.html:22
 msgid "Whoops, no !"
 msgstr "Oups, non !"
 
@@ -241,6 +244,7 @@ msgstr "Chercher un utilisateur"
 
 #: accounts/templates/accounts/user-summary.html:18
 #: accounts/templates/organizations/organization_detail.html:17
+#: payments/templates/payments/subscription_update.html:13
 msgid "valid until"
 msgstr "valable jusqu'au"
 
@@ -610,37 +614,42 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 msgid "Thank you ! You are now registered in our newsletter list"
 msgstr ""
 
+#: payments/templates/payments/subscription_update.html:15
+msgid "Renew your subscription for a new year in one click"
+msgstr "Renouvelez votre abonnement pour un an en un clic"
+
+#: payments/templates/payments/subscription_update.html:25
+msgid "Renew my subscription"
+msgstr "Renouveler mon abonnement"
+
+#: payments/templates/payments/subscription_update_cancel.html:7
+msgid "You don't update your subscription"
+msgstr "Vous n'avez pas mis à jour votre abonnement"
+
+#: payments/templates/payments/subscription_update_cancel.html:8
+msgid ""
+"If you have trouble renewing your subscription, please contact the Fablab la "
+"Chaux-de-Fonds"
+msgstr ""
+"Si vous avez des difficultés à renouveler votre abonnement, veuillez "
+"contacter le Fablab la Chaux-de-Fonds"
+
+#: payments/templates/payments/subscription_update_success.html:7
+msgid "Your subscription has been updated successfully"
+msgstr "Votre abonnement a été mis à jour avec succès"
+
+#: payments/templates/payments/subscription_update_success.html:8
+msgid "We have sent you an email to confirme the subscription update."
+msgstr ""
+"Nous vous avons envoyé un e-mail pour confirmer la mise à jour de "
+"l'abonnement."
+
+#| msgid "Your subscription has been updated successfully until "
+msgid "Your subsription has been updated successfully"
+msgstr "Votre abonnement a été mis à jour avec succès"
+
 #~ msgid "Thank you !"
 #~ msgstr "Merci !"
-
-#~ msgid "Renew your subscription for a new year in one click"
-#~ msgstr "Renouvelez votre abonnement pour un an en un clic"
-
-#~ msgid "Renew my subscription"
-#~ msgstr "Renouveler mon abonnement"
-
-#~ msgid "You don't update your subscription"
-#~ msgstr "Vous n'avez pas mis à jour votre abonnement"
-
-#~ msgid ""
-#~ "If you have trouble renewing your subscription, please contact the Fablab "
-#~ "la Chaux-de-Fonds"
-#~ msgstr ""
-#~ "Si vous avez des difficultés à renouveler votre abonnement, veuillez "
-#~ "contacter le Fablab la Chaux-de-Fonds"
-
-#~ msgid "Your subscription has been updated successfully"
-#~ msgstr "Votre abonnement a été mis à jour avec succès"
-
-#~ msgid "We have sent you an email to confirme the subscription update."
-#~ msgstr ""
-#~ "Nous vous avons envoyé un e-mail pour confirmer la mise à jour de "
-#~ "l'abonnement."
-
-#, fuzzy
-#~| msgid "Your subscription has been updated successfully until "
-#~ msgid "Your subsription has been updated successfully"
-#~ msgstr "Votre abonnement a été mis à jour avec succès"
 
 #~ msgid "Password changed"
 #~ msgstr "Mot de passe changé"
