@@ -1,4 +1,5 @@
 import inspect
+from urllib import request
 
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
@@ -59,6 +60,7 @@ class CustomInvitationsBackend(InvitationBackend):
             user.is_active = False
             user.save()
             
+            # Link profile / user if user not exist yet
             profile = Profile(user=user, subscription=sender.profile.subscription)
             profile.save()
 

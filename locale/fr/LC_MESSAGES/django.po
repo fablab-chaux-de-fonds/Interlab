@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-26 17:54+0000\n"
+"POT-Creation-Date: 2022-05-29 11:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: accounts/forms.py:27 accounts/templates/accounts/nav.html:41
+#: accounts/forms.py:27 accounts/templates/accounts/nav.html:43
 msgid "email"
 msgstr "e-mail"
 
@@ -76,103 +76,114 @@ msgid "Your subscription has been updated successfully until "
 msgstr "Votre abonnement a été mis à jour avec succès jusqu'au "
 
 #: accounts/templates/accounts/email/subscription_updated.html:7
-#: payments/templates/payments/subscription_update_success.html:9
 msgid "You can continue to use the fablab with premium prices"
 msgstr "Vous pouvez continuer à utiliser le fablab à des prix préférentiels."
 
 #: accounts/templates/accounts/email/subscription_updated.html:9
-#: payments/templates/payments/subscription_update_success.html:10
 msgid "Book a machine"
 msgstr "Réserver une machine"
 
-#: accounts/templates/accounts/nav.html:7
+#: accounts/templates/accounts/nav.html:4
+#: interlab/templates/navbar-header.html:24
+msgid "User area"
+msgstr "Espace utilisateur"
+
+#: accounts/templates/accounts/nav.html:9
+#: interlab/templates/navbar-header.html:25
 msgid "My reservations"
 msgstr "Mes réservations"
 
-#: accounts/templates/accounts/nav.html:8
+#: accounts/templates/accounts/nav.html:10
 msgid "Machines"
 msgstr "Machines"
 
-#: accounts/templates/accounts/nav.html:8
+#: accounts/templates/accounts/nav.html:10
 msgid "trainings"
 msgstr "formations"
 
-#: accounts/templates/accounts/nav.html:8
+#: accounts/templates/accounts/nav.html:10
 msgid "events"
 msgstr "évènements"
 
-#: accounts/templates/accounts/nav.html:23
+#: accounts/templates/accounts/nav.html:25
+#: interlab/templates/navbar-header.html:29
 msgid "My subscription"
 msgstr "Mon abonnement"
 
-#: accounts/templates/accounts/nav.html:24
+#: accounts/templates/accounts/nav.html:26
 msgid "Manage subscription members"
 msgstr "Gérer les membres de mon abonnement"
 
-#: accounts/templates/accounts/nav.html:40
+#: accounts/templates/accounts/nav.html:42
+#: interlab/templates/navbar-header.html:32
 msgid "My profile"
-msgstr "Mon Profil"
+msgstr "Mon profil"
 
-#: accounts/templates/accounts/nav.html:41
+#: accounts/templates/accounts/nav.html:43
 msgid "name"
 msgstr "nom"
 
-#: accounts/templates/accounts/nav.html:41
+#: accounts/templates/accounts/nav.html:43
 #: accounts/templates/registration/login.html:15
 msgid "password"
 msgstr "mot de passe"
 
-#: accounts/templates/accounts/nav.html:41
+#: accounts/templates/accounts/nav.html:43
 #: accounts/templates/accounts/profile_edit.html:13
 msgid "delete account"
 msgstr "supprimer mon compte"
 
 #: accounts/templates/accounts/nav.html:52
-msgid "Logout"
-msgstr "Se déconnecter"
-
-#: accounts/templates/accounts/nav.html:61
+#: interlab/templates/navbar-header.html:39
 msgid "Superuser area"
 msgstr "Espace Superutilisateur"
 
-#: accounts/templates/accounts/nav.html:66
+#: accounts/templates/accounts/nav.html:57
+#: interlab/templates/navbar-header.html:40
 msgid "Openings"
 msgstr "Ouvertures"
 
-#: accounts/templates/accounts/nav.html:67
+#: accounts/templates/accounts/nav.html:58
 msgid "my next openings"
 msgstr "mes prochaines ouvertures"
 
-#: accounts/templates/accounts/nav.html:67
-#: accounts/templates/accounts/nav.html:79
+#: accounts/templates/accounts/nav.html:58
+#: accounts/templates/accounts/nav.html:70
 msgid "my history"
 msgstr "mon historique"
 
-#: accounts/templates/accounts/nav.html:67
+#: accounts/templates/accounts/nav.html:58
 msgid "my machines"
 msgstr "mes machines"
 
-#: accounts/templates/accounts/nav.html:78
+#: accounts/templates/accounts/nav.html:69
 #: accounts/templates/accounts/user-edit.html:35
+#: interlab/templates/navbar-header.html:41
 msgid "Trainings"
 msgstr "Formations"
 
-#: accounts/templates/accounts/nav.html:79
+#: accounts/templates/accounts/nav.html:70
 msgid "my next trainings"
 msgstr "Mes prochaines formations"
 
-#: accounts/templates/accounts/nav.html:79
-#: accounts/templates/accounts/nav.html:91
+#: accounts/templates/accounts/nav.html:70
+#: accounts/templates/accounts/nav.html:82
 msgid "training validation"
 msgstr "validation de formations"
 
-#: accounts/templates/accounts/nav.html:90
+#: accounts/templates/accounts/nav.html:81
+#: interlab/templates/navbar-header.html:42
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: accounts/templates/accounts/nav.html:91
+#: accounts/templates/accounts/nav.html:82
 msgid "subscription"
 msgstr "abonnement"
+
+#: accounts/templates/accounts/nav.html:94
+#: interlab/templates/navbar-header.html:47
+msgid "Logout"
+msgstr "Se déconnecter"
 
 #: accounts/templates/accounts/password-change.html:10
 #: accounts/templates/accounts/profile_edit.html:21
@@ -180,16 +191,21 @@ msgstr "abonnement"
 msgid "Update"
 msgstr "Mettre à jour"
 
+#: accounts/templates/accounts/profile.html:15
+#, fuzzy
+#| msgid "The owner of the subscription"
+msgid "Discover the subscriptions"
+msgstr "Découvrez les abonnements"
+
 #: accounts/templates/accounts/profile_delete.html:9
 msgid "Are you sure you want to delete your account ?"
 msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 
 #: accounts/templates/accounts/profile_delete.html:13
 #: accounts/templates/accounts/profile_edit.html:18
-#: accounts/templates/accounts/user-edit.html:42
 #: accounts/templates/organizations/organizationuser_confirm_delete.html:19
+#: accounts/templates/registration/password_change_form.html:17
 #: accounts/templates/registration/password_reset_form.html:22
-#: payments/templates/payments/subscription_update.html:27
 msgid "Whoops, no !"
 msgstr "Oups, non !"
 
@@ -211,6 +227,10 @@ msgstr "Changer mon mot de passe"
 msgid "Subscription"
 msgstr "Abonnement"
 
+#: accounts/templates/accounts/user-edit.html:42
+msgid "Back to the list"
+msgstr "Revenir à la liste"
+
 #: accounts/templates/accounts/user-list-filtered.html:39
 msgid "Oups, no user founded !"
 msgstr "Oups, pas d'utilisateur trouvé"
@@ -221,7 +241,6 @@ msgstr "Chercher un utilisateur"
 
 #: accounts/templates/accounts/user-summary.html:18
 #: accounts/templates/organizations/organization_detail.html:17
-#: payments/templates/payments/subscription_update.html:18
 msgid "valid until"
 msgstr "valable jusqu'au"
 
@@ -251,12 +270,13 @@ msgstr ""
 
 #: accounts/templates/django_registration/activation_complete.html:9
 #: accounts/templates/django_registration/already_activated.html:14
-#: accounts/templates/registration/login.html:22
+#: accounts/templates/registration/login.html:21
 #: accounts/templates/registration/password_reset_complete.html:18
 msgid "Log in"
 msgstr "Se connecter"
 
 #: accounts/templates/django_registration/activation_email_body.txt:3
+#: accounts/templates/organizations/email/invitation_body.html:3
 #: accounts/templates/registration/password_reset_email.html:3
 #: accounts/templates/registration/password_reset_email.txt:3
 msgid "Hello"
@@ -276,7 +296,7 @@ msgid "This link is only valid for %(expiration_days)s days."
 msgstr "Ce lien est valide uniquement pendant %(expiration_days)s jours"
 
 #: accounts/templates/django_registration/activation_email_body.txt:11
-#: accounts/templates/organizations/email/invitation_body.html:10
+#: accounts/templates/organizations/email/invitation_body.html:12
 msgid "We welcome you to the FabLab!"
 msgstr "Nous vous souhaitons la bienvenue au FabLab !"
 
@@ -319,31 +339,34 @@ msgstr "Veuillez vérifier votre boîte mail pour activer votre compte."
 #: accounts/templates/django_registration/registration_complete.html:14
 #: accounts/templates/registration/password_reset_complete.html:14
 #: accounts/templates/registration/password_reset_done.html:15
+#: interlab/templates/400.html:17 interlab/templates/403.html:15
+#: interlab/templates/404.html:15 interlab/templates/500.html:17
 msgid "Home page"
 msgstr "Page d'acceuil"
 
 #: accounts/templates/django_registration/registration_form.html:12
+#: accounts/templates/organizations/register_form.html:14
 #: accounts/templates/registration/registration_form.html:12
 msgid "Subscribe"
 msgstr "S'inscrire"
 
-#: accounts/templates/organizations/email/invitation_body.html:3
+#: accounts/templates/organizations/email/invitation_body.html:5
 msgid "invites you to join the team of "
 msgstr "vous invite à rejoindre l'équipe"
 
-#: accounts/templates/organizations/email/invitation_body.html:3
+#: accounts/templates/organizations/email/invitation_body.html:5
 msgid "on the site of"
 msgstr "sur le site du"
 
-#: accounts/templates/organizations/email/invitation_body.html:5
+#: accounts/templates/organizations/email/invitation_body.html:7
 msgid "If you do not have an account with the email address"
 msgstr "Si vous n'avez pas de compte avec l'adresse e-mail"
 
-#: accounts/templates/organizations/email/invitation_body.html:5
+#: accounts/templates/organizations/email/invitation_body.html:7
 msgid "follow this link to create your account : "
 msgstr "suivez ce lien pour créer votre compte : "
 
-#: accounts/templates/organizations/email/invitation_body.html:8
+#: accounts/templates/organizations/email/invitation_body.html:10
 msgid ""
 "If you are unsure about this email or have any questions, please reply to "
 "this email."
@@ -422,11 +445,11 @@ msgstr "Rejoindre l'équipe"
 msgid "Account activation failed"
 msgstr "L'activation à échoué"
 
-#: accounts/templates/registration/login.html:27
+#: accounts/templates/registration/login.html:26
 msgid "Forgot password"
 msgstr "Mot de passe oublié"
 
-#: accounts/templates/registration/login.html:28
+#: accounts/templates/registration/login.html:27
 #: newsletter/templates/forms/newsletter.html:33
 msgid "Sign up"
 msgstr "S'inscrire"
@@ -445,7 +468,7 @@ msgstr "Mot de passe changé"
 
 #: accounts/templates/registration/password_change_done.html:13
 #: interlab/templates/menu-mobile.html:24
-#: interlab/templates/navbar-header.html:19
+#: interlab/templates/navbar-header.html:21
 msgid "My account"
 msgstr "Mon compte"
 
@@ -454,10 +477,10 @@ msgstr "Mon compte"
 msgid "Forgotten your password?"
 msgstr "Mot de passe oublié?"
 
-#: accounts/templates/registration/password_change_form.html:15
+#: accounts/templates/registration/password_change_form.html:20
 #: accounts/templates/registration/password_reset_form.html:25
-msgid "Reset it"
-msgstr "Réinitaliser"
+msgid "Reset my password"
+msgstr "Modifier mon mot de passe"
 
 #: accounts/templates/registration/password_reset_complete.html:10
 msgid "Password reset successfully"
@@ -531,11 +554,11 @@ msgstr "Votre compte a été supprimé avec succès"
 msgid " has been removed successfully from the team."
 msgstr " a été retiré de l'équipe avec succès."
 
-#: accounts/views.py:241
+#: accounts/views.py:248
 msgid "Subscription deleted successfully for user "
 msgstr "Abonnement supprimé avec succès pour l'utilisateur "
 
-#: accounts/views.py:257
+#: accounts/views.py:264
 #, python-format
 msgid "Subcription updated to %(subcription_category)s for user "
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
@@ -543,6 +566,26 @@ msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 #: interlab/settings.py:210 interlab/settings.py:218
 msgid "fr"
 msgstr "fr"
+
+#: interlab/templates/400.html:11
+msgid "Whoops ! Bad request."
+msgstr "Oups ! Mauvaise requête"
+
+#: interlab/templates/400.html:12 interlab/templates/500.html:12
+msgid "If this error recurs, please contact us :"
+msgstr "Si cette erreur se répète, veuillez nous contacter :"
+
+#: interlab/templates/403.html:11
+msgid "Whoops ! Access denied"
+msgstr "Oups ! accès interdit"
+
+#: interlab/templates/404.html:11
+msgid "Whoops ! This page is not found"
+msgstr "Oups ! Page non trouvée"
+
+#: interlab/templates/500.html:11
+msgid "Whoops ! Server error"
+msgstr "Oups ! Erreur de serveur"
 
 #: interlab/templates/menu-mobile.html:13
 #: interlab/templates/navbar-header.html:12
@@ -555,7 +598,7 @@ msgid "Reservation"
 msgstr "Réservation"
 
 #: interlab/templates/menu-mobile.html:29
-#: interlab/templates/navbar-header.html:23
+#: interlab/templates/navbar-header.html:53
 msgid "Login"
 msgstr "Connexion"
 
@@ -564,44 +607,40 @@ msgid "Subscribe to the newsletter to follow the FabLab news"
 msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 
 #: newsletter/templates/forms/newsletter.html:27
-msgid "Thank you !"
-msgstr "Merci !"
-
-#: payments/templates/payments/subscription_update.html:20
-msgid "Renew your subscription for a new year in one click"
-msgstr "Renouvelez votre abonnement pour un an en un clic"
-
-#: payments/templates/payments/subscription_update.html:30
-msgid "Renew my subscription"
-msgstr "Renouveler mon abonnement"
-
-#: payments/templates/payments/subscription_update_cancel.html:7
-msgid "You don't update your subscription"
-msgstr "Vous n'avez pas mis à jour votre abonnement"
-
-#: payments/templates/payments/subscription_update_cancel.html:8
-msgid ""
-"If you have trouble renewing your subscription, please contact the Fablab la "
-"Chaux-de-Fonds"
+msgid "Thank you ! You are now registered in our newsletter list"
 msgstr ""
-"Si vous avez des difficultés à renouveler votre abonnement, veuillez "
-"contacter le Fablab la Chaux-de-Fonds"
 
-#: payments/templates/payments/subscription_update_success.html:7
-msgid "Your subscription has been updated successfully"
-msgstr "Votre abonnement a été mis à jour avec succès"
+#~ msgid "Thank you !"
+#~ msgstr "Merci !"
 
-#: payments/templates/payments/subscription_update_success.html:8
-msgid "We have sent you an email to confirme the subscription update."
-msgstr ""
-"Nous vous avons envoyé un e-mail pour confirmer la mise à jour de "
-"l'abonnement."
+#~ msgid "Renew your subscription for a new year in one click"
+#~ msgstr "Renouvelez votre abonnement pour un an en un clic"
 
-#: payments/views.py:114
+#~ msgid "Renew my subscription"
+#~ msgstr "Renouveler mon abonnement"
+
+#~ msgid "You don't update your subscription"
+#~ msgstr "Vous n'avez pas mis à jour votre abonnement"
+
+#~ msgid ""
+#~ "If you have trouble renewing your subscription, please contact the Fablab "
+#~ "la Chaux-de-Fonds"
+#~ msgstr ""
+#~ "Si vous avez des difficultés à renouveler votre abonnement, veuillez "
+#~ "contacter le Fablab la Chaux-de-Fonds"
+
+#~ msgid "Your subscription has been updated successfully"
+#~ msgstr "Votre abonnement a été mis à jour avec succès"
+
+#~ msgid "We have sent you an email to confirme the subscription update."
+#~ msgstr ""
+#~ "Nous vous avons envoyé un e-mail pour confirmer la mise à jour de "
+#~ "l'abonnement."
+
 #, fuzzy
-#| msgid "Your subscription has been updated successfully until "
-msgid "Your subsription has been updated successfully"
-msgstr "Votre abonnement a été mis à jour avec succès"
+#~| msgid "Your subscription has been updated successfully until "
+#~ msgid "Your subsription has been updated successfully"
+#~ msgstr "Votre abonnement a été mis à jour avec succès"
 
 #~ msgid "Password changed"
 #~ msgstr "Mot de passe changé"

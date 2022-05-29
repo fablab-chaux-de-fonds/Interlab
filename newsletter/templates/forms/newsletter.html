@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-md-4 pt-4">
+        <div class="col-12 col-xl-3 col-md-4 col-sm-6 col-xs-12 pt-4">
             <input type="email" name="email"
                 class="form-control{% if form.success == True %} is-valid{% elif form.success == False %} is-invalid{% endif %}"
                 placeholder="{% trans 'Your email address' %}" aria-describedby="newsletterRegisteredFeedback"
@@ -24,12 +24,12 @@
             </div>
             {% elif form.success == True %}
             <div id="newsletterRegisteredFeedback" class="valid-feedback">
-                <strong>{% trans 'Thank you !' %}</strong>
+                <strong>{% trans 'Thank you ! You are now registered in our newsletter list' %}</strong>
             </div>
             {% endif %}
         </div>
-        <div class="d-grid gap-2 col-md-2 py-4">
-            <input type="submit" class="btn btn-secondary btn-backgroud-color-red-light" {% if form.success == True %}disabled="disabled" {% endif %}
+        <div class="col-2 py-4">
+            <input type="submit" class="btn btn-secondary" {% if form.success == True %}disabled="disabled" {% endif %}
                 value="{% trans 'Sign up' %}">
         </div>
     </div>

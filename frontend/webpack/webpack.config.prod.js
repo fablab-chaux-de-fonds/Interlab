@@ -19,34 +19,4 @@ module.exports = merge(common, {
       filename: 'css/app-[contenthash].css',
     }),
   ],
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: 'babel-loader',
-      },
-      {
-        test: /\.css$/,
-        loader: 'css-loader'
-      },
-      {
-        test: /.vue$/, 
-        loader: 'vue-loader'
-      },
-      {
-        test: /\.s(c|a)ss$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              implementation: require('sass'),
-            },
-          },
-        ],
-      },
-    ],
-  },
 });

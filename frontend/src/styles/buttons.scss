@@ -4,14 +4,13 @@
 
 .btn-mobile-navbar {
   @include button-variant(
-    $custom-red-light,
-    $custom-red-light,
     $custom-blue,
-    $hover-color:$custom-blue
+    $custom-blue,
+    $white,
   );
 
   font-size: $font-size-sm;
-  border-radius: 50px;
+  border-radius: 16px;
 }
 
 .btn-text-left {
@@ -26,4 +25,18 @@
     background-color: $custom-red-light;
     color: $custom-red;
   }
+}
+
+.btn-blue {
+  color: $white;
+  background-color: $custom-blue;
+  border: $custom-blue;
+}
+
+.btn-feedback {
+  position: fixed;
+  right: 0;
+  top: 40%;
+  transform: rotate(-90deg);
+  transform-origin: bottom right;
 }

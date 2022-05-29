@@ -1,8 +1,8 @@
 const Path = require('path');
 const Webpack = require('webpack');
 const { merge } = require('webpack-merge');
-const StylelintPlugin = require('stylelint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
 const common = require('./webpack.common.js');
@@ -17,12 +17,13 @@ module.exports = merge(common, {
     publicPath: 'http://localhost:9091/',
   },
   devServer: {
-    inline: true,
     hot: true,
     port: 9091,
-    writeToDisk: true,
     headers: {
       "Access-Control-Allow-Origin": "*",
+    }, 
+    devMiddleware: {
+      writeToDisk: true,
     }
   },
   plugins: [
@@ -33,10 +34,10 @@ module.exports = merge(common, {
       files: Path.join('src', '**/*.s?(a|c)ss'),
       fix: true,
     }),
-    new MiniCssExtractPlugin({filename: 'css/[name].css',}),
+    new MiniCssExtractPlugin({ filename: 'css/[name].css', }),
     new ESLintPlugin({
-        fix: true,  
-      }),
+      fix: true,
+    }),
   ],
   module: {
     rules: [
@@ -44,32 +45,7 @@ module.exports = merge(common, {
         test: /\.html$/i,
         loader: 'html-loader',
       },
-      {
-        test: /\.js$/,
-        include: Path.resolve(__dirname, '../src'),
-        loader: 'babel-loader',
-      },
-      {
-        test: /\.css$/,
-        loader: 'css-loader'
-      },
-      {
-        test: /.vue$/, 
-        loader: 'vue-loader'
-      },
-      {
-        test: /\.s(c|a)ss$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              implementation: require('sass'),
-            },
-          },
-        ],
-      },
+
     ],
-  },
+  }
 });

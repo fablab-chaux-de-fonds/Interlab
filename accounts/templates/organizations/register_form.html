@@ -11,7 +11,7 @@
     {% csrf_token %}
     {{ form | crispy }}
     <div class="col">
-        <input class="btn d-block mx-auto" type="submit" value="submit">
+        <input class="btn d-block mx-auto" type="submit" value="{% trans 'Subscribe' %}">
     </div>
 </form>
 

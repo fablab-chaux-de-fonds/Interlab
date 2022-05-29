@@ -1,0 +1,19 @@
+{% extends 'forms/base_forms.html' %}
+{% load i18n %}
+
+
+{% block content_form_img %}
+<i class="bi bi-exclamation-circle-fill mb-5 img-form-logo mx-auto d-block text-red"></i>
+{% endblock content_form_img %}
+
+
+{% block content_form %}
+<h3 class="text-center">{% trans "Whoops ! Access denied" %}</h3>
+
+<div class="row text-center align-items-center my-5">
+    <div class="col">
+        <a class="btn btn-primary" href="/">{% trans 'Home page' %} </a>
+    </div>
+</div>
+
+{% endblock %} 
