@@ -104,6 +104,7 @@ def fulfill_order(session, request):
     end_updated = max(datetime.date.today(), profile.subscription.end) + datetime.timedelta(days=profile.subscription.subscription_category.duration)
     profile.subscription.end = end_updated
     profile.save()
+    print(profile.__dict__)
 
     context = {
         'profile': profile
