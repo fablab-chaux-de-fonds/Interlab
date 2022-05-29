@@ -17,12 +17,13 @@ module.exports = merge(common, {
     publicPath: 'http://localhost:9091/',
   },
   devServer: {
-    inline: true,
     hot: true,
     port: 9091,
-    writeToDisk: true,
     headers: {
       "Access-Control-Allow-Origin": "*",
+    }, 
+    devMiddleware: {
+      writeToDisk: true,
     }
   },
   plugins: [
