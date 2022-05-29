@@ -103,8 +103,7 @@ def fulfill_order(session, request):
     profile = Profile.objects.get(pk=session['metadata']["profile_id"])
     end_updated = max(datetime.date.today(), profile.subscription.end) + datetime.timedelta(days=profile.subscription.subscription_category.duration)
     profile.subscription.end = end_updated
-    profile.save()
-    print(profile.__dict__)
+    profile.subscription.save()
 
     context = {
         'profile': profile
