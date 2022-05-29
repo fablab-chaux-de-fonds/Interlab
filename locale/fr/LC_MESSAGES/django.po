@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-10 14:14+0000\n"
+"POT-Creation-Date: 2022-05-29 15:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,6 +70,20 @@ msgstr "Pas d'abonnement"
 #: accounts/models.py:7
 msgid "email address"
 msgstr "adresse e-mail"
+
+#: accounts/templates/accounts/email/subscription_updated.html:6
+msgid "Your subscription has been updated successfully until "
+msgstr "Votre abonnement a été mis à jour avec succès jusqu'au "
+
+#: accounts/templates/accounts/email/subscription_updated.html:7
+#: payments/templates/payments/subscription_update_success.html:9
+msgid "You can continue to use the fablab with premium prices"
+msgstr "Vous pouvez continuer à utiliser le fablab à des prix préférentiels."
+
+#: accounts/templates/accounts/email/subscription_updated.html:9
+#: payments/templates/payments/subscription_update_success.html:10
+msgid "Book a machine"
+msgstr "Réserver une machine"
 
 #: accounts/templates/accounts/nav.html:4
 #: interlab/templates/navbar-header.html:24
@@ -194,6 +208,7 @@ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 #: accounts/templates/organizations/organizationuser_confirm_delete.html:19
 #: accounts/templates/registration/password_change_form.html:17
 #: accounts/templates/registration/password_reset_form.html:22
+#: payments/templates/payments/subscription_update.html:22
 msgid "Whoops, no !"
 msgstr "Oups, non !"
 
@@ -229,6 +244,7 @@ msgstr "Chercher un utilisateur"
 
 #: accounts/templates/accounts/user-summary.html:18
 #: accounts/templates/organizations/organization_detail.html:17
+#: payments/templates/payments/subscription_update.html:13
 msgid "valid until"
 msgstr "valable jusqu'au"
 
@@ -264,6 +280,7 @@ msgid "Log in"
 msgstr "Se connecter"
 
 #: accounts/templates/django_registration/activation_email_body.txt:3
+#: accounts/templates/organizations/email/invitation_body.html:3
 #: accounts/templates/registration/password_reset_email.html:3
 #: accounts/templates/registration/password_reset_email.txt:3
 msgid "Hello"
@@ -283,7 +300,7 @@ msgid "This link is only valid for %(expiration_days)s days."
 msgstr "Ce lien est valide uniquement pendant %(expiration_days)s jours"
 
 #: accounts/templates/django_registration/activation_email_body.txt:11
-#: accounts/templates/organizations/email/invitation_body.html:10
+#: accounts/templates/organizations/email/invitation_body.html:12
 msgid "We welcome you to the FabLab!"
 msgstr "Nous vous souhaitons la bienvenue au FabLab !"
 
@@ -332,27 +349,28 @@ msgid "Home page"
 msgstr "Page d'acceuil"
 
 #: accounts/templates/django_registration/registration_form.html:12
+#: accounts/templates/organizations/register_form.html:14
 #: accounts/templates/registration/registration_form.html:12
 msgid "Subscribe"
 msgstr "S'inscrire"
 
-#: accounts/templates/organizations/email/invitation_body.html:3
+#: accounts/templates/organizations/email/invitation_body.html:5
 msgid "invites you to join the team of "
 msgstr "vous invite à rejoindre l'équipe"
 
-#: accounts/templates/organizations/email/invitation_body.html:3
+#: accounts/templates/organizations/email/invitation_body.html:5
 msgid "on the site of"
 msgstr "sur le site du"
 
-#: accounts/templates/organizations/email/invitation_body.html:5
+#: accounts/templates/organizations/email/invitation_body.html:7
 msgid "If you do not have an account with the email address"
 msgstr "Si vous n'avez pas de compte avec l'adresse e-mail"
 
-#: accounts/templates/organizations/email/invitation_body.html:5
+#: accounts/templates/organizations/email/invitation_body.html:7
 msgid "follow this link to create your account : "
 msgstr "suivez ce lien pour créer votre compte : "
 
-#: accounts/templates/organizations/email/invitation_body.html:8
+#: accounts/templates/organizations/email/invitation_body.html:10
 msgid ""
 "If you are unsure about this email or have any questions, please reply to "
 "this email."
@@ -540,16 +558,16 @@ msgstr "Votre compte a été supprimé avec succès"
 msgid " has been removed successfully from the team."
 msgstr " a été retiré de l'équipe avec succès."
 
-#: accounts/views.py:241
+#: accounts/views.py:248
 msgid "Subscription deleted successfully for user "
 msgstr "Abonnement supprimé avec succès pour l'utilisateur "
 
-#: accounts/views.py:257
+#: accounts/views.py:264
 #, python-format
 msgid "Subcription updated to %(subcription_category)s for user "
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
-#: interlab/settings.py:209 interlab/settings.py:217
+#: interlab/settings.py:210 interlab/settings.py:218
 msgid "fr"
 msgstr "fr"
 
@@ -594,4 +612,50 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 
 #: newsletter/templates/forms/newsletter.html:27
 msgid "Thank you ! You are now registered in our newsletter list"
-msgstr "Merci ! vous êtes maintenant inscrit.e dans notre liste de newsletter"
+msgstr ""
+
+#: payments/templates/payments/subscription_update.html:15
+msgid "Renew your subscription for a new year in one click"
+msgstr "Renouvelez votre abonnement pour un an en un clic"
+
+#: payments/templates/payments/subscription_update.html:25
+msgid "Renew my subscription"
+msgstr "Renouveler mon abonnement"
+
+#: payments/templates/payments/subscription_update_cancel.html:7
+msgid "You don't update your subscription"
+msgstr "Vous n'avez pas mis à jour votre abonnement"
+
+#: payments/templates/payments/subscription_update_cancel.html:8
+msgid ""
+"If you have trouble renewing your subscription, please contact the Fablab la "
+"Chaux-de-Fonds"
+msgstr ""
+"Si vous avez des difficultés à renouveler votre abonnement, veuillez "
+"contacter le Fablab la Chaux-de-Fonds"
+
+#: payments/templates/payments/subscription_update_success.html:7
+msgid "Your subscription has been updated successfully"
+msgstr "Votre abonnement a été mis à jour avec succès"
+
+#: payments/templates/payments/subscription_update_success.html:8
+msgid "We have sent you an email to confirme the subscription update."
+msgstr ""
+"Nous vous avons envoyé un e-mail pour confirmer la mise à jour de "
+"l'abonnement."
+
+#| msgid "Your subscription has been updated successfully until "
+msgid "Your subsription has been updated successfully"
+msgstr "Votre abonnement a été mis à jour avec succès"
+
+#~ msgid "Thank you !"
+#~ msgstr "Merci !"
+
+#~ msgid "Password changed"
+#~ msgstr "Mot de passe changé"
+
+#~ msgid "Reset password at %(site_name)s"
+#~ msgstr "Réinitialiser votre mot de passe - %(site_name)s"
+
+#~ msgid "Account activation on"
+#~ msgstr "L'activation à échoué"

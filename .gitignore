@@ -146,3 +146,5 @@ node_modules/
 /static/
 
 build
+
+stripe.exe

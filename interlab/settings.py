@@ -201,7 +201,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'organizations',
     'newsletter.apps.NewsletterConfig',
-    'mathfilters'
+    'mathfilters', 
+    'payments.apps.PaymentsConfig'
 ]
 
 LANGUAGES = (
@@ -322,6 +323,8 @@ if DEBUG == False:
 AUTH_USER_MODEL = 'accounts.CustomUser'
 AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
 
-# UserReport
-USERREPORT_LINK = os.environ.get('USERREPORT_LINK')
-USERREPORT_TOKEN = os.environ.get('USERREPORT_TOKEN')
+# STRIPE
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET')
+STRIPE_CURRENCY = os.environ.get('STRIPE_CURRENCY')

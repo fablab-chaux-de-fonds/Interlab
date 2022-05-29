@@ -31,3 +31,4 @@ Pillow
 psycopg2-binary
 pytz
 six
+stripe

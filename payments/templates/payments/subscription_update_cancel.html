@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+{% include 'forms/forms_error.html' %}
+<div class="text-center">
+    <h1>{% trans "You don't update your subscription" %}</h1>
+    <p>{%trans "If you have trouble renewing your subscription, please contact the Fablab la Chaux-de-Fonds" %} </p>
+    <a href="mailto:info@fablab-chaux-de-fonds.ch">info@fablab-chaux-de-fonds.ch</a>
+</div>
+{% endblock %}
