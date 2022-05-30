@@ -21,6 +21,10 @@ class Opening(models.Model):
     is_open_to_reservation = models.BooleanField()
     is_open_to_questions = models.BooleanField()
     is_reservation_mandatory = models.BooleanField()
+    is_public = models.BooleanField()
     class Meta:
         verbose_name = _("Opening")
         verbose_name_plural = _("Openings")
+
+    def __str__(self):
+        return self.title

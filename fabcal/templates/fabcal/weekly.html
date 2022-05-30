@@ -1,0 +1,33 @@
+{% load i18n fabcal_tags interlab_tags %}
+
+<h1>
+    {% trans "This week" %}
+</h1>
+
+<div class="my-5">
+    {% for day in day_of_week %}
+        <div class="row" style="max-width: 576px;">
+            <div class="col-4">
+                {% blocktrans %} {{ day }} {% endblocktrans %}
+            </div>
+            <div class="col-4">
+                {% if slots|get_item:day %}
+                    {% for slot in slots|get_item:day %}
+                        {% if slot.opening.is_public or request.user|has_group:"superuser" %}
+                            {{ slot.start|date:"H:i" }} - {{ slot.end|date:"H:i" }} </br>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% trans "Closed" %}
+                {% endif %} 
+            </div>
+            <div class="col-4">
+                {% for slot in slots|get_item:day %}
+                    {% if slot.opening.is_public or request.user|has_group:"superuser" %}
+                        <span class='badge' style="color:{{slot.opening.color}};background-color:{{slot.opening.background_color}}">{{ slot.opening.title }}</span> </br>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
