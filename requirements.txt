@@ -3,6 +3,7 @@ debugpy
 Django
 django-classy-tags
 django-cms
+django-colorfield
 django-cors-headers
 django-crispy-forms
 django-debug-toolbar

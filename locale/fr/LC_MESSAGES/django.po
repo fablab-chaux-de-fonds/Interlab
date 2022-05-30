@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-10 14:14+0000\n"
+"POT-Creation-Date: 2022-05-30 13:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,7 +127,7 @@ msgid "Superuser area"
 msgstr "Espace Superutilisateur"
 
 #: accounts/templates/accounts/nav.html:57
-#: interlab/templates/navbar-header.html:40
+#: interlab/templates/navbar-header.html:40 openings/models.py:24
 msgid "Openings"
 msgstr "Ouvertures"
 
@@ -264,6 +264,7 @@ msgid "Log in"
 msgstr "Se connecter"
 
 #: accounts/templates/django_registration/activation_email_body.txt:3
+#: accounts/templates/organizations/email/invitation_body.html:3
 #: accounts/templates/registration/password_reset_email.html:3
 #: accounts/templates/registration/password_reset_email.txt:3
 msgid "Hello"
@@ -283,7 +284,7 @@ msgid "This link is only valid for %(expiration_days)s days."
 msgstr "Ce lien est valide uniquement pendant %(expiration_days)s jours"
 
 #: accounts/templates/django_registration/activation_email_body.txt:11
-#: accounts/templates/organizations/email/invitation_body.html:10
+#: accounts/templates/organizations/email/invitation_body.html:12
 msgid "We welcome you to the FabLab!"
 msgstr "Nous vous souhaitons la bienvenue au FabLab !"
 
@@ -332,27 +333,28 @@ msgid "Home page"
 msgstr "Page d'acceuil"
 
 #: accounts/templates/django_registration/registration_form.html:12
+#: accounts/templates/organizations/register_form.html:14
 #: accounts/templates/registration/registration_form.html:12
 msgid "Subscribe"
 msgstr "S'inscrire"
 
-#: accounts/templates/organizations/email/invitation_body.html:3
+#: accounts/templates/organizations/email/invitation_body.html:5
 msgid "invites you to join the team of "
 msgstr "vous invite à rejoindre l'équipe"
 
-#: accounts/templates/organizations/email/invitation_body.html:3
+#: accounts/templates/organizations/email/invitation_body.html:5
 msgid "on the site of"
 msgstr "sur le site du"
 
-#: accounts/templates/organizations/email/invitation_body.html:5
+#: accounts/templates/organizations/email/invitation_body.html:7
 msgid "If you do not have an account with the email address"
 msgstr "Si vous n'avez pas de compte avec l'adresse e-mail"
 
-#: accounts/templates/organizations/email/invitation_body.html:5
+#: accounts/templates/organizations/email/invitation_body.html:7
 msgid "follow this link to create your account : "
 msgstr "suivez ce lien pour créer votre compte : "
 
-#: accounts/templates/organizations/email/invitation_body.html:8
+#: accounts/templates/organizations/email/invitation_body.html:10
 msgid ""
 "If you are unsure about this email or have any questions, please reply to "
 "this email."
@@ -540,16 +542,24 @@ msgstr "Votre compte a été supprimé avec succès"
 msgid " has been removed successfully from the team."
 msgstr " a été retiré de l'équipe avec succès."
 
-#: accounts/views.py:241
+#: accounts/views.py:248
 msgid "Subscription deleted successfully for user "
 msgstr "Abonnement supprimé avec succès pour l'utilisateur "
 
-#: accounts/views.py:257
+#: accounts/views.py:264
 #, python-format
 msgid "Subcription updated to %(subcription_category)s for user "
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
-#: interlab/settings.py:209 interlab/settings.py:217
+#: fabcal/models.py:17
+msgid "Opening Slot"
+msgstr "Crénau d'ouverture"
+
+#: fabcal/models.py:18
+msgid "Opening Slots"
+msgstr "Crénaux d'ouverture"
+
+#: interlab/settings.py:212 interlab/settings.py:220
 msgid "fr"
 msgstr "fr"
 
@@ -595,3 +605,7 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 #: newsletter/templates/forms/newsletter.html:27
 msgid "Thank you ! You are now registered in our newsletter list"
 msgstr "Merci ! vous êtes maintenant inscrit.e dans notre liste de newsletter"
+
+#: openings/models.py:23
+msgid "Opening"
+msgstr "Ouverture"

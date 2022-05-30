@@ -201,7 +201,10 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'organizations',
     'newsletter.apps.NewsletterConfig',
-    'mathfilters'
+    'mathfilters',
+    'fabcal',
+    'openings',
+    'colorfield' 
 ]
 
 LANGUAGES = (
