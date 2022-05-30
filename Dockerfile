@@ -21,7 +21,6 @@ COPY manage.py /code/
 COPY accounts /code/accounts/
 COPY frontend /code/frontend/
 COPY fabcal /code/fabcal/
-COPY fabcal_cms_integration /code/fabcal_cms_integration/
 COPY interlab /code/interlab/
 COPY locale /code/locale/
 COPY newsletter /code/newsletter/
