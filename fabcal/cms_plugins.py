@@ -20,7 +20,7 @@ class WeeklyPluginPublisher(CMSPluginBase):
         current_week_slots = OpeningSlot.objects.filter(start__week=current_week)
         
         slots = {}
-        day_of_week = ('Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday', 'Sunday')
+        day_of_week = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
         for day in day_of_week:
             slots[day] = [slot for slot in current_week_slots if slot.get_day_of_the_week() == day]
 

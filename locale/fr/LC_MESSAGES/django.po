@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-30 13:06+0000\n"
+"POT-Creation-Date: 2022-05-30 19:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,7 +127,8 @@ msgid "Superuser area"
 msgstr "Espace Superutilisateur"
 
 #: accounts/templates/accounts/nav.html:57
-#: interlab/templates/navbar-header.html:40 openings/models.py:24
+#: interlab/templates/navbar-header.html:40 openings/apps.py:7
+#: openings/models.py:27
 msgid "Openings"
 msgstr "Ouvertures"
 
@@ -551,13 +552,37 @@ msgstr "Abonnement supprimé avec succès pour l'utilisateur "
 msgid "Subcription updated to %(subcription_category)s for user "
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
-#: fabcal/models.py:17
+#: fabcal/cms_plugins.py:12
+msgid "Fabcal"
+msgstr "Fabcal"
+
+#: fabcal/cms_plugins.py:13
+msgid "Weekly view"
+msgstr "Horaire hebdomadaire"
+
+#: fabcal/models.py:21
+msgid "End datetime sould be after start datetime"
+msgstr "L'heure de fin doit être après l'heure de début"
+
+#: fabcal/models.py:29
 msgid "Opening Slot"
 msgstr "Crénau d'ouverture"
 
-#: fabcal/models.py:18
+#: fabcal/models.py:30
 msgid "Opening Slots"
 msgstr "Crénaux d'ouverture"
+
+#: fabcal/templates/fabcal/weekly.html:4
+msgid "This week"
+msgstr "Cette semaine"
+
+#: fabcal/templates/fabcal/weekly.html:7
+msgid "⚠️ Be careful: Our schedule changes every week"
+msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
+
+#: fabcal/templates/fabcal/weekly.html:24
+msgid "Closed"
+msgstr "Fermé"
 
 #: interlab/settings.py:212 interlab/settings.py:220
 msgid "fr"
@@ -606,6 +631,6 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 msgid "Thank you ! You are now registered in our newsletter list"
 msgstr "Merci ! vous êtes maintenant inscrit.e dans notre liste de newsletter"
 
-#: openings/models.py:23
+#: openings/models.py:26
 msgid "Opening"
 msgstr "Ouverture"
