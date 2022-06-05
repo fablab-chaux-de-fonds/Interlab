@@ -85,11 +85,9 @@
                             <div class="pa-4">
                                 <h3>[[selectedEvent.title]]</h3>
                                 <p>[[selectedEvent.desc]]</p>
-                                <h3>{% trans "Superuser" %}</h3>
-                                <p>[[selectedEvent.user_firstname]]</p>
+                                <p> <i class="bi bi-person-fill"></i> [[selectedEvent.user_firstname]]</p>
                                 <div v-if="selectedEvent.comment">
-                                    <h3>{% trans 'Comment' %}</h3>
-                                    <p>[[ selectedEvent.comment ]]</p>                                
+                                    <p><i class="bi bi-card-text"></i> [[ selectedEvent.comment ]]</p>                                
                                 </div>
 
                             </div>
