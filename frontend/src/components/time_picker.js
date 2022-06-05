@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import vuetify from '~/plugins/vuetify';
 
+var moment = require('moment');
 const initial = JSON.parse(document.getElementById('initial').textContent);
 var start = new Date(initial.start);
 var end = new Date(initial.end);
