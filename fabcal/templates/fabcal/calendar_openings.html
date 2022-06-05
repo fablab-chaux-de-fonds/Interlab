@@ -23,7 +23,6 @@
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
 
-                    <!-- <v-select v-model="type" :items="types" dense></v-select> -->
                     <v-menu bottom right>
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
@@ -53,8 +52,8 @@
                 <v-calendar ref="calendar" v-model="focus" :weekdays="weekday" :type="type" :events="events"
                     :event-overlap-mode="mode" :event-overlap-threshold="30" @change="getEvents"
                     {% if request.user|has_group:"superuser" %} @mousedown:event="showEvent" @mousedown:time="startTime"
-                    @mousemove:time="mouseMove" @mouseup:time="endDrag" @mouseleave.native="cancelDrag" @click:day="clickDay" {% endif %}
-                    @click:event="showEvent" @click:date="type = 'day'">
+                    @mousemove:time="mouseMove" @mouseup:time="endDrag" @mouseleave.native="cancelDrag"
+                    @click:day="clickDay" {% endif %} @click:event="showEvent" @click:date="type = 'day'">
                     <template v-slot:event="{ event }">
                         <div class="v-event-summary pl-1" :style="{'color':event.text_color}">
                             <strong>[[ formatEventTime(event.start) ]] - [[ formatEventTime(event.end) ]] </strong>
@@ -62,13 +61,35 @@
                             [[ event.title ]]
                             <span v-if="type!='month'"> </br> </span>
                             [[ event.user_firstname ]]
-                            <span v-if="type!='month'"> </br> 
+                            <span v-if="type!='month'"> </br>
                                 [[ event.comment ]]
-                                </span>
+                            </span>
                         </div>
                     </template>
                 </v-calendar>
-                <v-dialog v-model="selectedOpen" max-width="350px" >
+
+                <v-dialog v-model="selectSlotCategory" max-width='350px'>
+                    <v-card>
+                        <v-card-text class="pa-4 text-center">
+                            <div class="text-right">
+                                <v-btn icon @click="selectSlotCategory = false">
+                                    <i class="bi bi-x"></i>
+                                </v-btn>
+                            </div>
+                            </br>
+                            <p>[[createEvent]]</p>
+                            <v-btn @click="createOpeningSlot" class="my-2" color="secondary">
+                                <i class="bi bi-door-open pr-2"></i> {% trans "Opening" %}
+                            </v-btn>
+                            </br>
+                            <v-btn @click="createEventSlot" class="my-2" color="secondary" outlined>
+                                <i class="bi bi-calendar-event pr-2"></i> {% trans "Event" %}
+                            </v-btn>
+                        </v-card-text>
+                    </v-card>
+                </v-dialog>
+
+                <v-dialog v-model="selectedOpen" max-width="350px">
                     <v-card>
                         <v-toolbar :color="selectedEvent.color" :style="{'color':selectedEvent.text_color}" dark>
                             <v-spacer></v-spacer>
@@ -81,15 +102,12 @@
                                 <i class="bi bi-x"></i>
                             </v-btn>
                         </v-toolbar>
-                        <v-card-text>
-                            <div class="pa-4">
-                                <h3>[[selectedEvent.title]]</h3>
-                                <p>[[selectedEvent.desc]]</p>
-                                <p> <i class="bi bi-person-fill"></i> [[selectedEvent.user_firstname]]</p>
-                                <div v-if="selectedEvent.comment">
-                                    <p><i class="bi bi-card-text"></i> [[ selectedEvent.comment ]]</p>                                
-                                </div>
-
+                        <v-card-text class="pa-4">
+                            <h3>[[selectedEvent.title]]</h3>
+                            <p>[[selectedEvent.desc]]</p>
+                            <p> <i class="bi bi-person-fill"></i> [[selectedEvent.user_firstname]]</p>
+                            <div v-if="selectedEvent.comment">
+                                <p><i class="bi bi-card-text"></i> [[ selectedEvent.comment ]]</p>
                             </div>
                         </v-card-text>
                     </v-card>

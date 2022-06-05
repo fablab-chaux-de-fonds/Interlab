@@ -20,8 +20,9 @@ class CreateOpeningView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         items = []
         for item in list(Opening.objects.all()):
             items.append(
-                {'text': item.title,
-                'value': item.pk
+                {
+                    'text': item.title,
+                    'value': item.pk
                 }
             )
 

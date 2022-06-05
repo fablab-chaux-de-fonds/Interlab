@@ -58,6 +58,20 @@
   color: $custom-blue !important;
 }
 
+.theme--light.v-btn.v-btn--icon {
+  color: $custom-blue !important;
+}
+
+.theme--light.v-icon {
+  color: $custom-blue !important;
+}
+
+.v-text-field--outlined .v-label {
+  top: 12px;
+  background-color: white;
+  padding: 0 8px;
+}
+
 .theme--light.v-time-picker-clock {
   background-color: transparent;
   border-style: solid;

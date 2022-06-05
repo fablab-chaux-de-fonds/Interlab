@@ -16,6 +16,9 @@ new Vue({
         selectedOpen: false,
         createEvent: null,
         createStart: null,
+        selectSlotCategory: false,
+        start: null,
+        end: null
     },
     methods: {
       startTime (tms) {
@@ -65,8 +68,12 @@ new Vue({
         }
       },
 
-      endDrag () {
-        location.href="/fabcal/create-opening/"+ this.createEvent.start + "/" + this.createEvent.end;
+      createOpeningSlot (event) {
+        location.href="/fabcal/create-opening/"+ this.start + "/" + this.end;
+      },
+
+      createEventSlot (event) {
+        location.href="/fabcal/create-event/"+ this.start + "/" + this.end;
       },
 
       cancelDrag () {
@@ -99,9 +106,15 @@ new Vue({
       },
 
       clickDay (day) {
-        const start = Date.parse(day.date + 'T18:00:00');
-        const end = Date.parse(day.date + 'T20:00:00');
-        location.href="/fabcal/create-opening/"+ start + "/" + end;
+        this.start= Date.parse(day.date + 'T18:00:00'),
+        this.end =Date.parse(day.date + 'T20:00:00'),
+        this.selectSlotCategory=true;
+      },
+
+      endDrag () {
+        this.start= this.createEvent.start;
+        this.end = this.createEvent.end;
+        this.selectSlotCategory=true;
       },
 
       setToday () {

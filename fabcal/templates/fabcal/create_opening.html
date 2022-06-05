@@ -6,6 +6,13 @@
 {{ form.media }}
 {% endblock header %}
 
+
+{% block content_form_img %}
+    <i class="bi bi-calendar-plus mb-5 img-form-logo mx-auto d-block"></i>
+{% endblock %}
+
+
+
 {% block content_form %}
 
 <div id="timepicker">
@@ -15,28 +22,16 @@
 
             {{ form.name_of_field }}
 
-            {% comment %} <div id="form.opening.id_for_label" class="mb-3">
-                <label for="{{form.opening.id_for_label}}" class=" form-label requiredField">
-
-                    <span class="asteriskField">*</span>
-                </label>
-                <v-select label="{% trans "Opening" %}" name="{{form.opening.name}}" class="select form-select"
-                    required="" id="{{form.opening.name}}">
-                    {% for x, y in form.fields.opening.choices %}
-                    <option value="{{ x }}" {% if form.fields.opening.value == x %} selected{% endif %}>{{ y }}</option>
-                    {% endfor %}
-                    </select>
-            </div> {% endcomment %}
-
-            <div id="form.opening.id_for_label" class="mb-3">
-                <v-select label="{% trans "Opening" %}" name="{{form.opening.name}}" :items="items" outlined>
+            <div id="form.opening.id_for_label">
+                <v-select v-model='select' label="{% trans "Opening" %}" name="{{form.opening.name}}" :items="items" outlined append-icon="bi bi-chevron-down">
+                    <i class="bi bi-caret-down-fill"></i>
                     </select>
             </div>
 
-            <v-dialog class="mb-3" ref="date" v-model="modal" :return-value.sync="date" persistent width="290px">
+            <v-dialog ref="date" v-model="modal" :return-value.sync="date" persistent width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                    <v-text-field v-model="date" label={% trans "Date*" %} readonly v-bind="attrs" v-on="on" outlined
-                        name="date"></v-text-field>
+                    <v-text-field label={% trans "Date*" %} readonly v-bind="attrs" v-on="on" outlined
+                        name="date" :value="formatDate"></v-text-field>
                 </template>
                 <v-date-picker v-model="date" scrollable color="#0b1783" first-day-of-week=1>
                     <v-spacer></v-spacer>
@@ -49,9 +44,9 @@
                 </v-date-picker>
             </v-dialog>
 
-            <v-dialog class="mb-3" ref="start" v-model="modal2" :return-value.sync="start" persistent width="290px">
+            <v-dialog ref="start" v-model="modal2" :return-value.sync="start" persistent width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                    <v-text-field class="text-blue" v-model="start" label={% trans "Start*" %} readonly v-bind="attrs"
+                    <v-text-field class="text-blue" :value="formatStartTime" label={% trans "Start*" %} readonly v-bind="attrs"
                         v-on="on" outlined name="start">
                     </v-text-field>
                 </template>
@@ -67,9 +62,9 @@
             </v-dialog>
 
 
-            <v-dialog class="mb-3" ref="end" v-model="modal3" :return-value.sync="end" persistent width="290px">
+            <v-dialog ref="end" v-model="modal3" :return-value.sync="end" persistent width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                    <v-text-field class="text-blue" v-model="end" label={% trans "End*" %} readonly v-bind="attrs"
+                    <v-text-field class="text-blue" :value="formatEndTime" label={% trans "End*" %} readonly v-bind="attrs"
                         v-on="on" outlined name="end">
                     </v-text-field>
                 </template>
