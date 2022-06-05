@@ -33,10 +33,12 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('invitations/', include(invitation_backend().get_urls())),
+    path('fabcal/', include('fabcal.urls')),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path('bootstrap/', views.bootstrap, name='bootstrap'),
     path("", include("newsletter.urls")),
     path("", include("cms.urls")),
+    path('api-auth/', include('rest_framework.urls')),
     prefix_default_language=False
 )
 

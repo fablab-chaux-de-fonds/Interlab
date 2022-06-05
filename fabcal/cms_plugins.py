@@ -2,9 +2,10 @@ from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 from django.utils.translation import gettext as _
 
-from .models import WeeklyPluginModel, OpeningSlot
+from .models import WeeklyPluginModel, OpeningSlot, CalendarOpeningsPluginModel
+from .serializers import OpeningSlotSerializer
 
-from datetime import date
+from datetime import date, timedelta
 
 @plugin_pool.register_plugin  # register the plugin
 class WeeklyPluginPublisher(CMSPluginBase):
@@ -27,4 +28,32 @@ class WeeklyPluginPublisher(CMSPluginBase):
         
         context.update({'slots': slots, 'day_of_week': day_of_week})
 
+        return context
+
+@plugin_pool.register_plugin  # register the plugin
+class CalendarOpeningsPluginPublisher(CMSPluginBase):
+    model = CalendarOpeningsPluginModel
+    module = _("Fabcal")
+    name = _("Calendar openings view")  # name of the plugin in the interface
+    render_template = "fabcal/calendar_openings.html"
+
+    def render(self, context, instance, placeholder):
+        opening_slots = OpeningSlot.objects.filter(start__gt = date.today() - timedelta(days=365) )
+        vue = []
+        for opening_slot in opening_slots:
+            vue.append({
+                'start': opening_slot.start,
+                'end': opening_slot.end,
+                'background_color': opening_slot.opening.background_color,
+                'color': opening_slot.opening.color,
+                'title': opening_slot.opening.title,
+                'user_firstname': opening_slot.user.first_name,
+                'comment': opening_slot.comment,
+                'desc': opening_slot.opening.desc,
+            })
+
+        context.update({
+            'instance': instance,
+            'vue': vue,
+            })
         return context

@@ -204,7 +204,9 @@ INSTALLED_APPS = [
     'mathfilters',
     'fabcal',
     'openings',
-    'colorfield' 
+    'colorfield',
+    'rest_framework', 
+    'tempus_dominus',
 ]
 
 LANGUAGES = (
@@ -328,3 +330,5 @@ AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
 # UserReport
 USERREPORT_LINK = os.environ.get('USERREPORT_LINK')
 USERREPORT_TOKEN = os.environ.get('USERREPORT_TOKEN')
+
+TEMPUS_DOMINUS_LOCALIZE = True

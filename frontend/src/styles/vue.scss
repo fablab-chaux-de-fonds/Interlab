@@ -1,0 +1,66 @@
+.v-application {
+  font-family: unset;
+}
+
+.v-application--wrap {
+  min-height: unset;
+}
+
+.v-application .grey--text.text--darken-2 {
+  color: $custom-blue !important;
+}
+
+// .theme--light > * {
+//   color: $custom-blue !important;
+// }
+
+.v-calendar-weekly__head-weekday {
+  color: $custom-blue !important;
+}
+
+.v-calendar-daily_head-day {
+  color: $custom-blue !important;
+}
+
+.v-select__selections {
+  color: $custom-blue !important;
+}
+
+.theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state) > .v-input__control > .v-input__slot fieldset {
+  color: $custom-blue !important;
+}
+
+.theme--light.v-label {
+  color: $custom-blue !important;
+}
+
+.theme--light.v-input input {
+  color: $custom-blue !important;
+}
+
+.v-card__text {
+  color: $custom-blue !important;
+}
+
+.theme--light.v-calendar-daily .v-calendar-daily_head-day .v-btn {
+  color: $custom-blue !important;
+}
+
+.theme--light.v-sheet {
+  color: $custom-blue !important;
+}
+
+.theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+  color: $custom-blue !important;
+}
+
+.theme--light.v-date-picker-header .v-date-picker-header__value:not(.v-date-picker-header__value--disabled) button:not(:hover):not(:focus) {
+  color: $custom-blue !important;
+}
+
+.theme--light.v-time-picker-clock {
+  background-color: transparent;
+  border-style: solid;
+  color: $custom-blue;
+  border-width: 2px;
+}

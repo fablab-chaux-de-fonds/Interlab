@@ -1,0 +1,106 @@
+{% load static interlab_tags i18n %}
+{% load render_bundle from webpack_loader %}
+
+{% block content %}
+
+<div id="app">
+    <v-app id="inspire">
+        <div>
+            <v-sheet tile height="64" class="d-flex">
+
+                <v-toolbar flat>
+                    <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
+                        Today
+                    </v-btn>
+                    <v-btn icon @click="$refs.calendar.prev()">
+                        <i class="bi bi-chevron-left"></i>
+                    </v-btn>
+                    <v-btn icon @click="$refs.calendar.next()">
+                        <i class="bi bi-chevron-right"></i>
+                    </v-btn>
+                    <v-toolbar-title v-if="$refs.calendar">
+                        [[ $refs.calendar.title ]]
+                    </v-toolbar-title>
+                    <v-spacer></v-spacer>
+
+                    <!-- <v-select v-model="type" :items="types" dense></v-select> -->
+                    <v-menu bottom right>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
+                                <span>[[ type ]]
+                                </span>
+                                <i class="bi bi-chevron-down"></i>
+                            </v-btn>
+                        </template>
+                        <v-list>
+                            <v-list-item @click="type = 'day'">
+                                <v-list-item-title>Day</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="type = 'week'">
+                                <v-list-item-title>Week</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="type = 'month'">
+                                <v-list-item-title>Month</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="type = '4day'">
+                                <v-list-item-title>4 days</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
+                </v-toolbar>
+            </v-sheet>
+            <v-sheet height="80vh">
+                <v-calendar ref="calendar" v-model="focus" :weekdays="weekday" :type="type" :events="events"
+                    :event-overlap-mode="mode" :event-overlap-threshold="30" @change="getEvents"
+                    {% if request.user|has_group:"superuser" %} @mousedown:event="showEvent" @mousedown:time="startTime"
+                    @mousemove:time="mouseMove" @mouseup:time="endDrag" @mouseleave.native="cancelDrag" {% endif %}
+                    @click:event="showEvent" @click:day="clickDay" @click:date="type = 'day'">
+                    <template v-slot:event="{ event }">
+                        <div class="v-event-summary pl-1" :style="{'color':event.text_color}">
+                            <strong>[[ formatEventTime(event.start) ]] - [[ formatEventTime(event.end) ]] </strong>
+                            <span v-if="type!='month'"> </br> </span>
+                            [[ event.title ]]
+                            <span v-if="type!='month'"> </br> </span>
+                            [[ event.user_firstname ]]
+                            <span v-if="type!='month'"> </br> 
+                                [[ event.comment ]]
+                                </span>
+                        </div>
+                    </template>
+                </v-calendar>
+                <v-dialog v-model="selectedOpen" max-width="350px" >
+                    <v-card>
+                        <v-toolbar :color="selectedEvent.color" :style="{'color':selectedEvent.text_color}" dark>
+                            <v-spacer></v-spacer>
+                            <v-btn icon :style="{'color':selectedEvent.text_color}">
+                                <i class="bi bi-pencil"></i>
+                            </v-btn>
+                            <v-btn icon :style="{'color':selectedEvent.text_color}" @click="selectedOpen = false">
+                                <i class="bi bi-x"></i>
+                            </v-btn>
+                        </v-toolbar>
+                        <v-card-text>
+                            <div class="pa-4">
+                                <h3>[[selectedEvent.title]]</h3>
+                                <p>[[selectedEvent.desc]]</p>
+                                <h3>{% trans "Superuser" %}</h3>
+                                <p>[[selectedEvent.user_firstname]]</p>
+                                <div v-if="selectedEvent.comment">
+                                    <h3>{% trans 'Comment' %}</h3>
+                                    <p>[[ selectedEvent.comment ]]</p>                                
+                                </div>
+
+                            </div>
+                        </v-card-text>
+                    </v-card>
+                </v-dialog>
+            </v-sheet>
+        </div>
+    </v-app>
+</div>
+{% endblock content %}
+
+{% block js_footer %}
+{{ vue|json_script:"opening_slots" }}
+{% render_bundle 'calendar_openings' 'js' %}
+{% endblock js_footer %}
