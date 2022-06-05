@@ -4,7 +4,6 @@ from distutils.command.clean import clean
 from tkinter import Widget
 from django.forms import ModelForm
 from .models import OpeningSlot
-from tempus_dominus.widgets import DateTimePicker
 
 options={
     'icons':{
@@ -28,8 +27,4 @@ class CreateOpeningForm(ModelForm):
     class Meta:
         model = OpeningSlot
         fields = ['opening', 'start', 'end', 'comment']
-        widgets = {
-            'start': DateTimePicker(options=options),
-            'end': DateTimePicker(options=options)
-        }
         
