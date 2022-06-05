@@ -6,7 +6,6 @@ const BundleTracker = require('webpack-bundle-tracker');
 module.exports = {
   entry: {
     app: Path.resolve(__dirname, '../src/scripts/index'),
-    jquery: Path.resolve(__dirname, '../src/scripts/jquery'),
     calendar_openings: Path.resolve(__dirname, '../src/components/calendar_openings'),
     time_picker: Path.resolve(__dirname, '../src/components/time_picker'),
   },

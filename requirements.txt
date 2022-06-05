@@ -16,7 +16,6 @@ django-oauth-toolkit
 django-organizations
 django-registration
 django-sekizai
-django-tempus-dominus
 django-treebeard
 django-webpack-loader
 djangocms-admin-style
@@ -28,7 +27,6 @@ djangocms-picture
 djangocms-style
 djangocms-text-ckeditor
 djangocms-video
-djangorestframework
 easy_thumbnails
 html5lib
 Pillow

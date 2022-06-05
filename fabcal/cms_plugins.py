@@ -3,7 +3,6 @@ from cms.plugin_pool import plugin_pool
 from django.utils.translation import gettext as _
 
 from .models import WeeklyPluginModel, OpeningSlot, CalendarOpeningsPluginModel
-from .serializers import OpeningSlotSerializer
 
 from datetime import date, timedelta
 
