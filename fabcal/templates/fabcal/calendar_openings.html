@@ -53,8 +53,8 @@
                 <v-calendar ref="calendar" v-model="focus" :weekdays="weekday" :type="type" :events="events"
                     :event-overlap-mode="mode" :event-overlap-threshold="30" @change="getEvents"
                     {% if request.user|has_group:"superuser" %} @mousedown:event="showEvent" @mousedown:time="startTime"
-                    @mousemove:time="mouseMove" @mouseup:time="endDrag" @mouseleave.native="cancelDrag" {% endif %}
-                    @click:event="showEvent" @click:day="clickDay" @click:date="type = 'day'">
+                    @mousemove:time="mouseMove" @mouseup:time="endDrag" @mouseleave.native="cancelDrag" @click:day="clickDay" {% endif %}
+                    @click:event="showEvent" @click:date="type = 'day'">
                     <template v-slot:event="{ event }">
                         <div class="v-event-summary pl-1" :style="{'color':event.text_color}">
                             <strong>[[ formatEventTime(event.start) ]] - [[ formatEventTime(event.end) ]] </strong>
@@ -72,9 +72,11 @@
                     <v-card>
                         <v-toolbar :color="selectedEvent.color" :style="{'color':selectedEvent.text_color}" dark>
                             <v-spacer></v-spacer>
+                            {% if request.user|has_group:"superuser" %}
                             <v-btn icon :style="{'color':selectedEvent.text_color}">
                                 <i class="bi bi-pencil"></i>
                             </v-btn>
+                            {% endif %}
                             <v-btn icon :style="{'color':selectedEvent.text_color}" @click="selectedOpen = false">
                                 <i class="bi bi-x"></i>
                             </v-btn>
