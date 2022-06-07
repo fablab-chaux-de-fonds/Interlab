@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-05 15:03+0000\n"
+"POT-Creation-Date: 2022-06-07 19:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -618,19 +618,21 @@ msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
 msgid "Closed"
 msgstr "Fermé"
 
-#: fabcal/views.py:56
-#, fuzzy
-#| msgid "Your account has been successfully created"
+#: fabcal/views.py:63
 msgid "Your slot has been successfully created on "
-msgstr "Votre compte a été créé avec succès"
+msgstr "Votre céneau a été créé avec succès le "
 
-#: fabcal/views.py:58
+#: fabcal/views.py:65
 msgid " from "
-msgstr ""
+msgstr " de "
 
-#: fabcal/views.py:60
+#: fabcal/views.py:67
 msgid " to "
-msgstr ""
+msgstr " à "
+
+#: fabcal/views.py:72
+msgid "Download .ICS file"
+msgstr "Téléchager le ficher .ICS"
 
 #: interlab/settings.py:212 interlab/settings.py:220
 msgid "fr"
