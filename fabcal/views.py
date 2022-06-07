@@ -53,14 +53,12 @@ class CreateOpeningView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
                 user_id = request.user.id
                 ).save()
             messages.success(request,
-             _(
-                 "Your slot has been successfully created on " + 
-                 form.cleaned_data['start'].strftime("%m/%d/%Y") + 
-                 " from " +
-                 form.cleaned_data['start'].strftime("%H:%M") + 
-                 " to " + 
-                 form.cleaned_data['end'].strftime("%H:%M")
-                 )
+                _("Your slot has been successfully created on ") + 
+                form.cleaned_data['start'].strftime("%A %d %B %Y") + 
+                _(" from ") +
+                form.cleaned_data['start'].strftime("%H:%M") + 
+                _(" to ") + 
+                form.cleaned_data['end'].strftime("%H:%M")
             ) 
             return redirect('/schedule/')
 
