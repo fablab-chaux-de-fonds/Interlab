@@ -22,8 +22,7 @@ options={
     'format': "dddd D MMMM HH:mm"
 } 
 
-class CreateOpeningForm(ModelForm):
-
+class OpeningForm(ModelForm):
     class Meta:
         model = OpeningSlot
         fields = ['opening', 'start', 'end', 'comment']

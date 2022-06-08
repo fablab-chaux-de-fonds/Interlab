@@ -94,8 +94,10 @@
                         <v-toolbar :color="selectedEvent.color" :style="{'color':selectedEvent.text_color}" dark>
                             <v-spacer></v-spacer>
                             {% if request.user|has_group:"superuser" %}
-                            <v-btn icon :style="{'color':selectedEvent.text_color}">
-                                <i class="bi bi-pencil"></i>
+                            <v-btn icon>
+                                <a :href="'/fabcal/update-opening/' + selectedEvent.pk + '/'" :style="{'color':selectedEvent.text_color}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
                             </v-btn>
                             {% endif %}
                             <v-btn icon :style="{'color':selectedEvent.text_color}" @click="selectedOpen = false">

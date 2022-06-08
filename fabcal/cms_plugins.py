@@ -49,6 +49,7 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
                 'user_firstname': opening_slot.user.first_name,
                 'comment': opening_slot.comment,
                 'desc': opening_slot.opening.desc,
+                'pk': opening_slot.pk,
             })
 
         context.update({

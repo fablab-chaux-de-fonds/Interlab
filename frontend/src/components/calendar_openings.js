@@ -162,7 +162,8 @@ new Vue({
                 title: opening_slot.title,
                 user_firstname: opening_slot.user_firstname,
                 start: opening_slot.start,
-                text_color: opening_slot.color
+                text_color: opening_slot.color,
+                pk: opening_slot.pk,
               });
           }
 

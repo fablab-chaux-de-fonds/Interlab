@@ -10,57 +10,44 @@ from django.template import loader
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
+from django.views import View
 
-from .forms import CreateOpeningForm
+from .forms import OpeningForm
 from .models import OpeningSlot
 from openings.models import Opening
 
-# Create your views here.
-class CreateOpeningView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
-    form_class = CreateOpeningForm
-    template_name = 'fabcal/create_opening.html'
 
-    def get(self, request, *args, **kwargs):
-        items = []
-        for item in list(Opening.objects.all()):
-            items.append(
-                {
-                    'text': item.title,
-                    'value': item.pk
-                }
-            )
+class OpeningBaseView(View, LoginRequiredMixin, UserPassesTestMixin):
+    form_class = OpeningForm
+    items = [{'text': item.title, 'value': item.pk} for item in list(Opening.objects.all())]
 
-        context = {
-            'form': CreateOpeningForm(),
-            'initial': {
-                    'opening': 1,
-                    'start': datetime.fromtimestamp(int(self.kwargs['start'])/1000),
-                    'end': datetime.fromtimestamp(int(self.kwargs['end'])/1000),
-                    'items': items
-            },
-        }
-        return render(request, self.template_name, context)
-
-    
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         form.data = form.data.copy()
         form.data['start'] = dateparser.parse(form.data['date'] + 'T' + form.data['start'])
         form.data['end'] = dateparser.parse(form.data['date'] + 'T' + form.data['end'])
+        
+        try:
+            pk = kwargs['pk']
+        except:
+            pk = None 
 
         if form.is_valid():
             start = form.cleaned_data['start']
             end = form.cleaned_data['end']
             opening = form.cleaned_data['opening']
-            OpeningSlot(
-                start=start,
-                end=end,
-                opening=opening,
-                comment=form.cleaned_data['comment'],
-                user_id = request.user.id
-                ).save()
+            OpeningSlot.objects.update_or_create(
+                pk=pk,
+                defaults={
+                    'start': start,
+                    'end': end,
+                    'opening': opening,
+                    'comment': form.cleaned_data['comment'],
+                    'user_id' :  request.user.id
+                    }
+                )
             messages.success(request, mark_safe(
-                _("Your slot has been successfully created on ") + 
+                _("Your slot has been successfully " + self.crud_state + " on ") + 
                 form.cleaned_data['start'].strftime("%A %d %B %Y") + 
                 _(" from ") +
                 form.cleaned_data['start'].strftime("%H:%M") + 
@@ -78,7 +65,41 @@ class CreateOpeningView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     def test_func(self):
         return self.request.user.groups.filter(name='superuser').exists()
 
+class CreateOpeningView(OpeningBaseView):
+    template_name = 'fabcal/create_opening.html'
+    crud_state = 'created'
 
+    def get(self, request, *args, **kwargs):
+        context = {
+            'form': OpeningForm(),
+            'initial': {
+                    'opening': 1,
+                    'start': datetime.fromtimestamp(int(self.kwargs['start'])/1000),
+                    'end': datetime.fromtimestamp(int(self.kwargs['end'])/1000),
+                    'items': self.items
+            },
+        }
+        return render(request, self.template_name, context)
+
+
+class UpdateOpeningView(OpeningBaseView):
+    template_name = 'fabcal/update_opening.html'
+    crud_state = 'updated'
+
+    def get(self, request, pk, *args, **kwargs):
+        opening = OpeningSlot.objects.get(pk=pk)
+        context = {
+            'form': OpeningForm(),
+            'initial': {
+                    'opening': opening.opening.pk,
+                    'start': opening.start,
+                    'end': opening.end,
+                    'items': self.items
+            },
+        }
+        return render(request, self.template_name, context)    
+
+    
 class downloadIcsFileView(TemplateView):
     template_name = 'fabcal/fablab.ics'
 
