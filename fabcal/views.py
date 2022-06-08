@@ -47,7 +47,7 @@ class OpeningBaseView(View, LoginRequiredMixin, UserPassesTestMixin):
                     }
                 )
             messages.success(request, mark_safe(
-                _("Your slot has been successfully " + self.crud_state + " on ") + 
+                _("Your slot has been successfully %(crud_state) on") % {'crud_state': self.crud_state} + 
                 form.cleaned_data['start'].strftime("%A %d %B %Y") + 
                 _(" from ") +
                 form.cleaned_data['start'].strftime("%H:%M") + 
@@ -97,7 +97,33 @@ class UpdateOpeningView(OpeningBaseView):
                     'items': self.items
             },
         }
-        return render(request, self.template_name, context)    
+        return render(request, self.template_name, context)  
+
+class DeleteOpeningView(View):
+    template_name = 'fabcal/delete_opening.html'
+
+    def get(self, request, pk, *args, **kwargs):
+        opening = OpeningSlot.objects.get(pk=pk)
+        context = {
+            'start': opening.start,
+            'end': opening.end,
+            }
+        return render(request, self.template_name, context)  
+
+    def post(self, request, pk):
+        opening_slot = OpeningSlot.objects.get(pk=pk)
+        opening_slot.delete()
+
+        messages.success(request, (
+                _("Your slot has been successfully deleted on ") + 
+                opening_slot.start.strftime("%A %d %B %Y") + 
+                _(" from ") +
+                opening_slot.start.strftime("%H:%M") + 
+                _(" to ") + 
+                opening_slot.end.strftime("%H:%M")
+                )
+            ) 
+        return redirect('/schedule/')  
 
     
 class downloadIcsFileView(TemplateView):
