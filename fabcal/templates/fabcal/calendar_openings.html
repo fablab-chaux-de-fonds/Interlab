@@ -92,13 +92,17 @@
                 <v-dialog v-model="selectedOpen" max-width="350px">
                     <v-card>
                         <v-toolbar :color="selectedEvent.color" :style="{'color':selectedEvent.text_color}" dark>
+                            <p class="my-0">[[formatEventTime(selectedEvent.start)]] - [[formatEventTime(selectedEvent.end)]]</p>
                             <v-spacer></v-spacer>
                             {% if request.user|has_group:"superuser" %}
-                            <v-btn icon>
-                                <a :href="'/fabcal/update-opening/' + selectedEvent.pk + '/'" :style="{'color':selectedEvent.text_color}">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                            </v-btn>
+                            <div v-if="this.backend.request_username === selectedEvent.username">
+                                <v-btn icon>
+                                    <a :href="'/fabcal/update-opening/' + selectedEvent.pk + '/'"
+                                        :style="{'color':selectedEvent.text_color}">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                </v-btn>
+                            </div>
                             {% endif %}
                             <v-btn icon :style="{'color':selectedEvent.text_color}" @click="selectedOpen = false">
                                 <i class="bi bi-x"></i>
@@ -109,7 +113,7 @@
                             <p>[[selectedEvent.desc]]</p>
                             <p> <i class="bi bi-person-fill"></i> [[selectedEvent.user_firstname]]</p>
                             <div v-if="selectedEvent.comment">
-                                <p><i class="bi bi-card-text"></i> [[ selectedEvent.comment ]]</p>
+                                <p><i class="bi bi-card-text"></i> [[selectedEvent.comment]]</p>
                             </div>
                         </v-card-text>
                     </v-card>
@@ -121,6 +125,6 @@
 {% endblock content %}
 
 {% block js_footer %}
-{{ vue|json_script:"opening_slots" }}
+{{ backend|json_script:"backend" }}
 {% render_bundle 'calendar_openings' 'js' %}
 {% endblock js_footer %}

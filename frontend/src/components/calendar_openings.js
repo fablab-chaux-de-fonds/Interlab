@@ -18,7 +18,8 @@ new Vue({
         createStart: null,
         selectSlotCategory: false,
         start: null,
-        end: null
+        end: null,
+        backend: JSON.parse(document.getElementById('backend').textContent),
     },
     methods: {
       startTime (tms) {
@@ -151,19 +152,19 @@ new Vue({
           end
       }) {
           const events = [];
-          const opening_slots = JSON.parse(document.getElementById('opening_slots').textContent);
 
-          for (const opening_slot of opening_slots) {
+          for (const event of this.backend.events) {
               events.push({
-                color: opening_slot.background_color,
-                comment: opening_slot.comment,
-                desc: opening_slot.desc,
-                end: opening_slot.end,
-                title: opening_slot.title,
-                user_firstname: opening_slot.user_firstname,
-                start: opening_slot.start,
-                text_color: opening_slot.color,
-                pk: opening_slot.pk,
+                color: event.background_color,
+                comment: event.comment,
+                desc: event.desc,
+                end: event.end,
+                title: event.title,
+                user_firstname: event.user_firstname,
+                start: event.start,
+                text_color: event.color,
+                pk: event.pk,
+                username: event.username,
               });
           }
 
