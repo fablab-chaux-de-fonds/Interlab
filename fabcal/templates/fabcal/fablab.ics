@@ -1,0 +1,11 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Fablab//Fablab
+BEGIN:VEVENT
+DTSTAMP:19970714T170000Z
+ORGANIZER;CN={{request.user}}:MAILTO:{{request.user.email}}
+DTSTART:{{start}}
+DTEND:{{end}}
+SUMMARY:{{summary}}
+END:VEVENT
+END:VCALENDAR

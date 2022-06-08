@@ -5,8 +5,9 @@ const BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
   entry: {
-    app: Path.resolve(__dirname, '../src/scripts/index.js'),
-    vue: Path.resolve(__dirname, '../src/scripts/vue.js'),
+    app: Path.resolve(__dirname, '../src/scripts/index'),
+    calendar_openings: Path.resolve(__dirname, '../src/components/calendar_openings'),
+    time_picker: Path.resolve(__dirname, '../src/components/time_picker'),
   },
   output: {
     path: Path.join(__dirname, '../../build'),

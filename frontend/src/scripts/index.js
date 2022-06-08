@@ -1,5 +1,5 @@
 import "../styles/index.scss";
-import "bootstrap/dist/js/bootstrap.bundle";
+import 'bootstrap';
 import "bootstrap-show-password/dist/bootstrap-show-password.js";
 import "htmx.org";
 
