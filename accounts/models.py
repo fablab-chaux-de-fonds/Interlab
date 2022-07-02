@@ -6,6 +6,9 @@ from django.utils.translation import gettext_lazy as _
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
 
+    def __str__(self):
+        return self.first_name + ' ' +  self.last_name + ' <' + self.email + '>'
+
 class SubscriptionCategory(models.Model):
     title = models.CharField(max_length=255)
     price = models.FloatField()
