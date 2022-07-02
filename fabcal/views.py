@@ -1,5 +1,6 @@
 from tracemalloc import start
 import dateparser
+import json
 
 from datetime import datetime
 from django.contrib import messages
@@ -14,23 +15,30 @@ from django.views import View
 
 from .forms import OpeningForm
 from .models import OpeningSlot
-from openings.models import Opening
+
+
+def get_opening_items():
+    return [{'text': item.title, 'value': item.pk} for item in list(Opening.objects.all())]
+
 
 
 class OpeningBaseView(View, LoginRequiredMixin, UserPassesTestMixin):
     form_class = OpeningForm
-    items = [{'text': item.title, 'value': item.pk} for item in list(Opening.objects.all())]
+    opening_items = get_opening_items()
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         form.data = form.data.copy()
-        form.data['start'] = dateparser.parse(form.data['date'] + 'T' + form.data['start'])
-        form.data['end'] = dateparser.parse(form.data['date'] + 'T' + form.data['end'])
+        form.data['start'] = dateparser.parse(form.data['start_date'] + 'T' + form.data['start_time'])
+        form.data['end'] = dateparser.parse(form.data['start_date'] + 'T' + form.data['end_time'])
         
         try:
             pk = kwargs['pk']
         except:
             pk = None 
+
+        for field in form:
+            print("Field Error:", field.name,  field.errors)
 
         if form.is_valid():
             start = form.cleaned_data['start']
@@ -72,12 +80,14 @@ class CreateOpeningView(OpeningBaseView):
     def get(self, request, *args, **kwargs):
         context = {
             'form': OpeningForm(),
-            'initial': {
+            'backend': json.dumps(
+                {
                     'opening': 1,
-                    'start': datetime.fromtimestamp(int(self.kwargs['start'])/1000),
-                    'end': datetime.fromtimestamp(int(self.kwargs['end'])/1000),
-                    'items': self.items
-            },
+                    'start': datetime.fromtimestamp(int(self.kwargs['start'])/1000).isoformat(),
+                    'end': datetime.fromtimestamp(int(self.kwargs['end'])/1000).isoformat(),
+                    'opening_items': self.opening_items
+                }
+            ),
         }
         return render(request, self.template_name, context)
 
@@ -94,7 +104,7 @@ class UpdateOpeningView(OpeningBaseView):
                     'opening': opening.opening.pk,
                     'start': opening.start,
                     'end': opening.end,
-                    'items': self.items
+                    'opening_items': self.opening_items
             },
         }
         return render(request, self.template_name, context)  
