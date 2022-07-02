@@ -15,6 +15,5 @@
 {% endblock content_form %}
 
 {% block js_footer %}
-    {{ initial|json_script:"initial" }}
-    {% render_bundle 'time_picker' 'js' %}
+    {% render_bundle 'vue' 'js' %}
 {% endblock js_footer %}
