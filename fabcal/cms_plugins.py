@@ -1,3 +1,5 @@
+import json
+
 from urllib import request
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
@@ -35,17 +37,14 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
     model = CalendarOpeningsPluginModel
     module = _("Fabcal")
     name = _("Calendar openings view")  # name of the plugin in the interface
-    render_template = "fabcal/calendar_openings.html"
+    render_template = "fabcal/opening_calendar.html"
 
     def render(self, context, instance, placeholder):
         request = context['request']
         events = OpeningSlot.objects.filter(start__gt = date.today() - timedelta(days=365) )
         backend = {}
-
-        try:
-            backend['request_username'] = request.user.username
-        except:
-            backend['request_username'] = None
+        backend["is_superuser"] = request.user.groups.filter(name='superuser').exists()
+        backend["username"] = request.user.username
 
         backend['events'] = []
         for event in events:
@@ -63,7 +62,6 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
             })
 
         context.update({
-            'instance': instance,
-            'backend': backend,
+            'backend': json.dumps(backend, default=str),
             })
         return context

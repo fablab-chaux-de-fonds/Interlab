@@ -1,13 +1,14 @@
 <template>
     <div>
-        <v-select v-model="select" label="Opening" name="opening" :items="backend.opening_items"
-                outlined append-icon="bi bi-chevron-down">
+        <v-select v-model="select" :label="$vuetify.lang.t('$vuetify.opening')" name="opening" :items="backend.opening_items"
+                outlined append-icon="bi bi-chevron-down" color="primary">
             <i class="bi bi-caret-down-fill"></i>
         </v-select>
 
-        <date-picker v-model="start" :init-date=start name="start_date" label='start'></date-picker>
-        <time-picker v-model="start" :init-time=start :max="end" input-name="start_time" label="start" @update-time=updateTime></time-picker>
-        <time-picker v-model="end" :init-time=end :min="start" input-name="end_time" label="end" @update-time=updateTime></time-picker>
+        <date-picker v-model="start" :init-date=start name="date" :label="$vuetify.lang.t('$vuetify.date')"></date-picker>
+        <time-picker v-model="start" :init-time=start :max="end" input-name="start_time" :label="$vuetify.lang.t('$vuetify.start')" @update-time=updateTime></time-picker>
+        <time-picker v-model="end" :init-time=end :min="start" input-name="end_time" :label="$vuetify.lang.t('$vuetify.end')" @update-time=updateTime></time-picker>
+        <v-text-field :label="$vuetify.lang.t('$vuetify.comment')" name="comment" outlined></v-text-field>
     </div>
 </template>
 

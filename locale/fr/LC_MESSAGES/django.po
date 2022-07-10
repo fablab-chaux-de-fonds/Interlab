@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-08 19:46+0000\n"
+"POT-Creation-Date: 2022-07-10 12:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -196,7 +196,8 @@ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 #: accounts/templates/registration/password_change_form.html:17
 #: accounts/templates/registration/password_reset_form.html:22
 #: fabcal/templates/fabcal/delete_opening.html:15
-#: fabcal/templates/fabcal/opening_form.html:71
+#: fabcal/templates/fabcal/event_form.html:88
+#: fabcal/templates/fabcal/opening_form.html:14
 msgid "Whoops, no !"
 msgstr "Oups, non !"
 
@@ -551,18 +552,19 @@ msgid "Subscription deleted successfully for user "
 msgstr "Abonnement supprimé avec succès pour l'utilisateur "
 
 #: accounts/views.py:264
+#, python-format
 msgid "Subcription updated to %(subcription_category)s for user "
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
-#: fabcal/cms_plugins.py:13 fabcal/cms_plugins.py:36
+#: fabcal/cms_plugins.py:15 fabcal/cms_plugins.py:38
 msgid "Fabcal"
 msgstr "Fabcal"
 
-#: fabcal/cms_plugins.py:14
+#: fabcal/cms_plugins.py:16
 msgid "Weekly view"
 msgstr "Horaire hebdomadaire"
 
-#: fabcal/cms_plugins.py:37
+#: fabcal/cms_plugins.py:39
 msgid "Calendar openings view"
 msgstr "Calendrier - ouverture"
 
@@ -578,36 +580,44 @@ msgstr "Crénaux d'ouverture"
 msgid "End datetime sould be after start datetime"
 msgstr "L'heure de fin doit être après l'heure de début"
 
-#: fabcal/templates/fabcal/calendar_openings.html:82
-#: fabcal/templates/fabcal/opening_form.html:11 openings/models.py:26
-msgid "Opening"
-msgstr "Ouverture"
-
-#: fabcal/templates/fabcal/calendar_openings.html:86
-msgid "Event"
+#: fabcal/models.py:59
+msgid "Event Slot"
 msgstr "Évènement"
+
+#: fabcal/models.py:60
+msgid "Event Slots"
+msgstr "Crénaux d'ouverture"
 
 #: fabcal/templates/fabcal/delete_opening.html:10
 #, python-format
 msgid ""
 "Are you sure you want to remove the slot on %(date)s from %(start)s to "
 "%(end)s"
-msgstr "Êtes-vous sûr de vouloir supprimer le créneau du %(date)s de "
-"%(start)s à %(end)s"
+msgstr ""
+"Êtes-vous sûr de vouloir supprimer le créneau du %(date)s de %(start)s à "
+"%(end)s"
 
-#: fabcal/templates/fabcal/opening_form.html:18
+#: fabcal/templates/fabcal/event_form.html:13 openings/models.py:42
+msgid "Event"
+msgstr "Évènement"
+
+#: fabcal/templates/fabcal/event_form.html:24
 msgid "Date"
 msgstr "Date"
 
-#: fabcal/templates/fabcal/opening_form.html:34
+#: fabcal/templates/fabcal/event_form.html:40
 msgid "Start"
 msgstr "Début"
 
-#: fabcal/templates/fabcal/opening_form.html:52
+#: fabcal/templates/fabcal/event_form.html:58
 msgid "End"
 msgstr "Fin"
 
-#: fabcal/templates/fabcal/opening_form.html:67
+#: fabcal/templates/fabcal/event_form.html:77 openings/models.py:26
+msgid "Opening"
+msgstr "Ouverture"
+
+#: fabcal/templates/fabcal/event_form.html:84
 msgid "Comment"
 msgstr "Commentaire"
 
@@ -623,25 +633,25 @@ msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
 msgid "Closed"
 msgstr "Fermé"
 
-#: fabcal/views.py:50
-msgid "Your slot has been successfully %(crud_state) on"
-msgstr "Votre céneau a été %(crud_state) avec succès le "
+#: fabcal/views.py:58
+msgid "Your opening has been successfully %(crud_state)s on"
+msgstr "Votre ouverture a été %(crud_state)s avec succès le "
 
-#: fabcal/views.py:52 fabcal/views.py:120
+#: fabcal/views.py:60 fabcal/views.py:133
 msgid " from "
 msgstr " de "
 
-#: fabcal/views.py:54 fabcal/views.py:122
+#: fabcal/views.py:62 fabcal/views.py:135
 msgid " to "
 msgstr " à "
 
-#: fabcal/views.py:59
+#: fabcal/views.py:67
 msgid "Download .ICS file"
 msgstr "Téléchager le ficher .ICS"
 
-#: fabcal/views.py:118
-msgid "Your slot has been successfully deleted on "
-msgstr "Votre céneau a été supprimé avec succès le "
+#: fabcal/views.py:131
+msgid "Your opening has been successfully deleted on "
+msgstr "Votre ouverture a été supprimée avec succès le "
 
 #: interlab/settings.py:212 interlab/settings.py:220
 msgid "fr"
@@ -689,3 +699,19 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 #: newsletter/templates/forms/newsletter.html:27
 msgid "Thank you ! You are now registered in our newsletter list"
 msgstr "Merci ! vous êtes maintenant inscrit.e dans notre liste de newsletter"
+
+#: openings/models.py:43
+msgid "Events"
+msgstr "Évènements"
+
+msgid "Create opening"
+msgstr "Créer une ouverture"
+
+msgid "Update opening"
+msgstr "Modifier l'ouverture"
+
+msgid "created"
+msgstr "créée"
+
+msgid "updated"
+msgstr "mise à jour"

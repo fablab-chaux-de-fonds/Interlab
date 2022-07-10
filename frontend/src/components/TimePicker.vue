@@ -3,7 +3,7 @@
 
             <v-dialog ref="time" v-model="dialog" :return-value.sync="time" persistent width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                    <v-text-field v-model=time class="text-blue" :label=label :name=inputName readonly
+                    <v-text-field v-model=time :label=label :name=inputName readonly
                         v-bind="attrs" v-on="on" outlined>
                     </v-text-field>
                 </template>

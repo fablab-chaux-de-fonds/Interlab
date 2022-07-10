@@ -1,9 +1,5 @@
-import dateparser
-
-from distutils.command.clean import clean
-from tkinter import Widget
 from django.forms import ModelForm
-from .models import OpeningSlot
+from .models import OpeningSlot, EventSlot
 
 options={
     'icons':{

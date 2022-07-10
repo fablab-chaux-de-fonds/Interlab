@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import loader
+from django.template.defaultfilters import date as _date
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
@@ -28,8 +29,8 @@ class OpeningBaseView(View, LoginRequiredMixin, UserPassesTestMixin):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         form.data = form.data.copy()
-        form.data['start'] = dateparser.parse(form.data['start_date'] + 'T' + form.data['start_time'])
-        form.data['end'] = dateparser.parse(form.data['start_date'] + 'T' + form.data['end_time'])
+        form.data['start'] = dateparser.parse(form.data['date'] + 'T' + form.data['start_time'])
+        form.data['end'] = dateparser.parse(form.data['date'] + 'T' + form.data['end_time'])
         
         try:
             pk = kwargs['pk']
@@ -54,8 +55,8 @@ class OpeningBaseView(View, LoginRequiredMixin, UserPassesTestMixin):
                     }
                 )
             messages.success(request, mark_safe(
-                _("Your slot has been successfully %(crud_state) on") % {'crud_state': self.crud_state} + 
-                form.cleaned_data['start'].strftime("%A %d %B %Y") + 
+                _("Your opening has been successfully %(crud_state)s on") % {'crud_state': _(self.crud_state)} + 
+                _date(form.cleaned_data['start'], "l d F Y") + 
                 _(" from ") +
                 form.cleaned_data['start'].strftime("%H:%M") + 
                 _(" to ") + 
@@ -82,7 +83,7 @@ class CreateOpeningView(OpeningBaseView):
             'backend': json.dumps(
                 {
                     'opening': 1,
-                    'start': datetime.fromtimestamp(int(self.kwargs['start'])/1000).isoformat(),
+                    'start': datetime.fromtimestamp(int(self.kwargs['start'])/1000).isoformat(), #TODO use default=str instead of conversion
                     'end': datetime.fromtimestamp(int(self.kwargs['end'])/1000).isoformat(),
                     'opening_items': self.opening_items
                 }
@@ -99,12 +100,15 @@ class UpdateOpeningView(OpeningBaseView):
         opening = OpeningSlot.objects.get(pk=pk)
         context = {
             'form': OpeningForm(),
-            'initial': {
+            'backend': json.dumps(
+                {
                     'opening': opening.opening.pk,
                     'start': opening.start,
                     'end': opening.end,
                     'opening_items': self.opening_items
             },
+                default=str
+            )
         }
         return render(request, self.template_name, context)  
 
@@ -124,7 +128,7 @@ class DeleteOpeningView(View):
         opening_slot.delete()
 
         messages.success(request, (
-                _("Your slot has been successfully deleted on ") + 
+                _("Your opening has been successfully deleted on ") + 
                 opening_slot.start.strftime("%A %d %B %Y") + 
                 _(" from ") +
                 opening_slot.start.strftime("%H:%M") + 

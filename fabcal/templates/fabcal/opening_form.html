@@ -5,11 +5,9 @@
 
     {{ form.name_of_field }}
     <div data-app>
-        <div id="create-opening">
+        <div id="vue">
             <opening-form :backend="{{backend}}" />
         </div>
-
-        <v-text-field label={% trans "Comment" %} name="{{form.comment.name}}" outlined></v-text-field>
 
         <div class="row text-center align-items-center my-5">
             <div class="col">
