@@ -1,0 +1,21 @@
+{% load i18n %}
+
+<form action="." method="POST">
+    {% csrf_token %}
+
+    {{ form.name_of_field }}
+    <div data-app>
+        <div id="vue">
+            <event-form :backend="{{backend}}" />
+        </div>
+        {% comment %} REFACTORING {% endcomment %}
+        <div class="row text-center align-items-center">
+            <div class="col">
+                <a href="{{request.META.HTTP_REFERER}}">{% trans 'Whoops, no !' %} </a>
+            </div>
+            <div class="col">
+                <input class="btn my-4 mx-auto d-block" type="submit" value="{% trans submit_btn %}">
+            </div>
+        </div>
+    </div>
+</form>

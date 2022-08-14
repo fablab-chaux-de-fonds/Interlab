@@ -5,7 +5,7 @@ from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 from django.utils.translation import gettext as _
 
-from .models import WeeklyPluginModel, OpeningSlot, CalendarOpeningsPluginModel
+from .models import WeeklyPluginModel, OpeningSlot, EventSlot, CalendarOpeningsPluginModel, EventsListPluginModel
 
 from datetime import date, timedelta
 
@@ -41,27 +41,65 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
 
     def render(self, context, instance, placeholder):
         request = context['request']
-        events = OpeningSlot.objects.filter(start__gt = date.today() - timedelta(days=365) )
-        backend = {}
-        backend["is_superuser"] = request.user.groups.filter(name='superuser').exists()
-        backend["username"] = request.user.username
 
+        backend = {}
         backend['events'] = []
+
+        events = list(OpeningSlot.objects.filter(start__gt = date.today() - timedelta(days=365) ))
         for event in events:
             backend['events'].append({
-                'start': event.start,
-                'end': event.end,
-                'background_color': event.opening.background_color,
-                'color': event.opening.color,
-                'title': event.opening.title,
-                'user_firstname': event.user.first_name,
-                'comment': event.comment,
-                'desc': event.opening.desc,
+                'type': 'opening',
                 'pk': event.pk,
                 'username': event.user.username,
+                'user_firstname': event.user.first_name,
+                'start': event.start,
+                'end': event.end,
+                'comment': event.comment,
+                'title': event.opening.title,
+                'desc': event.opening.desc,
+                'background_color': event.opening.background_color,
+                'color': event.opening.color,
+                'has_registration': False,
+                'img': None
             })
+
+        
+        events = list(EventSlot.objects.filter(start__gt = date.today() - timedelta(days=365) ))
+        for event in events:
+            backend['events'].append({
+                'type': 'event',
+                'pk': event.pk,
+                'username': event.user.username,
+                'user_firstname': event.user.first_name,
+                'start': event.start,
+                'end': event.end,
+                'comment': event.comment,
+                'title': event.event.title,
+                'desc': event.event.lead,
+                'background_color': event.event.background_color,
+                'color': event.event.color,
+                'has_registration': event.has_registration,
+                'img':  event.event.img.url
+            })
+        
+        backend["is_superuser"] = request.user.groups.filter(name='superuser').exists()
+        backend["username"] = request.user.username
 
         context.update({
             'backend': json.dumps(backend, default=str),
             })
+        return context
+
+
+@plugin_pool.register_plugin  # register the plugin
+class EventListPluginPublisher(CMSPluginBase):
+    model = EventsListPluginModel
+    module = _("Fabcal")
+    name = _("Event list")  # name of the plugin in the interface
+    render_template = "fabcal/events_list.html"
+
+    def render(self, context, instance, placeholder):
+        context = {
+            'events': list(EventSlot.objects.filter(end__gt = date.today()).order_by('start'))
+        }
         return context

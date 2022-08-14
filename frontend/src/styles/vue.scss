@@ -4,15 +4,17 @@
 
 .v-calendar-weekly__head-weekday,
 .v-calendar-daily_head-day,
+.v-calendar-weekly__day,
 .v-btn-secondary,
 .v-list-item,
 .v-label,
 .v-select__selections,
-.v-input input,
+.v-input *,
 .v-icon,
 .v-text-field--outlined fieldset,
 .primary--text,
-.v-card__text {
+.v-card__text,
+.v-application {
   color: $custom-blue !important;
 }
 
@@ -30,7 +32,11 @@
 }
 
 .v-text-field--outlined .v-label {
-  top: 14px;
+  top: 16px;
+}
+
+.v-text-field--outlined .v-label--active {
+  top: 12px !important;
   background-color: white;
   padding: 0 8px;
 }
@@ -44,4 +50,29 @@
 
 .v-card__text {
   padding-top: 24px !important;
+}
+
+.v-application--wrap {
+  min-height: unset;
+}
+
+.v-messages__message {
+  line-height: 16px !important;
+}
+
+.v-messages {
+  min-height: 0 !important;
+}
+
+.row {
+  margin-top: 0 !important;
+}
+
+.switch-end > .v-input__control > .v-input__slot {
+  display: flex;
+  justify-content: end;
+}
+
+.v-input--selection-controls {
+  margin-top: 0;
 }

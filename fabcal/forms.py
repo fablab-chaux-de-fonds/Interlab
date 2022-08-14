@@ -1,25 +1,17 @@
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from .models import OpeningSlot, EventSlot
-
-options={
-    'icons':{
-        'time': 'bi bi-clock',
-        'date': 'bi bi-calendar',
-        'up': 'bi bi-arrow-up',
-        'down': 'bi bi-arrow-down',
-        'previous': 'bi bi-chevron-left',
-        'next': 'bi bi-chevron-right',
-        'today': 'bi bi-calendar-check-o',
-        'clear': 'bi bi-trash',
-        'close': 'bi bi-times'  
-
-    },
-    'viewMode': 'times',
-    'format': "dddd D MMMM HH:mm"
-} 
 
 class OpeningForm(ModelForm):
     class Meta:
         model = OpeningSlot
         fields = ['opening', 'start', 'end', 'comment']
+        
+class EventForm(ModelForm):
+    class Meta:
+        model = EventSlot
+        fields = ['event', 'price', 'start', 'end', 'has_registration', 'registration_limit', 'opening', 'comment']
+
+        def clean_event(self):
+            data = self.cleaned_data['event']
         

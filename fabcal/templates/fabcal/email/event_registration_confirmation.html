@@ -1,0 +1,21 @@
+{% extends "email/base_email.html" %}
+{% load i18n %}
+
+{% block content %}
+<p> Hello {{first_name}}, </p> 
+<p>{%trans "We confirme that you are register for the event" %} 
+    <a href="{{href}}">"{{title}}"</a> 
+    {% trans "which will take place " %}
+    {% if is_single_day %}
+        {% trans "on" %}
+        {{start|date:"l j F Y"}} {% trans "From" %} {{start|date:"H:i"}} {% trans "to" %} {{end|date:"H:i"}}
+    {% else %}
+        {% trans "From" %} {{start|date:"l j F Y"}} {% trans "at" %} {{start|date:"H:i"}} {% trans "to" %} {{start|date:"l j F Y"}} {% trans "at" %} {{end|date:"H:i"}}
+    {% endif %}
+</p>
+
+<p>
+    {% trans "The payment will be made on site" %}
+</p>
+
+{% endblock content %}

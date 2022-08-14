@@ -7,5 +7,9 @@ from .models import *
 @admin.register(Opening)
 class OpeningAdmin(admin.ModelAdmin):
     list_display = ["title", "is_open_to_reservation", "is_open_to_questions", "is_reservation_mandatory", "is_public"]
+
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ["title", "lead", "location"]
         
     

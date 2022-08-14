@@ -50,9 +50,9 @@
             <div class="v-event-summary pl-1" :style="{'color':event.text_color}">
               <strong>{{ formatEventTime(event.start) }} - {{ formatEventTime(event.end) }} </strong>
               <span v-if="type!='month'"> <br> </span>
-              {{ event.title }}
-              <span v-if="type!='month'"> <br> </span>
-              {{ event.user_firstname }}
+                 {{ event.title }}
+              <span v-if="type!='month' & event.type=='opening'"> <br> </span>
+              <span v-if="event.type=='opening'"> {{ event.user_firstname }} </span>
               <span v-if="type!='month'"> <br>
                 {{ event.comment }}
               </span>
@@ -88,14 +88,14 @@
               <div v-if="backend.is_superuser">
                 <div v-if="backend.username === selectedEvent.username">
                   <v-btn icon>
-                    <a :href="'/fabcal/update-opening/' + selectedEvent.pk + '/'"
+                    <a :href="'/fabcal/update-' + selectedEvent.type + '/' + selectedEvent.pk + '/'"
                       :style="{'color':selectedEvent.text_color}">
                       <i class="bi bi-pencil"></i>
                     </a>
                   </v-btn>
 
                   <v-btn icon>
-                    <a :href="'/fabcal/delete-opening/' + selectedEvent.pk + '/'"
+                    <a :href="'/fabcal/delete-' + selectedEvent.type + '/' + selectedEvent.pk + '/'"
                       :style="{'color':selectedEvent.text_color}">
                       <i class="bi bi-trash"></i>
                     </a>
@@ -109,11 +109,20 @@
               </v-btn>
             </v-toolbar>
             <v-card-text>
+              <v-img v-if="selectedEvent.img" :src="selectedEvent.img" class="mb-2 rounded"></v-img>
               <h3>{{selectedEvent.title}}</h3>
               <p>{{selectedEvent.desc}}</p>
-              <p><i class="bi bi-person-fill"></i> {{selectedEvent.user_firstname}}</p>
-              <div v-if="selectedEvent.comment">
-                <p><i class="bi bi-card-text"></i> {{selectedEvent.comment}}</p>
+              <div v-if="selectedEvent.type=='opening'">
+                <p ><i class="bi bi-person-fill"></i> {{selectedEvent.user_firstname}}</p>
+              </div>
+              <p v-if="selectedEvent.comment"><i class="bi bi-card-text"></i> {{selectedEvent.comment}}</p>
+              <div v-if="selectedEvent.type=='event'" class="text-center">
+                <v-btn @click="eventDetails(selectedEvent.pk)" class="v-btn-primary-outlined" outlined>
+                  <i class="bi bi-info-circle pe-2"></i> {{ $vuetify.lang.t('$vuetify.more_information') }}
+                </v-btn>
+                <v-btn v-if="selectedEvent.has_registration" @click="eventRegister(selectedEvent.pk)" class="v-btn-primary">
+                  <i class="bi bi-plus-circle pe-2"></i> {{ $vuetify.lang.t('$vuetify.register') }}
+                </v-btn>
               </div>
             </v-card-text>
           </v-card>
@@ -205,6 +214,10 @@
         location.href = "/fabcal/create-event/" + this.start + "/" + this.end;
       },
 
+      eventDetails(pk) {
+        location.href = "/fabcal/event/" + pk;
+      },
+
       cancelDrag() {
         if (this.backend.is_superuser) {
           if (this.createEvent) {
@@ -263,7 +276,11 @@
         const open = () => {
           this.selectedEvent = event;
           this.selectedElement = nativeEvent.target;
-          requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true));
+          if (this.selectedEvent.type === 'opening') {
+            requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true));
+          } else {
+            location.href = "/fabcal/event/" + this.selectedEvent.pk;
+          }
         };
 
         if (this.selectedOpen) {
@@ -302,6 +319,9 @@
             text_color: event.color,
             pk: event.pk,
             username: event.username,
+            type: event.type,
+            has_registration: event.has_registration,
+            img: event.img
           });
         }
 

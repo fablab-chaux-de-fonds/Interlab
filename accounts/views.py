@@ -16,6 +16,8 @@ from django.utils.translation import ugettext as _
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 
+from fabcal.models import EventSlot
+
 from .forms import EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm, CustomAuthenticationForm
 from .models import Profile, Subscription, SubscriptionCategory
 
@@ -278,3 +280,13 @@ def user_edit(request, user_pk):
                 'user': user
             }
         return render(request, template, context)
+
+class myEventsView(TemplateView, LoginRequiredMixin):
+    template_name = "accounts/reservations.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'future_events': EventSlot.objects.filter(registrations=request.user, start__gte=datetime.datetime.now()),
+            'past_events': EventSlot.objects.filter(registrations=request.user, start__lt=datetime.datetime.now())
+        }
+        return render(request, self.template_name, context)

@@ -1,0 +1,19 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n crispy_forms_tags %}
+{% load render_bundle from webpack_loader %}
+
+{% block header %}
+    {{ form.media }}
+{% endblock header %}
+
+{% block content_form_img %}
+    <i class="bi bi-calendar-plus mb-5 img-form-logo mx-auto d-block"></i>
+{% endblock %}
+
+{% block content_form %}
+    {% include "fabcal/event_create_or_update_form.html" with submit_btn="Create event" %}
+{% endblock content_form %}
+
+{% block js_footer %}
+    {% render_bundle 'vue' 'js' %}
+{% endblock js_footer %}
