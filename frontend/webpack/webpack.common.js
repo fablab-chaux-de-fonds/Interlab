@@ -1,12 +1,12 @@
 const Path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleTracker = require('webpack-bundle-tracker'); 
 
 module.exports = {
   entry: {
     app: Path.resolve(__dirname, '../src/scripts/index.js'),
+    vue: Path.resolve(__dirname, '../src/scripts/vue.js'),
   },
   output: {
     path: Path.join(__dirname, '../../build'),
@@ -21,10 +21,6 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new CopyWebpackPlugin({ patterns: [{ from: Path.resolve(__dirname, '../public'), to: 'public' }] }),
-    new HtmlWebpackPlugin({
-      template: Path.resolve(__dirname, '../src/index.html'),
-    }),
     new BundleTracker({filename: '../build/webpack-stats.json'}),
   ],
   resolve: {
@@ -36,6 +32,35 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        include: Path.resolve(__dirname, '../src'),
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.css$/,
+        use: [ 
+          MiniCssExtractPlugin.loader,
+          'css-loader'
+        ]
+      },
+      {
+        test: /.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.s(c|a)ss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: require('sass'),
+            },
+          },
+        ],
+      },
       {
         test: /\.mjs$/,
         include: /node_modules/,

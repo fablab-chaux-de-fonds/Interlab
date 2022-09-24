@@ -1,6 +1,8 @@
 {% load i18n interlab_tags %}
 
 <nav class="nav flex-column">
+    <h1 class=>{%trans "User area" %}</h1>
+    <hr>
     <a class="nav-link px-0 text-blue" href="#">
         <div class="row">
             <div class="col-10">
@@ -14,10 +16,10 @@
     </a>
     <hr>
     
-    {% if organization %}
+    {% if request.user.organizations_organization.first %}
         {% load org_tags %}
-        {% if organization|is_owner:user %}
-        <a class="nav-link px-0 text-blue" href= "{% url 'organization_detail' organization.pk %}">
+        {% if request.user.organizations_organization.first|is_owner:user %}
+        <a class="nav-link px-0 text-blue" href= "{% url 'organization_detail' request.user.organizations_organization.first.pk %}">
             <div class="row">
                 <div class="col-10">
                     <h2>{% trans "My subscription" %}</h2>
@@ -39,17 +41,6 @@
             <div class="col-10">
                 <h2>{% trans "My profile" %}</h2>
                 <p>{% trans "name"|capfirst %}, {% trans "email" %}, {% trans "password" %}, {% trans "delete account" %}</p>
-            </div>
-            <div class="col-2">
-                <h1><i class="bi bi-arrow-right-square"></i></h1>
-            </div>
-        </div>
-    </a>
-    <hr>
-    <a class="nav-link px-0 text-blue" href="/accounts/logout">
-        <div class="row">
-            <div class="col-10">
-                <h2>{% trans "Logout" %}</h2>
             </div>
             <div class="col-2">
                 <h1><i class="bi bi-arrow-right-square"></i></h1>
@@ -96,4 +87,15 @@
         </div>
     </a>
     {% endif %}
+    <hr>
+    <a class="nav-link px-0 text-blue" href="/accounts/logout">
+        <div class="row">
+            <div class="col-10">
+                <h2>{% trans "Logout" %}</h2>
+            </div>
+            <div class="col-2">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+    </a>
 </nav>

@@ -1,11 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+
+class CustomUser(AbstractUser):
+    email = models.EmailField(_('email address'), unique=True)
 
 class SubscriptionCategory(models.Model):
     title = models.CharField(max_length=255)
     price = models.FloatField()
     default_access_number = models.PositiveSmallIntegerField(default=1)
-    duration = models.PositiveSmallIntegerField(default=360) # in days
+    duration = models.PositiveSmallIntegerField(default=365) # in days
     star_flag = models.BooleanField()
     sort = models.PositiveSmallIntegerField()
 
@@ -27,7 +32,7 @@ class Subscription(models.Model):
         return f"{self.subscription_category.title}, {self.access_number}, {self.start}, {self.end}"
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
