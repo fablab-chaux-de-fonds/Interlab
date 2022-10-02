@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-13 10:21+0000\n"
+"POT-Creation-Date: 2022-10-02 08:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -207,7 +207,6 @@ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 #: accounts/templates/registration/password_reset_form.html:22
 #: fabcal/templates/fabcal/delete_event.html:15
 #: fabcal/templates/fabcal/delete_opening.html:15
-#: fabcal/templates/fabcal/event_create_or_update_form.html:14
 #: fabcal/templates/fabcal/opening_form.html:14
 #: interlab/templates/forms/base_submit_button.html:5
 msgid "Whoops, no !"
@@ -559,7 +558,7 @@ msgstr "Votre adresse email"
 msgid "Password reset on %(site_name)s"
 msgstr "Réinitialiser votre mot de passe - %(site_name)s"
 
-#: accounts/views.py:125
+#: accounts/views.py:124
 msgid ""
 "Your newsletter registration has been updated successfully with the email "
 "address: "
@@ -567,23 +566,23 @@ msgstr ""
 "Votre inscription à la newsletter a été mise à jour avec succès avec "
 "l'adresse e-mail : "
 
-#: accounts/views.py:128
+#: accounts/views.py:127
 msgid "Your profile has been updated successfully"
 msgstr "Votre compte a été mis à jour avec succès"
 
-#: accounts/views.py:148
+#: accounts/views.py:147
 msgid "Your account has been successfully deleted"
 msgstr "Votre compte a été supprimé avec succès"
 
-#: accounts/views.py:169 accounts/views.py:171
+#: accounts/views.py:168 accounts/views.py:170
 msgid " has been removed successfully from the team."
 msgstr " a été retiré de l'équipe avec succès."
 
-#: accounts/views.py:251
+#: accounts/views.py:250
 msgid "Subscription deleted successfully for user "
 msgstr "Abonnement supprimé avec succès pour l'utilisateur "
 
-#: accounts/views.py:267
+#: accounts/views.py:266
 #, python-format
 msgid "Subcription updated to %(subcription_category)s for user "
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
@@ -603,6 +602,74 @@ msgstr "Calendrier - ouverture"
 #: fabcal/cms_plugins.py:98
 msgid "Event list"
 msgstr "Liste d'évènement"
+
+#: fabcal/forms.py:31 openings/models.py:50
+msgid "Event"
+msgstr "Évènement"
+
+#: fabcal/forms.py:32
+msgid "Select an event"
+msgstr "Selectionnez un évènement"
+
+#: fabcal/forms.py:33
+msgid "Please select an event."
+msgstr "Veuillez sélectionner un événement."
+
+#: fabcal/forms.py:37 openings/models.py:34
+msgid "Opening"
+msgstr "Ouverture"
+
+#: fabcal/forms.py:38
+msgid "No opening"
+msgstr "Pas d'ouverture"
+
+#: fabcal/forms.py:45 fabcal/templates/fabcal/event_info.html:15
+msgid "Price"
+msgstr "Tarifs"
+
+#: fabcal/forms.py:46
+msgid "Comment"
+msgstr "Commentaire"
+
+#: fabcal/forms.py:47
+msgid "On registration"
+msgstr "Sur inscription"
+
+#: fabcal/forms.py:48
+msgid "Registration limit"
+msgstr "Limite d'inscriptions"
+
+#: fabcal/forms.py:48
+msgid "leave blank if no limit"
+msgstr "Laisser vide si pas de limite"
+
+#: fabcal/forms.py:66
+msgid "Start date after end date."
+msgstr "Date du début après date de fin"
+
+#: fabcal/forms.py:82
+#, python-format
+msgid "Your event has been successfully %(crud_state)s on "
+msgstr "Votre évènement a été %(crud_state)s avec succès le "
+
+#: fabcal/forms.py:84 fabcal/forms.py:111 fabcal/views.py:64
+#: fabcal/views.py:137 fabcal/views.py:240
+msgid " from "
+msgstr " de "
+
+#: fabcal/forms.py:86 fabcal/forms.py:113 fabcal/views.py:66
+#: fabcal/views.py:139 fabcal/views.py:242
+msgid " to "
+msgstr " à "
+
+#: fabcal/forms.py:91 fabcal/forms.py:118 fabcal/views.py:71
+msgid "Download .ICS file"
+msgstr "Téléchager le ficher .ICS"
+
+#: fabcal/forms.py:109
+#, python-format
+msgid "Your openings has been successfully %(crud_state)s on "
+msgstr "Votre ouverture a été %(crud_state)s avec succès le "
 
 #: fabcal/models.py:22
 msgid "Opening Slot"
@@ -694,13 +761,27 @@ msgstr "Nous vous confirmons que vous êtes desinscrit à l'évènement"
 msgid "More informations"
 msgstr "Plus d'informations"
 
+#: fabcal/templates/fabcal/event_create_or_update_form.html:37
+msgid "Start"
+msgstr "Début"
+
+#: fabcal/templates/fabcal/event_create_or_update_form.html:41
+#: fabcal/templates/fabcal/event_create_or_update_form.html:53
+msgid "Date"
+msgstr "Date"
+
+#: fabcal/templates/fabcal/event_create_or_update_form.html:46
+#: fabcal/templates/fabcal/event_create_or_update_form.html:57
+msgid "Time"
+msgstr "Heure"
+
+#: fabcal/templates/fabcal/event_create_or_update_form.html:50
+msgid "End"
+msgstr "Fin"
+
 #: fabcal/templates/fabcal/event_details.html:12
 msgid "Edit"
 msgstr "Modifier"
-
-#: fabcal/templates/fabcal/event_info.html:15
-msgid "Price"
-msgstr "Tarifs"
 
 #: fabcal/templates/fabcal/event_info.html:27
 #: fabcal/templates/fabcal/event_registration_form.html:9
@@ -772,57 +853,41 @@ msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
 msgid "Closed"
 msgstr "Fermé"
 
-#: fabcal/views.py:61
+#: fabcal/views.py:62
 #, python-format
 msgid "Your opening has been successfully %(crud_state)s on"
 msgstr "Votre ouverture a été %(crud_state)s avec succès le "
 
-#: fabcal/views.py:63 fabcal/views.py:136 fabcal/views.py:213
-#: fabcal/views.py:239 fabcal/views.py:321
-msgid " from "
-msgstr " de "
-
-#: fabcal/views.py:65 fabcal/views.py:138 fabcal/views.py:215
-#: fabcal/views.py:241 fabcal/views.py:323
-msgid " to "
-msgstr " à "
-
-#: fabcal/views.py:70 fabcal/views.py:220 fabcal/views.py:246
-msgid "Download .ICS file"
-msgstr "Téléchager le ficher .ICS"
-
-#: fabcal/views.py:134
+#: fabcal/views.py:135
 msgid "Your opening has been successfully deleted on "
 msgstr "Votre ouverture a été supprimée avec succès le "
 
-#: fabcal/views.py:211
-#, python-format
-msgid "Your event has been successfully %(crud_state)s on"
-msgstr "Votre évènement a été %(crud_state)s avec succès le "
+#: fabcal/views.py:170
+msgid "Create event"
+msgstr "Créer l'évènement"
 
-#: fabcal/views.py:237
-#, python-format
-msgid "Your openings has been successfully %(crud_state)s on"
-msgstr "Votre ouverture a été %(crud_state)s avec succès le "
+#: fabcal/views.py:172
+msgid "Update event"
+msgstr "Mettre à jour l'évènement"
 
-#: fabcal/views.py:319
+#: fabcal/views.py:238
 msgid "Your event has been successfully deleted on "
 msgstr "Votre évènement a été supprimée avec succès le "
 
-#: fabcal/views.py:385 fabcal/views.py:386
+#: fabcal/views.py:307 fabcal/views.py:308
 msgid "Confirmation of your registration"
 msgstr "Confirmation de votre inscription"
 
-#: fabcal/views.py:391
+#: fabcal/views.py:313
 msgid "Well done! We sent you an email to confirme your registration"
 msgstr ""
 "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
 
-#: fabcal/views.py:408 fabcal/views.py:409
+#: fabcal/views.py:330 fabcal/views.py:331
 msgid "Confirmation of your unregistration"
 msgstr "Confirmation de votre desinscription"
 
-#: fabcal/views.py:414
+#: fabcal/views.py:336
 msgid "Oh no! We sent you an email to confirme your unregistration"
 msgstr ""
 "Oh non ! Nous vous avons envoyé un e-mail pour confirmer votre desinscription"
@@ -874,20 +939,6 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 msgid "Thank you ! You are now registered in our newsletter list"
 msgstr "Merci ! vous êtes maintenant inscrit.e dans notre liste de newsletter"
 
-#: openings/models.py:34
-msgid "Opening"
-msgstr "Ouverture"
-
-#: openings/models.py:50
-msgid "Event"
-msgstr "Évènement"
-
 #: openings/models.py:51
 msgid "Events"
 msgstr "Évènements"
-
-msgid "Create event"
-msgstr "Créer l'évènement"
-
-msgid "Update event"
-msgstr "Mettre à jour l'évènement"

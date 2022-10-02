@@ -1,4 +1,3 @@
-from re import T
 import dateparser
 import json
 
@@ -14,11 +13,12 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
 from django.views import View
 
 from .forms import OpeningForm, EventForm
 from .models import OpeningSlot, EventSlot
-from openings.models import Opening, Event
+from openings.models import Opening
 
 
 
@@ -141,7 +141,6 @@ class DeleteOpeningView(View):
             ) 
         return redirect('/schedule/')  
 
-    
 class downloadIcsFileView(TemplateView):
     template_name = 'fabcal/fablab.ics'
 
@@ -158,146 +157,65 @@ class downloadIcsFileView(TemplateView):
         response['Content-Disposition'] = 'attachment; filename="fablab.ics"'
         return response
 
-class EventBaseView(View, LoginRequiredMixin, UserPassesTestMixin):
+
+class EventBaseView(FormView):
+    template_name = 'fabcal/event_create_or_update_form.html'
     form_class = EventForm
-    opening_items = get_opening_items()
-    event_items = [{'text': item.title, 'value': item.pk, "is_on_site": item.is_on_site} for item in list(Event.objects.filter(is_active=True))]
-    
-    # Refactoring: Form handling with class-based views
-    def post(self, request, *args, **kwargs):
-        """
-        1. Field validation
-        2. Create event slot
-        3. Create opening slot
-        """
-        form = self.form_class(request.POST)
-        form.data = form.data.copy()
-        form.data['start'] = dateparser.parse(form.data['start_date'] + 'T' + form.data['start_time'])
-        form.data['end'] = dateparser.parse(form.data['end_date'] + 'T' + form.data['end_time'])
-        
-        try:
-            form.data['registration_limit'] = int(form.data['registration_limit'])
-        except:
-            form.data['registration_limit'] = None
+    success_url = '/schedule/'
 
-        try:
-            pk = kwargs['pk']
-        except:
-            pk = None
-        
-        for field in form:
-            print("Field Error:", field.name,  field.errors)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-        if form.is_valid():
-            start = form.cleaned_data['start']
-            end = form.cleaned_data['end']
-            event = form.cleaned_data['event']
-            opening = form.cleaned_data['opening']
-            EventSlot.objects.update_or_create(
-                pk=pk,
-                defaults={
-                    'user_id' :  request.user.id,
-                    'start': start,
-                    'end': end,
-                    'event': event,
-                    'has_registration': form.cleaned_data['has_registration'],
-                    'registration_limit': form.cleaned_data['registration_limit'],
-                    'price': form.cleaned_data['price'],
-                    'opening': opening,
-                    'comment': form.cleaned_data['comment'],
-                    }
-                )
-            
-            messages.success(request, mark_safe(
-                _("Your event has been successfully %(crud_state)s on") % {'crud_state': _(self.crud_state)} + 
-                _date(start, "l d F Y") + 
-                _(" from ") +
-                start.strftime("%H:%M") + 
-                _(" to ") + 
-                end.strftime("%H:%M") + 
-                "</br>" +
-                "<a href=\"/fabcal/download-ics-file/" + event.title + "/" + start.strftime("%Y%m%dT%H%M%S%z")  + "/" + end.strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
-                "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
-                _('Download .ICS file') +
-                 "</a>"
-                )
-            )
-            
-            if opening:
-                OpeningSlot.objects.update_or_create(
-                    pk = opening.pk,
-                    defaults={
-                        'start': start,
-                        'end': end,
-                        'opening': opening,
-                        'comment': form.cleaned_data['comment'],
-                        'user_id' :  request.user.id
-                        }
-                    )
-                messages.success(request, mark_safe(
-                    _("Your openings has been successfully %(crud_state)s on") % {'crud_state': _(self.crud_state)} + 
-                    _date(start, "l d F Y") + 
-                    _(" from ") +
-                    start.strftime("%H:%M") + 
-                    _(" to ") + 
-                    end.strftime("%H:%M") + 
-                    "</br>" +
-                    "<a href=\"/fabcal/download-ics-file/" + opening.title + "/" + start.strftime("%Y%m%dT%H%M%S%z")  + "/" + end.strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
-                    "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
-                    _('Download .ICS file') +
-                    "</a>"
-                )
-            )
-            
-            return redirect('/schedule/')
+        if self.crud_state == 'created':
+            context['submit_btn'] = _('Create event')
+        elif self.crud_state == 'updated':
+            context['submit_btn'] = _('Update event')
+
+        for field in context['form'].fields:
+            if not 'class' in context['form'][field].field.widget.attrs:
+                context['form'][field].field.widget.attrs['class'] = 'form-control'
+
+            if context['form'][field].widget_type == 'select':
+                context['form'][field].field.widget.attrs['class'] += ' form-select'
+
+        if self.request.method =='POST':
+            context['start'] = context['form'].cleaned_data['start']
+            context['end'] = context['form'].cleaned_data['end']
+        else:
+            if self.crud_state == 'created':
+                context['start'] = datetime.fromtimestamp(int(self.kwargs['start'])/1000)
+                context['end'] = datetime.fromtimestamp(int(self.kwargs['end'])/1000)
+            elif self.crud_state == 'updated':
+                event = EventSlot.objects.get(pk=self.kwargs['pk'])
+                context['start'] = event.start
+                context['end'] = event.end
+        return context
+
+    def form_invalid(self, form):
+        for field in form.errors:
+            if field != '__all__':
+                form[field].field.widget.attrs['class'] = 'form-control is-invalid'
+        return super().form_invalid(form)
+
+    def form_valid(self, form):
+        
+        # add user_id in cleaned_data
+        form.cleaned_data['user_id'] = self.request.user.id
+        
+        form.update_or_create_event_slot(self)
+
+        if form.cleaned_data['opening']:
+            form.update_or_create_opening_slot(self)
+
+        return super().form_valid(form)
 
 class CreateEventView(EventBaseView):
-    template_name = 'fabcal/create_event.html'
     crud_state = 'created'
-
-    def get(self, request, *args, **kwargs):
-        context = {
-            'form': EventForm(),
-            'backend': json.dumps(
-                {
-                    'event': 0,
-                    'opening': "",
-                    'start': datetime.fromtimestamp(int(self.kwargs['start'])/1000).isoformat(),
-                    'end': datetime.fromtimestamp(int(self.kwargs['end'])/1000).isoformat(),
-                    'opening_items': self.opening_items,
-                    'event_items': self.event_items,
-                    'has_registration': False,
-                    'registration_limit': None,
-                    'is_on_site': False
-                }
-            ),
-        }
-        return render(request, self.template_name, context)
-
 class UpdateEventView(EventBaseView):
-    template_name = 'fabcal/update_event.html'
     crud_state = 'updated'
 
-    def get(self, request, pk, *args, **kwargs):
-        event = EventSlot.objects.get(pk=pk)
-        context = {
-            'form': OpeningForm(),
-            'backend': json.dumps(
-                {
-                    'event': event.event.pk,
-                    'opening': event.opening.pk if event.opening else None,
-                    'start': event.start,
-                    'end': event.end,
-                    'price': event.price,
-                    'has_registration': event.has_registration,
-                    'registration_limit': event.registration_limit,
-                    'opening_items': self.opening_items,
-                    'event_items': self.event_items,
-                },
-                default=str
-            )
-        }
-        return render(request, self.template_name, context)
+    def get_initial(self):
+        return EventSlot.objects.get(pk=self.kwargs['pk']).__dict__
 
 class DeleteEventView(View):
     template_name = 'fabcal/delete_event.html'
