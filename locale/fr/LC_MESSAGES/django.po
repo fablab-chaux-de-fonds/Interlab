@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-02 08:07+0000\n"
+"POT-Creation-Date: 2022-10-02 18:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -207,7 +207,6 @@ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 #: accounts/templates/registration/password_reset_form.html:22
 #: fabcal/templates/fabcal/delete_event.html:15
 #: fabcal/templates/fabcal/delete_opening.html:15
-#: fabcal/templates/fabcal/opening_form.html:14
 #: interlab/templates/forms/base_submit_button.html:5
 msgid "Whoops, no !"
 msgstr "Oups, non !"
@@ -603,91 +602,99 @@ msgstr "Calendrier - ouverture"
 msgid "Event list"
 msgstr "Liste d'évènement"
 
-#: fabcal/forms.py:31 openings/models.py:50
-msgid "Event"
-msgstr "Évènement"
-
-#: fabcal/forms.py:32
-msgid "Select an event"
-msgstr "Selectionnez un évènement"
-
-#: fabcal/forms.py:33
-msgid "Please select an event."
-msgstr "Veuillez sélectionner un événement."
-
-#: fabcal/forms.py:37 openings/models.py:34
-msgid "Opening"
-msgstr "Ouverture"
-
-#: fabcal/forms.py:38
-msgid "No opening"
-msgstr "Pas d'ouverture"
-
-#: fabcal/forms.py:45 fabcal/templates/fabcal/event_info.html:15
-msgid "Price"
-msgstr "Tarifs"
-
-#: fabcal/forms.py:46
-msgid "Comment"
-msgstr "Commentaire"
-
-#: fabcal/forms.py:47
-msgid "On registration"
-msgstr "Sur inscription"
-
-#: fabcal/forms.py:48
-msgid "Registration limit"
-msgstr "Limite d'inscriptions"
-
-#: fabcal/forms.py:48
-msgid "leave blank if no limit"
-msgstr "Laisser vide si pas de limite"
-
-#: fabcal/forms.py:66
-msgid "Start date after end date."
-msgstr "Date du début après date de fin"
-
-#: fabcal/forms.py:82
-#, python-format
-msgid "Your event has been successfully %(crud_state)s on "
-msgstr "Votre évènement a été %(crud_state)s avec succès le "
-
-#: fabcal/forms.py:84 fabcal/forms.py:111 fabcal/views.py:64
-#: fabcal/views.py:137 fabcal/views.py:240
-msgid " from "
-msgstr " de "
-
-#: fabcal/forms.py:86 fabcal/forms.py:113 fabcal/views.py:66
-#: fabcal/views.py:139 fabcal/views.py:242
-msgid " to "
-msgstr " à "
-
-#: fabcal/forms.py:91 fabcal/forms.py:118 fabcal/views.py:71
-msgid "Download .ICS file"
-msgstr "Téléchager le ficher .ICS"
-
-#: fabcal/forms.py:109
+#: fabcal/forms.py:37
 #, python-format
 msgid "Your openings has been successfully %(crud_state)s on "
 msgstr "Votre ouverture a été %(crud_state)s avec succès le "
 
-#: fabcal/models.py:22
+#: fabcal/forms.py:39 fabcal/forms.py:134 fabcal/views.py:94
+#: fabcal/views.py:156
+msgid " from "
+msgstr " de "
+
+#: fabcal/forms.py:41 fabcal/forms.py:136 fabcal/views.py:96
+#: fabcal/views.py:158
+msgid " to "
+msgstr " à "
+
+#: fabcal/forms.py:46 fabcal/forms.py:141
+msgid "Download .ICS file"
+msgstr "Téléchager le ficher .ICS"
+
+#: fabcal/forms.py:53 fabcal/forms.py:89 openings/models.py:34
+msgid "Opening"
+msgstr "Ouverture"
+
+#: fabcal/forms.py:54
+msgid "Select an opening"
+msgstr "Selectionnez une ouverture"
+
+#: fabcal/forms.py:55
+msgid "Please select an opening."
+msgstr "Veuillez sélectionner une ouverture."
+
+#: fabcal/forms.py:60 fabcal/forms.py:98
+msgid "Comment"
+msgstr "Commentaire"
+
+#: fabcal/forms.py:77
+msgid "Start time after end time."
+msgstr "Heure du début après heure de fin"
+
+#: fabcal/forms.py:83 openings/models.py:50
+msgid "Event"
+msgstr "Évènement"
+
+#: fabcal/forms.py:84
+msgid "Select an event"
+msgstr "Selectionnez un évènement"
+
+#: fabcal/forms.py:85
+msgid "Please select an event."
+msgstr "Veuillez sélectionner un événement."
+
+#: fabcal/forms.py:90
+msgid "No opening"
+msgstr "Pas d'ouverture"
+
+#: fabcal/forms.py:97 fabcal/templates/fabcal/event_info.html:15
+msgid "Price"
+msgstr "Tarifs"
+
+#: fabcal/forms.py:99
+msgid "On registration"
+msgstr "Sur inscription"
+
+#: fabcal/forms.py:100
+msgid "Registration limit"
+msgstr "Limite d'inscriptions"
+
+#: fabcal/forms.py:100
+msgid "leave blank if no limit"
+msgstr "Laisser vide si pas de limite"
+
+#: fabcal/forms.py:118
+msgid "Start date after end date."
+msgstr "Date du début après date de fin"
+
+#: fabcal/forms.py:132
+#, python-format
+msgid "Your event has been successfully %(crud_state)s on "
+msgstr "Votre évènement a été %(crud_state)s avec succès le "
+
+#: fabcal/models.py:24
 msgid "Opening Slot"
 msgstr "Crénau d'ouverture"
 
-#: fabcal/models.py:23
+#: fabcal/models.py:25
 msgid "Opening Slots"
 msgstr "Crénaux d'ouverture"
 
-#: fabcal/models.py:33
-msgid "End datetime sould be after start datetime"
-msgstr "L'heure de fin doit être après l'heure de début"
-
-#: fabcal/models.py:61
+#: fabcal/models.py:52
 msgid "Event Slot"
 msgstr "Évènement"
 
-#: fabcal/models.py:62
+#: fabcal/models.py:53
 msgid "Event Slots"
 msgstr "Crénaux d'évènements"
 
@@ -762,11 +769,13 @@ msgid "More informations"
 msgstr "Plus d'informations"
 
 #: fabcal/templates/fabcal/event_create_or_update_form.html:37
+#: fabcal/templates/fabcal/opening_create_or_update_form.html:36
 msgid "Start"
 msgstr "Début"
 
 #: fabcal/templates/fabcal/event_create_or_update_form.html:41
 #: fabcal/templates/fabcal/event_create_or_update_form.html:53
+#: fabcal/templates/fabcal/opening_create_or_update_form.html:30
 msgid "Date"
 msgstr "Date"
 
@@ -776,6 +785,7 @@ msgid "Time"
 msgstr "Heure"
 
 #: fabcal/templates/fabcal/event_create_or_update_form.html:50
+#: fabcal/templates/fabcal/opening_create_or_update_form.html:40
 msgid "End"
 msgstr "Fin"
 
@@ -853,41 +863,44 @@ msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
 msgid "Closed"
 msgstr "Fermé"
 
-#: fabcal/views.py:62
-#, python-format
-msgid "Your opening has been successfully %(crud_state)s on"
-msgstr "Votre ouverture a été %(crud_state)s avec succès le "
+#: fabcal/views.py:57
+msgid "Create opening"
+msgstr "Créer l'ouverture"
 
-#: fabcal/views.py:135
+#: fabcal/views.py:59
+msgid "Update opening"
+msgstr "Mettre à jour l'ouverture"
+
+#: fabcal/views.py:92
 msgid "Your opening has been successfully deleted on "
 msgstr "Votre ouverture a été supprimée avec succès le "
 
-#: fabcal/views.py:170
+#: fabcal/views.py:111
 msgid "Create event"
 msgstr "Créer l'évènement"
 
-#: fabcal/views.py:172
+#: fabcal/views.py:113
 msgid "Update event"
 msgstr "Mettre à jour l'évènement"
 
-#: fabcal/views.py:238
+#: fabcal/views.py:154
 msgid "Your event has been successfully deleted on "
 msgstr "Votre évènement a été supprimée avec succès le "
 
-#: fabcal/views.py:307 fabcal/views.py:308
+#: fabcal/views.py:223 fabcal/views.py:224
 msgid "Confirmation of your registration"
 msgstr "Confirmation de votre inscription"
 
-#: fabcal/views.py:313
+#: fabcal/views.py:229
 msgid "Well done! We sent you an email to confirme your registration"
 msgstr ""
 "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
 
-#: fabcal/views.py:330 fabcal/views.py:331
+#: fabcal/views.py:246 fabcal/views.py:247
 msgid "Confirmation of your unregistration"
 msgstr "Confirmation de votre desinscription"
 
-#: fabcal/views.py:336
+#: fabcal/views.py:252
 msgid "Oh no! We sent you an email to confirme your unregistration"
 msgstr ""
 "Oh non ! Nous vous avons envoyé un e-mail pour confirmer votre desinscription"
