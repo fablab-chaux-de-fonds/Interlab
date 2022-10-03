@@ -1,7 +1,7 @@
 crispy-bootstrap5
 dateparser
 debugpy
-Django
+Django<4
 django-classy-tags
 django-cms
 django-colorfield

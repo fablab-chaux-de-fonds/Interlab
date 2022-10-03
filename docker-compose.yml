@@ -14,6 +14,7 @@ services:
       - .env
     volumes:
       - ./accounts:/code/accounts
+      - ./machines:/code/machines
       - ./build:/code/build
       - ./fabcal:/code/fabcal
       - ./frontend:/code/frontend

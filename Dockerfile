@@ -23,6 +23,7 @@ COPY frontend /code/frontend/
 COPY fabcal /code/fabcal/
 COPY interlab /code/interlab/
 COPY locale /code/locale/
+COPY machines /code/machines/
 COPY newsletter /code/newsletter/
 COPY openings /code/openings
 
