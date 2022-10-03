@@ -44,7 +44,7 @@ class EventSlot(AbstractSlot):
     registration_limit = models.IntegerField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     price = models.TextField(max_length=255)
-    opening = models.ForeignKey(Opening, on_delete=models.CASCADE, blank=True, null=True)
+    opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
     
     # machines = models.ManyToManyField() #issue41
 

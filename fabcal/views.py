@@ -1,3 +1,4 @@
+from curses import init_pair
 from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin 
@@ -20,9 +21,12 @@ def get_start_end(self, context):
             context['start'] = datetime.fromtimestamp(int(self.kwargs['start'])/1000)
             context['end'] = datetime.fromtimestamp(int(self.kwargs['end'])/1000)
         elif self.crud_state == 'updated':
-            event = EventSlot.objects.get(pk=self.kwargs['pk'])
-            context['start'] = event.start
-            context['end'] = event.end
+            if self.type == 'opening':
+                slot = OpeningSlot.objects.get(pk=self.kwargs['pk'])
+            elif self.type == 'event':
+                slot = EventSlot.objects.get(pk=self.kwargs['pk'])
+            context['start'] = slot.start
+            context['end'] = slot.end
     elif self.request.method =='POST':
         context['start'] = context['form'].cleaned_data['start']
         context['end'] = context['form'].cleaned_data['end']
@@ -72,6 +76,13 @@ class CreateOpeningView(OpeningBaseView):
 
 class UpdateOpeningView(OpeningBaseView):
     crud_state = 'updated'
+    type = 'opening'
+
+    def get_initial(self):
+        opening_slot = OpeningSlot.objects.get(pk=self.kwargs['pk'])
+        initial = opening_slot.__dict__
+        initial['opening'] = opening_slot.opening
+        return initial
 
 class DeleteOpeningView(View):
     template_name = 'fabcal/delete_opening.html'
@@ -118,10 +129,14 @@ class EventBaseView(CustomFormView):
     def form_valid(self, form):
         # add user_id in cleaned_data
         form.cleaned_data['user_id'] = self.request.user.id
-        form.update_or_create_event_slot(self)
-
+        
         if form.cleaned_data['opening']:
-            form.update_or_create_opening_slot(self)
+            opening_slot = form.update_or_create_opening_slot(self)
+        else: 
+            opening_slot = None
+        
+        form.update_or_create_event_slot(self, opening_slot)
+
 
         return super().form_valid(form)
 
@@ -129,10 +144,14 @@ class CreateEventView(EventBaseView):
     crud_state = 'created'
 class UpdateEventView(EventBaseView):
     crud_state = 'updated'
+    type = 'event'
 
     def get_initial(self):
-        return EventSlot.objects.get(pk=self.kwargs['pk']).__dict__
-
+        event_slot = EventSlot.objects.get(pk=self.kwargs['pk'])
+        initial = event_slot.__dict__
+        initial['event'] = event_slot.event
+        initial['opening'] = event_slot.opening_slot.opening
+        return initial
 class DeleteEventView(View):
     template_name = 'fabcal/delete_event.html'
 

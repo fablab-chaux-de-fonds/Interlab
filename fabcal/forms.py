@@ -27,9 +27,8 @@ class AbstractSlotForm(forms.Form):
         fields = [f.name for f in OpeningSlot._meta.get_fields()] + ['user_id']
         defaults = {key: self.cleaned_data[key]  for key in self.cleaned_data if key in fields}
 
-        OpeningSlot.objects.update_or_create(
-            # Refactor - add update
-            pk = None,
+        opening_slot = OpeningSlot.objects.update_or_create(
+            pk = view.kwargs.get('pk', None),
             defaults = defaults
             )
 
@@ -47,6 +46,8 @@ class AbstractSlotForm(forms.Form):
             "</a>"
             )
         )
+
+        return opening_slot[0]
 class OpeningForm(AbstractSlotForm):
     opening = forms.ModelChoiceField(
         queryset=Opening.objects.all(),
@@ -118,13 +119,13 @@ class EventForm(AbstractSlotForm):
                 _("Start date after end date.")
             )
 
-    def update_or_create_event_slot(self, view):
+    def update_or_create_event_slot(self, view, opening_slot):
         fields = [f.name for f in EventSlot._meta.get_fields()] + ['user_id']
         defaults = {key: self.cleaned_data[key]  for key in self.cleaned_data if key in fields}
+        defaults['opening_slot'] = opening_slot
 
         EventSlot.objects.update_or_create(
-            # Refactor - add update
-            pk = None,
+            pk = view.kwargs.get('pk', None),
             defaults = defaults
             )
         
