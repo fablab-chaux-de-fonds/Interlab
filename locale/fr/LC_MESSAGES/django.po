@@ -739,15 +739,12 @@ msgid "Event Slots"
 msgstr "Crénaux d'évènements"
 
 #: fabcal/templates/fabcal/delete_event.html:10
-#, fuzzy, python-format
-#| msgid ""
-#| "Are you sure you want to remove the event %(title)s on %(date)s from "
-#| "%(start)s to %(end)s"
+#, python-format
 msgid ""
 "Are you sure you want to remove the event %(title)s on %(date)s from "
 "%(start)s to %(end)s"
 msgstr ""
-"Êtes-vous sûr de vouloir supprimer l'évènement du %(date)s de %(start)s à "
+"Êtes-vous sûr de vouloir supprimer l'évènement %(title)s du %(date)s de %(start)s à "
 "%(end)s"
 
 #: fabcal/templates/fabcal/delete_opening.html:10
@@ -991,9 +988,6 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 #: newsletter/templates/forms/newsletter.html:27
 msgid "Thank you !"
 msgstr "Merci !"
-
-#~ msgid "Price"
-#~ msgstr "Prix"
 
 # For the trainings models
 msgid "Beginner"
