@@ -1,12 +1,13 @@
 const Path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { VueLoaderPlugin } = require('vue-loader')
 const BundleTracker = require('webpack-bundle-tracker'); 
 
 module.exports = {
   entry: {
-    app: Path.resolve(__dirname, '../src/scripts/index.js'),
-    vue: Path.resolve(__dirname, '../src/scripts/vue.js'),
+    app: Path.resolve(__dirname, '../src/scripts/index'),
+    vue: Path.resolve(__dirname, '../src/scripts/vue'),
   },
   output: {
     path: Path.join(__dirname, '../../build'),
@@ -22,6 +23,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new BundleTracker({filename: '../build/webpack-stats.json'}),
+    new VueLoaderPlugin(),
   ],
   resolve: {
     alias: {
@@ -45,7 +47,7 @@ module.exports = {
         ]
       },
       {
-        test: /.vue$/,
+        test: /\.vue$/,
         loader: 'vue-loader'
       },
       {

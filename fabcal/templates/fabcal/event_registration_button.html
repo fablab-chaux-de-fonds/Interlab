@@ -1,0 +1,20 @@
+{% load i18n %}
+
+<div class='row text-center'>
+    <div class='col'>
+    {% if has_registration %}
+        {% if request.user in registrations %}
+            {% if is_registration_open %}
+                <a href={% url 'unregister-event' pk %} class="btn btn-primary"> <i class="bi bi-calendar2-x pe-2"></i> {% trans "unregister" %}</a>
+            {% else %}
+                <button href={% url 'unregister-event' pk %} class="btn btn-primary" disabled> <i class="bi bi-calendar2-x pe-2"></i> {% trans "unregister" %}</button><br>
+                <small class='text-red'>{% trans "Sorry, you can not unregister 24h before the start of the event" %}</small>
+            {% endif %}
+        {% elif available_registration <= 0 %}
+            <button href={% url 'register-event' pk %} class="btn btn-primary" disabled> <i class="bi bi-plus-circle pe-2"></i> {% trans "register" %}</button>
+        {% else %}
+            <a href={% url 'register-event' pk %} class="btn btn-primary"> <i class="bi bi-plus-circle pe-2"></i> {% trans "register" %}</a>
+        {% endif %}
+    {% endif %}
+    </div>
+</div>

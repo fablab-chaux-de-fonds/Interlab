@@ -201,7 +201,11 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'organizations',
     'newsletter.apps.NewsletterConfig',
-    'mathfilters'
+    'machines',
+    'mathfilters',
+    'fabcal',
+    'openings',
+    'colorfield',
 ]
 
 LANGUAGES = (
@@ -283,7 +287,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
-
+ 
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
 )
@@ -312,7 +316,7 @@ INVITATION_BACKEND = 'accounts.backends.CustomInvitationsBackend'
 LOGOUT_REDIRECT_URL = '/'
 
 # This is required to have correct protocol on links generated
-# PLEASE READ WARNING INFO: 
+# PLEASE READ WARNING INFO:
 #  * https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-SECURE_PROXY_SSL_HEADER
 if DEBUG == False:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -321,6 +325,26 @@ if DEBUG == False:
 # Login with email
 AUTH_USER_MODEL = 'accounts.CustomUser'
 AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
+
+# --- CKEDITOR STYLE MANAGEMENT AND ADDITIONNAL CONTENT ---
+
+# Allow adding iframe to CMS ckeditor for video integration
+TEXT_ADDITIONAL_TAGS = ('iframe',)
+TEXT_ADDITIONAL_ATTRIBUTES = ('allow', 'allowfullscreen', 'frameborder', 'height', 'src', 'title', 'width', 'name',)
+
+class WebpackCssFilesAccessor(list):
+    """This class provide lazy initialization for CKEditor webpacked settings file"""
+    def __iter__(self):
+        import webpack_loader.utils # Will fail if invoke on settings initialization
+        return [p['url'] for p in webpack_loader.utils.get_files('app', 'css')].__iter__()
+
+CKEDITOR_SETTINGS = {
+    'language': '{{ language }}',
+    'contentsCss': WebpackCssFilesAccessor(), # Let CKEditor use webpacked styles sheets
+    'extraAllowedContent': 'iframe[*]'
+}
+
+# ---
 
 # UserReport
 USERREPORT_LINK = os.environ.get('USERREPORT_LINK')

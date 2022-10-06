@@ -1,0 +1,13 @@
+{% load i18n %}
+
+{% block content %}
+<div class="row">
+{% if events %}
+    {% for event in events %}
+            {% include 'fabcal/event_card.html' %}
+        {% endfor %}
+    {% else %}
+    <p> {% trans "No events scheduled for the moment" %} </p>
+{% endif %}
+</div>
+{% endblock content %}

@@ -23,6 +23,8 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="/accounts/profile">{% trans "User area"%}</a></li>
                         <li><a class="dropdown-item" href="#">{% trans "My reservations" %}</a></li>
+                        <li><a class="dropdown-item" href="#">{% trans "My trainings" %}</a></li>
+                        <li><a class="dropdown-item" href="{%url 'my_events' %}">{% trans "My events" %}</a></li>
                         {% if request.user.organizations_organization.first %}
                         {% load org_tags %}
                             {% if request.user.organizations_organization.first|is_owner:user %}

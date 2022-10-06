@@ -5,6 +5,7 @@
 @import "alerts.scss";
 @import "badges.scss";
 @import "buttons.scss";
+@import "errors.scss";
 @import "dropdown.scss";
 @import "forms.scss";
 @import "icons.scss";
@@ -12,6 +13,8 @@
 @import "navbar.scss";
 @import "pagination.scss";
 @import "type.scss";
+@import "trainings.scss";
+@import "vue.scss";
 
 footer {
   background-color: $custom-green-light;
@@ -27,7 +30,7 @@ a {
 }
 
 .text-blue {
-  color: $custom-blue;
+  color: $custom-blue !important;
 }
 
 .cms-messages {

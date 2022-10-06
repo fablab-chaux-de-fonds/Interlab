@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-10 14:14+0000\n"
+"POT-Creation-Date: 2022-10-02 18:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: accounts/forms.py:27 accounts/templates/accounts/nav.html:43
+#: accounts/forms.py:27 accounts/templates/accounts/nav.html:69
 msgid "email"
 msgstr "e-mail"
 
@@ -82,94 +82,107 @@ msgid "My reservations"
 msgstr "Mes réservations"
 
 #: accounts/templates/accounts/nav.html:10
-msgid "Machines"
-msgstr "Machines"
+msgid "Machines reservation"
+msgstr "Réservations machines"
 
-#: accounts/templates/accounts/nav.html:10
-msgid "trainings"
-msgstr "formations"
+#: accounts/templates/accounts/nav.html:22
+#: interlab/templates/navbar-header.html:26
+msgid "My trainings"
+msgstr "Mes formations"
 
-#: accounts/templates/accounts/nav.html:10
-msgid "events"
-msgstr "évènements"
+#: accounts/templates/accounts/nav.html:23
+msgid "trainings registrations"
+msgstr "Inscription aux formations"
 
-#: accounts/templates/accounts/nav.html:25
-#: interlab/templates/navbar-header.html:29
+#: accounts/templates/accounts/nav.html:35
+#: accounts/templates/accounts/reservations.html:7
+#: interlab/templates/navbar-header.html:27
+msgid "My events"
+msgstr "Mes évènements"
+
+#: accounts/templates/accounts/nav.html:36
+msgid "events registrations"
+msgstr "inscriptions au évènements"
+
+#: accounts/templates/accounts/nav.html:51
+#: interlab/templates/navbar-header.html:31
 msgid "My subscription"
 msgstr "Mon abonnement"
 
-#: accounts/templates/accounts/nav.html:26
+#: accounts/templates/accounts/nav.html:52
 msgid "Manage subscription members"
 msgstr "Gérer les membres de mon abonnement"
 
-#: accounts/templates/accounts/nav.html:42
-#: interlab/templates/navbar-header.html:32
+#: accounts/templates/accounts/nav.html:68
+#: interlab/templates/navbar-header.html:34
 msgid "My profile"
 msgstr "Mon profil"
 
-#: accounts/templates/accounts/nav.html:43
+#: accounts/templates/accounts/nav.html:69
 msgid "name"
 msgstr "nom"
 
-#: accounts/templates/accounts/nav.html:43
+#: accounts/templates/accounts/nav.html:69
 #: accounts/templates/registration/login.html:15
 msgid "password"
 msgstr "mot de passe"
 
-#: accounts/templates/accounts/nav.html:43
+#: accounts/templates/accounts/nav.html:69
 #: accounts/templates/accounts/profile_edit.html:13
 msgid "delete account"
 msgstr "supprimer mon compte"
 
-#: accounts/templates/accounts/nav.html:52
-#: interlab/templates/navbar-header.html:39
+#: accounts/templates/accounts/nav.html:78
+#: fabcal/templates/fabcal/event_registration_list.html:6
+#: interlab/templates/navbar-header.html:41
 msgid "Superuser area"
 msgstr "Espace Superutilisateur"
 
-#: accounts/templates/accounts/nav.html:57
-#: interlab/templates/navbar-header.html:40
+#: accounts/templates/accounts/nav.html:83
+#: interlab/templates/navbar-header.html:42 openings/apps.py:7
+#: openings/models.py:35
 msgid "Openings"
 msgstr "Ouvertures"
 
-#: accounts/templates/accounts/nav.html:58
+#: accounts/templates/accounts/nav.html:84
 msgid "my next openings"
 msgstr "mes prochaines ouvertures"
 
-#: accounts/templates/accounts/nav.html:58
-#: accounts/templates/accounts/nav.html:70
+#: accounts/templates/accounts/nav.html:84
+#: accounts/templates/accounts/nav.html:96
 msgid "my history"
 msgstr "mon historique"
 
-#: accounts/templates/accounts/nav.html:58
+#: accounts/templates/accounts/nav.html:84
 msgid "my machines"
 msgstr "mes machines"
 
-#: accounts/templates/accounts/nav.html:69
+#: accounts/templates/accounts/nav.html:95
 #: accounts/templates/accounts/user-edit.html:35
-#: interlab/templates/navbar-header.html:41
+#: interlab/templates/navbar-header.html:43
 msgid "Trainings"
 msgstr "Formations"
 
-#: accounts/templates/accounts/nav.html:70
+#: accounts/templates/accounts/nav.html:96
 msgid "my next trainings"
 msgstr "Mes prochaines formations"
 
-#: accounts/templates/accounts/nav.html:70
-#: accounts/templates/accounts/nav.html:82
+#: accounts/templates/accounts/nav.html:96
+#: accounts/templates/accounts/nav.html:108
 msgid "training validation"
 msgstr "validation de formations"
 
-#: accounts/templates/accounts/nav.html:81
-#: interlab/templates/navbar-header.html:42
+#: accounts/templates/accounts/nav.html:107
+#: interlab/templates/navbar-header.html:44
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: accounts/templates/accounts/nav.html:82
+#: accounts/templates/accounts/nav.html:108
 msgid "subscription"
 msgstr "abonnement"
 
-#: accounts/templates/accounts/nav.html:94
-#: interlab/templates/navbar-header.html:47
+#: accounts/templates/accounts/nav.html:120
+#: interlab/templates/navbar-header.html:49
 msgid "Logout"
 msgstr "Se déconnecter"
 
@@ -180,8 +193,6 @@ msgid "Update"
 msgstr "Mettre à jour"
 
 #: accounts/templates/accounts/profile.html:15
-#, fuzzy
-#| msgid "The owner of the subscription"
 msgid "Discover the subscriptions"
 msgstr "Découvrez les abonnements"
 
@@ -194,11 +205,16 @@ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 #: accounts/templates/organizations/organizationuser_confirm_delete.html:19
 #: accounts/templates/registration/password_change_form.html:17
 #: accounts/templates/registration/password_reset_form.html:22
+#: fabcal/templates/fabcal/delete_event.html:15
+#: fabcal/templates/fabcal/delete_opening.html:15
+#: interlab/templates/forms/base_submit_button.html:5
 msgid "Whoops, no !"
 msgstr "Oups, non !"
 
 #: accounts/templates/accounts/profile_delete.html:18
 #: accounts/templates/organizations/organizationuser_confirm_delete.html:24
+#: fabcal/templates/fabcal/delete_event.html:18
+#: fabcal/templates/fabcal/delete_opening.html:18
 msgid "Yes, I'm sure"
 msgstr "Oui, je suis sûr"
 
@@ -210,6 +226,23 @@ msgstr "Modifier mon Profil"
 #: accounts/templates/registration/password_change_done.html:4
 msgid "Change password"
 msgstr "Changer mon mot de passe"
+
+#: accounts/templates/accounts/reservations.html:11
+msgid "Upcoming events"
+msgstr "Évènements à venir"
+
+#: accounts/templates/accounts/reservations.html:19
+msgid "Your are not register for a future event !"
+msgstr "Vous n'êtes pas inscrit à un futur évènement !"
+
+#: accounts/templates/accounts/reservations.html:22
+msgid "Show the events"
+msgstr "Voir les évènements"
+
+#: accounts/templates/accounts/reservations.html:29
+#, fuzzy
+msgid "Past events"
+msgstr "Évènements passés"
 
 #: accounts/templates/accounts/user-edit.html:17
 msgid "Subscription"
@@ -229,6 +262,7 @@ msgstr "Chercher un utilisateur"
 
 #: accounts/templates/accounts/user-summary.html:18
 #: accounts/templates/organizations/organization_detail.html:17
+#: fabcal/templates/fabcal/event_registration_list.html:29
 msgid "valid until"
 msgstr "valable jusqu'au"
 
@@ -248,42 +282,20 @@ msgstr "est"
 msgid "Your account is now activated."
 msgstr "Votre accompte est activé"
 
-#: accounts/templates/django_registration/activation_complete.html:8
-msgid ""
-"Your account is activated, you can now follow a training or register for an "
-"event."
-msgstr ""
-"Votre compte est activé, vous pouvez désormais suivre une formation ou vous "
-"inscrire à un évènement"
+#: accounts/templates/django_registration/activation_email_body.txt:2
+#, fuzzy
+#| msgid "Activate your account"
+msgid "Activate account at"
+msgstr "Activez votre compte"
 
-#: accounts/templates/django_registration/activation_complete.html:9
-#: accounts/templates/django_registration/already_activated.html:14
-#: accounts/templates/registration/login.html:21
-#: accounts/templates/registration/password_reset_complete.html:18
-msgid "Log in"
-msgstr "Se connecter"
-
-#: accounts/templates/django_registration/activation_email_body.txt:3
-#: accounts/templates/registration/password_reset_email.html:3
-#: accounts/templates/registration/password_reset_email.txt:3
-msgid "Hello"
-msgstr "Hello"
-
-#: accounts/templates/django_registration/activation_email_body.txt:5
-msgid ""
-" To activate your account and confirm your email address, simply click on "
-"this link: "
-msgstr ""
-" Pour activer votre compte et confirmer votre adresse e-mail, il vous suffit "
-"de cliquer sur ce lien : "
-
-#: accounts/templates/django_registration/activation_email_body.txt:9
-#, python-format
-msgid "This link is only valid for %(expiration_days)s days."
+#: accounts/templates/django_registration/activation_email_body.txt:6
+#, fuzzy, python-format
+#| msgid "This link is only valid for %(expiration_days)s days."
+msgid "Link is valid for %(expiration_days)s days."
 msgstr "Ce lien est valide uniquement pendant %(expiration_days)s jours"
 
 #: accounts/templates/django_registration/activation_email_body.txt:11
-#: accounts/templates/organizations/email/invitation_body.html:10
+#: accounts/templates/organizations/email/invitation_body.html:12
 msgid "We welcome you to the FabLab!"
 msgstr "Nous vous souhaitons la bienvenue au FabLab !"
 
@@ -332,27 +344,28 @@ msgid "Home page"
 msgstr "Page d'acceuil"
 
 #: accounts/templates/django_registration/registration_form.html:12
+#: accounts/templates/organizations/register_form.html:14
 #: accounts/templates/registration/registration_form.html:12
 msgid "Subscribe"
 msgstr "S'inscrire"
 
-#: accounts/templates/organizations/email/invitation_body.html:3
+#: accounts/templates/organizations/email/invitation_body.html:5
 msgid "invites you to join the team of "
 msgstr "vous invite à rejoindre l'équipe"
 
-#: accounts/templates/organizations/email/invitation_body.html:3
+#: accounts/templates/organizations/email/invitation_body.html:5
 msgid "on the site of"
 msgstr "sur le site du"
 
-#: accounts/templates/organizations/email/invitation_body.html:5
+#: accounts/templates/organizations/email/invitation_body.html:7
 msgid "If you do not have an account with the email address"
 msgstr "Si vous n'avez pas de compte avec l'adresse e-mail"
 
-#: accounts/templates/organizations/email/invitation_body.html:5
+#: accounts/templates/organizations/email/invitation_body.html:7
 msgid "follow this link to create your account : "
 msgstr "suivez ce lien pour créer votre compte : "
 
-#: accounts/templates/organizations/email/invitation_body.html:8
+#: accounts/templates/organizations/email/invitation_body.html:10
 msgid ""
 "If you are unsure about this email or have any questions, please reply to "
 "this email."
@@ -411,6 +424,7 @@ msgid "Update your profile"
 msgstr "Mettre à jour mon profil"
 
 #: accounts/templates/organizations/organizationuser_form.html:11
+#: fabcal/templates/fabcal/event_details.html:9
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -496,19 +510,12 @@ msgstr ""
 "Si vous ne recevez pas de message, vérifiez que vous avez saisi l'adresse "
 "avec laquelle vous vous êtes enregistré·e et contrôlez votre dossier de spam."
 
-#: accounts/templates/registration/password_reset_email.html:5
-#: accounts/templates/registration/password_reset_email.txt:5
-msgid "To reset your password, click on the following link: "
-msgstr "Pour réinitialiser votre mot de passe, cliquez sur le lien suivant : "
-
-#: accounts/templates/registration/password_reset_email.html:11
-#: accounts/templates/registration/password_reset_email.txt:11
-msgid ""
-"If this request does not come from you, delete this email and nothing will "
-"be changed. "
-msgstr ""
-"Si cette demande ne vient pas de vous, supprimez cet email et rien ne sera "
-"changé. "
+#: accounts/templates/registration/password_reset_email.html:2
+#: accounts/templates/registration/password_reset_email.txt:2
+#: interlab/templates/registration/password_reset_email.txt:2
+#, python-format
+msgid "Reset password at %(site_name)s"
+msgstr "Réinitialisation du mot de passe de %(site_name)s"
 
 #: accounts/templates/registration/password_reset_form.html:16
 #: newsletter/templates/forms/newsletter.html:15
@@ -520,7 +527,7 @@ msgstr "Votre adresse email"
 msgid "Password reset on %(site_name)s"
 msgstr "Réinitialiser votre mot de passe - %(site_name)s"
 
-#: accounts/views.py:122
+#: accounts/views.py:124
 msgid ""
 "Your newsletter registration has been updated successfully with the email "
 "address: "
@@ -528,28 +535,414 @@ msgstr ""
 "Votre inscription à la newsletter a été mise à jour avec succès avec "
 "l'adresse e-mail : "
 
+#: machines/models.py:6 machines/models.py:46
+msgid "Title"
+msgstr "Titre"
+
+#: machines/models.py:7 machines/models.py:41
+msgid "Description"
+msgstr "Description"
+
+#: accounts/templates/registration/registration_form.html:12
+msgid "Submit"
+msgstr "Envoi"
+
+#: interlab/templates/menu-mobile.html:13
+#: interlab/templates/navbar-header.html:18
+msgid "Calendar"
+msgstr "Calendrier"
+
+#: interlab/templates/menu-mobile.html:19
+#: interlab/templates/navbar-header.html:21
+msgid "Reservations"
+msgstr "Réservations"
+
+#: interlab/templates/menu-mobile.html:37
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#: interlab/templates/navbar-header.html:25
+msgid "Profile"
+msgstr "Profil"
+
+#: machines/templates/trainings/edit.html:4
+#: machines/templates/trainings/edit.html:10
+#, python-format
+msgid "Edit %(obj)s"
+msgstr "Editer %(obj)s"
+
+#: machines/templates/trainings/edit.html:4
+#: machines/templates/trainings/edit.html:10
+msgid "Add a training"
+msgstr "Ajouter une formation"
+
+#: machines/templates/trainings/list.html:10
+msgid ""
+"The trainings are available for everyone, no need to be part of the "
+"association (it is only required to create an online account)."
+msgstr ""
+"Les formations sont accessibles à tout un chacun, pas besoin d'être membre "
+"de l'association (il est seulement requis de se créer un compte en ligne)."
+
+#: machines/templates/trainings/list.html:24
+msgid "Sadly, no training is currently available."
+msgstr "Malheureusement, aucune formation n'est disponible pour le moment."
+
+#: machines/templates/trainings/show.html:33
+#| msgid "my next trainings"
+msgid "Our upcoming trainings"
+msgstr "Nos prochaines formations"
+
+#: machines/templates/trainings/show.html:36
+msgid "During this training you will learn..."
+msgstr "Durant cette formation vous apprendrez..."
+
+#: machines/templates/trainings/show.html:61
+msgid "List of the materials prices"
+msgstr "Liste des prix matière"
+
+#: newsletter/templates/forms/newsletter.html:7
+msgid "Stay informed"
+msgstr "Restez informé"
+
 #: accounts/views.py:125
 msgid "Your profile has been updated successfully"
 msgstr "Votre compte a été mis à jour avec succès"
 
-#: accounts/views.py:145
+#: accounts/views.py:147
 msgid "Your account has been successfully deleted"
 msgstr "Votre compte a été supprimé avec succès"
 
-#: accounts/views.py:166 accounts/views.py:168
+#: accounts/views.py:168 accounts/views.py:170
 msgid " has been removed successfully from the team."
 msgstr " a été retiré de l'équipe avec succès."
 
-#: accounts/views.py:241
+#: accounts/views.py:250
 msgid "Subscription deleted successfully for user "
 msgstr "Abonnement supprimé avec succès pour l'utilisateur "
 
-#: accounts/views.py:257
+#: accounts/views.py:266
 #, python-format
 msgid "Subcription updated to %(subcription_category)s for user "
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
-#: interlab/settings.py:209 interlab/settings.py:217
+#: fabcal/cms_plugins.py:15 fabcal/cms_plugins.py:38 fabcal/cms_plugins.py:97
+msgid "Fabcal"
+msgstr "Fabcal"
+
+#: fabcal/cms_plugins.py:16
+msgid "Weekly view"
+msgstr "Horaire hebdomadaire"
+
+#: fabcal/cms_plugins.py:39
+msgid "Calendar openings view"
+msgstr "Calendrier - ouverture"
+
+#: fabcal/cms_plugins.py:98
+msgid "Event list"
+msgstr "Liste d'évènement"
+
+#: fabcal/forms.py:37
+#, python-format
+msgid "Your openings has been successfully %(crud_state)s on "
+msgstr "Votre ouverture a été %(crud_state)s avec succès le "
+
+#: fabcal/forms.py:39 fabcal/forms.py:134 fabcal/views.py:94
+#: fabcal/views.py:156
+msgid " from "
+msgstr " de "
+
+#: fabcal/forms.py:41 fabcal/forms.py:136 fabcal/views.py:96
+#: fabcal/views.py:158
+msgid " to "
+msgstr " à "
+
+#: fabcal/forms.py:46 fabcal/forms.py:141
+msgid "Download .ICS file"
+msgstr "Téléchager le ficher .ICS"
+
+#: fabcal/forms.py:53 fabcal/forms.py:89 openings/models.py:34
+msgid "Opening"
+msgstr "Ouverture"
+
+#: fabcal/forms.py:54
+msgid "Select an opening"
+msgstr "Selectionnez une ouverture"
+
+#: fabcal/forms.py:55
+msgid "Please select an opening."
+msgstr "Veuillez sélectionner une ouverture."
+
+#: fabcal/forms.py:60 fabcal/forms.py:98
+msgid "Comment"
+msgstr "Commentaire"
+
+#: fabcal/forms.py:77
+msgid "Start time after end time."
+msgstr "Heure du début après heure de fin"
+
+#: fabcal/forms.py:83 openings/models.py:50
+msgid "Event"
+msgstr "Évènement"
+
+#: fabcal/forms.py:84
+msgid "Select an event"
+msgstr "Selectionnez un évènement"
+
+#: fabcal/forms.py:85
+msgid "Please select an event."
+msgstr "Veuillez sélectionner un événement."
+
+#: fabcal/forms.py:90
+msgid "No opening"
+msgstr "Pas d'ouverture"
+
+#: fabcal/forms.py:97 fabcal/templates/fabcal/event_info.html:15
+msgid "Price"
+msgstr "Tarifs"
+
+#: fabcal/forms.py:99
+msgid "On registration"
+msgstr "Sur inscription"
+
+#: fabcal/forms.py:100
+msgid "Registration limit"
+msgstr "Limite d'inscriptions"
+
+#: fabcal/forms.py:100
+msgid "leave blank if no limit"
+msgstr "Laisser vide si pas de limite"
+
+#: fabcal/forms.py:118
+msgid "Start date after end date."
+msgstr "Date du début après date de fin"
+
+#: fabcal/forms.py:132
+#, python-format
+msgid "Your event has been successfully %(crud_state)s on "
+msgstr "Votre évènement a été %(crud_state)s avec succès le "
+
+#: fabcal/models.py:24
+msgid "Opening Slot"
+msgstr "Crénau d'ouverture"
+
+#: fabcal/models.py:25
+msgid "Opening Slots"
+msgstr "Crénaux d'ouverture"
+
+#: fabcal/models.py:52
+msgid "Event Slot"
+msgstr "Évènement"
+
+#: fabcal/models.py:53
+msgid "Event Slots"
+msgstr "Crénaux d'évènements"
+
+#: fabcal/templates/fabcal/delete_event.html:10
+#, python-format
+msgid ""
+"Are you sure you want to remove the event %(title)s on %(date)s from "
+"%(start)s to %(end)s"
+msgstr ""
+"Êtes-vous sûr de vouloir supprimer l'évènement %(title)s du %(date)s de %(start)s à "
+"%(end)s"
+
+#: fabcal/templates/fabcal/delete_opening.html:10
+#, python-format
+msgid ""
+"Are you sure you want to remove the slot on %(date)s from %(start)s to "
+"%(end)s"
+msgstr ""
+"Êtes-vous sûr de vouloir supprimer le créneau du %(date)s de %(start)s à "
+"%(end)s"
+
+#: fabcal/templates/fabcal/email/event_registration_confirmation.html:6
+msgid "We confirme that you are register for the event"
+msgstr "Nous vous confirmons que vous êtes inscrit à l'évènement"
+
+#: fabcal/templates/fabcal/email/event_registration_confirmation.html:8
+#: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:8
+msgid "which will take place "
+msgstr "qui aura lieu"
+
+#: fabcal/templates/fabcal/email/event_registration_confirmation.html:10
+#: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:10
+msgid "on"
+msgstr "le"
+
+#: fabcal/templates/fabcal/email/event_registration_confirmation.html:11
+#: fabcal/templates/fabcal/email/event_registration_confirmation.html:13
+#: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:11
+#: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:13
+#: fabcal/templates/fabcal/event_info_datetime.html:16
+msgid "From"
+msgstr "de"
+
+#: fabcal/templates/fabcal/email/event_registration_confirmation.html:11
+#: fabcal/templates/fabcal/email/event_registration_confirmation.html:13
+#: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:11
+#: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:13
+#: fabcal/templates/fabcal/event_info_datetime.html:17
+msgid "to"
+msgstr " à "
+
+#: fabcal/templates/fabcal/email/event_registration_confirmation.html:13
+#: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:13
+#: fabcal/templates/fabcal/event_info_datetime.html:16
+#: fabcal/templates/fabcal/event_info_datetime.html:17
+msgid "at"
+msgstr "à"
+
+#: fabcal/templates/fabcal/email/event_registration_confirmation.html:18
+msgid "The payment will be made on site"
+msgstr "Le paiement se fera sur site"
+
+#: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:6
+msgid "We confirme that you are unregister for the event"
+msgstr "Nous vous confirmons que vous êtes desinscrit à l'évènement"
+
+#: fabcal/templates/fabcal/event_card.html:11
+msgid "More informations"
+msgstr "Plus d'informations"
+
+#: fabcal/templates/fabcal/event_create_or_update_form.html:37
+#: fabcal/templates/fabcal/opening_create_or_update_form.html:36
+msgid "Start"
+msgstr "Début"
+
+#: fabcal/templates/fabcal/event_create_or_update_form.html:41
+#: fabcal/templates/fabcal/event_create_or_update_form.html:53
+#: fabcal/templates/fabcal/opening_create_or_update_form.html:30
+msgid "Date"
+msgstr "Date"
+
+#: fabcal/templates/fabcal/event_create_or_update_form.html:46
+#: fabcal/templates/fabcal/event_create_or_update_form.html:57
+msgid "Time"
+msgstr "Heure"
+
+#: fabcal/templates/fabcal/event_create_or_update_form.html:50
+#: fabcal/templates/fabcal/opening_create_or_update_form.html:40
+msgid "End"
+msgstr "Fin"
+
+#: fabcal/templates/fabcal/event_details.html:12
+msgid "Edit"
+msgstr "Modifier"
+
+#: fabcal/templates/fabcal/event_info.html:27
+#: fabcal/templates/fabcal/event_registration_form.html:9
+#: fabcal/templates/fabcal/event_registration_list.html:7
+msgid "Registration"
+msgstr "Inscription"
+
+#: fabcal/templates/fabcal/event_info.html:29
+msgid "Registration mandatory"
+msgstr "Inscription obligatoire"
+
+#: fabcal/templates/fabcal/event_info.html:31
+#, python-format
+msgid " still %(available_registration)s places available ! "
+msgstr "encore %(available_registration)s places disponibles !"
+
+#: fabcal/templates/fabcal/event_info.html:33
+msgid "Sold out"
+msgstr "Complet"
+
+#: fabcal/templates/fabcal/event_info.html:37
+msgid "No registration required for this event"
+msgstr "Pas d'inscription requise pour cet évènement"
+
+#: fabcal/templates/fabcal/event_info.html:49
+msgid "Location"
+msgstr "Lieu"
+
+#: fabcal/templates/fabcal/event_info_datetime.html:8
+msgid "Date and schedule"
+msgstr "Date et horaire"
+
+#: fabcal/templates/fabcal/event_registration_button.html:8
+#: fabcal/templates/fabcal/event_registration_button.html:10
+msgid "unregister"
+msgstr "se désinscrire"
+
+#: fabcal/templates/fabcal/event_registration_button.html:11
+msgid "Sorry, you can not unregister 24h before the start of the event"
+msgstr ""
+"Désolé, vous ne pouvez pas vous desinscrire 24h avant le début de l'évènement"
+
+#: fabcal/templates/fabcal/event_registration_button.html:14
+#: fabcal/templates/fabcal/event_registration_button.html:16
+msgid "register"
+msgstr "s'inscrire"
+
+#: fabcal/templates/fabcal/event_registration_list.html:8
+msgid "peoples registered for the event"
+msgstr "personnes inscrites à l'évènement"
+
+#: fabcal/templates/fabcal/event_unregistration_form.html:9
+msgid "Unregistration"
+msgstr "Desinscription"
+
+#: fabcal/templates/fabcal/events_list.html:10
+msgid "No events scheduled for the moment"
+msgstr "Pas d'évènement planifié pour le moment"
+
+#: fabcal/templates/fabcal/weekly.html:4
+msgid "This week"
+msgstr "Cette semaine"
+
+#: fabcal/templates/fabcal/weekly.html:7
+msgid "⚠️ Be careful: Our schedule changes every week"
+msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
+
+#: fabcal/templates/fabcal/weekly.html:24
+msgid "Closed"
+msgstr "Fermé"
+
+#: fabcal/views.py:57
+msgid "Create opening"
+msgstr "Créer l'ouverture"
+
+#: fabcal/views.py:59
+msgid "Update opening"
+msgstr "Mettre à jour l'ouverture"
+
+#: fabcal/views.py:92
+msgid "Your opening has been successfully deleted on "
+msgstr "Votre ouverture a été supprimée avec succès le "
+
+#: fabcal/views.py:111
+msgid "Create event"
+msgstr "Créer l'évènement"
+
+#: fabcal/views.py:113
+msgid "Update event"
+msgstr "Mettre à jour l'évènement"
+
+#: fabcal/views.py:154
+msgid "Your event has been successfully deleted on "
+msgstr "Votre évènement a été supprimée avec succès le "
+
+#: fabcal/views.py:223 fabcal/views.py:224
+msgid "Confirmation of your registration"
+msgstr "Confirmation de votre inscription"
+
+#: fabcal/views.py:229
+msgid "Well done! We sent you an email to confirme your registration"
+msgstr ""
+"Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
+
+#: fabcal/views.py:246 fabcal/views.py:247
+msgid "Confirmation of your unregistration"
+msgstr "Confirmation de votre desinscription"
+
+#: fabcal/views.py:252
+msgid "Oh no! We sent you an email to confirme your unregistration"
+msgstr ""
+"Oh non ! Nous vous avons envoyé un e-mail pour confirmer votre desinscription"
+
+#: interlab/settings.py:212 interlab/settings.py:220
 msgid "fr"
 msgstr "fr"
 
@@ -584,7 +977,7 @@ msgid "Reservation"
 msgstr "Réservation"
 
 #: interlab/templates/menu-mobile.html:29
-#: interlab/templates/navbar-header.html:53
+#: interlab/templates/navbar-header.html:55
 msgid "Login"
 msgstr "Connexion"
 
@@ -593,5 +986,56 @@ msgid "Subscribe to the newsletter to follow the FabLab news"
 msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 
 #: newsletter/templates/forms/newsletter.html:27
-msgid "Thank you ! You are now registered in our newsletter list"
-msgstr "Merci ! vous êtes maintenant inscrit.e dans notre liste de newsletter"
+msgid "Thank you !"
+msgstr "Merci !"
+
+# For the trainings models
+msgid "Beginner"
+msgstr "Débutant"
+
+msgid "Intermediate"
+msgstr "Intermédiaire"
+
+msgid "Advanced"
+msgstr "Avancé"
+
+msgid "Machine category"
+msgstr "Catégorie de machine"
+
+msgid "Level"
+msgstr "Niveau"
+
+msgid "Duration"
+msgstr "Durée"
+
+msgid "Photo"
+msgstr "Photo"
+
+msgid "Question"
+msgstr "Question"
+
+msgid "Answer"
+msgstr "Réponse"
+
+msgid "Training updated!"
+msgstr "Formation mise à jour !"
+
+msgid "Training created!"
+msgstr "Formation créée !"
+
+#~ msgid "Name"
+#~ msgstr "Nom"
+
+#~ msgid "e-mail"
+#~ msgstr "e-mail"
+
+#~ msgid ""
+#~ "One training is offered (alone or accompanied by a person) if you become "
+#~ "a member of the association."
+#~ msgstr ""
+#~ "Une formation est offerte (seul(e) ou accompagné(e) d'une personne) si "
+#~ "vous devenez membre de l'association."
+
+#: openings/models.py:51
+msgid "Events"
+msgstr "Évènements"

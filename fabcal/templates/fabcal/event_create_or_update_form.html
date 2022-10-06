@@ -1,0 +1,107 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n crispy_forms_tags %}
+{% load render_bundle from webpack_loader %}
+
+{% block header %}
+{{ form.media }}
+{% endblock header %}
+
+{% block content_form_img %}
+<i class="bi bi-calendar-plus mb-5 img-form-logo mx-auto d-block"></i>
+{% endblock %}
+
+{% block content_form %}
+
+<form action="." method="POST">
+
+    {% csrf_token %}
+
+
+    <div class="form-group">
+
+        <div class="mb-3">
+            <label for="{{ form.event.id_for_label }}">{{ form.event.label_tag }}</label>
+            {{ form.event }}
+            {{ form.event.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.opening.id_for_label }}">{{ form.opening.label_tag }}</label>
+            {{ form.opening }}
+            {{ form.opening.errors }}
+        </div>
+
+        <div data-app>
+            <div id="vue">
+                <div class="mb-3">
+                    {% trans "Start" %}<br>
+                    <v-row>
+                        <v-col cols="8">
+                            <date-picker init-date={{start|date:"Y-m-d"}} input-name="start_date"
+                                label={% trans "Date" %}>
+                            </date-picker>
+                        </v-col>
+                        <v-col cols="4">
+                            <time-picker init-time={{start|date:"H:i"}} input-name="start_time"
+                                label={% trans "Time" %}>
+                            </time-picker>
+                        </v-col>
+                    </v-row>
+                    {% trans "End" %}<br>
+                    <v-row>
+                        <v-col cols="8">
+                            <date-picker init-date={{end|date:"Y-m-d"}} input-name="end_date" label={% trans "Date" %}>
+                            </date-picker>
+                        </v-col>
+                        <v-col cols="4">
+                            <time-picker init-time={{end|date:"H:i"}} input-name="end_time" label={% trans "Time" %}>
+                            </time-picker>
+                        </v-col>
+                    </v-row>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.price.id_for_label }}">{{ form.price.label_tag }}</label>
+            {{ form.price }}
+            {{ form.price.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.comment.id_for_label }}">{{ form.comment.label_tag }}</label>
+            {{ form.comment }}
+            {{ form.comment.errors }}
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                {{ form.has_registration.label_tag }}
+            </div>
+            <div class="col">
+                <div class="form-check form-switch">
+                    <input class="form-check-input float-end" type="checkbox" role="switch"
+                        id={{form.has_registration.auto_id}} name="has_registration"
+                        {% if form.has_registration.value %}checked{% endif %}>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            {{ form.registration_limit.label_tag }}
+            <input class="form-control" id={{form.registration_limit.auto_id}} name="registration_limit" placeholder=""
+                type="number" min="0"
+                value={% if form.registration_limit.value %}{{ form.registration_limit.value }}{% endif %}>
+            </input>
+            {{ form.registration_limit.errors }}
+            <small>{{ form.registration_limit.help_text }}</small>
+        </div>
+    </div>
+    
+    {% include 'forms/base_submit_button.html'%}
+
+</form>
+{% endblock content_form %}
+
+{% block js_footer %}
+{% render_bundle 'vue' 'js' %}
+{% endblock js_footer %}
