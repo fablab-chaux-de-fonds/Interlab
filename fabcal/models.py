@@ -4,10 +4,10 @@ from cms.models import CMSPlugin
 
 from django.conf import settings
 from django.db import models
-from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from openings.models import Opening, Event
+from machines.models import Training
 
 # Create your models here.
 class AbstractSlot(models.Model):
@@ -67,6 +67,10 @@ class EventSlot(AbstractSlot):
     def is_registration_open(self):
         "Check registration deadline (24h) "
         return datetime.datetime.now()-datetime.timedelta(hours=24) < self.start
+
+class TrainingSlot(AbstractSlot):
+    training = models.ForeignKey(Training, on_delete=models.CASCADE)
+    opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
 
 class EventsListPluginModel(CMSPlugin):
     pass

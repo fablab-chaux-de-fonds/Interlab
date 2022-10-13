@@ -5,7 +5,7 @@ from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 from django.utils.translation import gettext as _
 
-from .models import WeeklyPluginModel, OpeningSlot, EventSlot, CalendarOpeningsPluginModel, EventsListPluginModel
+from .models import WeeklyPluginModel, OpeningSlot, EventSlot, TrainingSlot, CalendarOpeningsPluginModel, EventsListPluginModel
 
 from datetime import date, timedelta
 
@@ -81,6 +81,21 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
                 'has_registration': event.has_registration,
                 'img':  event.event.img.url
             })
+
+        events = list(TrainingSlot.objects.filter(start__gt = date.today() - timedelta(days=365) ))
+        for event in events:
+            backend['events'].append({
+                'type': 'training',
+                'pk': event.training.pk,
+                'username': event.user.username,
+                'user_firstname': event.user.first_name,
+                'start': event.start,
+                'end': event.end,
+                'comment': event.comment,
+                'title': event.training.title,
+                'background_color': '#ddf9ff',
+                'color': '#0b1783',
+                })
         
         backend["is_superuser"] = request.user.groups.filter(name='superuser').exists()
         backend["username"] = request.user.username

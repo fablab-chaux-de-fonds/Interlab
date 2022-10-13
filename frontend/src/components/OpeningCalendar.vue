@@ -76,6 +76,10 @@
               <v-btn @click="createEventSlot" class="my-2 v-btn-primary-outlined" outlined>
                 <i class="bi bi-calendar-event pe-2"></i> {{ $vuetify.lang.t('$vuetify.event') }}
               </v-btn>
+              <br>
+              <v-btn @click="createTrainingSlot" class="my-2 v-btn-primary-outlined" outlined>
+                <i class="bi bi-mortarboard pe-2"></i> {{ $vuetify.lang.t('$vuetify.training') }}
+              </v-btn>
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -116,14 +120,6 @@
                 <p ><i class="bi bi-person-fill"></i> {{selectedEvent.user_firstname}}</p>
               </div>
               <p v-if="selectedEvent.comment"><i class="bi bi-card-text"></i> {{selectedEvent.comment}}</p>
-              <div v-if="selectedEvent.type=='event'" class="text-center">
-                <v-btn @click="eventDetails(selectedEvent.pk)" class="v-btn-primary-outlined" outlined>
-                  <i class="bi bi-info-circle pe-2"></i> {{ $vuetify.lang.t('$vuetify.more_information') }}
-                </v-btn>
-                <v-btn v-if="selectedEvent.has_registration" @click="eventRegister(selectedEvent.pk)" class="v-btn-primary">
-                  <i class="bi bi-plus-circle pe-2"></i> {{ $vuetify.lang.t('$vuetify.register') }}
-                </v-btn>
-              </div>
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -214,8 +210,8 @@
         location.href = "/fabcal/create-event/" + this.start + "/" + this.end;
       },
 
-      eventDetails(pk) {
-        location.href = "/fabcal/event/" + pk;
+      createTrainingSlot(event) {
+        location.href = "/fabcal/create-training/" + this.start + "/" + this.end;
       },
 
       cancelDrag() {
@@ -278,8 +274,10 @@
           this.selectedElement = nativeEvent.target;
           if (this.selectedEvent.type === 'opening') {
             requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true));
-          } else {
+          } else if (this.selectedEvent.type === 'event') {
             location.href = "/fabcal/event/" + this.selectedEvent.pk;
+          } else if (this.selectedEvent.type === 'training') {
+            location.href = "/machines/trainings/" + this.selectedEvent.pk + '/show';
           }
         };
 
@@ -326,9 +324,6 @@
         }
 
         this.events = events;
-      },
-      test() {
-        console.log('hello')
       },
     },
     mounted() {

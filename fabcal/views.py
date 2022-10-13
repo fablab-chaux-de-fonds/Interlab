@@ -12,8 +12,8 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.views import View
 
-from .forms import OpeningForm, EventForm
-from .models import OpeningSlot, EventSlot
+from .forms import OpeningForm, EventForm, TrainingForm
+from .models import OpeningSlot, EventSlot, TrainingSlot
 
 def get_start_end(self, context):
     if self.request.method =='GET':
@@ -271,6 +271,68 @@ class UnregisterEventView(RegisterEventBaseView):
         messages.success(request, _("Oh no! We sent you an email to confirme your unregistration"))
 
         return redirect('event', pk)
+
+class TrainingBaseView(CustomFormView): 
+    template_name = 'fabcal/trainig_create_or_update_form.html'
+    form_class = TrainingForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.crud_state == 'created':
+            context['submit_btn'] = _('Create training')
+        elif self.crud_state == 'updated':
+            context['submit_btn'] = _('Update training')
+
+        context = get_start_end(self, context)
+        return context
+
+    def form_valid(self, form):
+        # add user_id in cleaned_data
+        form.cleaned_data['user_id'] = self.request.user.id
+        
+        if form.cleaned_data['opening']:
+            opening_slot = form.update_or_create_opening_slot(self)
+        else: 
+            opening_slot = None
+        
+        form.update_or_create_training_slot(self, opening_slot)
+        return super().form_valid(form)
+
+class CreateTrainingView(TrainingBaseView):
+    crud_state = 'created'
+
+class UpdateTrainingView(TrainingBaseView):
+    crud_state = 'update'
+
+class DeleteTrainingView(View):
+    template_name = 'fabcal/delete_training.html'
+
+    def get(self, request, pk, *args, **kwargs):
+        event = TrainingSlot.objects.get(pk=pk)
+        # Refactoring with event queryset
+        context = {
+            'start': event.start,
+            'end': event.end,
+            'title': event.event.title
+            }
+        return render(request, self.template_name, context)  
+
+    def post(self, request, pk):
+        event_slot = TrainingSlot.objects.get(pk=pk)
+        event_slot.delete()
+
+        messages.success(request, (
+                _("Your event has been successfully deleted on ") + 
+                event_slot.start.strftime("%A %d %B %Y") + 
+                _(" from ") +
+                event_slot.start.strftime("%H:%M") + 
+                _(" to ") + 
+                event_slot.end.strftime("%H:%M")
+                )
+            ) 
+        return redirect('/schedule/') 
+
 
 class downloadIcsFileView(TemplateView):
     template_name = 'fabcal/fablab.ics'

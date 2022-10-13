@@ -37,6 +37,7 @@ class Training(ItemForRent):
     support = HTMLField(verbose_name=_('Support'),blank=True,configuration='CKEDITOR_SETTINGS')
     sort = models.PositiveSmallIntegerField(default=1)
     photo = models.ImageField(upload_to='trainings', verbose_name=_('Photo'))
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
