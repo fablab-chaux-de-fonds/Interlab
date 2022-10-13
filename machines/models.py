@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 from djangocms_text_ckeditor.fields import HTMLField
+from cms.models import CMSPlugin
 
 class ItemForRent(models.Model):
     title = models.CharField(max_length=255, verbose_name=_('Title'))
@@ -100,4 +101,5 @@ class MachineTodoPoint(models.Model):
     seen_in_training = models.BooleanField(default=False)
     sort = models.PositiveSmallIntegerField(default=1)
 
-
+class TrainingsListPluginModel(CMSPlugin):
+    pass
