@@ -291,12 +291,22 @@ class TrainingBaseView(CustomFormView):
         # add user_id in cleaned_data
         form.cleaned_data['user_id'] = self.request.user.id
         
+        # Create opening
         if form.cleaned_data['opening']:
             opening_slot = form.update_or_create_opening_slot(self)
         else: 
             opening_slot = None
         
-        form.update_or_create_training_slot(self, opening_slot)
+        # Create training
+        training_slot = form.update_or_create_training_slot(self, opening_slot)
+
+        # Alert users
+        self.context = {
+            'training_slot': training_slot,
+            'request': self.request
+        }
+        form.alert_users(self)
+
         return super().form_valid(form)
 
 class CreateTrainingView(TrainingBaseView):
@@ -333,7 +343,7 @@ class DeleteTrainingView(View):
             ) 
         return redirect('/schedule/') 
 
-class RegisterTrainingView(FormView):
+class RegisterTrainingView(LoginRequiredMixin, FormView):
     template_name = 'fabcal/training_registration_form.html'
     form_class = RegistrationTrainingForm
     success_url = "/"

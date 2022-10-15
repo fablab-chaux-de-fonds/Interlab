@@ -15,7 +15,7 @@
         <small>{% trans "sold out" %}</small>
         {% endif %}
     </div>
-    <div class="col-4">
+    <div class="col-4 text-end">
         {% if training_slot.available_registration > 0 %}
         <a href="{% url 'register-training' training_slot.pk %}" class="btn">{% trans "Register" %}</a>
         {% elif training_slot.available_registration == 0 %}
@@ -24,16 +24,42 @@
     </div>
     {% endfor %}
     <hr>
+</div>
+{% endif %}
 
-    <div class="row">
-        <div class="col">
-            <p>{% trans "You cannot attend a proposed training." %}
-                {% else %}
-                <p>{% trans "Unfortunately, no training planned." %}
-                    {% endif %}
-                    {% trans "You can subsribe to the list and you will informed when a new training is planed" %}
-                </p>
-                <a class="btn btn-secondary float-end">{% trans "Subsribe to the list" %}</a>
-        </div>
+
+<div class="row mb-4">
+    <div class="col-8">
+        {% if training_slots %}
+            <h3>{% trans "Not available ?" %}</h3>
+        {% else %}
+            {% trans "Unfortunately, no training planned." %}
+        {% endif %}
+
+        {% if not notification %}
+        {% trans "We can alert you when a new training is planned." %}
+        {%else%}
+        {% trans "We will contact you as soon as possible." %}
+        {% endif %}
+    </div>
+    <div class="col-4 mt-auto">
+        {% if user.is_authenticated %}
+        <form action="./show" method="post">
+            {% csrf_token %}
+            {% if notification %}
+            <button type="submit" class="btn btn-secondary float-end">
+                <i class="bi bi-bell-slash pe-2"></i>{% trans "Stop alert me" %}
+            </button>
+            {% else %}
+            <button type="submit" class="btn btn-primary float-end">
+                <i class="bi bi-bell-fill pe-2"></i> {% trans "Alert me" %}
+            </button>
+            {% endif %}
+        </form>
+        {% else %}
+        <a href="{% url 'login'%}?next={{request.path}}" class="btn btn-secondary float-end">
+            <i class="bi bi-box-arrow-in-right pe-2"></i> {% trans "Log in" %}
+        </a>
+        {% endif %}
     </div>
 </div>

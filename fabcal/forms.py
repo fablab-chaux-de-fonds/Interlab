@@ -153,7 +153,7 @@ class TrainingForm(AbstractSlotForm):
         error_messages={'required': _('Please select a training.')}, 
         )
     date = forms.CharField()
-    registration_limit = forms.IntegerField(required=False, label=_('Registration limit'), help_text=_('leave blank if no limit'))
+    registration_limit = forms.IntegerField(required=True, label=_('Registration limit'))
 
     def update_or_create_training_slot(self, view,opening_slot):
         fields = [f.name for f in TrainingSlot._meta.get_fields()] + ['user_id']
@@ -179,6 +179,20 @@ class TrainingForm(AbstractSlotForm):
             "</a>"
             )
         )
+
+        return training_slot[0]
+
+    def alert_users(self, view): 
+        html_message = render_to_string('fabcal/email/training_alert.html', view.context)
+    
+        send_mail(
+            from_email=None,
+            subject=_('A new training was planned'),
+            message = _("A new training was planned"),
+            recipient_list = [profile.user.email for profile in view.context['training_slot'].training.notification.all()],
+            html_message = html_message
+        )
+
 
 class RegistrationTrainingForm(forms.Form):
 

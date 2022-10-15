@@ -3,6 +3,8 @@ from django.utils.translation import ugettext as _
 from djangocms_text_ckeditor.fields import HTMLField
 from cms.models import CMSPlugin
 
+from accounts.models import Profile
+
 class ItemForRent(models.Model):
     title = models.CharField(max_length=255, verbose_name=_('Title'))
     description = HTMLField(verbose_name=_('Description'),blank=True,configuration='CKEDITOR_SETTINGS')
@@ -39,6 +41,7 @@ class Training(ItemForRent):
     sort = models.PositiveSmallIntegerField(default=1)
     photo = models.ImageField(upload_to='trainings', verbose_name=_('Photo'))
     is_active = models.BooleanField(default=True)
+    notification = models.ManyToManyField(Profile)
 
     def __str__(self):
         return self.title

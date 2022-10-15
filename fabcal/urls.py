@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+app_name = 'fabcal'
+
 urlpatterns = [
     path('create-opening/<str:start>/<str:end>/', views.CreateOpeningView.as_view(), name='create-opening'),
     path('update-opening/<int:pk>/', views.UpdateOpeningView.as_view(), name='update-opening'),
