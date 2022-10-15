@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.core.mail import send_mail
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.template import loader
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
@@ -12,7 +12,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.views import View
 
-from .forms import OpeningForm, EventForm, TrainingForm
+from .forms import OpeningForm, EventForm, TrainingForm, RegistrationTrainingForm
 from .models import OpeningSlot, EventSlot, TrainingSlot
 
 def get_start_end(self, context):
@@ -110,7 +110,6 @@ class DeleteOpeningView(View):
             ) 
         return redirect('/schedule/')
 
-
 class EventBaseView(CustomFormView):
     template_name = 'fabcal/event_create_or_update_form.html'
     form_class = EventForm
@@ -142,6 +141,7 @@ class EventBaseView(CustomFormView):
 
 class CreateEventView(EventBaseView):
     crud_state = 'created'
+
 class UpdateEventView(EventBaseView):
     crud_state = 'updated'
     type = 'event'
@@ -152,6 +152,7 @@ class UpdateEventView(EventBaseView):
         initial['event'] = event_slot.event
         initial['opening'] = event_slot.opening_slot.opening
         return initial
+
 class DeleteEventView(View):
     template_name = 'fabcal/delete_event.html'
 
@@ -179,6 +180,7 @@ class DeleteEventView(View):
                 )
             ) 
         return redirect('/schedule/')  
+
 class DetailEventView(View):
     template_name = 'fabcal/event_details.html'
 
@@ -223,9 +225,8 @@ class RegisterEventBaseView(LoginRequiredMixin, View):
                 'has_registration': event.has_registration,
                 'first_name': request.user.first_name,
                 'is_single_day': event.is_single_day,
-                'href': request.scheme + '://' + request.get_host() + '/fabcal/event/' + str(pk)  
+                'href': request.scheme + '://' + request.get_host() + '/fabcal/event/' + str(pk)
             }
-
 
 class RegisterEventView(RegisterEventBaseView):
     template_name = 'fabcal/event_registration_form.html'
@@ -249,7 +250,6 @@ class RegisterEventView(RegisterEventBaseView):
 
         return redirect('show-event', pk)
     
-
 class UnregisterEventView(RegisterEventBaseView):
     template_name = 'fabcal/event_unregistration_form.html'
 
@@ -332,6 +332,30 @@ class DeleteTrainingView(View):
                 )
             ) 
         return redirect('/schedule/') 
+
+class RegisterTrainingView(FormView):
+    template_name = 'fabcal/training_registration_form.html'
+    form_class = RegistrationTrainingForm
+    success_url = "/"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        training_slot = get_object_or_404(TrainingSlot, pk=self.kwargs['pk'])
+        context ={
+            'training_slot': training_slot,
+            'training': training_slot.training
+        }
+        return context
+
+    def form_valid(self, form):
+        self.context = {
+            'training_slot': get_object_or_404(TrainingSlot, pk=self.kwargs['pk']),
+            'request': self.request
+        }
+
+        form.register(self)
+        form.send_email(self)
+        return super().form_valid(form)
 
 
 class downloadIcsFileView(TemplateView):

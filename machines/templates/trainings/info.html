@@ -1,0 +1,40 @@
+{% load i18n training_extras %}
+
+<div class="row mb-4">
+
+    <div class="col-4">
+        <div class="row">
+            <div class="col-4 text-end pe-0">
+                <h4><i class="bi bi-cash"></i></h4>
+            </div>
+            <div class="col-8 ">
+                <h4>{% trans "Price" %}</h4>
+                <p>{{training.price|price_format}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="row">
+            <div class="col-4 text-end pe-0">
+                <h4><i class="bi bi-clock"></i></h4>
+            </div>
+            <div class="col-8 ">
+                <h4>{% trans "Duration" %}</h4>
+                <p>{{training.duration|duration_format}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="row">
+            <div class="col-4 text-end pe-0">
+                <h4><i class="bi bi-bar-chart-fill"></i></h4>
+            </div>
+            <div class="col-8 ">
+                <h4>{% trans "Level" %}</h4>
+                <p>{{training.level|level_format}}</p>
+            </div>
+        </div>
+    </div>    
+</div>

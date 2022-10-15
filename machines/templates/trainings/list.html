@@ -9,7 +9,7 @@
         {% if trainings %}
 
         {% for obj in trainings %}
-        <a href="{% url 'machines:trainings.show' obj.pk %}">
+        <a href="{% url 'machines:trainings-show' obj.pk %}">
             <div class="training-container">
                 <img class="training-img" src="{{obj.photo.url}}">
                 <div class="training-title">{{obj}}</div>

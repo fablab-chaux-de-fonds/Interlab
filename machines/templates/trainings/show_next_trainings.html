@@ -1,0 +1,39 @@
+{% load i18n %}
+
+<h3> {% trans "Next Trainings" %} </h3>
+{% if training_slots %}
+<div class="row mb-4">
+    {% for training_slot in training_slots %}
+    <hr>
+    <div class="col-8">
+        {{training_slot.start|date:"l j F Y"|capfirst}} {% trans " from " %} {{training_slot.start|date:"H:i"}}
+        {% trans "to" %} {{training_slot.end|date:"H:i"}} <br>
+        {% if training_slot.available_registration > 0  %}
+        <small class"fs-6">{% blocktrans with available_registration=training_slot.available_registration %}
+            still {{available_registration}} places available ! {% endblocktrans %}</small>
+        {% elif training_slot.available_registration == 0 %}
+        <small>{% trans "sold out" %}</small>
+        {% endif %}
+    </div>
+    <div class="col-4">
+        {% if training_slot.available_registration > 0 %}
+        <a href="{% url 'register-training' training_slot.pk %}" class="btn">{% trans "Register" %}</a>
+        {% elif training_slot.available_registration == 0 %}
+        <button class="btn" disabled>{% trans "Register" %}</button>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <p>{% trans "You cannot attend a proposed training." %}
+                {% else %}
+                <p>{% trans "Unfortunately, no training planned." %}
+                    {% endif %}
+                    {% trans "You can subsribe to the list and you will informed when a new training is planed" %}
+                </p>
+                <a class="btn btn-secondary float-end">{% trans "Subsribe to the list" %}</a>
+        </div>
+    </div>
+</div>

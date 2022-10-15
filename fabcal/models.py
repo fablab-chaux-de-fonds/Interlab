@@ -18,6 +18,19 @@ class AbstractSlot(models.Model):
     class Meta:
         abstract = True
 
+
+class AbstractRegistration(models.Model):
+    registration_limit = models.IntegerField(blank=True, null=True)
+
+    @property
+    def available_registration (self):
+        "Check if there is still place for the event/training"
+        if self.registration_limit:
+            return self.registration_limit - self.registrations.count()
+        else:
+            return None
+    class Meta:
+        abstract = True
 class OpeningSlot(AbstractSlot):
     opening = models.ForeignKey(Opening, on_delete=models.CASCADE)
     class Meta:
@@ -37,11 +50,10 @@ class WeeklyPluginModel(CMSPlugin):
 class CalendarOpeningsPluginModel(CMSPlugin):
     pass
 
-class EventSlot(AbstractSlot):
+class EventSlot(AbstractSlot, AbstractRegistration):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     has_registration = models.BooleanField()
     registrations = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='event_registration_users', blank=True, null=True)
-    registration_limit = models.IntegerField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     price = models.TextField(max_length=255)
     opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
@@ -57,20 +69,18 @@ class EventSlot(AbstractSlot):
         return self.start.date() == self.end.date()
     
     @property
-    def available_registration (self):
-        "Check if there is still place for the event"
-        if self.registration_limit:
-            return self.registration_limit - self.registrations.count()
-        else:
-            return None
-    @property
     def is_registration_open(self):
         "Check registration deadline (24h) "
         return datetime.datetime.now()-datetime.timedelta(hours=24) < self.start
 
-class TrainingSlot(AbstractSlot):
+class TrainingSlot(AbstractSlot, AbstractRegistration):
     training = models.ForeignKey(Training, on_delete=models.CASCADE)
     opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
+    registrations = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='training_registration_users', blank=True, null=True)
+
+    class Meta:
+        verbose_name = _("Training Slot")
+        verbose_name_plural = _("Training Slots")
 
 class EventsListPluginModel(CMSPlugin):
     pass

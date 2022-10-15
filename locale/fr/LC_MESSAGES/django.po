@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-12 16:17+0000\n"
+"POT-Creation-Date: 2022-10-14 09:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,8 +160,7 @@ msgstr "mes machines"
 #: accounts/templates/accounts/nav.html:95
 #: accounts/templates/accounts/user-edit.html:35
 #: interlab/templates/navbar-header.html:43
-#: machines/templates/trainings/list.html:4
-#: machines/templates/trainings/list.html:9
+#: machines/templates/trainings/list.html:6
 msgid "Trainings"
 msgstr "Formations"
 
@@ -598,102 +597,113 @@ msgstr "Calendrier - ouverture"
 msgid "Event list"
 msgstr "Liste d'évènement"
 
-#: fabcal/forms.py:22
+#: fabcal/forms.py:23
 msgid "Comment"
 msgstr "Commentaire"
 
-#: fabcal/forms.py:26 fabcal/forms.py:83 openings/models.py:34
+#: fabcal/forms.py:27 fabcal/forms.py:84 openings/models.py:34
 msgid "Opening"
 msgstr "Ouverture"
 
-#: fabcal/forms.py:27
+#: fabcal/forms.py:28
 msgid "No opening"
 msgstr "Pas d'ouverture"
 
-#: fabcal/forms.py:52
+#: fabcal/forms.py:53
 msgid "Start time after end time."
 msgstr "Heure du début après heure de fin"
 
-#: fabcal/forms.py:65
+#: fabcal/forms.py:66
 #, python-format
 msgid "Your openings has been successfully %(crud_state)s on "
 msgstr "Votre ouverture a été %(crud_state)s avec succès le "
 
-#: fabcal/forms.py:67 fabcal/forms.py:134 fabcal/forms.py:168
-#: fabcal/views.py:105 fabcal/views.py:175 fabcal/views.py:328
+#: fabcal/forms.py:68 fabcal/forms.py:135 fabcal/forms.py:169
+#: fabcal/views.py:105 fabcal/views.py:176 fabcal/views.py:328
 msgid " from "
 msgstr " de "
 
-#: fabcal/forms.py:69 fabcal/forms.py:136 fabcal/forms.py:170
-#: fabcal/views.py:107 fabcal/views.py:177 fabcal/views.py:330
+#: fabcal/forms.py:70 fabcal/forms.py:137 fabcal/forms.py:171
+#: fabcal/views.py:107 fabcal/views.py:178 fabcal/views.py:330
 msgid " to "
 msgstr " à "
 
-#: fabcal/forms.py:74 fabcal/forms.py:141 fabcal/forms.py:175
+#: fabcal/forms.py:75 fabcal/forms.py:142 fabcal/forms.py:176
 msgid "Download .ICS file"
 msgstr "Téléchager le ficher .ICS"
 
-#: fabcal/forms.py:84
+#: fabcal/forms.py:85
 msgid "Select an opening"
 msgstr "Selectionnez une ouverture"
 
-#: fabcal/forms.py:85
+#: fabcal/forms.py:86
 msgid "Please select an opening."
 msgstr "Veuillez sélectionner une ouverture."
 
-#: fabcal/forms.py:92 openings/models.py:50
+#: fabcal/forms.py:93 openings/models.py:50
 msgid "Event"
 msgstr "Évènement"
 
-#: fabcal/forms.py:93
+#: fabcal/forms.py:94
 msgid "Select an event"
 msgstr "Selectionnez un évènement"
 
-#: fabcal/forms.py:94
+#: fabcal/forms.py:95
 msgid "Please select an event."
 msgstr "Veuillez sélectionner un événement."
 
-#: fabcal/forms.py:98 fabcal/templates/fabcal/event_info.html:15
-#: machines/models.py:8
+#: fabcal/forms.py:99 fabcal/templates/fabcal/event_info.html:15
+#: machines/models.py:9 machines/templates/trainings/info.html:11
 msgid "Price"
 msgstr "Tarifs"
 
-#: fabcal/forms.py:99
+#: fabcal/forms.py:100
 msgid "On registration"
 msgstr "Sur inscription"
 
-#: fabcal/forms.py:100
+#: fabcal/forms.py:101
 msgid "Registration limit"
 msgstr "Limite d'inscriptions"
 
-#: fabcal/forms.py:100
+#: fabcal/forms.py:101
 msgid "leave blank if no limit"
 msgstr "Laisser vide si pas de limite"
 
-#: fabcal/forms.py:118
+#: fabcal/forms.py:119
 msgid "Start date after end date."
 msgstr "Date du début après date de fin"
 
-#: fabcal/forms.py:132
+#: fabcal/forms.py:133
 #, python-format
 msgid "Your event has been successfully %(crud_state)s on "
 msgstr "Votre évènement a été %(crud_state)s avec succès le "
 
-#: fabcal/forms.py:149
+#: fabcal/forms.py:150
 msgid "Training"
 msgstr "Formation"
 
-#: fabcal/forms.py:150
+#: fabcal/forms.py:151
 msgid "Select a training"
 msgstr "Selectionnez une formation"
 
-#: fabcal/forms.py:151
+#: fabcal/forms.py:152
 msgid "Please select a training."
 msgstr "Veuillez sélectionner une formation."
 
-#: fabcal/forms.py:166
+#: fabcal/forms.py:167
+#, python-format
 msgid "Your trainings has been successfully %(crud_state)s on "
 msgstr "Votre formation a été %(crud_state)s avec succès le "
+
+#: fabcal/forms.py:189 fabcal/forms.py:190 fabcal/views.py:243
+#: fabcal/views.py:244
+msgid "Confirmation of your registration"
+msgstr "Confirmation de votre inscription"
+
+#: fabcal/forms.py:199 fabcal/views.py:249
+msgid "Well done! We sent you an email to confirme your registration"
+msgstr ""
+"Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
 
 #: fabcal/models.py:24
 msgid "Opening Slot"
@@ -756,6 +766,8 @@ msgstr "de"
 #: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:11
 #: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:13
 #: fabcal/templates/fabcal/event_info_datetime.html:17
+#: fabcal/templates/fabcal/training_registration_form.html:10
+#: machines/templates/trainings/show.html:79
 msgid "to"
 msgstr " à "
 
@@ -809,6 +821,7 @@ msgstr "Modifier"
 #: fabcal/templates/fabcal/event_info.html:27
 #: fabcal/templates/fabcal/event_registration_form.html:9
 #: fabcal/templates/fabcal/event_registration_list.html:7
+#: fabcal/templates/fabcal/training_registration_form.html:9
 msgid "Registration"
 msgstr "Inscription"
 
@@ -822,8 +835,8 @@ msgid " still %(available_registration)s places available ! "
 msgstr "encore %(available_registration)s places disponibles !"
 
 #: fabcal/templates/fabcal/event_info.html:33
-msgid "Sold out"
-msgstr "Complet"
+msgid "sold out"
+msgstr "complet"
 
 #: fabcal/templates/fabcal/event_info.html:37
 msgid "No registration required for this event"
@@ -849,8 +862,8 @@ msgstr ""
 
 #: fabcal/templates/fabcal/event_registration_button.html:14
 #: fabcal/templates/fabcal/event_registration_button.html:16
-msgid "register"
-msgstr "s'inscrire"
+msgid "Register"
+msgstr "S'inscrire"
 
 #: fabcal/templates/fabcal/event_registration_list.html:8
 msgid "peoples registered for the event"
@@ -888,26 +901,17 @@ msgstr "Mettre à jour l'ouverture"
 msgid "Your opening has been successfully deleted on "
 msgstr "Votre ouverture a été supprimée avec succès le "
 
-#: fabcal/views.py:122
+#: fabcal/views.py:121
 msgid "Create event"
 msgstr "Créer l'évènement"
 
-#: fabcal/views.py:124
+#: fabcal/views.py:123
 msgid "Update event"
 msgstr "Mettre à jour l'évènement"
 
-#: fabcal/views.py:173 fabcal/views.py:326
+#: fabcal/views.py:174 fabcal/views.py:326
 msgid "Your event has been successfully deleted on "
 msgstr "Votre évènement a été supprimée avec succès le "
-
-#: fabcal/views.py:242 fabcal/views.py:243
-msgid "Confirmation of your registration"
-msgstr "Confirmation de votre inscription"
-
-#: fabcal/views.py:248
-msgid "Well done! We sent you an email to confirme your registration"
-msgstr ""
-"Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
 
 #: fabcal/views.py:265 fabcal/views.py:266
 msgid "Confirmation of your unregistration"
@@ -965,76 +969,84 @@ msgstr "Réservation"
 msgid "Login"
 msgstr "Connexion"
 
-#: machines/models.py:6 machines/models.py:66
+#: machines/cms_plugins.py:12 machines/templates/trainings/show.html:50
+msgid "Machines"
+msgstr "Machines"
+
+#: machines/cms_plugins.py:13
+msgid "training list"
+msgstr "Liste des formations"
+
+#: machines/models.py:7 machines/models.py:67
 msgid "Title"
 msgstr "Titre"
 
-#: machines/models.py:7 machines/models.py:16 machines/models.py:61
+#: machines/models.py:8 machines/models.py:17 machines/models.py:62
 msgid "Description"
 msgstr "Description"
 
 # For the trainings models
-#: machines/models.py:28
+#: machines/models.py:29
 msgid "Beginner"
 msgstr "Débutant"
 
-#: machines/models.py:29
+#: machines/models.py:30
 msgid "Intermediate"
 msgstr "Intermédiaire"
 
-#: machines/models.py:30
+#: machines/models.py:31
 msgid "Advanced"
 msgstr "Avancé"
 
-#: machines/models.py:33
+#: machines/models.py:34
 msgid "Machine category"
 msgstr "Catégorie de machine"
 
-#: machines/models.py:34
+#: machines/models.py:35 machines/templates/trainings/info.html:35
 msgid "Level"
 msgstr "Niveau"
 
-#: machines/models.py:35
+#: machines/models.py:36 machines/templates/trainings/info.html:23
 msgid "Duration"
 msgstr "Durée"
 
-#: machines/models.py:35
+#: machines/models.py:36
 msgid "Use the format HH:MM:SS"
 msgstr "Utiliser le format HH:MM:SS"
 
-#: machines/models.py:36
+#: machines/models.py:37
 msgid "Header"
 msgstr "Chapeau"
 
-#: machines/models.py:37 machines/templates/trainings/show.html:80
+#: machines/models.py:38
 msgid "Support"
 msgstr "Matériel de cours"
 
-#: machines/models.py:39
+#: machines/models.py:40
 msgid "Photo"
 msgstr "Photo"
 
-#: machines/models.py:67
+#: machines/models.py:68
 msgid "Name"
 msgstr "Nom"
 
-#: machines/models.py:73
+#: machines/models.py:74
 msgid "Question"
 msgstr "Question"
 
-#: machines/models.py:74
+#: machines/models.py:75
 msgid "Answer"
 msgstr "Réponse"
 
-#: machines/models.py:79 machines/models.py:90
+#: machines/models.py:80 machines/models.py:91
 msgid "Specifications"
 msgstr "Spécification"
 
-#: machines/models.py:92
+#: machines/models.py:93
 msgid "Subscriber price"
 msgstr "Tarifs d'inscription"
 
-#: machines/templates/trainings/list.html:10
+#: machines/templates/trainings/list.html:7
 msgid ""
 "The trainings are available for everyone, no need to be part of the "
 "association (it is only required to create an online account)."
@@ -1042,11 +1054,11 @@ msgstr ""
 "Les formations sont accessibles à tout un chacun, pas besoin d'être membre "
 "de l'association (il est seulement requis de se créer un compte en ligne)."
 
-#: machines/templates/trainings/list.html:24
+#: machines/templates/trainings/list.html:21
 msgid "Sadly, no training is currently available."
 msgstr "Malheureusement, aucune formation n'est disponible pour le moment."
 
-#: machines/templates/trainings/list.html:29
+#: machines/templates/trainings/list.html:26
 msgid ""
 "One training is offered (alone or accompanied by a person) if you become a "
 "member of the association."
@@ -1054,25 +1066,31 @@ msgstr ""
 "Une formation est offerte (seul(e) ou accompagné(e) d'une personne) si vous "
 "devenez membre de l'association."
 
-#: machines/templates/trainings/show.html:33
-msgid "Our upcoming trainings"
-msgstr "Nos prochaines formations"
-
-#: machines/templates/trainings/show.html:36
+#: machines/templates/trainings/show.html:14
 msgid "During this training you will learn..."
 msgstr "Durant cette formation vous apprendrez..."
 
-#: machines/templates/trainings/show.html:67
-msgid "Machines"
-msgstr "Machines"
-
-#: machines/templates/trainings/show.html:88
+#: machines/templates/trainings/show.html:57
 msgid "Sadly, no machine currently available."
 msgstr "Malheureusement, aucune machine n'est disponible pour le moment."
 
-#: machines/templates/trainings/show.html:94
+#: machines/templates/trainings/show.html:64
 msgid "List of the materials prices"
 msgstr "Liste des prix matière"
+
+#: machines/templates/trainings/show.html:75
+msgid "Next Trainings"
+msgstr "Prochaines formations"
+
+#: machines/templates/trainings/show.html:89
+msgid ""
+"Unfortunately, no formation planned. You can subsribe to the list and you "
+"will informed when a new training is planed"
+msgstr ""
+
+#: machines/templates/trainings/show.html:90
+msgid "Subsribe to the list"
+msgstr "Je m'inscris à la liste"
 
 #: newsletter/templates/forms/newsletter.html:7
 msgid "Subscribe to the newsletter to follow the FabLab news"
@@ -1085,3 +1103,6 @@ msgstr "Merci ! Vous êtes maintenant inscrit à notre newsletter"
 #: openings/models.py:51
 msgid "Events"
 msgstr "Évènements"
+
+#~ msgid "Our upcoming trainings"
+#~ msgstr "Nos prochaines formations"

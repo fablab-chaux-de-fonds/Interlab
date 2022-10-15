@@ -11,14 +11,6 @@ class TrainingAdmin(admin.ModelAdmin):
 class MachineCategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'description']
 
-@admin.register(OutcomeListItem)
-class TrainingOutcomeAdmin(admin.ModelAdmin):
-    list_display = ['training', 'description']
-
-@admin.register(DIYListItem)
-class TrainingDIYAdmin(admin.ModelAdmin):
-    list_display = ['training', 'title', 'name', 'url']
-
 @admin.register(Faq)
 class TrainingFaqAdmin(admin.ModelAdmin):
     list_display = ['about', 'question', 'answer']
@@ -30,3 +22,15 @@ class MachineAdmin(admin.ModelAdmin):
 @admin.register(MachineGroup)
 class MachineGroupAdmin(admin.ModelAdmin):
     list_display = ['title', 'description', 'sort']
+
+@admin.register(Tool)
+class ToolAdmin(admin.ModelAdmin):
+    list_display = ['title', 'description', 'link', 'icon']
+
+@admin.register(ToolTraining)
+class ToolTraining(admin.ModelAdmin):
+    list_display = ['training', 'sort', 'tool']
+
+@admin.register(ToolMachine)
+class ToolMachine(admin.ModelAdmin):
+    list_display = ['machine', 'sort', 'tool']

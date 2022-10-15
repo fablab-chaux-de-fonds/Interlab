@@ -4,8 +4,10 @@ import datetime
 from django import forms
 from django.contrib import messages
 from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
 from django.forms import ModelForm
 from django.template.defaultfilters import date as _date
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe 
 from django.utils.translation import gettext_lazy as _
 
@@ -151,6 +153,7 @@ class TrainingForm(AbstractSlotForm):
         error_messages={'required': _('Please select a training.')}, 
         )
     date = forms.CharField()
+    registration_limit = forms.IntegerField(required=False, label=_('Registration limit'), help_text=_('leave blank if no limit'))
 
     def update_or_create_training_slot(self, view,opening_slot):
         fields = [f.name for f in TrainingSlot._meta.get_fields()] + ['user_id']
@@ -175,4 +178,23 @@ class TrainingForm(AbstractSlotForm):
             _('Download .ICS file') +
             "</a>"
             )
+        )
+
+class RegistrationTrainingForm(forms.Form):
+
+    def register(self, view):
+        training_slot = TrainingSlot.objects.get(pk=view.kwargs['pk'])
+        training_slot.registrations.add(view.request.user)
+        messages.success(view.request, _("Well done! We sent you an email to confirme your registration"))
+    
+    def send_email(self, view):
+
+        html_message = render_to_string('fabcal/email/training_registration_confirmation.html', view.context)
+    
+        send_mail(
+            from_email=None,
+            subject=_('Confirmation of your registration'),
+            message = _("Confirmation of your registration"),
+            recipient_list = [view.request.user.email],
+            html_message = html_message
         )

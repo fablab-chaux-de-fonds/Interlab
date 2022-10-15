@@ -23,7 +23,7 @@ const messages = {
             "has_subcription": "Sur inscription",
             "price": "Tarifs",
             "more_information": "Plus d'info",
-            "register": "S'inscrire",
+            "Register": "S'inscrire",
             "registration_limit": "Limite d'inscription",
             "registration_limit_hint": "laisser vide si pas de limite, mais inscription obligatoire",
             "calendar": {

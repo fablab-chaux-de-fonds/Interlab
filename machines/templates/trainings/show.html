@@ -1,61 +1,45 @@
 {% extends "base.html" %}
 {% load i18n training_extras %}
 
-{% block title %}{{block.super}} - {{obj.title}} {% endblock %}
+{% block title %}{{block.super}} - {{training.title}} {% endblock %}
 
 {% block content %}
-<div class="row d-flex justify-content-center">
-    <div class="col-12 col-md-9 col-xl-8 py-md-3">
-        <h2>{{obj}}</h2>
 
-        <div class="training-img-header">
-            <img class="training-img-show" src="{{obj.photo.url}}">
+<div class="row">
+    <h2 class="text-red">{{training}}</h2>
+    <div class="d-md-none"> {%include 'trainings/show_img.html'%} </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h3>{{ training.header | safe }}</h3>
+        <div class="d-md-none d-md-block">
+            {% include 'trainings/info.html' %}
+            {% include 'trainings/show_next_trainings.html' %}
+            <h3> {% trans "Description" %} </h3>
         </div>
 
-        <p>{{obj.description}}</p>
+        <p>{{training.description}}</p>
 
-        <div class="training-icon-container">
-            <i class="bi bi-cash training-icon"></i>
-            {{obj.price|price_format}}
-        </div>
-        <div class="training-icon-container">
-            <i class="bi bi-clock training-icon"></i>
-            {{obj.duration|duration_format}}
-        </div>
-        <div class="training-icon-container">
-            <i class="bi bi-bar-chart-fill training-icon"></i> <!-- TODO make different icons for levels -->
-            {{obj.level|level_format}}
-        </div>
-
-        <div class="clear"></div>
-
-        <a href="#" class="btn btn-primary btn-middle"> <!-- TODO faire le calendrier et mettre à jour le lien -->
-            {% trans "Our upcoming trainings" as next %}{{next|upper}}
-        </a>
-
-        <h3>{% trans "During this training you will learn..." as learn_title %}{{learn_title|upper}}</h3>
-        <ul>
-            {% for outcome in obj.outcome_list %}
-            <li>{{outcome.description}}</li>
-            {% endfor %}
-        </ul>
-        {{ obj.header | safe }}
-
-        <div class="accordion">
-            {% for faq in obj.faq_list %}
-            <div class="accordion-item">
-                <h3 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panel-{{faq.pk}}">
-                        {{faq.question|upper}}
-                    </button>
-                </h3>
-                <div id="panel-{{faq.pk}}" class="accordion-collapse collapse show">
-                    <div class="accordion-body">
-                        {{faq.answer}}
+        <div class="row mb-4">
+            <div class="col">
+                <div class="accordion">
+                    {% for faq in training.faq_list %}
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panel-{{faq.pk}}">
+                                {{faq.question|upper}}
+                            </button>
+                        </h3>
+                        <div id="panel-{{faq.pk}}" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                {{faq.answer}}
+                            </div>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
         </div>
 
         <!-- TODO: Section machines associées:
@@ -64,36 +48,47 @@
             - ajouter un lien vers le support de formation pour chaque
             - implémenter un scroll horizontal (je sais pas comment faire, mais ça devrait être faisable en CSS)
         -->
-        <h3>{{ _("Machines") | upper }}</h3>
-                
-        {% if machines %}
 
-        {% for m in machines %}
-        <div class="training-container">
-        <a href="% url 'machines.show' m.pk %">
-                <img class="training-img" src="{{m.photo.url}}">
-                <div class="training-title">{{m}}</div>
-        </a>
+        <div class="row mb-4">
+            <h3> {% trans "Machines" %}</h3>
 
-        <div class="clear"></div>
-        <a href="{{m.support}}" class="btn btn-secondary">
-            {% trans "Support" %}
-        </a>
+            {% if machines %}
+            {% for machine in machines %}
+            {% include 'machines/card.html' %}
+            {% endfor %}
+            {% else %}
+            <div class="col">
+                <p>{% trans "Sadly, no machine currently available." %}</p>
+            </div>
+            {% endif %}
+        </div>
     </div>
+
+    <div class="col-md-6">
+
+        <div class="d-none d-md-block">{%include 'trainings/show_img.html'%}</div>
+        <div class="d-none d-md-block">
+            {% include 'trainings/info.html' %}
+            {% include 'trainings/show_next_trainings.html' %}
+        </div>
+
+        
+    </div>
+
+    <div class="row">
+        <h3> {% trans "Support and tools" %} </h3>
+        {% for tool in tools %} 
+        <div class="text-center col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <div class="card card-tool h-100">
+                <img src="{{tool.icon.url}}" class="card-img-top px-5" alt="{{tool.title}}">
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title">{{tool.title}}</h5>
+                  <p class="card-text my-auto py-2">{{tool.description}}</p>
+                  <a href="{{tool.link}}" class="btn btn-secondary mt-auto">{{tool.link_text}}</a>
+                </div>
+              </div>
+        </div>
         {% endfor %}
-        
-        <div class="clear"></div>
-
-        {% else %}
-        <p>{% trans "Sadly, no machine currently available." %}</p>
-        {% endif %}
-        
-        {{ obj.support | safe }}
-
-        <a href="#" class="btn btn-secondary"> <!-- TODO: faire la page des prix matières et mettre à jour le lien -->
-            {% trans "List of the materials prices" as list_prices %}{{list_prices|upper}}
-        </a>
-
     </div>
 </div>
 {% endblock %}

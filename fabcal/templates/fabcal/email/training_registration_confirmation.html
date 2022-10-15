@@ -1,0 +1,22 @@
+{% extends "email/base_email.html" %}
+{% load i18n %}
+
+{% block content %}
+<p> Hello {{request.user.first_name}}, </p> 
+<p>{%trans "We confirme that you are register for the training" %}
+    <a href="{{request.scheme}}://{{request.get_host}}{% url 'machines:trainings-show' training_slot.training.pk %}">"{{training_slot.training.title}}"</a>
+    {% trans "which will take place " %}
+    {% trans "on" %}
+    {{training_slot.start|date:"l j F Y"}} 
+    {% trans "From" %} 
+    {{training_slot.start|date:"H:i"}} 
+    {% trans "to" %} 
+    {{training_slot.end|date:"H:i"}}
+
+</p>
+
+<p>
+    {% trans "The payment will be made on site" %}
+</p>
+
+{% endblock content %}

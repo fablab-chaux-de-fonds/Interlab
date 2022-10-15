@@ -56,19 +56,27 @@ class Training(ItemForRent):
         """Query set for Machine with same category"""
         return Machine.objects.filter(category=self.machine_category)
 
-
-class OutcomeListItem(models.Model):
-    training = models.ForeignKey(Training, on_delete=models.CASCADE)
-    description = HTMLField(verbose_name=_('Description'),blank=True,configuration='CKEDITOR_SETTINGS')
-
-
-class DIYListItem(models.Model):
-    training = models.ForeignKey(Training, on_delete=models.CASCADE)
+class Tool(models.Model):
+    icon = models.ImageField(upload_to='icons', verbose_name=_('Icon'))
     title = models.CharField(max_length=255, verbose_name=_('Title'))
-    name = models.CharField(max_length=255, blank=True, verbose_name=_('Name'))
-    url = models.URLField(blank=True)
+    description = models.CharField(max_length=255, verbose_name=_('Description'), blank=True)
+    link = models.URLField(verbose_name=_('Link'))
+    link_text = models.CharField(max_length=255, verbose_name=_('Link text'))
 
+    def __str__(self):
+        return self.title + " - " + self.description
 
+class AbstractToolSorting(models.Model):
+    tool = models.ForeignKey(Tool, on_delete=models.CASCADE)
+    sort = models.PositiveSmallIntegerField(default=1)
+    class Meta:
+        abstract = True
+
+class ToolTraining(AbstractToolSorting):
+    training = models.ForeignKey(Training, on_delete=models.CASCADE)
+
+class ToolMachine(AbstractToolSorting):
+    machine = models.ForeignKey(Training, on_delete=models.CASCADE)
 class Faq(models.Model):
     about = models.ForeignKey(ItemForRent, on_delete=models.CASCADE)
     question = models.CharField(max_length=255, verbose_name=_('Question'))

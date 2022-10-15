@@ -55,6 +55,16 @@
         </div>
 
         <div class="mb-3">
+            {{ form.registration_limit.label_tag }}
+            <input class="form-control" id={{form.registration_limit.auto_id}} name="registration_limit" placeholder=""
+                type="number" min="0"
+                value={% if form.registration_limit.value %}{{ form.registration_limit.value }}{% endif %}>
+            </input>
+            {{ form.registration_limit.errors }}
+            <small>{{ form.registration_limit.help_text }}</small>
+        </div>
+
+        <div class="mb-3">
             <label for="{{ form.comment.id_for_label }}">{{ form.comment.label_tag }}</label>
             {{ form.comment }}
             {{ form.comment.errors }}

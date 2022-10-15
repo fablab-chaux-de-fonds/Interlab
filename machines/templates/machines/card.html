@@ -1,0 +1,11 @@
+{% load i18n %}
+<div class="col-6 d-flex align-items-stretch text-center">
+    <a href="{% url 'machines:machines-show' machine.pk %}">
+        <div class="card">
+            <img src={{machine.photo.url}} class="card-img-top" alt="{{machine}}">
+            <div class="card-body">
+                <h3 class="card-title"> {{machine.machine}}</h3>
+            </div>
+        </div>
+    </a>
+</div>

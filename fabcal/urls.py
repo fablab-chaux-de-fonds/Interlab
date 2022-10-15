@@ -15,4 +15,5 @@ urlpatterns = [
     path('create-training/<str:start>/<str:end>/', views.CreateTrainingView.as_view(), name='create-training'),
     path('update-training/<int:pk>/', views.UpdateTrainingView.as_view(), name='update-training'),
     path('delete-training/<int:pk>/', views.DeleteTrainingView.as_view(), name='delete-training'),  
+    path('register-training/<int:pk>/', views.RegisterTrainingView.as_view(), name='register-training'),
 ]
