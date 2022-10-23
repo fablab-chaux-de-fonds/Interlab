@@ -1,3 +1,10 @@
 .icon-135 {
   transform: rotate(135deg) scaleY(-1);
 }
+
+.icon-subscription {
+  top: -18px;
+  right: 16px;
+  -webkit-text-stroke: 4px white;
+  paint-order: stroke fill;
+}

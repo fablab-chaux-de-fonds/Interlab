@@ -4,11 +4,12 @@ from djangocms_text_ckeditor.fields import HTMLField
 from cms.models import CMSPlugin
 
 from accounts.models import Profile
+from openings.models import AbstractOpening
+
 
 class ItemForRent(models.Model):
-    title = models.CharField(max_length=255, verbose_name=_('Title'))
-    description = HTMLField(verbose_name=_('Description'),blank=True,configuration='CKEDITOR_SETTINGS')
-    price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2)
+    full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2)
+    premium_price = models.DecimalField(verbose_name=_('Premium Price'),max_digits=6,decimal_places=2)
 
     def __str__(self):
         return self.title
@@ -22,7 +23,7 @@ class MachineCategory(models.Model):
         return self.name
 
 
-class Training(ItemForRent):
+class Training(ItemForRent, AbstractOpening):
     BEGINNER = 'BEG'
     INTERMEDIATE = 'INT'
     ADVANCED = 'ADV'
@@ -41,7 +42,7 @@ class Training(ItemForRent):
     sort = models.PositiveSmallIntegerField(default=1)
     photo = models.ImageField(upload_to='trainings', verbose_name=_('Photo'))
     is_active = models.BooleanField(default=True)
-    notification = models.ManyToManyField(Profile)
+    notification = models.ManyToManyField(Profile, related_name='training_notification', blank=True)
 
     def __str__(self):
         return self.title
@@ -58,6 +59,12 @@ class Training(ItemForRent):
     def machines_list(self):
         """Query set for Machine with same category"""
         return Machine.objects.filter(category=self.machine_category)
+
+class TrainingValidation(models.Model):
+    training = models.ForeignKey(Training, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
 
 class Tool(models.Model):
     icon = models.ImageField(upload_to='icons', verbose_name=_('Icon'))
@@ -80,6 +87,7 @@ class ToolTraining(AbstractToolSorting):
 
 class ToolMachine(AbstractToolSorting):
     machine = models.ForeignKey(Training, on_delete=models.CASCADE)
+
 class Faq(models.Model):
     about = models.ForeignKey(ItemForRent, on_delete=models.CASCADE)
     question = models.CharField(max_length=255, verbose_name=_('Question'))
@@ -91,7 +99,7 @@ class MachineGroup(models.Model):
     description = HTMLField(verbose_name=_('Specifications'),blank=True,configuration='CKEDITOR_SETTINGS')
     sort = models.PositiveSmallIntegerField(default=1)
 
-class Machine(ItemForRent):
+class Machine(ItemForRent, AbstractOpening):
     category = models.ForeignKey(MachineCategory, on_delete=models.CASCADE)  # TODO why exactly ??
     # status = ???
     # model = ??

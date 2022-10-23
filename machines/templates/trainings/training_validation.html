@@ -1,0 +1,30 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n %}
+
+{% block content_form_img %}
+<i class="bi bi-calendar-check mb-5 img-form-logo mx-auto d-block"></i>
+{% endblock content_form_img %}
+
+{% block content_form %}
+
+<h1>{% trans "Training validation" %}</h1> 
+<form action="." method="POST">
+    {% csrf_token %}
+    <div class="row">
+    {% for registration in registrations %}
+        <div class="col-8">
+            {{registration.profile.user.first_name}} {{registration.profile.user.last_name}}
+        </div>
+        <div class="col-4">
+            <div class="form-check form-switch">
+                <input class="form-check-input float-end" type="checkbox" role="switch"
+                    id={{registration.pk}} name="validations" value="{{registration.profile.pk}}"
+                    {% if registration.profile in graduates %}checked{% endif %}>
+            </div>
+        </div>
+        {% endfor %}
+        {% include 'forms/base_submit_button.html' with submit_btn="Validate training" %}
+    </div>
+ </form>
+    
+{% endblock content_form %}

@@ -40,3 +40,5 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}, ({self.user.username})"
 
+    def get_training_validations(self):
+        return self.trainingvalidation_set.all()

@@ -7,21 +7,69 @@
         {% include 'accounts/nav.html' %}
     </div>
     <div class="col-md-8 py-5 text-center">
-        
-    {% include 'accounts/user-summary.html' %}
-    {% if not user.profile.subscription %}
+
+        {% include 'accounts/user-summary.html' %}
+        {% if not user.profile.subscription %}
         <a href="#" class="my-5">
             <button class="btn btn-primary mt-5">
                 {% trans "Discover the subscriptions" %}
             </button>
-        </a> 
+        </a>
         {% endif %}
-
-    </div>
-    <div class="col-md-4 py-5 d-md-none">
         <hr>
-        {% include 'accounts/nav.html' %}
+
+        <div class="row">
+            {% for slot in slots %}
+            <div class='col col-md-4'>
+                <a class="text-blue" href="
+                {% if slot.training %}
+                    {% url 'machines:training-validation' slot.pk %}
+                {% endif %}
+                ">
+
+                    <div class="card">
+                        <div class="card-header" style="
+                            {% if slot.training %}
+                                color:{{slot.training.color}};
+                                background-color:{{slot.training.background_color}};
+                            {% elif slot.opening %}
+                                color:{{slot.opening.color}};
+                                background-color:{{slot.opening.background_color}};
+                            {% endif %}
+                            ">
+                            {{slot.start|date:"D j b"}}</br>
+                            <small>{{slot.start|date:"H:i"}} - {{slot.end|date:"H:i"}}</small><br>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {% if slot.training %}
+                                {% trans "training" %}
+                                {{slot.training.title}}
+                                {% elif slot.opening %}
+                                {% trans "opening" %}
+                                {{slot.opening.title}}
+                                {% endif %}
+                            </h5>
+                            <p class="card-text">
+                                {% if slot.available_registration > 0  %}
+                                <small
+                                    class"fs-6">{% blocktrans with available_registration=slot.available_registration %}
+                                    still {{available_registration}} places available ! {% endblocktrans %}</small>
+                                {% elif slot.available_registration == 0 %}
+                                <small>{% trans "sold out" %}</small>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <h2><i class="bi bi-arrow-right-square"></i></h2>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-4 py-5 d-md-none">
+            <hr>
+            {% include 'accounts/nav.html' %}
+        </div>
     </div>
 </div>
-
 {% endblock content %}

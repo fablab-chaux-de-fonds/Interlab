@@ -23,7 +23,7 @@ class AbstractRegistration(models.Model):
     registration_limit = models.IntegerField(blank=True, null=True)
 
     @property
-    def available_registration (self):
+    def available_registration(self):
         "Check if there is still place for the event/training"
         if self.registration_limit:
             return self.registration_limit - self.registrations.count()

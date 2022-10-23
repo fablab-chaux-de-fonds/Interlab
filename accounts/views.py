@@ -1,3 +1,6 @@
+from itertools import chain
+from operator import attrgetter
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -16,7 +19,7 @@ from django.utils.translation import ugettext as _
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 
-from fabcal.models import EventSlot
+from fabcal.models import EventSlot, OpeningSlot, TrainingSlot
 
 from .forms import EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm, CustomAuthenticationForm
 from .models import Profile, Subscription, SubscriptionCategory
@@ -101,6 +104,13 @@ def AccountsView(request):
     if subscription is not None:
         context['subscription'] = subscription
         context['subscription_category']=SubscriptionCategory.objects.get(pk=subscription.subscription_category_id)
+        context['slots']= sorted(chain(
+            TrainingSlot.objects.filter(user=request.user),
+            OpeningSlot.objects.filter(user=request.user)
+        ),
+        reverse=True,
+        key=attrgetter('start')
+        )
         
     return HttpResponse(template.render(context, request))
 
@@ -286,7 +296,7 @@ class myEventsView(TemplateView, LoginRequiredMixin):
 
     def get(self, request, *args, **kwargs):
         context = {
-            'future_events': EventSlot.objects.filter(registrations=request.user, start__gte=datetime.datetime.now()),
-            'past_events': EventSlot.objects.filter(registrations=request.user, start__lt=datetime.datetime.now())
+            'future_events': EventSlot.objects.filter(registrations=request.user, end__gte=datetime.datetime.now()),
+            'past_events': EventSlot.objects.filter(registrations=request.user, end__lt=datetime.datetime.now())
         }
         return render(request, self.template_name, context)

@@ -5,7 +5,11 @@ from .models import *
 
 @admin.register(Training)
 class TrainingAdmin(admin.ModelAdmin):
-    list_display = ['title', 'description', 'price', 'machine_category', 'level', 'duration', 'photo']
+    list_display = ['title', 'desc', 'full_price', 'premium_price', 'premium_price', 'machine_category', 'level', 'duration', 'photo']
+
+@admin.register(TrainingValidation)
+class TrainingValidationAdmin(admin.ModelAdmin):
+    list_display = ['training', 'profile', 'created_date', 'modified_date']
 
 @admin.register(MachineCategory)
 class MachineCategoryAdmin(admin.ModelAdmin):
@@ -17,7 +21,7 @@ class TrainingFaqAdmin(admin.ModelAdmin):
 
 @admin.register(Machine)
 class MachineAdmin(admin.ModelAdmin):
-    list_display = ['title', 'description', 'price', 'category', 'photo']
+    list_display = ['title', 'desc', 'full_price', 'premium_price', 'category', 'photo']
 
 @admin.register(MachineGroup)
 class MachineGroupAdmin(admin.ModelAdmin):

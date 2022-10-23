@@ -1,13 +1,16 @@
 import datetime
 
 from django.contrib import messages
-from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.mixins import LoginRequiredMixin 
+from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext as _
+from django.views.generic.edit import FormView
 
 
-from .models import Training, ToolTraining
+from .models import Training, ToolTraining, TrainingValidation
+from .forms import TrainingValidationForm
+
 from fabcal.models import TrainingSlot
-
 
 def trainings_list(request):
     trainings = Training.objects.all()
@@ -47,3 +50,33 @@ def training_show(request, pk):
 
     return render(request, 'trainings/show.html', context)
 
+
+class trainingValidation(LoginRequiredMixin, FormView):
+    template_name = 'trainings/training_validation.html'
+    form_class = TrainingValidationForm
+    success_url = "/"
+
+    def get_context_data(self, **kwargs):
+        training_slot = get_object_or_404(TrainingSlot, pk=self.kwargs['pk'])
+        registrations = training_slot.registrations.all()
+        graduates = [i.profile for i in TrainingValidation.objects.filter(training__pk=training_slot.training.pk)]
+
+        context = {
+            'registrations': registrations,
+            'graduates': graduates,
+            'training': training_slot.training
+        }
+
+        return context
+
+
+    def form_valid(self, form, **kwargs):
+            context = self.get_context_data(**kwargs)
+            self.old = [graduate.pk for graduate in context['graduates']] # list of initial Profile pk checked
+            self.new = self.request.POST.getlist('validations') # list of checked Profile pk after validation
+            self.training = context['training']
+
+            form.add_new_training_validation(self)
+            form.remove_training_validation(self)
+
+            return redirect('/')

@@ -5,14 +5,8 @@
 {% for user in users %}
 <a class="text-blue" href="{% url 'user-edit' user.pk %}">
     <div class="row">
-        <div class="col-2 text-center">
-            {% if user.first_name %}
-            <img src="https://eu.ui-avatars.com/api/?rounded=true&name={{user.first_name}}+{{user.last_name}}&color=fff&background=0b1783"
-                class="img-fluid my-2" alt="avatar">
-            {% else %}
-            <img src="https://eu.ui-avatars.com/api/?rounded=true&name={{user.email}}&color=fff&background=0b1783"
-                class="img-fluid my-2" alt="avatar">
-            {% endif %}
+        <div class="col-2">
+            {%include 'accounts/avatar.html'%}
         </div>
         <div class="col-8 my-auto">
             {% if user.first_name %}
@@ -25,6 +19,11 @@
             <small> {{user.profile.subscription.subscription_category.title}},
                 {{ user.profile.subscription.end|date:'d.m.Y' }} </small>
             {% endif %}
+
+            <p>
+                {% include "accounts/user-trainings-badges.html"  %}
+            </p>
+
         </div>
         <div class="col-2 my-auto">
             <h1><i class="bi bi-arrow-right-square"></i></h1>
