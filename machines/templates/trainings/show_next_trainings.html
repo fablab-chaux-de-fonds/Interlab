@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n interlab_tags %}
 
 <h3> {% trans "Next Trainings" %} </h3>
 {% if training_slots %}
@@ -21,6 +21,9 @@
         {% elif training_slot.available_registration == 0 %}
         <button class="btn" disabled>{% trans "Register" %}</button>
         {% endif %}
+        {% if request.user|has_group:"superuser" %}
+            <a href="{% url 'fabcal:update-training' training_slot.pk %}" class="btn btn-secondary"><i class="bi bi-pencil"></i></a>
+        {% endif %}
     </div>
     {% endfor %}
     <hr>
@@ -28,7 +31,7 @@
 {% endif %}
 
 
-<div class="row mb-4">
+<div class="row">
     <div class="col-8">
         {% if training_slots %}
             <h3>{% trans "Not available ?" %}</h3>

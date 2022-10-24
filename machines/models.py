@@ -42,7 +42,6 @@ class Training(ItemForRent, AbstractOpening):
     sort = models.PositiveSmallIntegerField(default=1)
     photo = models.ImageField(upload_to='trainings', verbose_name=_('Photo'))
     is_active = models.BooleanField(default=True)
-    notification = models.ManyToManyField(Profile, related_name='training_notification', blank=True)
 
     def __str__(self):
         return self.title
@@ -60,11 +59,17 @@ class Training(ItemForRent, AbstractOpening):
         """Query set for Machine with same category"""
         return Machine.objects.filter(category=self.machine_category)
 
-class TrainingValidation(models.Model):
+class AbstractTrainingProfile(models.Model):
     training = models.ForeignKey(Training, on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    class Meta:
+        abstract = True
+class TrainingNotification(AbstractTrainingProfile):
+    pass
+class TrainingValidation(AbstractTrainingProfile):
+    pass
 
 class Tool(models.Model):
     icon = models.ImageField(upload_to='icons', verbose_name=_('Icon'))

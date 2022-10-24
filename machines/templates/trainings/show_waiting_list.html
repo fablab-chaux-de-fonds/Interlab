@@ -1,0 +1,20 @@
+{% load i18n interlab_tags %}
+
+{% if request.user|has_group:"superuser" %}
+<hr>
+<div class="row mb-4">
+    <div class="col-8">
+        <h3> {% trans "Waiting list" %} </h3>
+        {% blocktranslate with interested_user_count=interested_user_count %}
+            There are {{ interested_user_count }} users interested for this training
+        {% endblocktranslate %}
+    </div>
+    <div class="col-4 mt-auto">
+        <a href={%url 'machines:training-waiting-list' training.pk%} class='btn btn-secondary float-end'>
+        <i class="bi bi-list-ul pe-2"></i> {% trans "Show users list" %}
+        </a>
+    </div>
+</div>
+
+
+{% endif %}

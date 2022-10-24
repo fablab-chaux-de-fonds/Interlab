@@ -2,12 +2,13 @@ import datetime
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext as _
 from django.views.generic.edit import FormView
 
 
-from .models import Training, ToolTraining, TrainingValidation
+from .models import Training, ToolTraining, TrainingValidation, TrainingNotification
 from .forms import TrainingValidationForm
 
 from fabcal.models import TrainingSlot
@@ -21,18 +22,18 @@ def training_show(request, pk):
     training = get_object_or_404(Training, pk=pk)
 
     if request.user.is_authenticated:
-        notification = training.notification.filter(user = request.user).exists()
+        notification = TrainingNotification.objects.filter(profile__user = request.user).exists()
         if request.method == 'POST':
             if notification:
                 # user has already the notification and want to unsuscribe
-                training.notification.remove(request.user.profile)
+                TrainingNotification.objects.get(profile=request.user.profile, training=training).delete()
                 messages.success(request, _("Oh no! you unsubsribe from notification"))
             else:
-                training.notification.add(request.user.profile)
+                TrainingNotification.objects.update_or_create(profile = request.user.profile, training=training)
                 messages.success(request, _("Thanks for interest, we will contact you as soon as possible"))
             
             #update notification variable 
-            notification = training.notification.filter(user = request.user).exists()
+            notification = TrainingNotification.objects.filter(profile__user=request.user, training=training).exists()
 
     else: 
         notification = False
@@ -45,7 +46,8 @@ def training_show(request, pk):
         'training_slots': training_slots,
         'machines': training.machines_list,
         'tools': tools,
-        'notification': notification
+        'notification': notification,
+        'interested_user_count': TrainingNotification.objects.filter(training=training).count()
         }
 
     return render(request, 'trainings/show.html', context)
@@ -54,7 +56,7 @@ def training_show(request, pk):
 class trainingValidation(LoginRequiredMixin, FormView):
     template_name = 'trainings/training_validation.html'
     form_class = TrainingValidationForm
-    success_url = "/"
+    success_url = "/" # TODO redirect to training show view
 
     def get_context_data(self, **kwargs):
         training_slot = get_object_or_404(TrainingSlot, pk=self.kwargs['pk'])
@@ -80,3 +82,11 @@ class trainingValidation(LoginRequiredMixin, FormView):
             form.remove_training_validation(self)
 
             return redirect('/')
+
+@login_required
+def training_waiting_list(request, pk):
+    context = {
+        'training_notifications': TrainingNotification.objects.filter(training__pk=pk).all().order_by('modified_date'),
+        'training': get_object_or_404(Training, pk=pk)
+    }
+    return render(request, 'trainings/waiting_list.html', context)

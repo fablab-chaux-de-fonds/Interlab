@@ -5,15 +5,14 @@ from django import forms
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
-from django.forms import ModelForm
 from django.template.defaultfilters import date as _date
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe 
 from django.utils.translation import gettext_lazy as _
 
-from .models import OpeningSlot, EventSlot, TrainingSlot    
+from .models import OpeningSlot, EventSlot, TrainingSlot
 from openings.models import Opening, Event
-from machines.models import Training
+from machines.models import Training, TrainingNotification
 
 class AbstractSlotForm(forms.Form):
     use_required_attribute=False
@@ -183,13 +182,22 @@ class TrainingForm(AbstractSlotForm):
         return training_slot[0]
 
     def alert_users(self, view): 
-        html_message = render_to_string('fabcal/email/training_alert.html', view.context)
+        
+        recipient_list = [training_notification.profile.user.email for training_notification in TrainingNotification.objects.filter(training=view.context['training_slot'].training)]
+        if view.crud_state == 'created':
+            subject = _('A new training was planned')
+            html_message = render_to_string('fabcal/email/training_create_alert.html', view.context)
+        elif view.crud_state == 'updated':
+            subject = _('A training was updated')
+            recipient_list.extend([registration.email for registration in view.context['training_slot'].registrations.all()])
+            recipient_list = set(recipient_list)
+            html_message = render_to_string('fabcal/email/training_update_alert.html', view.context)
     
         send_mail(
             from_email=None,
-            subject=_('A new training was planned'),
+            subject=subject,
             message = _("A new training was planned"),
-            recipient_list = [profile.user.email for profile in view.context['training_slot'].training.notification.all()],
+            recipient_list = recipient_list,
             html_message = html_message
         )
 

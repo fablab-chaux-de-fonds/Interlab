@@ -25,6 +25,8 @@ def get_start_end(self, context):
                 slot = OpeningSlot.objects.get(pk=self.kwargs['pk'])
             elif self.type == 'event':
                 slot = EventSlot.objects.get(pk=self.kwargs['pk'])
+            elif self.type == 'training':
+                slot = TrainingSlot.objects.get(pk=self.kwargs['pk'])
             context['start'] = slot.start
             context['end'] = slot.end
     elif self.request.method =='POST':
@@ -150,7 +152,10 @@ class UpdateEventView(EventBaseView):
         event_slot = EventSlot.objects.get(pk=self.kwargs['pk'])
         initial = event_slot.__dict__
         initial['event'] = event_slot.event
-        initial['opening'] = event_slot.opening_slot.opening
+        try:
+            initial['opening'] = event_slot.opening_slot.opening
+        except AttributeError:
+            initial['opening'] = None
         return initial
 
 class DeleteEventView(View):
@@ -275,6 +280,7 @@ class UnregisterEventView(RegisterEventBaseView):
 class TrainingBaseView(CustomFormView): 
     template_name = 'fabcal/trainig_create_or_update_form.html'
     form_class = TrainingForm
+    type = 'training'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -313,7 +319,17 @@ class CreateTrainingView(TrainingBaseView):
     crud_state = 'created'
 
 class UpdateTrainingView(TrainingBaseView):
-    crud_state = 'update'
+    crud_state = 'updated'
+
+    def get_initial(self):
+        training_slot = TrainingSlot.objects.get(pk=self.kwargs['pk'])
+        initial = training_slot.__dict__
+        initial['training'] = training_slot.training
+        try:
+            initial['opening'] = training_slot.opening_slot.opening
+        except AttributeError:
+            initial['opening'] = None
+        return initial
 
 class DeleteTrainingView(View):
     template_name = 'fabcal/delete_training.html'

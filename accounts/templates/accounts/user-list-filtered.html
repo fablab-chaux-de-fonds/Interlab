@@ -9,21 +9,7 @@
             {%include 'accounts/avatar.html'%}
         </div>
         <div class="col-8 my-auto">
-            {% if user.first_name %}
-            {{user.first_name}} {{user.last_name}}
-            {% else %}
-            {{user.email}}
-            {% endif %}
-            <br>
-            {% if user.profile.subscription %}
-            <small> {{user.profile.subscription.subscription_category.title}},
-                {{ user.profile.subscription.end|date:'d.m.Y' }} </small>
-            {% endif %}
-
-            <p>
-                {% include "accounts/user-trainings-badges.html"  %}
-            </p>
-
+            {%include 'accounts/user-list-summary.html' %}
         </div>
         <div class="col-2 my-auto">
             <h1><i class="bi bi-arrow-right-square"></i></h1>

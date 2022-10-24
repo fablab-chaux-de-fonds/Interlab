@@ -30,7 +30,11 @@
     <div class="col-4">
         <div class="row">
             <div class="col-4 text-end pe-0">
-                <h4><i class="bi bi-bar-chart-fill"></i></h4>
+                {% if training.level == 'BEG' %}
+                    <h4><i class="bi bi-bar-chart"></i></h4>
+                {% else %}
+                    <h4><i class="bi bi-bar-chart-fill"></i></h4>
+                {% endif %}
             </div>
             <div class="col-8 ">
                 <h4>{% trans "Level" %}</h4>
