@@ -1090,7 +1090,7 @@ msgid ""
 "first_name} {profile.user.last_name}"
 msgstr ""
 "Vous avez réussi à supprimer la formation {training.title} pour "
-"l'utilisateur {profile.user.first_name} {profil.utilisateur.last_name}"
+"l'utilisateur {profile.user.first_name} {profile.user.last_name}"
 
 #: machines/models.py:12
 msgid "Premium Price"
