@@ -15,6 +15,8 @@ from django.views import View
 from .forms import OpeningForm, EventForm, TrainingForm, RegistrationTrainingForm
 from .models import OpeningSlot, EventSlot, TrainingSlot
 
+from interlab.views import CustomFormView
+
 def get_start_end(self, context):
     if self.request.method =='GET':
         if self.crud_state == 'created':
@@ -33,24 +35,6 @@ def get_start_end(self, context):
         context['start'] = context['form'].cleaned_data['start']
         context['end'] = context['form'].cleaned_data['end']
     return context
-
-class CustomFormView(FormView):
-    success_url = '/schedule/'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        for field in context['form'].fields:
-            if not 'class' in context['form'][field].field.widget.attrs:
-                context['form'][field].field.widget.attrs['class'] = 'form-control'
-
-            if context['form'][field].widget_type == 'select':
-                context['form'][field].field.widget.attrs['class'] += ' form-select'
-        return context
-
-    def form_invalid(self, form):
-        for field in form.errors:
-            if field != '__all__':
-                form[field].field.widget.attrs['class'] = 'form-control is-invalid'
-        return super().form_invalid(form)
 
 class OpeningBaseView(CustomFormView):
     template_name = 'fabcal/opening_create_or_update_form.html'

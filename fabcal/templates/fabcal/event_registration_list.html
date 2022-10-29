@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-2">
             {% if registration.first_name %}
-            <a href="{% url 'user-edit' registration.pk %}">
+            <a href="{% url 'superuser-profile-edit' registration.pk %}">
                 <div class="text-center">
                     <img src="https://eu.ui-avatars.com/api/?rounded=true&name={{registration.first_name}}+{{registration.last_name}}&color=fff&background=e3005c"
                         class="img w-50" alt="avatar"> </br>

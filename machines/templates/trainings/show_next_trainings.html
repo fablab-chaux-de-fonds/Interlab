@@ -9,8 +9,9 @@
         {{training_slot.start|date:"l j F Y"|capfirst}} {% trans " from " %} {{training_slot.start|date:"H:i"}}
         {% trans "to" %} {{training_slot.end|date:"H:i"}} <br>
         {% if training_slot.available_registration > 0  %}
-        <small class"fs-6">{% blocktrans with available_registration=training_slot.available_registration %}
-            still {{available_registration}} places available ! {% endblocktrans %}</small>
+        <small class"fs-6">
+            {% blocktrans with available_registration=training_slot.available_registration %}still {{available_registration}} places available ! {% endblocktrans %}
+        </small>
         {% elif training_slot.available_registration == 0 %}
         <small>{% trans "sold out" %}</small>
         {% endif %}

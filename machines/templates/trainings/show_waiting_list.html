@@ -5,9 +5,7 @@
 <div class="row mb-4">
     <div class="col-8">
         <h3> {% trans "Waiting list" %} </h3>
-        {% blocktranslate with interested_user_count=interested_user_count %}
-            There are {{ interested_user_count }} users interested for this training
-        {% endblocktranslate %}
+        {% blocktranslate with interested_user_count=interested_user_count %} There are {{ interested_user_count }} users interested for this training {% endblocktranslate %}
     </div>
     <div class="col-4 mt-auto">
         <a href={%url 'machines:training-waiting-list' training.pk%} class='btn btn-secondary float-end'>
