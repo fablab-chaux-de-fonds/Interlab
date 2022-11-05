@@ -10,7 +10,7 @@
         {% trans "to" %} {{training_slot.end|date:"H:i"}} <br>
         {% if training_slot.available_registration > 0  %}
         <small class"fs-6">
-            {% blocktrans with available_registration=training_slot.available_registration %}still {{available_registration}} places available ! {% endblocktrans %}
+            {% blocktrans with available_registration=training_slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}
         </small>
         {% elif training_slot.available_registration == 0 %}
         <small>{% trans "sold out" %}</small>
@@ -23,7 +23,7 @@
         <button class="btn" disabled>{% trans "Register" %}</button>
         {% endif %}
         {% if request.user|has_group:"superuser" %}
-            <a href="{% url 'fabcal:update-training' training_slot.pk %}" class="btn btn-secondary"><i class="bi bi-pencil"></i></a>
+            <a href="{% url 'fabcal:update-training' training_slot.pk %}" class="btn btn-outline-primary"><i class="bi bi-pencil"></i></a>
         {% endif %}
     </div>
     {% endfor %}
@@ -51,7 +51,7 @@
         <form action="./show" method="post">
             {% csrf_token %}
             {% if notification %}
-            <button type="submit" class="btn btn-secondary float-end">
+            <button type="submit" class="btn btn-outline-primary float-end">
                 <i class="bi bi-bell-slash pe-2"></i>{% trans "Stop alert me" %}
             </button>
             {% else %}
@@ -61,7 +61,7 @@
             {% endif %}
         </form>
         {% else %}
-        <a href="{% url 'login'%}?next={{request.path}}" class="btn btn-secondary float-end">
+        <a href="{% url 'login'%}?next={{request.path}}" class="btn btn-outline-primary float-end">
             <i class="bi bi-box-arrow-in-right pe-2"></i> {% trans "Log in" %}
         </a>
         {% endif %}

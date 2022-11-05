@@ -8,7 +8,7 @@
         {% blocktranslate with interested_user_count=interested_user_count %} There are {{ interested_user_count }} users interested for this training {% endblocktranslate %}
     </div>
     <div class="col-4 mt-auto">
-        <a href={%url 'machines:training-waiting-list' training.pk%} class='btn btn-secondary float-end'>
+        <a href={%url 'machines:training-waiting-list' training.pk%} class='btn btn-outline-primary float-end'>
         <i class="bi bi-list-ul pe-2"></i> {% trans "Show users list" %}
         </a>
     </div>

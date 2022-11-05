@@ -25,18 +25,14 @@ a {
   text-decoration: none;
 }
 
-.text-red {
-  color: $custom-red;
-}
-
-.text-blue {
-  color: $custom-blue !important;
-}
-
 .cms-messages {
   display: none !important;
 }
 
 #div_id_is_admin {
   display: none;
+}
+
+td > p {
+  margin: 0;
 }

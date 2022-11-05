@@ -22,6 +22,9 @@ class AbstractOpening(models.Model):
     class Meta:
         abstract = True
     
+    def __str__(self):
+        return self.title
+    
 
 # Create your models here.
 class Opening(AbstractOpening):

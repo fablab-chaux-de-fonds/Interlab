@@ -24,23 +24,7 @@
 
         <div class="row mb-4">
             <div class="col">
-                <div class="accordion">
-                    {% for faq in training.faq_list %}
-                    <div class="accordion-item">
-                        <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#panel-{{faq.pk}}">
-                                {{faq.question|upper}}
-                            </button>
-                        </h3>
-                        <div id="panel-{{faq.pk}}" class="accordion-collapse collapse">
-                            <div class="accordion-body">
-                                {{faq.answer}}
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
+                {% include 'faq/show.html' with faqs=training.faq_list %}
             </div>
         </div>
 
@@ -55,7 +39,9 @@
 
             {% if machines %}
             {% for machine in machines %}
-            {% include 'machines/card.html' %}
+                <div class="col-6 d-flex align-items-stretch text-center">
+                    {% include 'machines/card.html' %}
+                </div>
             {% endfor %}
             {% else %}
             <div class="col">
@@ -78,16 +64,9 @@
 <div class="row">
     <h3> {% trans "Support and tools" %} </h3>
     {% for tool in tools %}
-    <div class="text-center col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-        <div class="card card-tool h-100">
-            <img src="{{tool.icon.url}}" class="card-img-top px-5" alt="{{tool.title}}">
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title">{{tool.title}}</h5>
-                <p class="card-text my-auto py-2">{{tool.description}}</p>
-                <a href="{{tool.link}}" class="btn btn-secondary mt-auto">{{tool.link_text}}</a>
-            </div>
+        <div class="text-center col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            {% include 'cards/show.html' with card=tool.card %}
         </div>
-    </div>
     {% endfor %}
 </div>
 {% endblock %}

@@ -9,7 +9,7 @@
     {% csrf_token %}
     {{ edit_profile_form | crispy }}
     <div class="d-grid">
-        <a class="btn btn-secondary my-4" href="../../password_change/"> {% trans "Change password" %} </a>
+        <a class="btn btn-outline-primary my-4" href="../../password_change/"> {% trans "Change password" %} </a>
         <a class="text-center" href="{% url 'delete-profile' %}">{% trans "delete account"|capfirst %}</a> 
     </div>
 
