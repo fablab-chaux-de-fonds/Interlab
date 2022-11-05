@@ -6,11 +6,14 @@ from cms.models import CMSPlugin
 from accounts.models import Profile
 from openings.models import AbstractOpening
 
-class ItemForRent(models.Model):
+class ItemForRent(AbstractOpening):
     full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2)
+    photo = models.ImageField(upload_to='img', verbose_name=_('Photo'))
+    header = HTMLField(verbose_name=_('Header'),blank=True,configuration='CKEDITOR_SETTINGS')
 
-    def __str__(self):
-        return self.title
+    @property
+    def faq_list(self):
+        return self.faq_set.all()
 
 class AbstractMachinesFilter(models.Model):
     name = models.CharField(max_length=255)
@@ -26,7 +29,7 @@ class MachineCategory(AbstractMachinesFilter):
     """For Training validation"""
     pass
 
-class Training(ItemForRent, AbstractOpening):
+class Training(ItemForRent):
     BEGINNER = 'BEG'
     INTERMEDIATE = 'INT'
     ADVANCED = 'ADV'
@@ -40,17 +43,11 @@ class Training(ItemForRent, AbstractOpening):
     machine_category = models.ForeignKey(MachineCategory, on_delete=models.CASCADE, verbose_name=_('Machine category'))
     level = models.CharField(max_length=3, choices=LEVEL_CHOICES, verbose_name=_('Level'))
     duration = models.DurationField(verbose_name=_('Duration'), help_text=_('Use the format HH:MM:SS')) # TODO essayer de trouver un truc plus pratique pour dire la durée
-    header = HTMLField(verbose_name=_('Header'),blank=True,configuration='CKEDITOR_SETTINGS')
     sort = models.PositiveSmallIntegerField(default=1)
-    photo = models.ImageField(upload_to='trainings', verbose_name=_('Photo'))
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.title
-
-    @property
-    def faq_list(self):
-        return self.faq_set.all()
+        return _('Training') + ' :' +self.title
 
     @property
     def outcome_list(self):
@@ -74,11 +71,12 @@ class TrainingValidation(AbstractTrainingProfile):
     pass
 
 class Card(models.Model):
-    icon = models.ImageField(upload_to='icons', verbose_name=_('Icon'))
+    icon = models.ImageField(upload_to='icons', verbose_name=_('Icon'), blank=True, null=True)
+    bootstrap_icon = models.CharField(max_length=255, blank=True)
     title = models.CharField(max_length=255, verbose_name=_('Title'))
     description = models.CharField(max_length=255, verbose_name=_('Description'), blank=True)
-    link = models.URLField(verbose_name=_('Link'))
-    link_text = models.CharField(max_length=255, verbose_name=_('Link text'))
+    link = models.URLField(verbose_name=_('Link'), blank=True)
+    link_text = models.CharField(max_length=255, verbose_name=_('Link text'), blank=True)
 
     def __str__(self):
         return self.title + " - " + self.description
@@ -99,6 +97,9 @@ class Faq(models.Model):
 
 class MachineGroup(AbstractMachinesFilter):
     """For splitting machine in all machines view"""
+    @property
+    def machine_list(self):
+        return self.prefetch_related("machine")
     pass
 
 class Material(AbstractMachinesFilter):
@@ -107,7 +108,7 @@ class Material(AbstractMachinesFilter):
 class Workshop(AbstractMachinesFilter):
     pass
 
-class Machine(ItemForRent, AbstractOpening):
+class Machine(ItemForRent):
 
     STATUS_CHOICES = [
         ('hidden', 'Hidden'),
@@ -121,20 +122,47 @@ class Machine(ItemForRent, AbstractOpening):
         default='available'
     )
 
-    group = models.ForeignKey(MachineGroup,null=True,on_delete=models.SET_NULL) 
-    category = models.ForeignKey(MachineCategory, on_delete=models.CASCADE)
+    group = models.ForeignKey(MachineGroup,null=True,on_delete=models.SET_NULL)
+    category = models.ForeignKey(MachineCategory,null=True,on_delete=models.SET_NULL)
     material = models.ManyToManyField(Material, blank=True)
     workshop = models.ManyToManyField(Workshop, blank=True)
     reservable = models.BooleanField(default=True)
-    spec = HTMLField(verbose_name=_('Specifications'),blank=True,configuration='CKEDITOR_SETTINGS')
     premium_price = models.DecimalField(verbose_name=_('Premium Price'),max_digits=6,decimal_places=2)
-    photo = models.ImageField(upload_to='machines')
+
+    def __str__(self):
+        return _('Machine') + ' :' +self.title
+
+    @property
+    def highlights(self):
+        return self.highlightmachine_set.all().order_by('sort')
+
+    @property
+    def materials(self):
+        return self.material.all()
+
+    @property
+    def workshops(self):
+        return self.workshop.all()
+
+    @property
+    def tools(self):
+        return self.toolmachine_set.all().order_by('sort')
+
+    @property
+    def specifications(self):
+        return self.specification_set.all().order_by('sort')
 
 class ToolMachine(AbstractCardSorting):
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
 
 class HighlightMachine(AbstractCardSorting):
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
+
+class Specification(models.Model):
+    key = models.CharField(max_length=255)
+    value = HTMLField(blank=True,configuration='CKEDITOR_SETTINGS')
+    machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
+    sort = models.PositiveSmallIntegerField(default=1)
 
 class TrainingsListPluginModel(CMSPlugin):
     pass

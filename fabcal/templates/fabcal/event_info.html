@@ -28,7 +28,8 @@
                 {% if has_registration %}
                     <p>{% trans 'Registration mandatory' %}<br>
                     {% if available_registration > 0  %}
-                        <small  class"fs-6">{% blocktrans %} still {{available_registration}} places available ! {% endblocktrans %}</small>
+                        <small  class"fs-6">
+                            {% blocktrans %}still {{available_registration}} places available !{% endblocktrans %}</small>
                     {% elif available_registration == 0 %}
                         <small class="text-red">{% trans "sold out" %}</small>
                     {% endif %}

@@ -53,7 +53,7 @@
                             <p class="card-text">
                                 {% if slot.available_registration > 0  %}
                                 <small class"fs-6">
-                                    {% blocktrans with available_registration=slot.available_registration %} still {{available_registration}} places available ! {% endblocktrans %}
+                                    {% blocktrans with available_registration=slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}
                                 </small>
                                 {% elif slot.available_registration == 0 %}
                                 <small>{% trans "sold out" %}</small>

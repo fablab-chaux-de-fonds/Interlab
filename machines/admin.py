@@ -40,15 +40,18 @@ class AbstractMachinesFilterAdmin(admin.ModelAdmin):
     ordering = ['sort']
 @admin.register(MachineCategory)
 class MachineCategoryAdmin(AbstractMachinesFilterAdmin):
-    list_display = ['name', 'sort']
+    pass
 @admin.register(MachineGroup)
 class MachineGroupAdmin(AbstractMachinesFilterAdmin):
-    list_display = ['name', 'sort']
+    pass
 @admin.register(Material)
 class MaterialAdmin(AbstractMachinesFilterAdmin):
-    list_display = ['name', 'sort']
+    pass
 
 @admin.register(Workshop)
 class WorkshopAdmin(AbstractMachinesFilterAdmin):
-    list_display = ['name', 'sort']
+    pass
 
+@admin.register(Specification)
+class SpecificationAdmin(AbstractMachinesFilterAdmin):
+    list_display = ['key', 'value', 'machine', 'sort']

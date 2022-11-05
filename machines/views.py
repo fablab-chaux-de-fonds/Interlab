@@ -1,4 +1,5 @@
 import datetime
+from unicodedata import category
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin 
@@ -6,17 +7,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext as _
 from django.views.generic.edit import FormView
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 
-
-from .models import Training, ToolTraining, TrainingValidation, TrainingNotification
+from .models import Training, ToolTraining, TrainingValidation, TrainingNotification, HighlightMachine, Machine, Workshop, Material, ToolMachine, Specification
 from .forms import TrainingValidationForm
 
 from fabcal.models import TrainingSlot
-
-def trainings_list(request):
-    trainings = Training.objects.all()
-
-    return render(request, 'trainings/list.html', {'trainings': trainings})
 
 def training_show(request, pk):
     training = get_object_or_404(Training, pk=pk)
@@ -38,14 +35,11 @@ def training_show(request, pk):
     else: 
         notification = False
 
-    training_slots = TrainingSlot.objects.filter(training__pk = pk, start__gte=datetime.datetime.now())
-    tools = [tool_training.tool for tool_training in ToolTraining.objects.filter(training__pk=pk).order_by('sort')]
-
     context = {
         'training': training,
-        'training_slots': training_slots,
+        'training_slots': TrainingSlot.objects.filter(training__pk = pk, start__gte=datetime.datetime.now()),
         'machines': training.machines_list,
-        'tools': tools,
+        'tools': ToolTraining.objects.filter(training__pk=pk).order_by('sort'),
         'notification': notification,
         'interested_user_count': TrainingNotification.objects.filter(training=training).count()
         }
@@ -53,7 +47,7 @@ def training_show(request, pk):
     return render(request, 'trainings/show.html', context)
 
 
-class trainingValidation(LoginRequiredMixin, FormView):
+class TrainingValidation(LoginRequiredMixin, FormView):
     template_name = 'trainings/training_validation.html'
     form_class = TrainingValidationForm
     success_url = "/" # TODO redirect to training show view
@@ -90,3 +84,7 @@ def training_waiting_list(request, pk):
         'training': get_object_or_404(Training, pk=pk)
     }
     return render(request, 'trainings/waiting_list.html', context)
+
+class MachineShowView(DetailView):
+    template_name = 'machines/show.html'
+    model = Machine

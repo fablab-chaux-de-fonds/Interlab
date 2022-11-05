@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load i18n training_extras %}
+
+{% block title %}{{block.super}} - {{object.title}} {% endblock %}
+
+{% block content %}
+<div class="row">
+    <h2 class="text-red">{{object.category.name | safe}} {{object.title}}</h2>
+    <div class="d-md-none"> {%include 'machines/show_img.html'%} </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3 class='mt-4'>{{ object.header | safe }}</h3>
+        <p>{{object.desc}}</p>
+        <div class="row py-4">
+            {% for highlight in object.highlights %}
+                <div class="text-center col col-sm-4 px-0">
+                    {% include 'cards/show.html' with card=highlight.card %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row py-4">
+        <p>
+            <span class='text-red'> <i class="bi bi-tag-fill"></i> {% trans "Categories" %} : </span>
+            <span class="badge rounded-pill bg-alert">{{object.category}}</span>
+            <span class="badge rounded-pill bg-alert">{{object.group}}</span>
+        </p>
+        <p>
+            <span class='text-green'><i class="bi bi-house-fill"></i> {% trans "Workshops" %} : </span>
+            {% for workshop in object.workshops %}
+                <a href="/machines/?workshop={{workshop.id}}"><span class="badge rounded-pill bg-success">{{workshop.name}}</span></a>
+            {% endfor %}
+        </p>
+        <p>
+            <i class="bi bi-bag-fill"></i> {% trans "Materials" %} : 
+            {% for material in object.materials %}
+                <a href='/machines/?material={{material.id}}'><span class="badge rounded-pill bg-info">{{material.name}}</span></a>
+            {% endfor %}
+        </p>
+        </div>
+
+        <div class="row py-4">
+            <h3> {% trans "Frequently asked questions" %}</h3>
+            <div class="col">
+                {% include 'faq/show.html' with faqs=object.faq_list %}
+            </div>
+        </div>
+
+        <div class="row py-4">
+        <h3> {% trans "Support and tools" %} </h3>
+        {% for tool in object.tools %}
+            <div class="text-center col col-sm-4 px-0">
+                {% include 'cards/show.html' with card=tool.card %}
+            </div>
+        {% endfor %}
+        </div>
+
+        <div class="row pt-4">
+            <h3>{% trans "Technical specifications" %}</h3>
+            <table class="table table-striped m-2">
+                <tbody>
+                {% for specification in object.specifications %}
+                    <tr>
+                        <td>{{specification.key}}</td>
+                        <td>{{specification.value}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="d-none d-md-block">{%include 'machines/show_img.html'%}</div>
+        <div class="d-none d-md-block">
+            {% comment %} {% include 'machines/info.html' %} {% endcomment %}
+            {% comment %} {% include 'machines/show_next_machines.html' %} {% endcomment %}
+            {% comment %} {% include 'machines/show_waiting_list.html' %} {% endcomment %}
+        </div>
+    </div>
+</div>
+{% endblock %}
