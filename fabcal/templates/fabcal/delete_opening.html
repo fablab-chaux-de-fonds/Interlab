@@ -10,14 +10,7 @@
 <h1>{% blocktrans with date=start|date:"l j F" start=start|date:"G:i" end=end|date:"G:i" %}Are you sure you want to remove the slot on {{date}} from {{start}} to {{end}}{% endblocktrans %}</h1>
 <form action="." method="POST">
     {% csrf_token %}
-    <div class="row text-center align-items-center my-5">
-        <div class="col">
-            <a href="{{request.META.HTTP_REFERER}}">{% trans 'Whoops, no !' %} </a>
-        </div>
-        <div class="col">
-            <input class="btn my-4 mx-auto d-block" type="submit" value="{% trans "Yes, I'm sure" %}">
-        </div>
-    </div>
+    {% include 'forms/base_submit_button.html' with submit_btn="Yes, I'm sure" %}
 </form>
 
 {% endblock content_form %}

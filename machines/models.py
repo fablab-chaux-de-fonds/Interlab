@@ -97,9 +97,6 @@ class Faq(models.Model):
 
 class MachineGroup(AbstractMachinesFilter):
     """For splitting machine in all machines view"""
-    @property
-    def machine_list(self):
-        return self.prefetch_related("machine")
     pass
 
 class Material(AbstractMachinesFilter):
@@ -130,7 +127,7 @@ class Machine(ItemForRent):
     premium_price = models.DecimalField(verbose_name=_('Premium Price'),max_digits=6,decimal_places=2)
 
     def __str__(self):
-        return _('Machine') + ' :' +self.title
+        return _('Machine') + ': ' + self.title
 
     @property
     def highlights(self):

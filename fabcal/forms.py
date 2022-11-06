@@ -10,9 +10,9 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe 
 from django.utils.translation import gettext_lazy as _
 
-from .models import OpeningSlot, EventSlot, TrainingSlot
+from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 from openings.models import Opening, Event
-from machines.models import Training, TrainingNotification
+from machines.models import Training, TrainingNotification, Machine
 
 class AbstractSlotForm(forms.Form):
     use_required_attribute=False
@@ -21,6 +21,9 @@ class AbstractSlotForm(forms.Form):
     start_time = forms.TimeField()
     end_time = forms.TimeField()
     comment = forms.CharField(label=_('Comment'),  required=False)
+
+    start = forms.DateTimeField(required=False)
+    end = forms.DateTimeField(required=False)
 
     opening = forms.ModelChoiceField(
         queryset=Opening.objects.all(),
@@ -35,27 +38,36 @@ class AbstractSlotForm(forms.Form):
     class Meta:
         abstract = True
 
-    def clean(self):
-        self.cleaned_data = super(AbstractSlotForm, self).clean()
-
+    def clean_start(self):
         self.cleaned_data['start'] = datetime.datetime.combine(
-            dateparser.parse(self.cleaned_data['date']), 
-            self.cleaned_data['start_time']
+            dateparser.parse(self.data['date']), 
+            dateparser.parse(self.data['start_time']).time()
+            )
+
+        return self.cleaned_data['start']
+
+    def clean_end(self):
+        self.cleaned_data['end'] = datetime.datetime.combine(
+            dateparser.parse(self.data['date']), 
+            dateparser.parse(self.data['end_time']).time()
             )
         
-        self.cleaned_data['end'] = datetime.datetime.combine(
-            dateparser.parse(self.cleaned_data['date']), 
-            self.cleaned_data['end_time']    
-            )
+        return self.cleaned_data['end']
 
-        if self.cleaned_data.get("start") >= self.cleaned_data.get("end"):
-            raise ValidationError(
-                _("Start time after end time.")
-            )
+    def clean(self):
+        try:
+            if self.cleaned_data.get("start") >= self.cleaned_data.get("end"):
+                raise ValidationError(
+                    _("Start time after end time.")
+                )
+        except:
+            pass
+
+        return self.cleaned_data
 
     def update_or_create_opening_slot(self, view):
         fields = [f.name for f in OpeningSlot._meta.get_fields()] + ['user_id']
-        defaults = {key: self.cleaned_data[key]  for key in self.cleaned_data if key in fields}
+        defaults = {key: self.cleaned_data[key] for key in self.cleaned_data if key in fields}
 
         opening_slot = OpeningSlot.objects.update_or_create(
             pk = view.kwargs.get('pk', None),
@@ -85,7 +97,87 @@ class OpeningForm(AbstractSlotForm):
         empty_label=_('Select an opening'),
         error_messages={'required': _('Please select an opening.')}
         )
+    machine = forms.ModelMultipleChoiceField(
+        queryset = Machine.objects.filter(reservable=True),
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'checked' : ''}
+        ),
+        label=_('Machines'),
+        required=False
+    )
     date = forms.CharField()
+
+    start = forms.DateTimeField(required=False)
+    end = forms.DateTimeField(required=False)
+                
+    def clean_start(self):
+        super(OpeningForm, self).clean_start()
+
+        # check if opening slot already exist / for update
+        if self.initial['opening']:
+
+            # check if user alread booked a modified slot
+            qs = MachineSlot.objects.filter(opening_slot=OpeningSlot.objects.get(pk=self.initial['id']))
+
+            for obj in qs:
+                if obj.start < self.cleaned_data['start'] and obj.user:
+                    self.validation_slot(obj)
+
+        return self.cleaned_data['start']
+
+    def clean_end(self):
+        super(OpeningForm, self).clean_end()
+
+        # check if opening slot already exist / for update
+        if self.initial['opening']:
+
+            # check if user alread booked a modified slot
+            qs = MachineSlot.objects.filter(opening_slot=OpeningSlot.objects.get(pk=self.initial['id']))
+
+            for obj in qs:
+                if obj.end > self.cleaned_data['end'] and obj.user:
+                    self.validation_slot(obj)
+
+        return self.cleaned_data['end']
+
+    def clean_machine(self):
+        """Check if machine removed and already booked"""
+        data = self.cleaned_data['machine']
+
+        for pk in self.initial['machine']:
+            if pk not in self.cleaned_data['machine'].values_list('pk', flat=True):
+                qs = MachineSlot.objects.filter(
+                            opening_slot=OpeningSlot.objects.get(pk=self.initial['id']),
+                            machine_id = pk
+                    )
+                for obj in qs:
+                    if obj.user:
+                        self.validation_slot(obj)
+        return data
+
+    def validation_slot(self, obj):
+        raise ValidationError(
+            _('Could not update slot, %(first_name)s %(last_name)s books the slot: %(machine)s from %(start)s to %(end)s'),
+            params={
+                'first_name': obj.user.first_name,
+                'last_name': obj.user.last_name,
+                'machine': obj.machine.title,
+                'start': obj.start.strftime("%H:%M"),
+                'end': obj.end.strftime("%H:%M")
+            } 
+        )
+
+    def create_machine_slot(self, view, machine):
+        machine_slot = MachineSlot.objects.create(              
+            machine= machine,
+            opening_slot= view.opening_slot,
+            start= self.cleaned_data['start'],
+            end= self.cleaned_data['end']
+        )
+        return machine_slot
+
+    def delete_machine_slot(self, view, pk):
+        MachineSlot.objects.filter(opening_slot=view.opening_slot, machine_id = pk).delete()
         
 class EventForm(AbstractSlotForm):
     event = forms.ModelChoiceField(
