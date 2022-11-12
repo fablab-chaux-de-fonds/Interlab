@@ -18,4 +18,5 @@ urlpatterns = [
     path('update-training/<int:pk>/', views.UpdateTrainingView.as_view(), name='update-training'),
     path('delete-training/<int:pk>/', views.DeleteTrainingView.as_view(), name='delete-training'),  
     path('register-training/<int:pk>/', views.RegisterTrainingView.as_view(), name='register-training'),
+    path('machine/reservation/<int:pk>/', views.MachineReservationView.as_view(), name='machine-reservation'),
 ]

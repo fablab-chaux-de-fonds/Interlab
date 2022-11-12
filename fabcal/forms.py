@@ -2,6 +2,7 @@ import dateparser
 import datetime
 
 from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
@@ -55,13 +56,12 @@ class AbstractSlotForm(forms.Form):
         return self.cleaned_data['end']
 
     def clean(self):
-        try:
+        if self.cleaned_data.get("start") and self.cleaned_data.get("end"):
+
             if self.cleaned_data.get("start") >= self.cleaned_data.get("end"):
                 raise ValidationError(
                     _("Start time after end time.")
                 )
-        except:
-            pass
 
         return self.cleaned_data
 
@@ -114,7 +114,7 @@ class OpeningForm(AbstractSlotForm):
         super(OpeningForm, self).clean_start()
 
         # check if opening slot already exist / for update
-        if self.initial['opening']:
+        if 'opening' in self.initial:
 
             # check if user alread booked a modified slot
             qs = MachineSlot.objects.filter(opening_slot=OpeningSlot.objects.get(pk=self.initial['id']))
@@ -129,7 +129,7 @@ class OpeningForm(AbstractSlotForm):
         super(OpeningForm, self).clean_end()
 
         # check if opening slot already exist / for update
-        if self.initial['opening']:
+        if 'opening' in self.initial:
 
             # check if user alread booked a modified slot
             qs = MachineSlot.objects.filter(opening_slot=OpeningSlot.objects.get(pk=self.initial['id']))
@@ -144,15 +144,16 @@ class OpeningForm(AbstractSlotForm):
         """Check if machine removed and already booked"""
         data = self.cleaned_data['machine']
 
-        for pk in self.initial['machine']:
-            if pk not in self.cleaned_data['machine'].values_list('pk', flat=True):
-                qs = MachineSlot.objects.filter(
-                            opening_slot=OpeningSlot.objects.get(pk=self.initial['id']),
-                            machine_id = pk
-                    )
-                for obj in qs:
-                    if obj.user:
-                        self.validation_slot(obj)
+        if 'machine' in self.initial:
+            for pk in self.initial['machine']:
+                if pk not in self.cleaned_data['machine'].values_list('pk', flat=True):
+                    qs = MachineSlot.objects.filter(
+                                opening_slot=OpeningSlot.objects.get(pk=self.initial['id']),
+                                machine_id = pk
+                        )
+                    for obj in qs:
+                        if obj.user:
+                            self.validation_slot(obj)
         return data
 
     def validation_slot(self, obj):
@@ -301,7 +302,7 @@ class RegistrationTrainingForm(forms.Form):
         training_slot.registrations.add(view.request.user)
         messages.success(view.request, _("Well done! We sent you an email to confirme your registration"))
     
-    def send_email(self, view):
+    def send_mail(self, view):
 
         html_message = render_to_string('fabcal/email/training_registration_confirmation.html', view.context)
     
@@ -312,3 +313,103 @@ class RegistrationTrainingForm(forms.Form):
             recipient_list = [view.request.user.email],
             html_message = html_message
         )
+
+class MachineReservationForm(forms.Form):
+    start_time = forms.TimeField()
+    end_time = forms.TimeField()
+    end_date = forms.CharField(required=False)
+    
+    start = forms.DateTimeField(required=False)
+    end = forms.DateTimeField(required=False)
+
+    def __init__(self, machine_slot, next_machine_slot, *args, **kwargs):
+        super(MachineReservationForm, self).__init__(*args, **kwargs)
+        self.machine_slot = machine_slot
+        self.next_machine_slot = next_machine_slot
+
+    def clean(self):
+
+        if self.cleaned_data.get("start") and self.cleaned_data.get("end"):
+
+            if self.cleaned_data.get("start") >= self.cleaned_data.get("end"):
+                raise ValidationError(
+                    _("Start time after end time.")
+                )
+
+            if self.cleaned_data['end']-self.cleaned_data['start'] < datetime.timedelta(minutes=settings.FABCAL_MINIMUM_RESERVATION_TIME):
+                raise ValidationError(
+                        _("Please reserve minimum %(time)s minutes !"),
+                        params={'time': settings.FABCAL_MINIMUM_RESERVATION_TIME}
+                    )
+
+            if (self.cleaned_data['end']-self.cleaned_data['start']).seconds/60% settings.FABCAL_RESERVATION_INCREMENT_TIME != 0:
+                raise ValidationError(
+                        _("Please reserve in %(time)s minute increments !"),
+                        params={'time': settings.FABCAL_MINIMUM_RESERVATION_TIME}
+                    )
+
+
+    def clean_start(self):
+        self.cleaned_data['start'] = datetime.datetime.combine(
+            self.machine_slot.start.date(), 
+            dateparser.parse(self.data['start_time']).time()
+            )
+        
+        if self.cleaned_data['start'] < self.machine_slot.start:
+            raise ValidationError(
+                    _("You cannot start earlier than %(start_time)s"),
+                    params={'start_time': self.machine_slot.start.strftime('%H:%M')}
+                )
+
+        return self.cleaned_data['start']
+
+    def clean_end(self):
+        if self.machine_slot.machine.category.name == '3D':
+            self.cleaned_data['end'] = datetime.datetime.combine( 
+                dateparser.parse(self.data['end_date']).date(),
+                dateparser.parse(self.data['end_time']).time()
+                )
+            if self.next_machine_slot:
+                if self.cleaned_data['end'] > self.next_machine_slot.start:
+                    raise ValidationError(
+                            _("You cannot end later than %(start_time)s"),
+                            params={'start_time': self.next_machine_slot.start.strftime('%H:%M')}
+                        )
+
+        else:
+            self.cleaned_data['end'] = datetime.datetime.combine( 
+                self.machine_slot.end.date(),
+                dateparser.parse(self.data['end_time']).time()
+                )
+        
+            if self.cleaned_data['end'] > self.machine_slot.end:
+                raise ValidationError(
+                        _("You cannot end later than %(start_time)s"),
+                        params={'start_time': self.machine_slot.end.strftime('%H:%M')}
+                    )
+        
+        return self.cleaned_data['end']
+
+    def send_mail(self, view):
+        html_message = render_to_string('fabcal/email/machine_reservation_confirmation.html', view.context)
+    
+        send_mail(
+            from_email=None,
+            subject=_('Confirmation of your machine reservation'),
+            message = _("Confirmation of your machine reservation"),
+            recipient_list = [view.request.user.email],
+            html_message = html_message
+        )
+
+    def message(self, view):
+        return messages.success(
+            view.request,
+            _('You successfully booked the machine ') + 
+            self.machine_slot.machine.title + 
+            _(" on ") +
+            self.machine_slot.start.strftime('%A %d %B') +
+            _(" from ") +
+            self.machine_slot.start.strftime('%H:%M')+
+            _(" to ") +
+            self.machine_slot.end.strftime('%H:%M')
+            )

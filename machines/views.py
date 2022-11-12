@@ -1,6 +1,7 @@
 import datetime
-from unicodedata import category
 
+
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.contrib.auth.decorators import login_required
@@ -10,10 +11,10 @@ from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from .models import Training, ToolTraining, TrainingValidation, TrainingNotification, HighlightMachine, Machine, Workshop, Material, ToolMachine, Specification
+from .models import Training, ToolTraining, TrainingValidation, TrainingNotification, Machine
 from .forms import TrainingValidationForm
 
-from fabcal.models import TrainingSlot
+from fabcal.models import TrainingSlot, MachineSlot
 
 def training_show(request, pk):
     training = get_object_or_404(Training, pk=pk)
@@ -88,3 +89,16 @@ def training_waiting_list(request, pk):
 class MachineShowView(DetailView):
     template_name = 'machines/show.html'
     model = Machine
+
+    def get_context_data(self, **kwargs):
+        context = super(MachineShowView, self).get_context_data(**kwargs)
+        
+        next_opening_slots = []
+        for i in MachineSlot.objects.filter(machine=context['machine'], end__gt=datetime.datetime.now()).order_by('start'):
+            if i.opening_slot not in next_opening_slots:
+                next_opening_slots.append(i.opening_slot)
+
+        context['next_opening_slots'] = next_opening_slots
+        context['FABCAL_MINIMUM_RESERVATION_TIME'] = settings.FABCAL_MINIMUM_RESERVATION_TIME
+        context['FABCAL_RESERVATION_INCREMENT_TIME'] = settings.FABCAL_RESERVATION_INCREMENT_TIME
+        return context

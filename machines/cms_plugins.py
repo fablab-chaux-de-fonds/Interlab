@@ -4,7 +4,7 @@ from cms.plugin_pool import plugin_pool
 from django.utils.translation import gettext as _
 
 from .models import Training, TrainingsListPluginModel, MachinesListPluginModel, MachineGroup, Machine
-from .filters import MachineFilter
+from .filters import MachineFilter, TrainingFilter
 
 
 @plugin_pool.register_plugin  # register the plugin
@@ -15,9 +15,9 @@ class TrainingsListPluginPublisher(CMSPluginBase):
     render_template = "trainings/list.html"
 
     def render(self, context, instance, placeholder):
-        context = {
-            'trainings': list(Training.objects.filter(is_active=True))
-        }
+        training_filter = TrainingFilter(context['request'].GET, queryset=Training.objects.filter(is_active=True).order_by('machine_category'))
+        context['form'] = training_filter.form
+        context['trainings'] =training_filter.qs
         return context
 
 @plugin_pool.register_plugin

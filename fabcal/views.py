@@ -1,5 +1,8 @@
-from curses import init_pair
-from datetime import datetime
+from copy import deepcopy
+import dateparser
+
+from datetime import datetime, timedelta
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.core.mail import send_mail
@@ -8,11 +11,12 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.template import loader
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
+from django.urls import reverse
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.views import View
 
-from .forms import OpeningForm, EventForm, TrainingForm, RegistrationTrainingForm
+from .forms import OpeningForm, EventForm, TrainingForm, RegistrationTrainingForm, MachineReservationForm
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 
 from interlab.views import CustomFormView
@@ -440,7 +444,7 @@ class RegisterTrainingView(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         training_slot = get_object_or_404(TrainingSlot, pk=self.kwargs['pk'])
-        context ={
+        context = {
             'training_slot': training_slot,
             'training': training_slot.training
         }
@@ -453,9 +457,113 @@ class RegisterTrainingView(LoginRequiredMixin, FormView):
         }
 
         form.register(self)
-        form.send_email(self)
+        form.send_mail(self)
         return super().form_valid(form)
 
+class MachineReservationView(LoginRequiredMixin, FormView): 
+    template_name = 'fabcal/machine/reservation_form.html'
+    form_class = MachineReservationForm
+    
+    def get_success_url(self, **kwargs):
+        return reverse('machines:machines-show', kwargs = {'pk': self.machine_slot.machine.pk})
+
+    def dispatch(self, request, *args, **kwargs):
+        # Check if user is trained
+        self.machine_slot = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
+        self.next_machine_slot = MachineSlot.objects.filter(
+                start__gt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=False
+                ).order_by('start').first()
+
+        if self.request.user.profile.pk not in self.machine_slot.machine.trained_profile_list:
+            messages.warning(request, _('Sorry, you cannont reserve this machine, because you need to complete the training before using it'))
+            return redirect('/trainings/?machine_category=' + str(self.machine_slot.machine.category.pk))
+
+        return super(MachineReservationView, self).dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        try:
+            initial = {
+                'start_time': self.request._post['start_time'],
+                'end_time': self.request._post['end_time'],
+            }
+            if self.machine_slot.machine.category.name == '3D':
+               initial['end_date']= dateparser.parse(self.request._post['end_date']).strftime('%Y-%m-%d')
+
+        except:
+            initial = {
+                'start_time': self.machine_slot.start.strftime('%H:%M'),
+                'end_time': self.machine_slot.end.strftime('%H:%M'),
+            }
+            if self.machine_slot.machine.category.name == '3D':
+               initial['end_date']= self.machine_slot.end.strftime('%Y-%m-%d')
+
+        return initial
+
+    def get_form_kwargs(self):
+        kwargs = super(MachineReservationView, self).get_form_kwargs()
+        kwargs['machine_slot'] = self.machine_slot
+        kwargs["next_machine_slot"] = self.next_machine_slot
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(MachineReservationView, self).get_context_data(**kwargs)
+        context["machine_slot"] = self.machine_slot
+        context["next_machine_slot"] = self.next_machine_slot
+
+        if self.machine_slot.machine.category.name == '3D':
+            context["next_machine_slot"] = MachineSlot.objects.filter(
+                start__gt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=False
+                ).order_by('start').first()
+            context['max_start_time'] = self.machine_slot.end - timedelta(minutes=settings.FABCAL_MINIMUM_RESERVATION_TIME)
+        return context
+
+    def form_valid(self, form):
+
+        if form.machine_slot.start < form.cleaned_data['start']:
+            # create a new empty slot at the begining
+            new_slot = deepcopy(form.machine_slot)
+            new_slot.id = None
+            new_slot.end = form.cleaned_data['start']
+            new_slot.save()
+        
+        if form.machine_slot.end > form.cleaned_data['end']:
+            # create a new empty slot at the end
+            new_slot = deepcopy(form.machine_slot)
+            new_slot.id = None
+            new_slot.start = form.cleaned_data['end']
+            new_slot.save()
+
+        if self.machine_slot.machine.category.name == '3D':
+            for slot in MachineSlot.objects.filter(
+                start__gt=form.cleaned_data['start'], 
+                end__gt=form.cleaned_data['end'],
+                machine=self.machine_slot.machine).all():
+                    # create a new empty slot at the end
+                    slot.start = form.cleaned_data['end']
+                    slot.save()
+
+            for slot in MachineSlot.objects.filter(
+                start__gt=form.cleaned_data['start'], 
+                end__lt=form.cleaned_data['end'],
+                machine=self.machine_slot.machine).all():
+                # delete slot
+                slot.delete()
+
+        # update slot for user
+        form.machine_slot.user = self.request.user
+        form.machine_slot.start = form.cleaned_data['start']
+        form.machine_slot.end = form.cleaned_data['end']
+        form.machine_slot.save()
+
+        # send mail and message
+        self.context = {
+            'machine_slot': self.machine_slot,
+            'request': self.request
+        }
+        form.send_mail(self)
+        form.message(self)
+
+        return super().form_valid(form)
 
 class downloadIcsFileView(TemplateView):
     template_name = 'fabcal/fablab.ics'

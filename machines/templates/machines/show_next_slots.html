@@ -1,0 +1,38 @@
+{% load i18n interlab_tags %}
+
+<h3> {% trans "Book my next Slot" %} </h3>
+<p>
+    {% blocktrans %}
+    Minimum slot duration: {{FABCAL_MINIMUM_RESERVATION_TIME}} minutes
+    {% endblocktrans %}</br>
+
+    {% blocktrans %}
+    Reservations in {{FABCAL_RESERVATION_INCREMENT_TIME}} minute increments
+    {% endblocktrans %}
+</p>
+
+{% for opening_slot in next_opening_slots %}
+    <div class='row pb-2'>
+        <div class="col">
+            <span class='h4 align-middle me-2'> {{opening_slot.start|date:"l j F Y"|capfirst}}</span>
+            <span class='badge align-middle'
+                style="color:{{opening_slot.opening.color}};background-color:{{opening_slot.opening.background_color}}">
+                {{opening_slot.opening.title}} - {{opening_slot.user.first_name}}
+            </span>
+        </div>
+    </div>
+    {% for machine_slot in opening_slot.machineslot_set.all|filter_user|filter_machine:machine %}
+    <a href="{% url 'fabcal:machine-reservation' machine_slot.pk %}">
+        <button class="btn btn-primary">
+            {{machine_slot.start|date:"H:i"}} {% trans "to" %} {{machine_slot.end|date:"H:i"}} <i
+                class="bi bi-chevron-right"></i>
+        </button>
+    </a>
+    {% empty %}
+        {% trans "Sorry, no slot available for this machine." %}
+    {% endfor %}
+
+    <hr>
+{% empty %}
+    {% trans "Sorry, no slot available for this machine. You can ask an opening via mail" %}
+{% endfor %}

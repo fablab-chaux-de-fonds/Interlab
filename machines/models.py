@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.utils.translation import ugettext as _
 from djangocms_text_ckeditor.fields import HTMLField
@@ -148,6 +150,18 @@ class Machine(ItemForRent):
     @property
     def specifications(self):
         return self.specification_set.all().order_by('sort')
+
+    @property
+    def next_slots(self):
+        return self.machineslot_set.filter(end__gt=datetime.datetime.now())
+
+    @property
+    def trained_profile_list(self):
+        trainings = self.category.training_set.all()
+        profile = []
+        for training in trainings:
+            profile.extend(training.trainingvalidation_set.values_list('profile', flat = True))
+        return profile
 
 class ToolMachine(AbstractCardSorting):
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)

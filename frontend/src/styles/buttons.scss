@@ -10,6 +10,10 @@
     $active-border: $custom-red,
     $active-color: white
   );
+
+  &:hover {
+    color: white;
+  }
 }
 
 .btn-secondary {
@@ -24,6 +28,10 @@
     $active-border: $custom-blue,
     $active-color: white
   );
+
+  &:hover {
+    color: white;
+  }
 }
 
 .btn-outline-success {
@@ -57,4 +65,9 @@
   top: 40%;
   transform: rotate(-90deg);
   transform-origin: bottom right;
+}
+
+.input-group-append > button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
