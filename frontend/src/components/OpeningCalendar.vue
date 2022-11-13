@@ -114,10 +114,21 @@
             </v-toolbar>
             <v-card-text>
               <v-img v-if="selectedEvent.img" :src="selectedEvent.img" class="mb-2 rounded"></v-img>
-              <h3>{{selectedEvent.title}}</h3>
+              <span class="h3 align-middle me-2">
+                {{selectedEvent.title}}
+              </span>
+              <span class='badge align-middle' :style="{'color':selectedEvent.text_color, 'background':selectedEvent.color}">
+                {{selectedEvent.user_firstname}}
+              </span>
+
               <p>{{selectedEvent.desc}}</p>
               <div v-if="selectedEvent.type=='opening'">
-                <p ><i class="bi bi-person-fill"></i> {{selectedEvent.user_firstname}}</p>
+                <h4> {{ $vuetify.lang.t('$vuetify.machines') }} </h4>
+                  <span v-for="machine in selectedEvent.machines">
+                  <a :href="'/machines/machines/' + machine.pk + '/show'" class="btn btn-secondary rounded-pill btn-sm m-1">
+                    {{ machine.title }}
+                  </a>
+                </span>
               </div>
               <p v-if="selectedEvent.comment"><i class="bi bi-card-text"></i> {{selectedEvent.comment}}</p>
             </v-card-text>
@@ -318,8 +329,7 @@
             pk: event.pk,
             username: event.username,
             type: event.type,
-            has_registration: event.has_registration,
-            img: event.img
+            machines: event.machines
           });
         }
 
@@ -327,7 +337,7 @@
       },
     },
     mounted() {
-      this.$refs.calendar.scrollToTime('08:00');
+      this.$refs.calendar.scrollToTime('10:00');
     },
   }
 </script>

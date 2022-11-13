@@ -43,6 +43,11 @@ class OpeningSlot(AbstractSlot):
     def get_day_of_the_week(self):
         return self.start.strftime("%A")
 
+    def get_machine_list(self):
+        return {i.machine for i in self.machineslot_set.all()}
+
+
+
 
 class WeeklyPluginModel(CMSPlugin):
     pass

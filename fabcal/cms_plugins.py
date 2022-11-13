@@ -59,8 +59,7 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
                 'desc': event.opening.desc,
                 'background_color': event.opening.background_color,
                 'color': event.opening.color,
-                'has_registration': False,
-                'img': None
+                'machines': [{'pk': i.pk, 'title': i.title} for i in event.get_machine_list()]
             })
 
         
@@ -77,9 +76,7 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
                 'title': event.event.title,
                 'desc': event.event.lead,
                 'background_color': event.event.background_color,
-                'color': event.event.color,
-                'has_registration': event.has_registration,
-                'img':  event.event.img.url
+                'color': event.event.color
             })
 
         events = list(TrainingSlot.objects.filter(start__gt = date.today() - timedelta(days=365) ))

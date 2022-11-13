@@ -193,24 +193,19 @@ class EventForm(AbstractSlotForm):
     has_registration = forms.BooleanField(required=False, label=_('On registration'))
     registration_limit = forms.IntegerField(required=False, label=_('Registration limit'), help_text=_('leave blank if no limit'))
 
-
-    def clean(self):
-        self.cleaned_data = super(AbstractSlotForm, self).clean()
-
+    def clean_start(self):
         self.cleaned_data['start'] = datetime.datetime.combine(
-            dateparser.parse(self.cleaned_data['start_date']), 
+            dateparser.parse(self.data['start_date']), 
             self.cleaned_data['start_time']
             )
+        return self.cleaned_data['start']
         
+    def clean_end(self): 
         self.cleaned_data['end'] = datetime.datetime.combine(
-            dateparser.parse(self.cleaned_data['end_date']), 
+            dateparser.parse(self.data['end_date']), 
             self.cleaned_data['end_time']
             )
-
-        if self.cleaned_data.get("start") >= self.cleaned_data.get("end"):
-            raise ValidationError(
-                _("Start date after end date.")
-            )
+        return self.cleaned_data['end']
 
     def update_or_create_event_slot(self, view, opening_slot):
         fields = [f.name for f in EventSlot._meta.get_fields()] + ['user_id']

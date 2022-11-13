@@ -28,7 +28,8 @@ const messages = {
             "registration_limit_hint": "laisser vide si pas de limite, mais inscription obligatoire",
             "calendar": {
                 "moreEvents": "Plus d'évènements" //TODO fix translations with month view
-            }
+            }, 
+            "machines": "Machines"
         }
     },
 };
