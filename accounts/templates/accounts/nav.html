@@ -1,47 +1,6 @@
 {% load i18n interlab_tags %}
 
-<nav class="nav flex-column">
-    <h1 class=>{%trans "User area" %}</h1>
-    <hr>
-    <a class="nav-link px-0 text-blue" href="#">
-        <div class="row">
-            <div class="col-10">
-                <h2>{% trans "My reservations" %}</h2>
-                <p>{% trans "Machines reservation"%}</p>
-            </div>
-            <div class="col-2">
-                <h1><i class="bi bi-arrow-right-square"></i></h1>
-            </div>
-        </div>
-    </a>
-
-    <hr>
-    <a class="nav-link px-0 text-blue" href="#">
-        <div class="row">
-            <div class="col-10">
-                <h2>{% trans "My trainings" %}</h2>
-                <p>{% trans "trainings registrations"%}</p>
-            </div>
-            <div class="col-2">
-                <h1><i class="bi bi-arrow-right-square"></i></h1>
-            </div>
-        </div>
-    </a>
-
-    <hr>
-    <a class="nav-link px-0 text-blue" href="{%url 'my_events' %}">
-        <div class="row">
-            <div class="col-10">
-                <h2>{% trans "My events" %}</h2>
-                <p>{% trans "events registrations"%}</p>
-            </div>
-            <div class="col-2">
-                <h1><i class="bi bi-arrow-right-square"></i></h1>
-            </div>
-        </div>
-    </a>
-    <hr>
-    
+<nav class="nav flex-column"> 
     {% if request.user.organizations_organization.first %}
         {% load org_tags %}
         {% if request.user.organizations_organization.first|is_owner:user %}

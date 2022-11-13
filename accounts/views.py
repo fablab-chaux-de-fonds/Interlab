@@ -22,11 +22,11 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic.base import TemplateView
 
-from fabcal.models import EventSlot, OpeningSlot, TrainingSlot
+from fabcal.models import EventSlot, OpeningSlot, TrainingSlot, MachineSlot
 from machines.models import TrainingValidation
 
 from .forms import EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm, CustomAuthenticationForm, SuperuserProfileEditForm
-from .models import Profile, Subscription, SubscriptionCategory
+from .models import Profile, SubscriptionCategory
 
 from organizations.views.base import BaseOrganizationUserCreate
 from organizations.views.base import BaseOrganizationUserDelete
@@ -111,9 +111,9 @@ def AccountsView(request):
         context['subscription_category']=SubscriptionCategory.objects.get(pk=subscription.subscription_category_id)
         context['slots']= sorted(chain(
             TrainingSlot.objects.filter(user=request.user),
-            OpeningSlot.objects.filter(user=request.user)
+            OpeningSlot.objects.filter(user=request.user), 
+            MachineSlot.objects.filter(user=request.user)
         ),
-        reverse=True,
         key=attrgetter('start')
         )
         

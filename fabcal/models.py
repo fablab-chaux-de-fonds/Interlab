@@ -46,7 +46,8 @@ class OpeningSlot(AbstractSlot):
     def get_machine_list(self):
         return {i.machine for i in self.machineslot_set.all()}
 
-
+    def get_reservation_list(self):
+        return {i for i in self.machineslot_set.filter(user__isnull=False)}
 
 
 class WeeklyPluginModel(CMSPlugin):

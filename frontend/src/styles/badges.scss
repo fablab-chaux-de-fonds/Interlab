@@ -12,3 +12,12 @@
   background-color: $custom-blue-light !important;
   color: $custom-blue;
 }
+
+.bg-info-dark {
+  background-color: $custom-blue !important;
+  color: white;
+
+  &:hover {
+    color: white;
+  }
+}
