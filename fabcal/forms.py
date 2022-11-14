@@ -317,10 +317,11 @@ class MachineReservationForm(forms.Form):
     start = forms.DateTimeField(required=False)
     end = forms.DateTimeField(required=False)
 
-    def __init__(self, machine_slot, next_machine_slot, *args, **kwargs):
+    def __init__(self, machine_slot, next_machine_slot, previous_machine_slot, *args, **kwargs):
         super(MachineReservationForm, self).__init__(*args, **kwargs)
         self.machine_slot = machine_slot
         self.next_machine_slot = next_machine_slot
+        self.previous_machine_slot = previous_machine_slot
 
     def clean(self):
 
@@ -342,6 +343,19 @@ class MachineReservationForm(forms.Form):
                         _("Please reserve in %(time)s minute increments !"),
                         params={'time': settings.FABCAL_MINIMUM_RESERVATION_TIME}
                     )
+            if self.previous_machine_slot:
+                if self.previous_machine_slot.end > self.cleaned_data['start']:
+                        raise ValidationError(
+                            _("The machine is already booked until %(time)s !"),
+                            params={'time': self.previous_machine_slot.end.strftime('%H:%M')}
+                    )
+
+            if self.next_machine_slot:
+                if self.next_machine_slot.start < self.cleaned_data['end']:
+                        raise ValidationError(
+                            _("The machine is already booked from %(time)s !"),
+                            params={'time': self.next_machine_slot.start.strftime('%H:%M')}
+                        )
 
 
     def clean_start(self):
@@ -350,10 +364,10 @@ class MachineReservationForm(forms.Form):
             dateparser.parse(self.data['start_time']).time()
             )
         
-        if self.cleaned_data['start'] < self.machine_slot.start:
+        if self.cleaned_data['start'] < self.machine_slot.opening_slot.start:
             raise ValidationError(
                     _("You cannot start earlier than %(start_time)s"),
-                    params={'start_time': self.machine_slot.start.strftime('%H:%M')}
+                    params={'start_time': self.machine_slot.opening_slot.start.strftime('%H:%M')}
                 )
 
         return self.cleaned_data['start']
@@ -377,10 +391,10 @@ class MachineReservationForm(forms.Form):
                 dateparser.parse(self.data['end_time']).time()
                 )
         
-            if self.cleaned_data['end'] > self.machine_slot.end:
+            if self.cleaned_data['end'] > self.machine_slot.opening_slot.end:
                 raise ValidationError(
                         _("You cannot end later than %(start_time)s"),
-                        params={'start_time': self.machine_slot.end.strftime('%H:%M')}
+                        params={'start_time': self.machine_slot.opening_slot.end.strftime('%H:%M')}
                     )
         
         return self.cleaned_data['end']

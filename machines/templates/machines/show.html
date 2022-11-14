@@ -24,19 +24,19 @@
         <div class="row py-4">
         <p>
             <span class='text-red'> <i class="bi bi-tag-fill"></i> {% trans "Categories" %} : </span>
-            <span class="badge rounded-pill bg-alert">{{object.category}}</span>
-            <span class="badge rounded-pill bg-alert">{{object.group}}</span>
+            <span class="badge rounded-pill text-bg-danger-light">{{object.category}}</span>
+            <span class="badge rounded-pill text-bg-danger-light">{{object.group}}</span>
         </p>
         <p>
             <span class='text-green'><i class="bi bi-house-fill"></i> {% trans "Workshops" %} : </span>
             {% for workshop in object.workshops %}
-                <a href="/machines/?workshop={{workshop.id}}"><span class="badge rounded-pill bg-success">{{workshop.name}}</span></a>
+                <a href="/machines/?workshop={{workshop.id}}"><span class="badge rounded-pill text-bg-success-light">{{workshop.name}}</span></a>
             {% endfor %}
         </p>
         <p>
             <i class="bi bi-bag-fill"></i> {% trans "Materials" %} : 
             {% for material in object.materials %}
-                <a href='/machines/?material={{material.id}}'><span class="badge rounded-pill bg-info">{{material.name}}</span></a>
+                <a href='/machines/?material={{material.id}}'><span class="badge rounded-pill text-bg-info">{{material.name}}</span></a>
             {% endfor %}
         </p>
         </div>

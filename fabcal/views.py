@@ -460,12 +460,9 @@ class RegisterTrainingView(LoginRequiredMixin, FormView):
         form.send_mail(self)
         return super().form_valid(form)
 
-class MachineReservationView(LoginRequiredMixin, FormView): 
+class MachineReservationBaseView(LoginRequiredMixin, FormView):
     template_name = 'fabcal/machine/reservation_form.html'
     form_class = MachineReservationForm
-    
-    def get_success_url(self, **kwargs):
-        return reverse('machines:machines-show', kwargs = {'pk': self.machine_slot.machine.pk})
 
     def dispatch(self, request, *args, **kwargs):
         # Check if user is trained
@@ -474,11 +471,30 @@ class MachineReservationView(LoginRequiredMixin, FormView):
                 start__gt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=False
                 ).order_by('start').first()
 
+        self.previous_machine_slot = MachineSlot.objects.filter(
+                start__lt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=False
+                ).order_by('start').last()
+
+        self.next_free_machine_slot = MachineSlot.objects.filter(
+                start__gt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=True
+                ).order_by('start').first()
+
+        self.previous_free_machine_slot = MachineSlot.objects.filter(
+                start__lt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=True
+                ).order_by('start').last()
+
         if self.request.user.profile.pk not in self.machine_slot.machine.trained_profile_list:
             messages.warning(request, _('Sorry, you cannont reserve this machine, because you need to complete the training before using it'))
             return redirect('/trainings/?machine_category=' + str(self.machine_slot.machine.category.pk))
 
-        return super(MachineReservationView, self).dispatch(request, *args, **kwargs)
+        return super(MachineReservationBaseView, self).dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(MachineReservationBaseView, self).get_form_kwargs()
+        kwargs['machine_slot'] = self.machine_slot
+        kwargs["next_machine_slot"] = self.next_machine_slot
+        kwargs["previous_machine_slot"] = self.previous_machine_slot
+        return kwargs
 
     def get_initial(self):
         try:
@@ -499,14 +515,8 @@ class MachineReservationView(LoginRequiredMixin, FormView):
 
         return initial
 
-    def get_form_kwargs(self):
-        kwargs = super(MachineReservationView, self).get_form_kwargs()
-        kwargs['machine_slot'] = self.machine_slot
-        kwargs["next_machine_slot"] = self.next_machine_slot
-        return kwargs
-
     def get_context_data(self, **kwargs):
-        context = super(MachineReservationView, self).get_context_data(**kwargs)
+        context = super(MachineReservationBaseView, self).get_context_data(**kwargs)
         context["machine_slot"] = self.machine_slot
         context["next_machine_slot"] = self.next_machine_slot
 
@@ -516,6 +526,11 @@ class MachineReservationView(LoginRequiredMixin, FormView):
                 ).order_by('start').first()
             context['max_start_time'] = self.machine_slot.end - timedelta(minutes=settings.FABCAL_MINIMUM_RESERVATION_TIME)
         return context
+
+class CreateMachineReservationView(MachineReservationBaseView): 
+    
+    def get_success_url(self, **kwargs):
+        return reverse('machines:machines-show', kwargs = {'pk': self.machine_slot.machine.pk})
 
     def form_valid(self, form):
 
@@ -564,6 +579,86 @@ class MachineReservationView(LoginRequiredMixin, FormView):
         form.message(self)
 
         return super().form_valid(form)
+
+class UpdateMachineReservationView(MachineReservationBaseView):
+    def get_success_url(self, **kwargs):
+        return reverse('profile')
+
+    def form_valid(self, form):
+
+        # start modification
+        #===================
+
+        if form.cleaned_data['start'] > form.machine_slot.start:
+            if form.machine_slot.start == form.machine_slot.opening_slot.start:
+                start = form.machine_slot.opening_slot.start
+            
+            elif form.machine_slot.start == self.previous_machine_slot.end:
+                start = self.previous_machine_slot.end
+
+            # create new slot
+            MachineSlot.objects.create(
+                opening_slot = self.machine_slot.opening_slot,
+                machine = self.machine_slot.machine,
+                start = start,
+                end = form.cleaned_data['start'],
+            )
+
+
+        if form.cleaned_data['start'] != form.machine_slot.start:
+            # adjust the previous slot end
+            if self.previous_free_machine_slot:
+                if self.previous_free_machine_slot.end == form.machine_slot.start:
+                    self.previous_free_machine_slot.end = form.cleaned_data['start']
+                    self.previous_free_machine_slot.save()
+
+                # delete free slot if start = end
+                if self.previous_free_machine_slot.start == self.previous_free_machine_slot.end:
+                    self.previous_free_machine_slot.delete()
+
+            # adjust start slot
+            form.machine_slot.start = form.cleaned_data['start']
+            form.machine_slot.save()
+
+
+        
+
+
+        # end modification
+        #=================
+        if form.cleaned_data['end'] < form.machine_slot.end:
+            if form.machine_slot.end == form.machine_slot.opening_slot.end:
+                end = form.machine_slot.opening_slot.end
+            
+            elif form.machine_slot.end == self.next_machine_slot.start:
+                end = self.next_machine_slot.start
+
+            # create new slot
+            MachineSlot.objects.create(
+                opening_slot = self.machine_slot.opening_slot,
+                machine = self.machine_slot.machine,
+                start = form.cleaned_data['end'],
+                end = end,
+            )
+
+        if form.cleaned_data['end'] != form.machine_slot.end:
+            # adjust the next slot start
+            if self.next_free_machine_slot:
+                if self.next_free_machine_slot.start == form.machine_slot.end:
+                    self.next_free_machine_slot.start = form.cleaned_data['end']
+                    self.next_free_machine_slot.save()
+
+                # delete free slot if start = end
+                if self.next_free_machine_slot.start == self.next_free_machine_slot.end:
+                    self.next_free_machine_slot.delete()
+
+            # adjust end
+            form.machine_slot.end = form.cleaned_data['end']
+            form.machine_slot.save()         
+
+        return super().form_valid(form)
+
+            
 
 class downloadIcsFileView(TemplateView):
     template_name = 'fabcal/fablab.ics'

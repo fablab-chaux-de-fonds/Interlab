@@ -13,14 +13,14 @@
 {% block content_form %}
 <div class="text-center">
     <h1> {% trans "Choose your schedule !" %} </h1>
-</div>
-
+    
     {% if machine_slot.machine.category.name == '3D' %} <h4> {% trans "Start" %} </h4> {% endif %}
-    <p>{{machine_slot.start|date:"l j F Y"|capfirst}}
-    <span class='badge align-middle' style="color:{{machine_slot.opening_slot.opening.color}};background-color:{{machine_slot.opening_slot.opening.background_color}}">
-        {{machine_slot.opening_slot.opening.title}} - {{machine_slot.opening_slot.user.first_name}}
-    </span >
+    <p>{{machine_slot.start|date:"l j F Y"|capfirst}}<br>
+        <span class='badge align-middle' style="color:{{machine_slot.opening_slot.opening.color}};background-color:{{machine_slot.opening_slot.opening.background_color}}">
+            {{machine_slot.opening_slot.opening.title}} - {{machine_slot.opening_slot.user.first_name}}
+        </span >
     </p>
+</div>
 
 <form action="." method="POST">
     {% csrf_token %}

@@ -96,7 +96,14 @@ def AccountsView(request):
     template = loader.get_template('accounts/profile.html')
     context = {
         'page_title': "My account",
-        'user': user
+        'user': user,
+        'slots': sorted(chain(
+            TrainingSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now()),
+            OpeningSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now()), 
+            MachineSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now())
+        ),
+        key=attrgetter('start')
+        )
     }
     try:
         subscription = Profile.objects.get(user_id=user.id).subscription
@@ -109,13 +116,6 @@ def AccountsView(request):
     if subscription is not None:
         context['subscription'] = subscription
         context['subscription_category']=SubscriptionCategory.objects.get(pk=subscription.subscription_category_id)
-        context['slots']= sorted(chain(
-            TrainingSlot.objects.filter(user=request.user),
-            OpeningSlot.objects.filter(user=request.user), 
-            MachineSlot.objects.filter(user=request.user)
-        ),
-        key=attrgetter('start')
-        )
         
     return HttpResponse(template.render(context, request))
 
