@@ -30,9 +30,6 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="my_account">
                         <li><a class="dropdown-item" href="/accounts/profile">{% trans "User area"%}</a></li>
-                        <li><a class="dropdown-item" href="#">{% trans "My reservations" %}</a></li>
-                        <li><a class="dropdown-item" href="#">{% trans "My trainings" %}</a></li>
-                        <li><a class="dropdown-item" href="{%url 'my_events' %}">{% trans "My events" %}</a></li>
                         {% if request.user.organizations_organization.first %}
                         {% load org_tags %}
                             {% if request.user.organizations_organization.first|is_owner:user %}
@@ -47,7 +44,6 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li class="dropdown-item-text">{% trans "Superuser area" %}</li>
-                        <li><a class="dropdown-item" href="#">{% trans "Openings" %}</a></li>
                         <li><a class="dropdown-item" href="{% url 'user-list' %}">{% trans "Users" %}</a></li>
                         {% endif %}
                         <li>

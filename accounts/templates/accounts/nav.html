@@ -35,18 +35,7 @@
     {% if request.user|has_group:"superuser" %}
     <hr class="text-red">
         <h1 class="text-red">{%trans "Superuser area" %}</h1>
-    <hr class="text-red">
-    <a class="nav-link px-0" href="#">
-        <div class="row">
-            <div class="col-10">
-                <h2>{% trans "Openings" %}</h2>
-                <p>{% trans "my next openings"|capfirst %}, {% trans "my history" %}, {% trans "my machines" %}</p>
-            </div>
-            <div class="col-2">
-                <h1><i class="bi bi-arrow-right-square"></i></h1>
-            </div>
-        </div>
-    </a>
+    
     <hr class="text-red">
     <a class="nav-link px-0" href="{% url 'user-list' %}">
         <div class="row">

@@ -282,13 +282,3 @@ class SuperuserProfileEditView(LoginRequiredMixin, CustomFormView):
             form.update_training_validation(self)
         
         return super().form_valid(form)
-
-class myEventsView(TemplateView, LoginRequiredMixin):
-    template_name = "accounts/reservations.html"
-
-    def get(self, request, *args, **kwargs):
-        context = {
-            'future_events': EventSlot.objects.filter(registrations=request.user, end__gte=datetime.datetime.now()),
-            'past_events': EventSlot.objects.filter(registrations=request.user, end__lt=datetime.datetime.now())
-        }
-        return render(request, self.template_name, context)
