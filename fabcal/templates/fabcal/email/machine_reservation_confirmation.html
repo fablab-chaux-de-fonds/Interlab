@@ -6,11 +6,11 @@
 <p>
     {% trans "We confirme that you are reserve the machine " %}
     {{machine_slot.machine.title}}
-    {% trans "on" %}
+    {% trans " on " %}
     {{machine_slot.start|date:'l j F'}}
-    {% trans "from" %}
+    {% trans " from " %}
     {{machine_slot.start|date:'H:i'}}
-    {% trans "to" %}
+    {% trans " to " %}
     {{machine_slot.end|date:'H:i'}}.
 </p>
 

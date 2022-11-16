@@ -2,13 +2,8 @@
 
 <h3> {% trans "Book my next Slot" %} </h3>
 <p>
-    {% blocktrans %}
-    Minimum slot duration: {{FABCAL_MINIMUM_RESERVATION_TIME}} minutes
-    {% endblocktrans %}</br>
-
-    {% blocktrans %}
-    Reservations in {{FABCAL_RESERVATION_INCREMENT_TIME}} minute increments
-    {% endblocktrans %}
+    {% blocktrans %} Minimum slot duration: {{FABCAL_MINIMUM_RESERVATION_TIME}} minutes {% endblocktrans %}</br>
+    {% blocktrans %} Reservations in {{FABCAL_RESERVATION_INCREMENT_TIME}} minute increments{% endblocktrans %}
 </p>
 
 {% for opening_slot in next_opening_slots %}

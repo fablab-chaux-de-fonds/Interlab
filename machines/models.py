@@ -29,7 +29,10 @@ class AbstractMachinesFilter(models.Model):
 
 class MachineCategory(AbstractMachinesFilter):
     """For Training validation"""
-    pass
+    
+    class Meta:
+        verbose_name = _("Machine Category")
+        verbose_name_plural = _("Machine Categories")
 
 class Training(ItemForRent):
     BEGINNER = 'BEG'
@@ -60,6 +63,10 @@ class Training(ItemForRent):
         """Query set for Machine with same category"""
         return Machine.objects.filter(category=self.machine_category)
 
+    class Meta:
+        verbose_name = _("Training")
+        verbose_name_plural = _("Trainings")
+
 class AbstractTrainingProfile(models.Model):
     training = models.ForeignKey(Training, on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -83,6 +90,10 @@ class Card(models.Model):
     def __str__(self):
         return self.title + " - " + self.description
 
+    class Meta:
+        verbose_name = _("Card")
+        verbose_name_plural = _("Cards")
+
 class AbstractCardSorting(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     sort = models.PositiveSmallIntegerField(default=1)
@@ -92,20 +103,36 @@ class AbstractCardSorting(models.Model):
 class ToolTraining(AbstractCardSorting):
     training = models.ForeignKey(Training, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = _("Training tool")
+        verbose_name_plural = _("Training tools")
+
 class Faq(models.Model):
     about = models.ForeignKey(ItemForRent, on_delete=models.CASCADE)
     question = models.CharField(max_length=255, verbose_name=_('Question'))
     answer = HTMLField(verbose_name=_('Answer'),configuration='CKEDITOR_SETTINGS')
 
+    class Meta:
+        verbose_name = _("FAQ")
+        verbose_name_plural = _("FAQs")
+
 class MachineGroup(AbstractMachinesFilter):
     """For splitting machine in all machines view"""
-    pass
+    
+    class Meta:
+        verbose_name = _("Machine group")
+        verbose_name_plural = _("Machine groups")
 
 class Material(AbstractMachinesFilter):
-    pass
+    
+    class Meta:
+        verbose_name = _("Material")
+        verbose_name_plural = _("Materials")
 
 class Workshop(AbstractMachinesFilter):
-    pass
+        class Meta:
+        verbose_name = _("Workshop")
+        verbose_name_plural = _("Workshops")
 
 class Machine(ItemForRent):
 
@@ -162,18 +189,33 @@ class Machine(ItemForRent):
         for training in trainings:
             profile.extend(training.trainingvalidation_set.values_list('profile', flat = True))
         return profile
+    class Meta:
+        verbose_name = _("Machine")
+        verbose_name_plural = _("Machines")
 
 class ToolMachine(AbstractCardSorting):
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = _("Machine tool")
+        verbose_name_plural = _("Machine tools")
+
 class HighlightMachine(AbstractCardSorting):
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _("Machine highlight")
+        verbose_name_plural = _("Machine highlights")
 
 class Specification(models.Model):
     key = models.CharField(max_length=255)
     value = HTMLField(blank=True,configuration='CKEDITOR_SETTINGS')
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     sort = models.PositiveSmallIntegerField(default=1)
+
+    class Meta:
+        verbose_name = _("Specification")
+        verbose_name_plural = _("Specifications")
 
 class TrainingsListPluginModel(CMSPlugin):
     pass
