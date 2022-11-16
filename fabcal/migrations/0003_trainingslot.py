@@ -8,7 +8,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('machines', '0003_training_is_active'),
+        ('machines', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('fabcal', '0001_initial'),
     ]

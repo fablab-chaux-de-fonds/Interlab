@@ -7,8 +7,6 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    replaces = [('fabcal', '0002_auto_20221003_1852')]
-
     initial = True
 
     dependencies = [
