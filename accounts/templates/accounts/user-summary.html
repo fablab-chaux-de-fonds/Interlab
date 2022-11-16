@@ -1,31 +1,45 @@
 {% load i18n %}
 
+<div class="text-center">
+
+{%include 'accounts/avatar.html'%}
+
 {% if user.first_name %}
-<img src="https://eu.ui-avatars.com/api/?rounded=true&name={{user.first_name}}+{{user.last_name}}&color=fff&background=0b1783"
-    class="img my-2" alt="avatar"> </br>
 <h1> {{ user.first_name }} {{ user.last_name }} </h1>
 {% else %}
-<img src="https://eu.ui-avatars.com/api/?rounded=true&name={{user.username}}&color=fff&background=0b1783"
-    class="img my-2" alt="avatar"> </br>
 <h1> {{ user.username }} </h1>
 {% endif %}
 
 <p>{{ user.email }}</p>
 
-<p> 
-<small>
-{% if user.profile.subscription %}
-    {{ user.profile.subscription.subscription_category.title }} {% trans "valid until" %}
-    {{ user.profile.subscription.end|date:'d.m.Y' }} </br>
+<p>
+    <small>
+        {% if user.profile.subscription %}
+            {{ user.profile.subscription.subscription_category.title }} {% trans "valid until" %}
+            {{ user.profile.subscription.end|date:'d.m.Y' }} </br>
 
-    {% if request.user.organizations_organization.first %}
-        {% load org_tags %}
-        {% if request.user.organizations_organization.first|is_owner:user %}
-            {% trans 'You are the owner of the subscription' %} {{request.user.organizations_organization.first.name}}</br>
-        {% else %}
-            {% trans 'The owner of the subscription' %} {{request.user.organizations_organization.first.name}} {% trans 'is' %}
-            {{request.user.organizations_organization.first.owner.organization_user.name}}</br>
+            {% if request.user.organizations_organization.first %}
+                {% load org_tags %}
+                {% if request.user.organizations_organization.first|is_owner:user %}
+                    {% trans 'You are the owner of the subscription' %} {{request.user.organizations_organization.first.name}}</br>
+                {% else %}
+                    {% trans 'The owner of the subscription' %} {{request.user.organizations_organization.first.name}}
+                    {% trans 'is' %}
+                    {{request.user.organizations_organization.first.owner.organization_user.name}}</br>
+                {% endif %}
+            {% endif %}
         {% endif %}
-    {% endif %}
     </small> </p>
+<p>
+    {% include "accounts/user-trainings-badges.html"  %}
+</p>
+
+{% if not user.profile.subscription and request.user != user %}
+<a href="#" class="my-5">
+    <button class="btn btn-primary mt-5">
+        {% trans "Discover the subscriptions" %}
+    </button>
+</a>
 {% endif %}
+
+</div>

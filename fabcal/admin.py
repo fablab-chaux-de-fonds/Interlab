@@ -10,3 +10,11 @@ class OpeningSlotAdmin(admin.ModelAdmin):
 @admin.register(EventSlot)
 class EventSlotAdmin(admin.ModelAdmin):
     list_display = ['event', 'start', 'end', 'user', 'is_active', 'has_registration']
+
+@admin.register(TrainingSlot)
+class TrainingSlotAdmin(admin.ModelAdmin):
+    list_display = ['training', 'start', 'end', 'user']
+
+@admin.register(MachineSlot)
+class MachineSlotAdmin(admin.ModelAdmin):
+    list_display = ['machine', 'opening_slot', 'start', 'end', 'user']

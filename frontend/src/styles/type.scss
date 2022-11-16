@@ -1,3 +1,30 @@
 h2 {
   @extend .text-uppercase;
 }
+
+.text-red {
+  color: $custom-red;
+}
+
+.text-blue {
+  color: $custom-blue !important;
+}
+
+.text-green {
+  color: $custom-green;
+}
+
+.text-bg-success-light {
+  background-color: $custom-green-light !important;
+  color: $custom-green;
+}
+
+.text-bg-info {
+  background-color: $custom-blue-light !important;
+  color: $custom-blue !important;
+}
+
+.text-bg-danger-light {
+  background-color: $custom-red-light !important;
+  color: $custom-red !important;
+}

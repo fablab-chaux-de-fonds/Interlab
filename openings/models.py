@@ -1,6 +1,6 @@
-from pyexpat import model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from djangocms_text_ckeditor.fields import HTMLField
 
 from colorfield.fields import ColorField
 
@@ -15,12 +15,15 @@ class AbstractOpening(models.Model):
         ("#e4f2e5", "green-light", ),
     ]
     title = models.CharField(max_length=255)
-    desc = models.TextField() # TODO could we add HTML tags like <a>? -> use safe filter in template
+    desc = HTMLField(verbose_name=_('Description'),blank=True,configuration='CKEDITOR_SETTINGS')
     color = ColorField(default='#ffffff', samples=COLOR_PALETTE)
     background_color = ColorField(default='#0b1783', samples=COLOR_PALETTE)
 
     class Meta:
         abstract = True
+    
+    def __str__(self):
+        return self.title
     
 
 # Create your models here.

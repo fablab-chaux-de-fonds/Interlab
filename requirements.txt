@@ -10,6 +10,7 @@ django-crispy-forms
 django-debug-toolbar
 django-extensions
 django-filer
+django-filter
 django-mathfilters
 django-mptt
 django-oauth-toolkit

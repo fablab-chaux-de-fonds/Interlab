@@ -1,0 +1,69 @@
+{% load i18n interlab_tags %}
+
+<h3> {% trans "Next Trainings" %} </h3>
+{% if training_slots %}
+<div class="row mb-4">
+    {% for training_slot in training_slots %}
+    <hr>
+    <div class="col-8">
+        {{training_slot.start|date:"l j F Y"|capfirst}} {% trans " from " %} {{training_slot.start|date:"H:i"}}
+        {% trans "to" %} {{training_slot.end|date:"H:i"}} <br>
+        {% if training_slot.available_registration > 0  %}
+        <small class"fs-6">
+            {% blocktrans with available_registration=training_slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}
+        </small>
+        {% elif training_slot.available_registration == 0 %}
+        <small>{% trans "sold out" %}</small>
+        {% endif %}
+    </div>
+    <div class="col-4 text-end">
+        {% if training_slot.available_registration > 0 %}
+        <a href="{% url 'fabcal:register-training' training_slot.pk %}" class="btn">{% trans "Register" %}</a>
+        {% elif training_slot.available_registration == 0 %}
+        <button class="btn" disabled>{% trans "Register" %}</button>
+        {% endif %}
+        {% if request.user|has_group:"superuser" %}
+            <a href="{% url 'fabcal:update-training' training_slot.pk %}" class="btn btn-outline-primary"><i class="bi bi-pencil"></i></a>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <hr>
+</div>
+{% endif %}
+
+
+<div class="row">
+    <div class="col-8">
+        {% if training_slots %}
+            <h3>{% trans "Not available ?" %}</h3>
+        {% else %}
+            {% trans "Unfortunately, no training planned." %}
+        {% endif %}
+
+        {% if not notification %}
+        {% trans "We can alert you when a new training is planned." %}
+        {%else%}
+        {% trans "We will contact you as soon as possible." %}
+        {% endif %}
+    </div>
+    <div class="col-4 mt-auto">
+        {% if user.is_authenticated %}
+        <form action="./show" method="post">
+            {% csrf_token %}
+            {% if notification %}
+            <button type="submit" class="btn btn-outline-primary float-end">
+                <i class="bi bi-bell-slash pe-2"></i>{% trans "Stop alert me" %}
+            </button>
+            {% else %}
+            <button type="submit" class="btn btn-primary float-end">
+                <i class="bi bi-bell-fill pe-2"></i> {% trans "Alert me" %}
+            </button>
+            {% endif %}
+        </form>
+        {% else %}
+        <a href="{% url 'login'%}?next={{request.path}}" class="btn btn-outline-primary float-end">
+            <i class="bi bi-box-arrow-in-right pe-2"></i> {% trans "Log in" %}
+        </a>
+        {% endif %}
+    </div>
+</div>

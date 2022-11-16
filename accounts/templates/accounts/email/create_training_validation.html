@@ -1,0 +1,10 @@
+{% extends "email/base_email.html" %}
+{% load i18n %}
+
+{% block content %}
+<p> Hello {{user.first_name}}, </p> 
+<p>
+    {% trans "We have validated the training" %} {{training.title}}
+</p>
+
+{% endblock content %}

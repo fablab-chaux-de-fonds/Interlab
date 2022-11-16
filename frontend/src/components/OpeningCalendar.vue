@@ -76,6 +76,10 @@
               <v-btn @click="createEventSlot" class="my-2 v-btn-primary-outlined" outlined>
                 <i class="bi bi-calendar-event pe-2"></i> {{ $vuetify.lang.t('$vuetify.event') }}
               </v-btn>
+              <br>
+              <v-btn @click="createTrainingSlot" class="my-2 v-btn-primary-outlined" outlined>
+                <i class="bi bi-mortarboard pe-2"></i> {{ $vuetify.lang.t('$vuetify.training') }}
+              </v-btn>
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -110,20 +114,23 @@
             </v-toolbar>
             <v-card-text>
               <v-img v-if="selectedEvent.img" :src="selectedEvent.img" class="mb-2 rounded"></v-img>
-              <h3>{{selectedEvent.title}}</h3>
+              <span class="h3 align-middle me-2">
+                {{selectedEvent.title}}
+              </span>
+              <span class='badge align-middle' :style="{'color':selectedEvent.text_color, 'background':selectedEvent.color}">
+                {{selectedEvent.user_firstname}}
+              </span>
+
               <p>{{selectedEvent.desc}}</p>
               <div v-if="selectedEvent.type=='opening'">
-                <p ><i class="bi bi-person-fill"></i> {{selectedEvent.user_firstname}}</p>
+                <h4> {{ $vuetify.lang.t('$vuetify.machines') }} </h4>
+                  <span v-for="machine in selectedEvent.machines">
+                  <a :href="'/machines/machines/' + machine.pk + '/show'" class="btn btn-secondary rounded-pill btn-sm m-1">
+                    {{ machine.title }}
+                  </a>
+                </span>
               </div>
               <p v-if="selectedEvent.comment"><i class="bi bi-card-text"></i> {{selectedEvent.comment}}</p>
-              <div v-if="selectedEvent.type=='event'" class="text-center">
-                <v-btn @click="eventDetails(selectedEvent.pk)" class="v-btn-primary-outlined" outlined>
-                  <i class="bi bi-info-circle pe-2"></i> {{ $vuetify.lang.t('$vuetify.more_information') }}
-                </v-btn>
-                <v-btn v-if="selectedEvent.has_registration" @click="eventRegister(selectedEvent.pk)" class="v-btn-primary">
-                  <i class="bi bi-plus-circle pe-2"></i> {{ $vuetify.lang.t('$vuetify.register') }}
-                </v-btn>
-              </div>
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -214,8 +221,8 @@
         location.href = "/fabcal/create-event/" + this.start + "/" + this.end;
       },
 
-      eventDetails(pk) {
-        location.href = "/fabcal/event/" + pk;
+      createTrainingSlot(event) {
+        location.href = "/fabcal/create-training/" + this.start + "/" + this.end;
       },
 
       cancelDrag() {
@@ -278,8 +285,10 @@
           this.selectedElement = nativeEvent.target;
           if (this.selectedEvent.type === 'opening') {
             requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true));
-          } else {
+          } else if (this.selectedEvent.type === 'event') {
             location.href = "/fabcal/event/" + this.selectedEvent.pk;
+          } else if (this.selectedEvent.type === 'training') {
+            location.href = "/machines/trainings/" + this.selectedEvent.pk + '/show';
           }
         };
 
@@ -320,19 +329,15 @@
             pk: event.pk,
             username: event.username,
             type: event.type,
-            has_registration: event.has_registration,
-            img: event.img
+            machines: event.machines
           });
         }
 
         this.events = events;
       },
-      test() {
-        console.log('hello')
-      },
     },
     mounted() {
-      this.$refs.calendar.scrollToTime('08:00');
+      this.$refs.calendar.scrollToTime('10:00');
     },
   }
 </script>

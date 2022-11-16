@@ -5,10 +5,10 @@
 {% if request.user|has_group:"superuser" %}
 <div class="row">
     <div class="col text-end">
-        <a href="{% url 'delete-event' pk %}" class="btn btn-secondary pe-2">
+        <a href="{% url 'fabcal:delete-event' pk %}" class="btn btn-outline-primary pe-2">
             <i class="bi bi-trash pe-1"></i> {% trans "Delete" %}
         </a>
-        <a href="{% url 'update-event' pk %}" class="btn btn-secondary">
+        <a href="{% url 'fabcal:update-event' pk %}" class="btn btn-outline-primary">
             <i class="bi bi-pencil pe-1"></i> {% trans "Edit" %}
         </a>
     </div>

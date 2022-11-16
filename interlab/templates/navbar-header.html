@@ -11,20 +11,25 @@
                 <li class="nav-item mx-3">
                     <a class="nav-link nav-link-header" aria-current="page" href="/schedule">{% trans "Schedule" %}</a>
                 </li>
-                <li class="nav-item mx-3">
-                    <a class="nav-link nav-link-header" aria-current="page" href="#">{% trans "Reservation" %}</a>
+                <li class="nav-item dropdown mx-3">
+                    <a class="nav-link dropdown-toggle nav-link-header" href="#" id="reservation" role="button"
+                    data-bs-toggle="dropdown", aria-expanded="false">
+                    {% trans "Reservation" %}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="reservation">
+                    <li><a class="dropdown-item" href="/machines/">{% trans "Machines" %}</a></li>
+                    <li><a class="dropdown-item" href="/trainings/">{% trans "Trainings" %}</a></li>
+                    <li><a class="dropdown-item" href="/events/">{% trans "Events" %}</a></li>
+                </ul>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown mx-3">
-                    <a class="nav-link dropdown-toggle nav-link-header" href="#" id="navbarDropdown" role="button"
+                    <a class="nav-link dropdown-toggle nav-link-header" href="#" id="my_account" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         {% trans "My account" %}
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <ul class="dropdown-menu" aria-labelledby="my_account">
                         <li><a class="dropdown-item" href="/accounts/profile">{% trans "User area"%}</a></li>
-                        <li><a class="dropdown-item" href="#">{% trans "My reservations" %}</a></li>
-                        <li><a class="dropdown-item" href="#">{% trans "My trainings" %}</a></li>
-                        <li><a class="dropdown-item" href="{%url 'my_events' %}">{% trans "My events" %}</a></li>
                         {% if request.user.organizations_organization.first %}
                         {% load org_tags %}
                             {% if request.user.organizations_organization.first|is_owner:user %}
@@ -39,8 +44,6 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li class="dropdown-item-text">{% trans "Superuser area" %}</li>
-                        <li><a class="dropdown-item" href="#">{% trans "Openings" %}</a></li>
-                        <li><a class="dropdown-item" href="#">{% trans "Trainings" %}</a></li>
                         <li><a class="dropdown-item" href="{% url 'user-list' %}">{% trans "Users" %}</a></li>
                         {% endif %}
                         <li>

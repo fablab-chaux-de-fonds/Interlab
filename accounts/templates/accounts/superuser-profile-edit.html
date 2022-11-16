@@ -1,0 +1,51 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n crispy_forms_tags  %}
+{% load render_bundle from webpack_loader %}
+
+{% block content_form %}
+<form action="" method="post">
+    <div class="row justify-content-center">
+        <div class="col">
+            <div class="text-center">
+                {% include 'accounts/user-summary.html' %}
+            </div>
+            <hr>
+            <h1>
+                {% trans 'Subscription' %}
+            </h1>
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                    {{ form.subscription_category }}
+                    {{ form.subscription_category.errors }}
+            </div> 
+            <div data-app>
+                <div id="vue">
+                    <div class="mb-3">
+                        <v-row>
+                            <v-col cols="6">
+                                <date-picker init-date={{start|date:"Y-m-d"}} input-name="start" label={% trans "Start" %}>
+                                </date-picker>
+                            </v-col>
+                            <v-col cols="6">
+                                <date-picker init-date={{end|date:"Y-m-d"}} input-name="end" label={% trans "End" %}>
+                                </date-picker>
+                            </v-col>
+                        </v-row>
+                    </div>
+                </div>
+            </div>
+            <h1>
+                {% trans 'Trainings' %} 
+            </h1>
+            {{ form.training|as_crispy_field}}
+
+            {% include "forms/base_submit_button.html" with submit_btn="Update" %}
+        </div>
+    </div>
+
+</form>
+{% endblock content_form %}
+
+{% block js_footer %}
+{% render_bundle 'vue' 'js' %}
+{% endblock js_footer %}

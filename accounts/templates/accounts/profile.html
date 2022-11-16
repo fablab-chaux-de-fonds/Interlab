@@ -3,25 +3,89 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-md-4 py-5 d-none d-md-block">
-        {% include 'accounts/nav.html' %}
-    </div>
-    <div class="col-md-8 py-5 text-center">
-        
-    {% include 'accounts/user-summary.html' %}
-    {% if not user.profile.subscription %}
-        <a href="#" class="my-5">
-            <button class="btn btn-primary mt-5">
-                {% trans "Discover the subscriptions" %}
-            </button>
-        </a> 
-        {% endif %}
-
-    </div>
-    <div class="col-md-4 py-5 d-md-none">
+    <div class="col-md-4 py-5 d-none d-md-block border-end">
+        {% include 'accounts/user-summary.html' %}
         <hr>
         {% include 'accounts/nav.html' %}
     </div>
-</div>
+    <div class="col-md-8 py-5">
+        <div class="col-md-4 py-5 d-md-none">
+            {% include 'accounts/user-summary.html' %}
+            <hr>
+        </div>
+        {% for slot in slots %}
+        <div class="row text-blue m-2">
+            <div class="col-3 col-lg-2 text-center rounded">
+                {{slot.start|date:"D j b"}}</br>
+                <small>{{slot.start|date:"H:i"}} - {{slot.end|date:"H:i"}}</small><br>
+            </div>
+            <div class="col-8">
+                
+                    {% if slot.training %}
+                    <h5>
+                        {% trans "Training" %}
+                        {{slot.training.title}}
+                    </h5>
 
+                    <p>
+                        {% if slot.available_registration > 0  %}
+                        <small class"fs-6">
+                            {% blocktrans with available_registration=slot.available_registration %} still {{available_registration}} places available !{% endblocktrans %}
+                        </small>
+                        {% elif slot.available_registration == 0 %}
+                        <small>{% trans "sold out" %}</small>
+                        {% endif %}
+                    </p>
+
+                    {% elif slot.opening %}
+                    <span class="h5">
+                        {% trans "Opening" %}
+                    </span>
+                    <p class='badge'
+                    style="color:{{slot.opening.color}};background-color:{{slot.opening.background_color}}">
+                    {{slot.opening.title}}
+                    </p>
+                    <br>
+                    {% for reservation in slot.get_reservation_list %}
+                        {{reservation.start|date:"H:i"}} - {{reservation.end|date:"H:i"}}: {{reservation.machine.title}} - {{reservation.user.first_name}} {{reservation.user.last_name}}
+                        <br>
+                    {% endfor %}
+                    
+                    {% elif slot.machine %}
+                    <h5>
+                        {% trans "Reservation" %}
+                        {{slot.machine.title}}
+                    </h5>
+                    <p class='badge align-middle'
+                        style="color:{{slot.opening_slot.opening.color}};background-color:{{slot.opening_slot.opening.background_color}}">
+                        {{slot.opening_slot.opening.title}} - {{slot.opening_slot.user.first_name}}
+                    </p>
+                    {% endif %}
+            </div>
+            <div class="col-1">
+                {% if slot.training %}
+                <a href="{% url 'machines:training-validation' slot.pk %}">
+                    <h2><i class="bi bi-arrow-right-square text-blue"></i></h2>
+                </a>
+
+                {% elif slot.opening %}
+                <a href="{% url 'fabcal:update-opening' slot.pk %}">
+                    <h2><i class="bi bi-arrow-right-square text-blue"></i></h2>
+                </a>
+
+                {% elif slot.machine %}
+                <a href="{% url 'fabcal:machine-reservation-update' slot.pk %}">
+                    <h2><i class="bi bi-arrow-right-square text-blue"></i></h2>
+                </a>
+                {%endif%}
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+<div class="col-md-4 py-5 d-md-none">
+    <hr>
+    {% include 'accounts/nav.html' %}
+</div>
 {% endblock content %}

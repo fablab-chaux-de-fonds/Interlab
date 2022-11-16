@@ -206,6 +206,7 @@ INSTALLED_APPS = [
     'fabcal',
     'openings',
     'colorfield',
+    'django_filters'
 ]
 
 LANGUAGES = (
@@ -349,3 +350,6 @@ CKEDITOR_SETTINGS = {
 # UserReport
 USERREPORT_LINK = os.environ.get('USERREPORT_LINK')
 USERREPORT_TOKEN = os.environ.get('USERREPORT_TOKEN')
+
+FABCAL_MINIMUM_RESERVATION_TIME = 30
+FABCAL_RESERVATION_INCREMENT_TIME = 30

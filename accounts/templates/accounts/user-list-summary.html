@@ -1,0 +1,13 @@
+{% if user.first_name %}
+{{user.first_name}} {{user.last_name}}
+{% else %}
+{{user.email}}
+{% endif %}
+<br>
+{% if user.profile.subscription %}
+<small> {{user.profile.subscription.subscription_category.title}},
+    {{ user.profile.subscription.end|date:'d.m.Y' }} </small>
+{% endif %}
+<p>
+    {% include "accounts/user-trainings-badges.html"  %}
+</p>

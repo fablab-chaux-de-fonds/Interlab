@@ -14,12 +14,13 @@ services:
       - .env
     volumes:
       - ./accounts:/code/accounts
-      - ./machines:/code/machines
       - ./build:/code/build
       - ./fabcal:/code/fabcal
       - ./frontend:/code/frontend
       - ./interlab:/code/interlab
       - ./locale:/code/locale
+      - ./machines:/code/machines
+      - ./media:/code/media
       - ./newsletter:/code/newsletter
       - ./openings:/code/openings
     ports:

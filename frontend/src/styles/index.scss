@@ -3,8 +3,8 @@
 @import "~bootstrap/scss/bootstrap.scss";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import "alerts.scss";
-@import "badges.scss";
 @import "buttons.scss";
+@import "cards.scss";
 @import "errors.scss";
 @import "dropdown.scss";
 @import "forms.scss";
@@ -13,7 +13,6 @@
 @import "navbar.scss";
 @import "pagination.scss";
 @import "type.scss";
-@import "trainings.scss";
 @import "vue.scss";
 
 footer {
@@ -25,18 +24,14 @@ a {
   text-decoration: none;
 }
 
-.text-red {
-  color: $custom-red;
-}
-
-.text-blue {
-  color: $custom-blue !important;
-}
-
 .cms-messages {
   display: none !important;
 }
 
 #div_id_is_admin {
   display: none;
+}
+
+td > p {
+  margin: 0;
 }

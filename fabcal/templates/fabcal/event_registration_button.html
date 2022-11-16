@@ -11,9 +11,9 @@
                 <small class='text-red'>{% trans "Sorry, you can not unregister 24h before the start of the event" %}</small>
             {% endif %}
         {% elif available_registration <= 0 %}
-            <button href={% url 'register-event' pk %} class="btn btn-primary" disabled> <i class="bi bi-plus-circle pe-2"></i> {% trans "register" %}</button>
+            <button href={% url 'register-event' pk %} class="btn btn-primary" disabled> <i class="bi bi-plus-circle pe-2"></i> {% trans "Register" %}</button>
         {% else %}
-            <a href={% url 'register-event' pk %} class="btn btn-primary"> <i class="bi bi-plus-circle pe-2"></i> {% trans "register" %}</a>
+            <a href={% url 'register-event' pk %} class="btn btn-primary"> <i class="bi bi-plus-circle pe-2"></i> {% trans "Register" %}</a>
         {% endif %}
     {% endif %}
     </div>

@@ -5,7 +5,7 @@
 .v-calendar-weekly__head-weekday,
 .v-calendar-daily_head-day,
 .v-calendar-weekly__day,
-.v-btn-secondary,
+.v-btn-outline-primary,
 .v-list-item,
 .v-label,
 .v-select__selections,
@@ -62,10 +62,6 @@
 
 .v-messages {
   min-height: 0 !important;
-}
-
-.row {
-  margin-top: 0 !important;
 }
 
 .switch-end > .v-input__control > .v-input__slot {

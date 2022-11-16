@@ -1,32 +1,33 @@
-{% extends "base.html" %}
-{% load i18n static %}
-
-{% block title %}{{block.super}} - {% trans "Trainings" %}{% endblock %}
+{% load i18n static interlab_tags %}
 
 {% block content %}
-<div class="row d-flex justify-content-center">
-    <div class="col-12 col-md-9 col-xl-8 py-md-3">
-        <h2>{% trans "Trainings" %}</h2>
-        <p>{% trans "The trainings are available for everyone, no need to be part of the association (it is only required to create an online account)." %}</p>
 
-        {% if trainings %}
+<form hx-push-url="true" hx-target="body" class='row-full'>
 
-        {% for obj in trainings %}
-        <a href="{% url 'machines:trainings.show' obj.pk %}">
-            <div class="training-container">
-                <img class="training-img" src="{{obj.photo.url}}">
-                <div class="training-title">{{obj}}</div>
-            </div>
-        </a>
+    <div class="form form-check-inline form-check-btn text-red my-1">
+        <i class="bi bi-tag-fill"></i> {% trans "Category" %} :
+        {% for pk, choice in form.machine_category.field.widget.choices %}
+        <input hx-get="/trainings/" hx-include='[name="machine_category"]'
+            id="{{form.machine_category.name}}_{{ forloop.counter0 }}" name="{{form.machine_category.name}}" type="checkbox"
+            value="{{pk}}" class="btn-check" {% if pk in request.GET|get_list:form.machine_category.name %} checked="checked"
+            {% endif %} autocomplete="off" />
+        <label for="{{form.machine_category.name}}_{{ forloop.counter0 }}"
+            class="btn btn-outline-primary badge rounded-pill">{{ choice }}</label>
+
         {% endfor %}
-
-        {% else %}
-        <p>{% trans "Sadly, no training is currently available." %}</p>
-        {% endif %}
-
-        <div class="clear"></div>
-
-        <p>{% trans "One training is offered (alone or accompanied by a person) if you become a member of the association." %}</p>
     </div>
+
+</form>
+
+<hr>
+
+<div class="row">
+    {% if trainings %}
+        {% for obj in trainings %}
+            {%include 'trainings/card.html'%}
+        {% endfor %}
+    {% else %}
+    <p>{% trans "Sadly, no training is currently available." %}</p>
+    {% endif %}
 </div>
 {% endblock %}

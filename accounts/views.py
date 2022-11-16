@@ -1,3 +1,8 @@
+import datetime
+from itertools import chain
+from operator import attrgetter
+import dateparser
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -14,12 +19,14 @@ from django.template import loader
 from django.utils.encoding import force_str
 from django.utils.translation import ugettext as _
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic.base import TemplateView
 
-from fabcal.models import EventSlot
+from fabcal.models import EventSlot, OpeningSlot, TrainingSlot, MachineSlot
+from machines.models import TrainingValidation
 
-from .forms import EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm, CustomAuthenticationForm
-from .models import Profile, Subscription, SubscriptionCategory
+from .forms import EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm, CustomAuthenticationForm, SuperuserProfileEditForm
+from .models import Profile, SubscriptionCategory
 
 from organizations.views.base import BaseOrganizationUserCreate
 from organizations.views.base import BaseOrganizationUserDelete
@@ -30,6 +37,7 @@ from django_registration import signals
 from django_registration.exceptions import ActivationError
 
 from newsletter.views import register_email, get_contact, update_contact
+from interlab.views import CustomFormView
 class CustomLoginView(LoginView):
     form_class = CustomAuthenticationForm
 class CustomRegistrationView(RegistrationView):
@@ -88,7 +96,14 @@ def AccountsView(request):
     template = loader.get_template('accounts/profile.html')
     context = {
         'page_title': "My account",
-        'user': user
+        'user': user,
+        'slots': sorted(chain(
+            TrainingSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now()),
+            OpeningSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now()), 
+            MachineSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now())
+        ),
+        key=attrgetter('start')
+        )
     }
     try:
         subscription = Profile.objects.get(user_id=user.id).subscription
@@ -217,76 +232,53 @@ class UserListView(LoginRequiredMixin, TemplateView):
                     )
         return qs
 
-from .forms import UserSubcriptionForm
-import datetime
+class SuperuserProfileEditView(LoginRequiredMixin, CustomFormView):
+    template_name = 'accounts/superuser-profile-edit.html'
+    form_class = SuperuserProfileEditForm
 
-@login_required
-def user_edit(request, user_pk):
-    if not request.user.groups.filter(name = 'superuser').exists():
-            raise PermissionDenied
-    else:
-        template = 'accounts/user-edit.html'
-        User = get_user_model()
-        user = User.objects.get(pk=user_pk)
+    def get_success_url(self):
+        return reverse('user-list')
 
-        try:
-            initial = {'subscription_category': user.profile.subscription.subscription_category.pk}
-        except AttributeError: 
-            initial = {'subscription_category': 'no-subscription'}
+    def get_initial(self):
+        initial = super().get_initial()
+        self.user = get_user_model().objects.get(pk=self.kwargs['pk'])
+        if self.user.profile.subscription.subscription_category:
+            initial['subscription_category'] = self.user.profile.subscription.subscription_category
+            initial['start'] = self.user.profile.subscription.start
+            initial['end'] = self.user.profile.subscription.end
 
-        if request.method == 'POST':
-            subcription_form = UserSubcriptionForm(request.POST)
-            if subcription_form.is_valid():
-                has_changed = False
-                if len(subcription_form.changed_data)==0:
-                    if initial['subscription_category'] != 'no-subscription' and subcription_form.cleaned_data != None:
-                        has_changed = True
-                if 'subscription_category' in subcription_form.changed_data:
-                    if initial['subscription_category'] != subcription_form.cleaned_data['subscription_category'].pk:
-                        has_changed = True
-                if has_changed:
-                    if not subcription_form.cleaned_data['subscription_category'] :
-                        s = None
-                        message = _("Subscription deleted successfully for user ") 
-                        if user.first_name:
-                            message += user.first_name + ' ' + user.last_name
-                        else:
-                            message += user.email
-                    else: 
-                        subcription_category = subcription_form.cleaned_data['subscription_category']
-                        kwargs = {
-                                "start" : datetime.datetime.now(),
-                                "end" : datetime.datetime.now() + datetime.timedelta(days=subcription_category.duration),
-                                "subscription_category" : subcription_category,
-                                "access_number" : subcription_category.default_access_number
-                        }
+        if TrainingValidation.objects.filter(profile=self.user.profile):
+            initial['training'] = [pk for pk in TrainingValidation.objects.filter(profile=self.user.profile).values_list("training", flat=True)]
+        return initial
 
-                        s = Subscription(**kwargs)
-                        s.save()
-                        message = _("Subcription updated to %(subcription_category)s for user ") % {'subcription_category': subcription_category.title}
-                        if user.first_name:
-                            message += user.first_name + ' ' + user.last_name
-                        else:
-                            message += user.email + user.first_name + ' ' + user.last_name 
-                    
-                    Profile.objects.update_or_create(user=user, defaults={'subscription':s})
-                    messages.success(request, message)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.user
 
-                return redirect('user-list')
+        if context['form'].initial['subscription_category']:
+            context['start'] = context['form'].initial['start']
+            context['end'] = context['form'].initial['end']
         else:
-            subcription_form = UserSubcriptionForm(initial)
-            context = {
-                'subcription_form': subcription_form, 
-                'user': user
-            }
-        return render(request, template, context)
+            context['start'] = datetime.datetime.now()
+            context['end'] = datetime.datetime.now() + datetime.timedelta(days=365)
+        return context
+    
+    def form_invalide(self):
+        pass
 
-class myEventsView(TemplateView, LoginRequiredMixin):
-    template_name = "accounts/reservations.html"
+    def form_valid(self, form):
+        form.start = dateparser.parse(form.cleaned_data['start']).date()
+        form.end = dateparser.parse(form.cleaned_data['end']).date()
 
-    def get(self, request, *args, **kwargs):
-        context = {
-            'future_events': EventSlot.objects.filter(registrations=request.user, start__gte=datetime.datetime.now()),
-            'past_events': EventSlot.objects.filter(registrations=request.user, start__lt=datetime.datetime.now())
-        }
-        return render(request, self.template_name, context)
+        if 'subscription_category' in form.changed_data or \
+            form.initial['start'] != form.start or \
+            form.initial['end'] != form.end:
+
+            form.update_or_create_subscription(self)
+            self.context={'user': self.user}
+            form.send_subscription_mail(self)
+
+        if 'training' in form.changed_data:
+            form.update_training_validation(self)
+        
+        return super().form_valid(form)

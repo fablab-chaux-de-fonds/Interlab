@@ -6,7 +6,7 @@
                 <v-text-field v-model=time :label=label :name=inputName readonly v-bind="attrs" v-on="on" outlined>
                 </v-text-field>
             </template>
-            <v-time-picker v-if="dialog" v-model="time" full-width format="24hr" color="#0b1783">
+            <v-time-picker v-if="dialog" v-model="time" full-width format="24hr" color="#0b1783" :allowed-minutes="allowedStep">
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="dialog = false">
                     Cancel
@@ -29,5 +29,8 @@
                 time: this.initTime,
             }
         },
+        methods: {
+            allowedStep: m => m % 5 === 0,
+        }
     }
 </script>
