@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('machines', '0027_remove_machine_spec'),
+        ('machines', '0002_PR130'),
         ('fabcal', '0001_initial'),
     ]
 
