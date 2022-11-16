@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('machines', '0003_training_is_active'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('fabcal', '0002_auto_20221003_1853'),
+        ('fabcal', '0001_initial'),
     ]
 
     operations = [
