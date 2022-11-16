@@ -130,7 +130,7 @@ class Material(AbstractMachinesFilter):
         verbose_name_plural = _("Materials")
 
 class Workshop(AbstractMachinesFilter):
-        class Meta:
+    class Meta:
         verbose_name = _("Workshop")
         verbose_name_plural = _("Workshops")
 
