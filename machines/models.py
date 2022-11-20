@@ -149,8 +149,8 @@ class Machine(ItemForRent):
         default='available'
     )
 
-    group = models.ForeignKey(MachineGroup,null=True,on_delete=models.SET_NULL)
-    category = models.ForeignKey(MachineCategory,null=True,on_delete=models.SET_NULL)
+    group = models.ForeignKey(MachineGroup,blank=True,null=True,on_delete=models.SET_NULL)
+    category = models.ForeignKey(MachineCategory,on_delete=models.SET_NULL)
     material = models.ManyToManyField(Material, blank=True)
     workshop = models.ManyToManyField(Workshop, blank=True)
     reservable = models.BooleanField(default=True)
