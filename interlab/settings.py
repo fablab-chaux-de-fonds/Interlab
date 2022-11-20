@@ -206,7 +206,8 @@ INSTALLED_APPS = [
     'fabcal',
     'openings',
     'colorfield',
-    'django_filters'
+    'django_filters',
+    'url_or_relative_url_field'
 ]
 
 LANGUAGES = (

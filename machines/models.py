@@ -7,6 +7,7 @@ from cms.models import CMSPlugin
 
 from accounts.models import Profile
 from openings.models import AbstractOpening
+from url_or_relative_url_field.fields import URLOrRelativeURLField
 
 class ItemForRent(AbstractOpening):
     full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2)
@@ -84,7 +85,7 @@ class Card(models.Model):
     bootstrap_icon = models.CharField(max_length=255, blank=True)
     title = models.CharField(max_length=255, verbose_name=_('Title'))
     description = models.CharField(max_length=255, verbose_name=_('Description'), blank=True)
-    link = models.URLField(verbose_name=_('Link'), blank=True)
+    link = URLOrRelativeURLField(verbose_name=_('Link'), blank=True)
     link_text = models.CharField(max_length=255, verbose_name=_('Link text'), blank=True)
 
     def __str__(self):
