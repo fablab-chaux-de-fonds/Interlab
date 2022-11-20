@@ -10,7 +10,7 @@ from openings.models import AbstractOpening
 from url_or_relative_url_field.fields import URLOrRelativeURLField
 
 class ItemForRent(AbstractOpening):
-    full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2)
+    full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2, null=True, blank=False)
     photo = models.ImageField(upload_to='img', verbose_name=_('Photo'))
     header = HTMLField(verbose_name=_('Header'),blank=True,configuration='CKEDITOR_SETTINGS')
 
@@ -154,7 +154,7 @@ class Machine(ItemForRent):
     material = models.ManyToManyField(Material, blank=True)
     workshop = models.ManyToManyField(Workshop, blank=True)
     reservable = models.BooleanField(default=True)
-    premium_price = models.DecimalField(verbose_name=_('Premium Price'),max_digits=6,decimal_places=2)
+    premium_price = models.DecimalField(verbose_name=_('Premium Price'),max_digits=6,decimal_places=2, null=True, blank=False)
 
     def __str__(self):
         return _('Machine') + ': ' + self.title
