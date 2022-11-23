@@ -32,7 +32,7 @@
                     {% if field.data.value.instance.pk in form.initial.machine or view.crud_state == "created" %} checked="checked" {% endif %}
                     />
                 <label for="{{field.id_for_label}}"
-                    class="btn btn-outline-secondary rounded-pill"> {{ field.data.value.instance.title }}</label>
+                    class="btn btn-outline-secondary rounded-pill m-2"> {{ field.data.value.instance.title }}</label>
                 {% endfor %}
             </div>
             {{ form.machine.errors }}
