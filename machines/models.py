@@ -1,5 +1,6 @@
 import datetime
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext as _
 from djangocms_text_ckeditor.fields import HTMLField
@@ -94,6 +95,11 @@ class Card(models.Model):
     class Meta:
         verbose_name = _("Card")
         verbose_name_plural = _("Cards")
+
+    def clean(self):
+        if not self.icon.name and not self.bootstrap_icon:
+            raise ValidationError('Please file either an icon or a bootstrap icon')
+       
 
 class AbstractCardSorting(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
