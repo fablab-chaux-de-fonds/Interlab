@@ -37,7 +37,7 @@
 
 <div class="row mt-4">
     {% for group in groups %}
-        <h3>{{group.name}}</h3>
+        <h3 class="mt-5">{{group.name}}</h3>
         {% for machine in group.machine_set.all %}
             {% if machine in machines %}
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
