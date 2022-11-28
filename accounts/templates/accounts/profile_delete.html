@@ -8,17 +8,7 @@
 {% block content_form %}
 <h2>{% trans "Are you sure you want to delete your account ?" %}</h2>
 
-<div class="row text-center align-items-center my-5">
-    <div class="col">
-        <a href="{{request.META.HTTP_REFERER}}">{% trans 'Whoops, no !' %} </a>
-    </div> 
-    <div class="col">
-        <form action="." method="POST">
-            {% csrf_token %}    
-            <button class="btn btn-primary mx-auto" type="submit">{% trans "Yes, I'm sure" %}</button>
-        </form>
-    </div>
-</div>
+{% include "forms/base_submit_button.html" with submit_btn="Yes, I'm sure" %}
 
 <div class="text-center mt-5 text-red">
 
