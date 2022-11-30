@@ -36,7 +36,7 @@
         <p>
             <i class="bi bi-bag-fill"></i> {% trans "Materials" %} : 
             {% for material in object.materials %}
-                <a href='/machines/?material={{material.id}}'><span class="badge rounded-pill text-bg-info">{{material.name}}</span></a>
+                <a href='/machines/?material={{material.id}}'><span class="badge rounded-pill text-bg-info-light">{{material.name}}</span></a>
             {% endfor %}
         </p>
         </div>

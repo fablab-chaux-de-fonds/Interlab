@@ -5,7 +5,7 @@ from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 from django.utils.translation import gettext as _
 
-from .models import WeeklyPluginModel, OpeningSlot, EventSlot, TrainingSlot, CalendarOpeningsPluginModel, EventsListPluginModel
+from .models import WeeklyPluginModel, OpeningSlot, EventSlot, TrainingSlot, CalendarOpeningsPluginModel, EventsListPluginModel, Opening
 
 from datetime import date, timedelta
 
@@ -97,9 +97,10 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
         backend["is_superuser"] = request.user.groups.filter(name='superuser').exists()
         backend["username"] = request.user.username
 
-        context.update({
+        context = {
             'backend': json.dumps(backend, default=str),
-            })
+            'public_openings': Opening.objects.filter(is_public=True)
+            }
         return context
 
 
