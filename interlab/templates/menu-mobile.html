@@ -13,13 +13,13 @@
             <div>{% trans "Schedule" %}</div>
         </a>
 
-        <button type="button" class="btn btn-mobile-navbar btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" class="btn btn-mobile-navbar btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width: 96px;">
             <i class="bi bi-calendar-event"></i>
             <div>{% trans "Reservation" %}</div>
         </button>
 
         {% if user.is_authenticated %}
-        <a href="{% url 'profile' %}" role="button" class="btn btn-mobile-navbar btn-lg" style="width: 100px;">
+        <a href="{% url 'profile' %}" role="button" class="btn btn-mobile-navbar btn-lg" style="width: 108px;">
             <i class="bi bi-person-circle"></i>
             <div>{% trans "My account" %}</div>
         </a>
