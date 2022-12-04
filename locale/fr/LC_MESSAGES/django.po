@@ -873,7 +873,7 @@ msgstr "à"
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:18
 #: fabcal/templates/fabcal/email/training_registration_confirmation.html:19
 msgid "The payment will be made on site"
-msgstr "Le paiement se fera sur site"
+msgstr "Le paiement se fera sur place"
 
 #: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:6
 msgid "We confirme that you are unregister for the event"
