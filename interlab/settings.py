@@ -72,6 +72,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Available password hashers
+# https://docs.djangoproject.com/fr/3.1/ref/settings/#std:setting-PASSWORD_HASHERS
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher', # For Fabmanager user import support.
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
