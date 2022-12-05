@@ -242,7 +242,7 @@ class SuperuserProfileEditView(LoginRequiredMixin, CustomFormView):
     def get_initial(self):
         initial = super().get_initial()
         self.user = get_user_model().objects.get(pk=self.kwargs['pk'])
-        if self.user.profile.subscription.subscription_category:
+        if self.user.profile != None and self.user.profile.subscription != None and self.user.subscription.subscription_category:
             initial['subscription_category'] = self.user.profile.subscription.subscription_category
             initial['start'] = self.user.profile.subscription.start
             initial['end'] = self.user.profile.subscription.end
@@ -255,7 +255,7 @@ class SuperuserProfileEditView(LoginRequiredMixin, CustomFormView):
         context = super().get_context_data(**kwargs)
         context['user'] = self.user
 
-        if context['form'].initial['subscription_category']:
+        if context['form'].initial.get('subscription_category', None) != None:
             context['start'] = context['form'].initial['start']
             context['end'] = context['form'].initial['end']
         else:
