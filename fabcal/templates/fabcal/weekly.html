@@ -8,15 +8,15 @@
 </p>
 
 <div class="my-5" style="max-width: 340px;">
-    {% for day in day_of_week %}
+    {% for weekday in weekdays %}
         <div class="row">
             <div class="col-3">
-                {% trans day|capfirst %}
+                {% trans weekday|capfirst %}
             </div>
             <div class="col-9 p-0">
                 <div class="col pb-0">
-                    {% if slots|get_item:day %}
-                        {% for slot in slots|get_item:day %}
+                    {% if slots|get_item:weekday %}
+                        {% for slot in slots|get_item:weekday %}
                             {% if slot.opening.is_public or request.user|has_group:"superuser" %}
                                 {{ slot.start|date:"H:i" }} - {{ slot.end|date:"H:i" }} </br>
                             {% endif %}
@@ -26,7 +26,7 @@
                     {% endif %} 
                 </div>
                 <div class="col py-0">
-                    {% for slot in slots|get_item:day %}
+                    {% for slot in slots|get_item:weekday %}
                         {% if slot.opening.is_public or request.user|has_group:"superuser" %}
                             <button type="button" class='badge' data-bs-toggle="tooltip" data-bs-placement="top"
                             title="{{slot.opening.desc}}"
