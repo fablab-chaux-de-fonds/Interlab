@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-04 20:19+0000\n"
+"POT-Creation-Date: 2022-12-07 08:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -254,7 +254,7 @@ msgid "End"
 msgstr "Fin"
 
 #: accounts/templates/accounts/superuser-profile-edit.html:38
-#: fabcal/templates/fabcal/opening_calendar.html:10
+#: fabcal/templates/fabcal/opening_calendar.html:7
 #: interlab/templates/menu-mobile.html:45
 #: interlab/templates/navbar-header.html:21 machines/models.py:70
 msgid "Trainings"
@@ -585,7 +585,7 @@ msgstr "Votre compte a été supprimé avec succès"
 msgid " has been removed successfully from the team."
 msgstr " a été retiré de l'équipe avec succès."
 
-#: fabcal/cms_plugins.py:15 fabcal/cms_plugins.py:38 fabcal/cms_plugins.py:110
+#: fabcal/cms_plugins.py:15 fabcal/cms_plugins.py:37 fabcal/cms_plugins.py:109
 msgid "Fabcal"
 msgstr "Fabcal"
 
@@ -593,11 +593,11 @@ msgstr "Fabcal"
 msgid "Weekly view"
 msgstr "Horaire hebdomadaire"
 
-#: fabcal/cms_plugins.py:39
+#: fabcal/cms_plugins.py:38
 msgid "Calendar openings view"
 msgstr "Calendrier - ouverture"
 
-#: fabcal/cms_plugins.py:111
+#: fabcal/cms_plugins.py:110
 msgid "Event list"
 msgstr "Liste d'évènement"
 
@@ -1010,7 +1010,7 @@ msgstr ""
 msgid "Opening modes"
 msgstr "Modes d'ouverture"
 
-#: fabcal/templates/fabcal/opening_calendar.html:11
+#: fabcal/templates/fabcal/opening_calendar.html:8
 #: interlab/templates/menu-mobile.html:51
 #: interlab/templates/navbar-header.html:22 openings/models.py:54
 msgid "Events"
@@ -1077,7 +1077,7 @@ msgstr ""
 "Désolé, vous ne pouvez pas réserver la machine parce que vous devez faire la "
 "formation avant de l'utiliser"
 
-#: interlab/settings.py:215 interlab/settings.py:223
+#: interlab/settings.py:224 interlab/settings.py:232
 msgid "fr"
 msgstr "fr"
 
@@ -1256,7 +1256,7 @@ msgid "Material"
 msgstr "Matière"
 
 #: machines/models.py:137 machines/templates/machines/list.html:24
-#: machines/templates/machines/show.html:37
+#: machines/templates/machines/show.html:39
 msgid "Materials"
 msgstr "Matières"
 
@@ -1265,7 +1265,7 @@ msgid "Workshop"
 msgstr "Atelier"
 
 #: machines/models.py:142 machines/templates/machines/list.html:10
-#: machines/templates/machines/show.html:31
+#: machines/templates/machines/show.html:33
 msgid "Workshops"
 msgstr "Ateliers"
 
@@ -1309,18 +1309,26 @@ msgstr "Désolé, pas de machine disponible dans cette catégorie"
 msgid "Categories"
 msgstr "Catégories"
 
-#: machines/templates/machines/show.html:45
+#: machines/templates/machines/show.html:47
 msgid "Frequently asked questions"
 msgstr "Foire au questions"
 
-#: machines/templates/machines/show.html:52
+#: machines/templates/machines/show.html:54
 #: machines/templates/trainings/show.html:65
 msgid "Support and tools"
 msgstr "Aide et outils"
 
-#: machines/templates/machines/show.html:61
+#: machines/templates/machines/show.html:63
 msgid "Technical specifications"
 msgstr "Spécifications techniques"
+
+#: machines/templates/machines/show.html:82
+msgid "No reservation possible"
+msgstr "Pas de réservation possible"
+
+#: machines/templates/machines/show.html:83
+msgid "This tool is available when the Fablab is open"
+msgstr "Cet outil est disponible lorsque le Fablab est ouvert."
 
 #: machines/templates/machines/show_next_slots.html:3
 msgid "Book my next Slot"
@@ -1429,3 +1437,6 @@ msgstr "Merci ! Vous êtes maintenant inscrit à notre newsletter"
 #: openings/apps.py:7 openings/models.py:38
 msgid "Openings"
 msgstr "Ouvertures"
+
+#~ msgid "Use the %(title)s "
+#~ msgstr "Utiliser la %(title)s"
