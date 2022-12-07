@@ -263,23 +263,9 @@ class DetailEventView(View):
     template_name = 'fabcal/event_details.html'
 
     def get(self, request, pk, *args, **kwargs):
-        event = EventSlot.objects.get(pk=pk)
         #Refactoring with event queryset
         context = {
-            'pk': event.pk,
-            'title': event.event.title,
-            'img': event.event.img,
-            'lead': event.event.lead,
-            'desc': event.event.desc,
-            'start': event.start,
-            'end': event.end,
-            'price': event.price,
-            'location': event.event.location,
-            'has_registration': event.has_registration,
-            'is_registration_open': event.is_registration_open, 
-            'registrations': event.registrations.all(),
-            'is_single_day': event.is_single_day,
-            'available_registration': event.available_registration
+            'event_slot': get_object_or_404(EventSlot, pk=self.kwargs['pk'])
         }
         return render(request, self.template_name, context)
 
@@ -326,7 +312,7 @@ class RegisterEventView(RegisterEventBaseView):
 
         messages.success(request, _("Well done! We sent you an email to confirme your registration"))
 
-        return redirect('show-event', pk)
+        return redirect('fabcal:show-event', pk)
     
 class UnregisterEventView(RegisterEventBaseView):
     template_name = 'fabcal/event_unregistration_form.html'

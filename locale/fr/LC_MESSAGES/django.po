@@ -971,8 +971,8 @@ msgstr "Date et horaire"
 
 #: fabcal/templates/fabcal/event_registration_button.html:8
 #: fabcal/templates/fabcal/event_registration_button.html:10
-msgid "unregister"
-msgstr "se désinscrire"
+msgid "Unregister"
+msgstr "Se désinscrire"
 
 #: fabcal/templates/fabcal/event_registration_button.html:11
 msgid "Sorry, you can not unregister 24h before the start of the event"

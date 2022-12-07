@@ -49,8 +49,13 @@ class AbstractSlotForm(forms.Form):
         abstract = True
 
     def clean_start(self):
+        if 'date' in self.data:
+            start_date = self.data['date']
+        else:
+            start_date = self.data['start_date']
+
         self.cleaned_data['start'] = datetime.datetime.combine(
-            dateparser.parse(self.data['date']), 
+            dateparser.parse(start_date), 
             dateparser.parse(self.data['start_time']).time()
             )
 
@@ -67,8 +72,13 @@ class AbstractSlotForm(forms.Form):
         return self.cleaned_data['start']
 
     def clean_end(self):
+        if 'date' in self.data:
+            end_date = self.data['date']
+        else:
+            end_date = self.data['end_date']
+
         self.cleaned_data['end'] = datetime.datetime.combine(
-            dateparser.parse(self.data['date']), 
+            dateparser.parse(end_date), 
             dateparser.parse(self.data['end_time']).time()
             )
 

@@ -5,10 +5,11 @@
 {% if request.user|has_group:"superuser" %}
 <div class="row">
     <div class="col text-end">
-        <a href="{% url 'fabcal:delete-event' pk %}" class="btn btn-outline-primary pe-2">
+        <a href="{% url 'fabcal:delete-event' event_slot.pk %}"
+            class="btn btn-outline-primary pe-2 {%if event_slot.regristration == None%} disabled {%endif%}">
             <i class="bi bi-trash3 pe-1"></i> {% trans "Delete" %}
         </a>
-        <a href="{% url 'fabcal:update-event' pk %}" class="btn btn-outline-primary">
+        <a href="{% url 'fabcal:update-event' event_slot.pk %}" class="btn btn-outline-primary">
             <i class="bi bi-pencil pe-1"></i> {% trans "Edit" %}
         </a>
     </div>
@@ -16,19 +17,16 @@
 {% endif %}
 <div class="row">
     <div class="col-md-6">
-        <h1>{{title}}</h1>
-        <h4>{{lead}}</h4>
+        <h1>{{event_slot.event.title}}</h1>
+        <h4>{{event_slot.event.lead}}</h4>
         <div class="d-none d-md-block">
-            <p>{{desc}}</p>
+            <p>{{event_slot.event.desc}}</p>
             {% include 'fabcal/event_registration_list.html' %}
         </div>
-
     </div>
 
     <div class="col-md-6">
-        <div class="position-relative">
-            <img src="{{ MEDIA_URL }}{{img}}" class="img img-fluid rounded" alt="{{title}}">
-        </div>
+        <img src="{{event_slot.event.img}}" class="img img-fluid rounded" alt="{{event_slot.event.title}}">
         <div class="d-md-none">
             {% include 'fabcal/event_info.html' %}
             {% include 'fabcal/event_registration_button.html' %}
@@ -41,7 +39,6 @@
             {% include 'fabcal/event_info.html' %}
 
         </div>
-
     </div>
 </div>
 
