@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-07 19:31+0000\n"
+"POT-Creation-Date: 2022-12-07 19:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -947,10 +947,10 @@ msgid "Registration mandatory"
 msgstr "Inscription obligatoire"
 
 #: fabcal/templates/fabcal/event_info.html:32
-#, fuzzy, python-format
-#| msgid "still %(available_registration)s places available !"
-msgid "still %(event_slot.available_registration)s places available !"
-msgstr "encore %(event_slot.available_registration)s places disponibles !"
+#: machines/templates/trainings/show_next_trainings.html:13
+#, python-format
+msgid "still %(available_registration)s places available !"
+msgstr "encore %(available_registration)s places disponibles !"
 
 #: fabcal/templates/fabcal/event_info.html:38
 msgid "No registration required for this event"
@@ -1403,11 +1403,6 @@ msgstr "Malheureusement, aucune machine n'est disponible pour le moment."
 #: machines/templates/trainings/show_next_trainings.html:3
 msgid "Next Trainings"
 msgstr "Prochaines formations"
-
-#: machines/templates/trainings/show_next_trainings.html:13
-#, python-format
-msgid "still %(available_registration)s places available !"
-msgstr "encore %(available_registration)s places disponibles !"
 
 #: machines/templates/trainings/show_next_trainings.html:38
 msgid "Not available ?"
