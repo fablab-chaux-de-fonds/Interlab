@@ -105,17 +105,11 @@ def AccountsView(request):
         key=attrgetter('start')
         )
     }
-    try:
-        subscription = Profile.objects.get(user_id=user.id).subscription
-    except ObjectDoesNotExist:
-        profile = Profile(user=request.user, subscription=None)
-        profile.save()
 
-        subscription = Profile.objects.get(user_id=user.id).subscription
-
-    if subscription is not None:
-        context['subscription'] = subscription
-        context['subscription_category']=SubscriptionCategory.objects.get(pk=subscription.subscription_category_id)
+    (profile, _) = Profile.objects.get_or_create(user=user)
+    if profile.subscription is not None:
+        context['subscription'] = profile.subscription
+        context['subscription_category']=profile.subscription.subscription_category_id
         
     return HttpResponse(template.render(context, request))
 
