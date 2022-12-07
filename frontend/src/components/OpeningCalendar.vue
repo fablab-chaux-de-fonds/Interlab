@@ -101,7 +101,7 @@
                   <v-btn icon>
                     <a :href="'/fabcal/delete-' + selectedEvent.type + '/' + selectedEvent.pk + '/'"
                       :style="{'color':selectedEvent.text_color}">
-                      <i class="bi bi-trash"></i>
+                      <i class="bi bi-trash3"></i>
                     </a>
                   </v-btn>
 
