@@ -287,7 +287,17 @@ class RegistrationTrainingForm(forms.Form):
     def register(self, view):
         training_slot = TrainingSlot.objects.get(pk=view.kwargs['pk'])
         training_slot.registrations.add(view.request.user)
-        messages.success(view.request, _("Well done! We sent you an email to confirme your registration"))
+        messages.success(view.request, mark_safe(
+        _(
+            "Well done! We sent you an email to confirme your registration" + 
+            "</br>" +
+            "<a href=\"/fabcal/download-ics-file/" + training_slot.training.title + "/" + training_slot.start.strftime("%Y%m%dT%H%M%S%z")  + "/" + training_slot.end.strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
+            "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
+            _('Download .ICS file') +
+            "</a>"
+            )
+            )
+        )
     
     def send_mail(self, view):
 
