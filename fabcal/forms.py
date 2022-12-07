@@ -33,6 +33,15 @@ class AbstractSlotForm(forms.Form):
         required=False,
         )
 
+    machine = forms.ModelMultipleChoiceField(
+        queryset = Machine.objects.filter(reservable=True),
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'checked' : ''}
+        ),
+        label=_('Machines'),
+        required=False
+    )
+
     def __init__(self, *args, **kwargs):
         kwargs["label_suffix"] = ""
         super().__init__(*args, **kwargs)
@@ -45,6 +54,16 @@ class AbstractSlotForm(forms.Form):
             dateparser.parse(self.data['start_time']).time()
             )
 
+        # check if opening slot already exist / for update
+        if 'opening' in self.initial:
+
+            # check if user alread booked a modified slot
+            qs = MachineSlot.objects.filter(opening_slot=OpeningSlot.objects.get(pk=self.initial['id']))
+
+            for obj in qs:
+                if obj.start < self.cleaned_data['start'] and obj.user:
+                    self.validation_slot(obj)
+
         return self.cleaned_data['start']
 
     def clean_end(self):
@@ -52,6 +71,16 @@ class AbstractSlotForm(forms.Form):
             dateparser.parse(self.data['date']), 
             dateparser.parse(self.data['end_time']).time()
             )
+
+        # check if opening slot already exist / for update
+        if 'opening' in self.initial:
+
+            # check if user alread booked a modified slot
+            qs = MachineSlot.objects.filter(opening_slot=OpeningSlot.objects.get(pk=self.initial['id']))
+
+            for obj in qs:
+                if obj.end > self.cleaned_data['end'] and obj.user:
+                    self.validation_slot(obj)
         
         return self.cleaned_data['end']
 
@@ -90,55 +119,6 @@ class AbstractSlotForm(forms.Form):
         )
 
         return opening_slot[0]
-class OpeningForm(AbstractSlotForm):
-    opening = forms.ModelChoiceField(
-        queryset=Opening.objects.all(),
-        label=_('Opening'),
-        empty_label=_('Select an opening'),
-        error_messages={'required': _('Please select an opening.')}
-        )
-    machine = forms.ModelMultipleChoiceField(
-        queryset = Machine.objects.filter(reservable=True),
-        widget=forms.CheckboxSelectMultiple(
-            attrs={'checked' : ''}
-        ),
-        label=_('Machines'),
-        required=False
-    )
-    date = forms.CharField()
-
-    start = forms.DateTimeField(required=False)
-    end = forms.DateTimeField(required=False)
-                
-    def clean_start(self):
-        super(OpeningForm, self).clean_start()
-
-        # check if opening slot already exist / for update
-        if 'opening' in self.initial:
-
-            # check if user alread booked a modified slot
-            qs = MachineSlot.objects.filter(opening_slot=OpeningSlot.objects.get(pk=self.initial['id']))
-
-            for obj in qs:
-                if obj.start < self.cleaned_data['start'] and obj.user:
-                    self.validation_slot(obj)
-
-        return self.cleaned_data['start']
-
-    def clean_end(self):
-        super(OpeningForm, self).clean_end()
-
-        # check if opening slot already exist / for update
-        if 'opening' in self.initial:
-
-            # check if user alread booked a modified slot
-            qs = MachineSlot.objects.filter(opening_slot=OpeningSlot.objects.get(pk=self.initial['id']))
-
-            for obj in qs:
-                if obj.end > self.cleaned_data['end'] and obj.user:
-                    self.validation_slot(obj)
-
-        return self.cleaned_data['end']
 
     def clean_machine(self):
         """Check if machine removed and already booked"""
@@ -179,6 +159,14 @@ class OpeningForm(AbstractSlotForm):
 
     def delete_machine_slot(self, view, pk):
         MachineSlot.objects.filter(opening_slot=view.opening_slot, machine_id = pk).delete()
+class OpeningForm(AbstractSlotForm):
+    opening = forms.ModelChoiceField(
+        queryset=Opening.objects.all(),
+        label=_('Opening'),
+        empty_label=_('Select an opening'),
+        error_messages={'required': _('Please select an opening.')}
+        )
+    date = forms.CharField()
         
 class EventForm(AbstractSlotForm):
     event = forms.ModelChoiceField(
@@ -207,10 +195,12 @@ class EventForm(AbstractSlotForm):
             )
         return self.cleaned_data['end']
 
-    def update_or_create_event_slot(self, view, opening_slot):
+    def update_or_create_event_slot(self, view):
         fields = [f.name for f in EventSlot._meta.get_fields()] + ['user_id']
         defaults = {key: self.cleaned_data[key]  for key in self.cleaned_data if key in fields}
-        defaults['opening_slot'] = opening_slot
+        
+        if hasattr(view, 'opening_slot'):
+            defaults['opening_slot'] = view.opening_slot
 
         EventSlot.objects.update_or_create(
             pk = view.kwargs.get('pk', None),
@@ -242,10 +232,12 @@ class TrainingForm(AbstractSlotForm):
     date = forms.CharField()
     registration_limit = forms.IntegerField(required=True, label=_('Registration limit'))
 
-    def update_or_create_training_slot(self, view,opening_slot):
+    def update_or_create_training_slot(self, view):
         fields = [f.name for f in TrainingSlot._meta.get_fields()] + ['user_id']
         defaults = {key: self.cleaned_data[key]  for key in self.cleaned_data if key in fields}
-        defaults['opening_slot'] = opening_slot
+
+        if hasattr(view, 'opening_slot'):
+            defaults['opening_slot'] = view.opening_slot
 
         training_slot = TrainingSlot.objects.update_or_create(
             pk = view.kwargs.get('pk', None),

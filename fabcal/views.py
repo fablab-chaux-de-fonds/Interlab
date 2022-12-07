@@ -41,7 +41,102 @@ def get_start_end(self, context):
 
     return context
 
-class OpeningBaseView(CustomFormView):
+class AbstractMachineView(FormView):
+    def form_valid(self, form):
+
+        # add user_id in cleaned_data
+        form.cleaned_data['user_id'] = self.request.user.id
+
+        if form.cleaned_data['opening'] != None:
+            self.opening_slot = form.update_or_create_opening_slot(self)
+
+            if self.crud_state == 'created':
+                # TODO: check if machine slot already exists
+                for machine in form.cleaned_data['machine']:
+                    form.create_machine_slot(self, machine)
+
+            elif self.crud_state == 'updated':
+                # Remove machine slot
+                for pk in form.initial['machine']:
+                    if pk not in form.cleaned_data['machine'].values_list('pk', flat=True):
+                        form.delete_machine_slot(self, pk)
+
+                # Update machine slot
+                for machine in form.cleaned_data['machine']:
+                    qs = MachineSlot.objects.filter(
+                            opening_slot=self.opening_slot,
+                            machine = machine
+                    ).order_by('start')
+
+                    if form.cleaned_data['start'] < form.initial['start']:
+                        # extend start opening before
+                        obj = qs.first()
+                        if obj.user:
+                            # create new slot to not modify user reservation
+                            MachineSlot.objects.create(
+                                opening_slot = self.opening_slot,
+                                machine = machine,
+                                start = form.cleaned_data['start'],
+                                end = form.initial['start'],
+                            )
+                        else:
+                            # exend slot
+                            obj.start = form.cleaned_data['start']
+                            obj.save()
+
+                    # shorten or remove start slots
+                    if form.cleaned_data['start'] > form.initial['start']:
+                        for obj in qs:
+                            if obj.start < form.cleaned_data['start']:
+                                
+                                # shorten start slot
+                                if obj.end > form.cleaned_data['start']:
+                                    obj.start = form.cleaned_data['start']
+                                    obj.save()
+                                
+                                # remove start slot
+                                else:
+                                    obj.delete()
+
+                    # shorten or remove start slots
+                    if form.cleaned_data['end'] < form.initial['end']:
+                        for obj in qs:
+                            if obj.end > form.cleaned_data['end']:
+                                
+                                # shorten start slot
+                                if obj.start < form.cleaned_data['end']:
+                                    obj.end = form.cleaned_data['end']
+                                    obj.save()
+                                
+                                # remove start slot
+                                else:
+                                    obj.delete()
+
+                    if form.cleaned_data['end'] > form.initial['end']:
+                        # extend end opening after
+                        obj = qs.last()
+
+                        if obj.user:
+                            # create new slot to not modify user reservation
+                            MachineSlot.objects.create(
+                                opening_slot = self.opening_slot,
+                                machine = machine,
+                                start = form.initial['end'],
+                                end = form.cleaned_data['end'],
+                            )
+                        else:
+                            # exend slot
+                            obj.end = form.cleaned_data['end']
+                            obj.save()
+
+                # Create a new machine slot
+                for machine in form.cleaned_data['machine']:
+                    if machine.pk not in form.initial['machine']:
+                        form.create_machine_slot(self, machine)
+        
+        return super().form_valid(form)
+
+class OpeningBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/opening_create_or_update_form.html'
     form_class = OpeningForm
 
@@ -55,96 +150,6 @@ class OpeningBaseView(CustomFormView):
 
         context = get_start_end(self, context)
         return context
-
-    def form_valid(self, form):
-        # add user_id in cleaned_data
-        form.cleaned_data['user_id'] = self.request.user.id
-        self.opening_slot = form.update_or_create_opening_slot(self)
-
-        if self.crud_state == 'created':
-            for machine in form.cleaned_data['machine']:
-                form.create_machine_slot(self, machine)
-
-        elif self.crud_state == 'updated':
-            # Remove machine slot
-            for pk in form.initial['machine']:
-                if pk not in form.cleaned_data['machine'].values_list('pk', flat=True):
-                    form.delete_machine_slot(self, pk)
-
-            # Update machine slot
-            for machine in form.cleaned_data['machine']:
-                qs = MachineSlot.objects.filter(
-                        opening_slot=self.opening_slot,
-                        machine = machine
-                ).order_by('start')
-
-                if form.cleaned_data['start'] < form.initial['start']:
-                    # extend start opening before
-                    obj = qs.first()
-                    if obj.user:
-                        # create new slot to not modify user reservation
-                        MachineSlot.objects.create(
-                            opening_slot = self.opening_slot,
-                            machine = machine,
-                            start = form.cleaned_data['start'],
-                            end = form.initial['start'],
-                        )
-                    else:
-                        # exend slot
-                        obj.start = form.cleaned_data['start']
-                        obj.save()
-
-                # shorten or remove start slots
-                if form.cleaned_data['start'] > form.initial['start']:
-                    for obj in qs:
-                        if obj.start < form.cleaned_data['start']:
-                            
-                            # shorten start slot
-                            if obj.end > form.cleaned_data['start']:
-                                obj.start = form.cleaned_data['start']
-                                obj.save()
-                            
-                            # remove start slot
-                            else:
-                                obj.delete()
-
-                # shorten or remove start slots
-                if form.cleaned_data['end'] < form.initial['end']:
-                    for obj in qs:
-                        if obj.end > form.cleaned_data['end']:
-                            
-                            # shorten start slot
-                            if obj.start < form.cleaned_data['end']:
-                                obj.end = form.cleaned_data['end']
-                                obj.save()
-                            
-                            # remove start slot
-                            else:
-                                obj.delete()
-
-                if form.cleaned_data['end'] > form.initial['end']:
-                    # extend end opening after
-                    obj = qs.last()
-
-                    if obj.user:
-                        # create new slot to not modify user reservation
-                        MachineSlot.objects.create(
-                            opening_slot = self.opening_slot,
-                            machine = machine,
-                            start = form.initial['end'],
-                            end = form.cleaned_data['end'],
-                        )
-                    else:
-                        # exend slot
-                        obj.end = form.cleaned_data['end']
-                        obj.save()
-
-            # Create a new machine slot
-            for machine in form.cleaned_data['machine']:
-                if machine.pk not in form.initial['machine']:
-                    form.create_machine_slot(self, machine)
-        
-        return super().form_valid(form)
 
 class CreateOpeningView(OpeningBaseView):
     crud_state = 'created'
@@ -189,7 +194,7 @@ class DeleteOpeningView(View):
             ) 
         return redirect('/schedule/')
 
-class EventBaseView(CustomFormView):
+class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
     form_class = EventForm
 
@@ -205,18 +210,9 @@ class EventBaseView(CustomFormView):
         return context
 
     def form_valid(self, form):
-        # add user_id in cleaned_data
-        form.cleaned_data['user_id'] = self.request.user.id
-        
-        if form.cleaned_data['opening']:
-            opening_slot = form.update_or_create_opening_slot(self)
-        else: 
-            opening_slot = None
-        
-        form.update_or_create_event_slot(self, opening_slot)
-
-
-        return super().form_valid(form)
+        response  = super().form_valid(form)
+        form.update_or_create_event_slot(self)
+        return response
 
 class CreateEventView(EventBaseView):
     crud_state = 'created'
@@ -354,7 +350,7 @@ class UnregisterEventView(RegisterEventBaseView):
 
         return redirect('event', pk)
 
-class TrainingBaseView(CustomFormView): 
+class TrainingBaseView(CustomFormView, AbstractMachineView): 
     template_name = 'fabcal/trainig_create_or_update_form.html'
     form_class = TrainingForm
     type = 'training'
@@ -371,17 +367,10 @@ class TrainingBaseView(CustomFormView):
         return context
 
     def form_valid(self, form):
-        # add user_id in cleaned_data
-        form.cleaned_data['user_id'] = self.request.user.id
-        
-        # Create opening
-        if form.cleaned_data['opening']:
-            opening_slot = form.update_or_create_opening_slot(self)
-        else: 
-            opening_slot = None
+        super().form_valid(form)
         
         # Create training
-        training_slot = form.update_or_create_training_slot(self, opening_slot)
+        training_slot = form.update_or_create_training_slot(self)
 
         # Alert users
         self.context = {
