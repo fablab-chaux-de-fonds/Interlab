@@ -267,7 +267,12 @@
       endDrag() {
         if (this.backend.is_superuser) {
           this.start = this.createEvent.start;
-          this.end = this.createEvent.end;
+          if (this.start === this.createEvent.end){
+            console.log(this.createEvent.start)
+            this.end = this.createEvent.start + 5400000;
+          } else {
+            this.end = this.createEvent.end;
+          }
           this.selectSlotCategory = true;
         }
       },
