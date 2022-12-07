@@ -8,7 +8,6 @@
 <form method="post" action=".">
   {% csrf_token %}
   {{ form | crispy }}
-
-  <input class="btn btn-primary my-4 mx-auto d-block" type="submit" value="{% trans 'Subscribe' %}" />
+  {% include "forms/base_submit_button.html" with submit_btn="Subscribe" %}
 </form>
 {% endblock %}
