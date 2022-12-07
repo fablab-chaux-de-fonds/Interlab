@@ -53,9 +53,6 @@ class Training(ItemForRent):
     sort = models.PositiveSmallIntegerField(default=1)
     is_active = models.BooleanField(default=True)
 
-    def __str__(self):
-        return _('Training') + ' :' +self.title
-
     @property
     def outcome_list(self):
         return self.outcomelistitem_set.all()
@@ -161,9 +158,6 @@ class Machine(ItemForRent):
     workshop = models.ManyToManyField(Workshop,null=True, blank=True)
     reservable = models.BooleanField(default=True)
     premium_price = models.DecimalField(verbose_name=_('Premium Price'),max_digits=6,decimal_places=2, null=True, blank=False)
-
-    def __str__(self):
-        return _('Machine') + ': ' + self.title
 
     @property
     def highlights(self):
