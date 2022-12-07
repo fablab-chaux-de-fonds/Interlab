@@ -1,7 +1,7 @@
 {% load i18n fabcal_tags interlab_tags %}
 
 <h1>
-    {% trans "This week" %}
+    {% trans "Our next openings" %}
 </h1>
 <p>
     {% trans "⚠️ Be careful: Our schedule changes every week" %}
@@ -9,34 +9,34 @@
 
 <div class="my-5" style="max-width: 340px;">
     {% for weekday in weekdays %}
-        <div class="row">
-            <div class="col-3">
-                {% trans weekday|capfirst %}
-            </div>
-            <div class="col-9 p-0">
-                <div class="col pb-0">
-                    {% if slots|get_item:weekday %}
-                        {% for slot in slots|get_item:weekday %}
-                            {% if slot.opening.is_public or request.user|has_group:"superuser" %}
-                                {{ slot.start|date:"H:i" }} - {{ slot.end|date:"H:i" }} </br>
-                            {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        {% trans "Closed" %}
-                    {% endif %} 
+    <div class="row py-2">
+        <div class="col-4 py-0">
+            {% trans weekday|capfirst %}
+        </div>
+        <div class="col-8 py-0">
+            <div class="row py-0">
+                {% for slot in slots|get_item:weekday %}
+                <div class="col-12 col-sm-8 py-0">
+                    {% if slot.opening.is_public or request.user|has_group:"superuser" %}
+                    {{ slot.start|date:"H:i" }} - {{ slot.end|date:"H:i" }} </br>
+                    {% endif %}
                 </div>
-                <div class="col py-0">
-                    {% for slot in slots|get_item:weekday %}
-                        {% if slot.opening.is_public or request.user|has_group:"superuser" %}
-                            <button type="button" class='badge' data-bs-toggle="tooltip" data-bs-placement="top"
-                            title="{{slot.opening.desc}}"
-                            style="color:{{slot.opening.color}};background-color:{{slot.opening.background_color}}">
-                                {{ slot.opening.title }}
-                            </button > </br>
-                        {% endif %}
-                    {% endfor %}
+                <div class="col-12 col-sm-4 py-0">
+                    {% if slot.opening.is_public or request.user|has_group:"superuser" %}
+                    <button type="button" class='badge' data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="{{slot.opening.desc}}"
+                        style="color:{{slot.opening.color}};background-color:{{slot.opening.background_color}}">
+                        {{ slot.opening.title }}
+                    </button> </br>
+                    {% endif %}
                 </div>
+                {% empty %}
+                <div class="col-12 py-0">
+                    {% trans "Closed" %}
+                </div>
+                {% endfor %}
             </div>
         </div>
+    </div>
     {% endfor %}
 </div>
