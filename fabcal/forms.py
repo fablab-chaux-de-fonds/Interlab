@@ -237,7 +237,7 @@ class TrainingForm(AbstractSlotForm):
         queryset= Training.objects.filter(is_active=True),
         label=_('Training'),
         empty_label=_('Select a training'),
-        error_messages={'required': _('Please select a training.')}, 
+        error_messages={'required': _('Please select a training.')}
         )
     date = forms.CharField()
     registration_limit = forms.IntegerField(required=True, label=_('Registration limit'))

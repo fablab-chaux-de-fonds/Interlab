@@ -36,8 +36,8 @@ def get_start_end(self, context):
             context['start'] = slot.start
             context['end'] = slot.end
     elif self.request.method =='POST':
-            context['start'] = super(OpeningForm, context['form']).clean_start()
-            context['end'] = super(OpeningForm, context['form']).clean_end()
+            context['start'] = super(type(context['form']), context['form']).clean_start()
+            context['end'] = super(type(context['form']), context['form']).clean_end()
 
     return context
 
