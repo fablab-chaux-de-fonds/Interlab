@@ -73,12 +73,12 @@
                   <i class="bi bi-door-open pe-2"></i> {{ $vuetify.lang.t('$vuetify.opening') }}
               </v-btn>
               <br>
-              <v-btn @click="createEventSlot" class="my-2 v-btn-primary-outlined" outlined>
-                <i class="bi bi-calendar-event pe-2"></i> {{ $vuetify.lang.t('$vuetify.event') }}
-              </v-btn>
-              <br>
               <v-btn @click="createTrainingSlot" class="my-2 v-btn-primary-outlined" outlined>
                 <i class="bi bi-mortarboard pe-2"></i> {{ $vuetify.lang.t('$vuetify.training') }}
+              </v-btn>
+              <br>
+              <v-btn @click="createEventSlot" class="my-2 v-btn-primary-outlined" outlined>
+                <i class="bi bi-calendar-event pe-2"></i> {{ $vuetify.lang.t('$vuetify.event') }}
               </v-btn>
             </v-card-text>
           </v-card>
