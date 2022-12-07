@@ -57,7 +57,7 @@ class AbstractMachineView(FormView):
 
             elif self.crud_state == 'updated':
                 # Remove machine slot
-                for pk in form.initial['machine']:
+                for pk in form.initial.get('machine', None):
                     if pk not in form.cleaned_data['machine'].values_list('pk', flat=True):
                         form.delete_machine_slot(self, pk)
 
