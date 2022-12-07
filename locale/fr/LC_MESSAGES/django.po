@@ -950,7 +950,7 @@ msgstr "Inscription obligatoire"
 #, fuzzy, python-format
 #| msgid "still %(available_registration)s places available !"
 msgid "still %(event_slot.available_registration)s places available !"
-msgstr "encore %(available_registration)s places disponibles !"
+msgstr "encore %(event_slot.available_registration)s places disponibles !"
 
 #: fabcal/templates/fabcal/event_info.html:38
 msgid "No registration required for this event"
