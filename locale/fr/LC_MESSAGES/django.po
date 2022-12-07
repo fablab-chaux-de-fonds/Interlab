@@ -546,14 +546,14 @@ msgstr ""
 #: accounts/templates/registration/password_reset_email.html:5
 #: accounts/templates/registration/password_reset_email.txt:5
 msgid "To reset your password, click on the following link: "
-msgstr ""
+msgstr "Pour réinitialiser votre mot de passe, cliquez sur le lien suivant : "
 
 #: accounts/templates/registration/password_reset_email.html:11
 #: accounts/templates/registration/password_reset_email.txt:11
 msgid ""
 "If this request does not come from you, delete this email and nothing will "
 "be changed. "
-msgstr ""
+msgstr "Si cette demande ne vient pas de vous, supprimez cet e-mail et rien ne sera changé. "
 
 #: accounts/templates/registration/password_reset_form.html:16
 #: newsletter/templates/forms/newsletter.html:15
