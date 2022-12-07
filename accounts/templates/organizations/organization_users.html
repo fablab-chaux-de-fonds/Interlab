@@ -21,14 +21,14 @@
                     {{ organization_user.user.email }}
                 {% endif %}
                 <span class="fs-6">
-                    {% if user == organization_user.user %} <span class="badge rounded-pill bg-info">{% trans "This is you" %}!</span> {% endif %}
+                    {% if user == organization_user.user %} <span class="badge rounded-pill text-bg-info">{% trans "This is you" %}!</span> {% endif %}
                 </span>
                  </br>
                 <span class="fs-6">
                     {% if organization_user.user.is_active %}
-                        <span class="badge rounded-pill bg-success"> <i class="bi bi-check-circle-fill"></i> {% trans 'activated' %} </span>
+                        <span class="badge rounded-pill text-bg-success-light"> <i class="bi bi-check-circle-fill"></i> {% trans 'activated' %} </span>
                     {% else %}  
-                        <span class="badge rounded-pill bg-info"> <i class="bi bi-arrow-right-circle-fill"></i> {% trans 'invitation sent' %} </span>
+                        <span class="badge rounded-pill text-bg-info"> <i class="bi bi-arrow-right-circle-fill"></i> {% trans 'invitation sent' %} </span>
                     {% endif %}
                 </span>
             </p>

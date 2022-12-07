@@ -1,0 +1,52 @@
+{% load i18n static interlab_tags cms_tags %}
+
+{% block content %}
+
+{% placeholder "Title" %}
+
+<form hx-push-url="true" hx-target="body" class='row-full'>
+
+    <div class="form form-check-inline form-check-btn text-green my-1">
+        <i class="bi bi-house-fill"></i> {% trans "Workshops" %} :
+        {% for pk, choice in form.workshop.field.widget.choices %}
+        <input hx-get="/machines/" hx-include='[name="workshop"], [name="material"]'
+            id="{{form.workshop.name}}_{{ forloop.counter0 }}" name="{{form.workshop.name}}" type="checkbox"
+            value="{{pk}}" class="btn-check" {% if pk in request.GET|get_list:form.workshop.name %} checked="checked"
+            {% endif %} autocomplete="off" />
+        <label for="{{form.workshop.name}}_{{ forloop.counter0 }}"
+            class="btn btn-outline-success badge rounded-pill">{{ choice }}</label>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <div class="form form-check-inline form-check-btn my-1">
+        <i class="bi bi-bag-fill"></i> {% trans "Materials" %} :
+        {% for pk, choice in form.material.field.widget.choices %}
+        <input hx-get="/machines/" hx-include='[name="workshop"], [name="material"]'
+            id="{{form.material.name}}_{{ forloop.counter0 }}" name="{{form.material.name}}" type="checkbox"
+            value="{{pk}}" class="btn-check" {% if pk in request.GET|get_list:form.material.name %} checked="checked"
+            {% endif %} autocomplete="off" />
+        <label for="{{form.material.name}}_{{ forloop.counter0 }}"
+            class="btn btn-outline-secondary badge rounded-pill">{{ choice }}</label>
+        {% endfor %}
+    </div>
+</form>
+
+<hr>
+
+<div class="row mt-4">
+    {% for group in groups %}
+        <h3>{{group.name}}</h3>
+        {% for machine in group.machine_set.all %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                {%include 'machines/card.html'%}
+            </div>
+        {% empty %}
+            <p>
+                {% trans "Sorry, no machine available in this category" %}
+            </p> 
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endblock %}

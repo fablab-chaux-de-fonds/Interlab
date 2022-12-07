@@ -1,13 +1,16 @@
 crispy-bootstrap5
+dateparser
 debugpy
-Django
+Django<4
 django-classy-tags
 django-cms
+django-colorfield
 django-cors-headers
 django-crispy-forms
 django-debug-toolbar
 django-extensions
 django-filer
+django-filter
 django-mathfilters
 django-mptt
 django-oauth-toolkit
@@ -32,3 +35,4 @@ Pillow
 psycopg2-binary
 pytz
 six
+bcrypt

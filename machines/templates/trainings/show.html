@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load i18n training_extras %}
+
+{% block title %}{{block.super}} - {{training.title}} {% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <h2 class="text-red">{{training}}</h2>
+    <div class="d-md-none"> {%include 'trainings/show_img.html'%} </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h3>{{ training.header | safe }}</h3>
+        <div class="d-md-none d-md-block">
+            {% include 'trainings/info.html' %}
+            {% include 'trainings/show_next_trainings.html' %}
+            {% include 'trainings/show_waiting_list.html' %}
+            <hr>
+            <h3> {% trans "Description" %} </h3>
+        </div>
+
+        <p>{{training.desc}}</p>
+
+        <div class="row mb-4">
+            <div class="col">
+                {% include 'faq/show.html' with faqs=training.faq_list %}
+            </div>
+        </div>
+
+        <!-- TODO: Section machines associées:
+            - récupérer avec une query les machines qui ont la même machine_category que le training
+            - réutiliser l'affichage utilisé pour la liste de formations
+            - implémenter un scroll horizontal (je sais pas comment faire, mais ça devrait être faisable en CSS)
+        -->
+
+        <div class="row mb-4">
+            <h3> {% trans "Machines" %}</h3>
+
+            {% if machines %}
+            {% for machine in machines %}
+                <div class="col-6 d-flex align-items-stretch text-center">
+                    {% include 'machines/card.html' %}
+                </div>
+            {% endfor %}
+            {% else %}
+            <div class="col">
+                <p>{% trans "Sadly, no machine currently available." %}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="d-none d-md-block">{%include 'trainings/show_img.html'%}</div>
+        <div class="d-none d-md-block">
+            {% include 'trainings/info.html' %}
+            {% include 'trainings/show_next_trainings.html' %}
+            {% include 'trainings/show_waiting_list.html' %}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <h3> {% trans "Support and tools" %} </h3>
+    {% for tool in tools %}
+        <div class="text-center col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            {% include 'cards/show.html' with card=tool.card %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

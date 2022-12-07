@@ -1,5 +1,47 @@
-.btn {
+.btn-primary {
   @include button-variant($custom-red, $custom-red, white);
+}
+
+.btn-outline-primary {
+  @include button-outline-variant(
+    $color: $custom-red,
+    $color-hover: $custom-red,
+    $active-background: $custom-red,
+    $active-border: $custom-red,
+    $active-color: white
+  );
+
+  &:hover {
+    color: white;
+  }
+}
+
+.btn-secondary {
+  @include button-variant($custom-blue, $custom-blue, white);
+}
+
+.btn-outline-secondary {
+  @include button-outline-variant(
+    $custom-blue,
+    $color-hover: $custom-blue,
+    $active-background: $custom-blue,
+    $active-border: $custom-blue,
+    $active-color: white
+  );
+
+  &:hover {
+    color: white;
+  }
+}
+
+.btn-outline-success {
+  @include button-outline-variant(
+    $custom-green,
+    $color-hover: $custom-green,
+    $active-background: $custom-green,
+    $active-border: $custom-green,
+    $active-color: white
+  );
 }
 
 .btn-mobile-navbar {
@@ -17,26 +59,15 @@
   text-align: left;
 }
 
-.btn-secondary {
-  background-color: white;
-  color: $custom-red;
-
-  &:hover {
-    background-color: $custom-red-light;
-    color: $custom-red;
-  }
-}
-
-.btn-blue {
-  color: $white;
-  background-color: $custom-blue;
-  border: $custom-blue;
-}
-
 .btn-feedback {
   position: fixed;
   right: 0;
   top: 40%;
   transform: rotate(-90deg);
   transform-origin: bottom right;
+}
+
+.input-group-append > button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }

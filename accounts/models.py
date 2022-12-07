@@ -1,10 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
+
+    def __str__(self):
+        return self.first_name + ' ' +  self.last_name + ' <' + self.email + '>'
 
 class SubscriptionCategory(models.Model):
     title = models.CharField(max_length=255)
@@ -38,3 +40,5 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}, ({self.user.username})"
 
+    def get_training_validations(self):
+        return self.trainingvalidation_set.all()

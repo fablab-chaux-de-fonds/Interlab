@@ -1,0 +1,16 @@
+{% load i18n %}
+<div class="col col-sm-12 col-md-6 col-xl-4">
+    <div class="card">
+        <img src="/media/{{event.event.img}}" class="card-img-top" alt="{{event.title}}">
+        <div class="card-body">
+            <h3 class="card-title"> {{event.event.title}}</h3>
+            <p class="card-text"> {{event.event.lead}} </p>
+            {% include 'fabcal/event_info_datetime.html' with start=event.start end=event.end is_single_day=event.is_single_day %}
+            <div class="text-center">
+                <a href="{% url 'show-event' event.pk %}" type="button" class="btn btn-outline-primary">
+                    <i class="bi bi-info-circle pe-2"></i> {% trans "More informations" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

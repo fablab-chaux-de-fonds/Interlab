@@ -1,0 +1,11 @@
+{% if user.first_name %}
+<img src="https://eu.ui-avatars.com/api/?rounded=true&name={{user.first_name}}+{{user.last_name}}&color=fff&background=0b1783"
+    class="img my-2" alt="avatar">
+{% else %}
+<img src="https://eu.ui-avatars.com/api/?rounded=true&name={{user.username}}&color=fff&background=0b1783"
+    class="img my-2" alt="avatar">
+{% endif %}
+
+{% if user.profile.subscription %}
+<i class="bi bi-star-fill text-red position-relative icon-subscription icon-shadow"></i>
+{% endif %}

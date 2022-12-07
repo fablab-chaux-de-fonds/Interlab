@@ -1,0 +1,11 @@
+{% extends "email/base_email.html" %}
+{% load i18n %}
+
+{% block content %}
+<p> Hello {{user.first_name}}, </p> 
+<p>
+    {% trans "We have created you a new subscription valid until" %}
+    {{user.profile.subscription.end|date:"D j b"}}.
+</p>
+
+{% endblock content %}

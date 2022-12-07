@@ -1,0 +1,17 @@
+<div class="accordion">
+    {% for faq in faqs %}
+    <div class="accordion-item">
+        <h3 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#panel-{{faq.pk}}">
+                {{faq.question|upper}}
+            </button>
+        </h3>
+        <div id="panel-{{faq.pk}}" class="accordion-collapse collapse">
+            <div class="accordion-body">
+                {{faq.answer}}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

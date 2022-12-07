@@ -1,0 +1,9 @@
+{% for training_validation in user.profile.get_training_validations %}
+    <span class="badge rounded-pill" style="
+        color:{{training_validation.training.color}};
+        background-color:{{training_validation.training.background_color}};
+        border: 2px solid {{training_validation.training.color}};
+        ">
+        {{training_validation.training.title}}
+    </span>
+{% endfor %}

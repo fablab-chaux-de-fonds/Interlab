@@ -1,0 +1,12 @@
+.card-tool {
+  border: none;
+}
+
+.card-border-red {
+  border-color: $custom-red;
+}
+
+.card-title-overlay {
+  color: $custom-red-light;
+  background-color: rgba($custom-red, 0.8);
+}

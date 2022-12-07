@@ -18,5 +18,5 @@ urlpatterns =[
     path('invitations/token-error', views.token_error_view, name='invitations-token-error'),
     path('user-list', views.UserListView.as_view(template_name='accounts/user-list.html'), name='user-list'),
     path('user-list-filtered', views.UserListView.as_view(template_name='accounts/user-list-filtered.html'), name='user-list-filtered'),
-    path('user-edit/<int:user_pk>', views.user_edit, name='user-edit')
+    path('superuser-profile-edit/<int:pk>', views.SuperuserProfileEditView.as_view(), name='superuser-profile-edit')
 ]

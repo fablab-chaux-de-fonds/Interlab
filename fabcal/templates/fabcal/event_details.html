@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load i18n interlab_tags %}
+
+{% block content %}
+{% if request.user|has_group:"superuser" %}
+<div class="row">
+    <div class="col text-end">
+        <a href="{% url 'fabcal:delete-event' pk %}" class="btn btn-outline-primary pe-2">
+            <i class="bi bi-trash pe-1"></i> {% trans "Delete" %}
+        </a>
+        <a href="{% url 'fabcal:update-event' pk %}" class="btn btn-outline-primary">
+            <i class="bi bi-pencil pe-1"></i> {% trans "Edit" %}
+        </a>
+    </div>
+</div>
+{% endif %}
+<div class="row">
+    <div class="col-md-6">
+        <h1>{{title}}</h1>
+        <h4>{{lead}}</h4>
+        <div class="d-none d-md-block">
+            <p>{{desc}}</p>
+            {% include 'fabcal/event_registration_list.html' %}
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+        <div class="position-relative">
+            <img src="{{ MEDIA_URL }}{{img}}" class="img img-fluid rounded" alt="{{title}}">
+        </div>
+        <div class="d-md-none">
+            {% include 'fabcal/event_info.html' %}
+            {% include 'fabcal/event_registration_button.html' %}
+            <p class="mt-5">{{desc}}</p>
+            {% include 'fabcal/event_registration_list.html' %}
+        </div>
+
+        <div class="d-none d-md-block">
+            {% include 'fabcal/event_registration_button.html' %}
+            {% include 'fabcal/event_info.html' %}
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,16 @@
+<div class="card card-tool h-100">
+    {% if card.bootstrap_icon %}
+        <i class="bi {{card.bootstrap_icon}} display-1"></i>
+    {% else %}
+        <img src="{{card.icon.url}}" class="card-img-top px-5" alt="{{card.title}}">
+    {% endif %}
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title mt-auto">{{card.title}}</h5>
+        {% if card.description %}
+            <p class="card-text mt-auto py-2">{{card.description}}</p>
+        {% endif %}
+        {% if card.link %}
+            <a href="{{card.link}}" class="btn btn-outline-primary mt-auto">{{card.link_text}}</a>
+        {% endif %}
+    </div>
+</div>

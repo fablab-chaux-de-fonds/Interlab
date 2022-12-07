@@ -1,0 +1,74 @@
+.v-application {
+  font-family: unset;
+}
+
+.v-calendar-weekly__head-weekday,
+.v-calendar-daily_head-day,
+.v-calendar-weekly__day,
+.v-btn-outline-primary,
+.v-list-item,
+.v-label,
+.v-select__selections,
+.v-input *,
+.v-icon,
+.v-text-field--outlined fieldset,
+.primary--text,
+.v-card__text,
+.v-application {
+  color: $custom-blue !important;
+}
+
+.v-btn-primary {
+  background-color: $custom-red !important;
+  color: white !important;
+}
+
+.v-btn-primary-outlined {
+  color: $custom-red !important;
+}
+
+.v-picker__title {
+  background-color: $custom-blue;
+}
+
+.v-text-field--outlined .v-label {
+  top: 16px;
+}
+
+.v-text-field--outlined .v-label--active {
+  top: 12px !important;
+  background-color: white;
+  padding: 0 8px;
+}
+
+.theme--light.v-time-picker-clock {
+  background-color: transparent;
+  border-style: solid;
+  color: $custom-blue;
+  border-width: 2px;
+}
+
+.v-card__text {
+  padding-top: 24px !important;
+}
+
+.v-application--wrap {
+  min-height: unset;
+}
+
+.v-messages__message {
+  line-height: 16px !important;
+}
+
+.v-messages {
+  min-height: 0 !important;
+}
+
+.switch-end > .v-input__control > .v-input__slot {
+  display: flex;
+  justify-content: end;
+}
+
+.v-input--selection-controls {
+  margin-top: 0;
+}

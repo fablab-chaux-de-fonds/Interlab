@@ -1,0 +1,15 @@
+{% load static interlab_tags i18n %}
+{% load render_bundle from webpack_loader %}
+
+{% block content %}
+<div data-app>
+    <div id="vue">
+        <opening-calendar :backend="{{backend}}"></opening-calendar>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js_footer %}
+{% render_bundle 'vue' 'js' %}
+{% endblock js_footer %}

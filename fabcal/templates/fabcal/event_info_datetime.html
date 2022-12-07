@@ -1,0 +1,21 @@
+{% load i18n %}
+
+<div class="row">
+    <div class="col-2 text-end pe-0">
+        <h4><i class="bi bi-clock"></i></h4>
+    </div>
+    <div class="col-10 ">
+        <h4>{% trans "Date and schedule" %}</h4>
+        {% if is_single_day %}
+        <p>
+            {{start|date:"l j F Y"}}<br>
+            {{start|date:"H:i"}} - {{end|date:"H:i"}}
+        </p>
+        {% else %}
+        <p>
+            {% trans "From" %} {{start|date:"l j F Y"}} {% trans "at" %} {{start|date:"H:i"}} <br>
+            {% trans "to" %} {{start|date:"l j F Y"}} {% trans "at" %} {{end|date:"H:i"}}
+        </p>
+        {% endif %}
+    </div>
+</div>

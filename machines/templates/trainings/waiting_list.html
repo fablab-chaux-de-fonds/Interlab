@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n training_extras %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h1>{% trans "Waiting list for training" %} {{ training.title }}</h1>
+    </div>
+</div>
+{% for training_notification in training_notifications %}
+<a class="text-blue" href="{% url 'superuser-profile-edit' training_notification.profile.user.pk %}">
+    <div class="row">
+        <div class="col-2 col-md-1">
+            {%include 'accounts/avatar.html' with user=training_notification.profile.user%}
+        </div>
+        <div class="col-6 col-md-4 my-auto">
+            {%include 'accounts/user-list-summary.html' with user=training_notification.profile.user%}          
+        </div>
+        <div class="col-2 col-md-1 my-auto">
+            {{training_notification.modified_date|date:'d.m.Y'}}
+        </div>
+        <div class="col-2 col-md-1 my-auto">
+            <h1><i class="bi bi-arrow-right-square"></i></h1>
+        </div>
+    </div>
+</a>
+{% endfor %}
+{% endblock %}

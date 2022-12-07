@@ -1,0 +1,10 @@
+{% load i18n %}
+
+<div class="row text-center align-items-center">
+    <div class="col">
+        <a href="{{request.META.HTTP_REFERER}}">{% trans 'Whoops, no !' %} </a>
+    </div>
+    <div class="col">
+        <input class="btn btn-primary my-4 mx-auto d-block" type="submit" value="{% trans submit_btn %}">
+    </div>
+</div>
