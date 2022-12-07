@@ -83,6 +83,13 @@ class TrainingSlot(AbstractSlot, AbstractRegistration):
     training = models.ForeignKey(Training, on_delete=models.CASCADE)
     opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
     registrations = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='training_registration_users', blank=True, null=True)
+    
+    @property
+    def is_editable(self):
+        if self.start-datetime.timedelta(days=1) > datetime.datetime.now():
+            return True 
+        else:
+            return False
 
     class Meta:
         verbose_name = _("Training Slot")

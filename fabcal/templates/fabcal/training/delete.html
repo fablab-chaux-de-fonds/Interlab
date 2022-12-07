@@ -1,0 +1,16 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n %}
+{% load render_bundle from webpack_loader %}
+
+{% block content_form_img %}
+<i class="bi bi-calendar-x mb-5 img-form-logo mx-auto d-block text-red"></i>
+{% endblock %}
+
+{% block content_form %}
+<h1>{% blocktrans with date=start|date:"l j F" start=start|date:"G:i" end=end|date:"G:i" %}Are you sure you want to remove the training {{title}} on {{date}} from {{start}} to {{end}}{% endblocktrans %}</h1>
+<form action="." method="POST">
+    {% csrf_token %}
+    {% include "forms/base_submit_button.html" with submit_btn="Yes, I'm sure" %}
+</form>
+
+{% endblock content_form %}

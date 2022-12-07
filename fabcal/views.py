@@ -398,7 +398,7 @@ class UpdateTrainingView(TrainingBaseView):
         return initial
 
 class DeleteTrainingView(View):
-    template_name = 'fabcal/delete_training.html'
+    template_name = 'fabcal/training/delete.html'
 
     def get(self, request, pk, *args, **kwargs):
         event = TrainingSlot.objects.get(pk=pk)
@@ -406,7 +406,7 @@ class DeleteTrainingView(View):
         context = {
             'start': event.start,
             'end': event.end,
-            'title': event.event.title
+            'title': event.training.title
             }
         return render(request, self.template_name, context)  
 
@@ -448,6 +448,37 @@ class RegisterTrainingView(LoginRequiredMixin, FormView):
         form.register(self)
         form.send_mail(self)
         return super().form_valid(form)
+
+class UnregisterTrainingView(LoginRequiredMixin, View):
+    template_name = 'fabcal/training/unregistration.html'
+    success_url = "/"
+
+    def get(self, request, pk, *args, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+    def get_context_data(self, **kwargs):
+        return {
+            'training_slot': get_object_or_404(TrainingSlot, pk=self.kwargs['pk'])
+        }
+
+    def post(self, request, pk, *args, **kwargs):
+        context = self.get_context_data()
+
+        context['training_slot'].registrations.remove(request.user)
+        html_message = render_to_string('fabcal/email/training_unregistration_confirmation.html', context)
+        
+        send_mail(
+            from_email=None,
+            subject=_('Confirmation of your unregistration'),
+            message = _("Confirmation of your unregistration"),
+            recipient_list = [request.user.email],
+            html_message = html_message
+        )
+
+        messages.success(request, _("Oh no! We sent you an email to confirme your unregistration"))
+
+        return redirect('profile')
+
 
 class MachineReservationBaseView(LoginRequiredMixin, FormView):
     template_name = 'fabcal/machine/reservation_form.html'

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-07 14:55+0000\n"
+"POT-Creation-Date: 2022-12-07 17:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -190,18 +190,18 @@ msgstr "Se déconnecter"
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: accounts/templates/accounts/profile.html:26 fabcal/forms.py:228
+#: accounts/templates/accounts/profile.html:25 fabcal/forms.py:228
 #: machines/models.py:66
 msgid "Training"
 msgstr "Formation"
 
-#: accounts/templates/accounts/profile.html:33
+#: accounts/templates/accounts/profile.html:32
 #, fuzzy, python-format
 #| msgid "still %(available_registration)s places available !"
 msgid " still %(available_registration)s places available !"
 msgstr "encore %(available_registration)s places disponibles !"
 
-#: accounts/templates/accounts/profile.html:36
+#: accounts/templates/accounts/profile.html:35
 #: fabcal/templates/fabcal/event_info.html:34
 #: machines/templates/trainings/show_next_trainings.html:16
 msgid "sold out"
@@ -566,7 +566,7 @@ msgstr "Votre adresse email"
 msgid "Password reset on %(site_name)s"
 msgstr "Réinitialiser votre mot de passe - %(site_name)s"
 
-#: accounts/views.py:139
+#: accounts/views.py:134
 msgid ""
 "Your newsletter registration has been updated successfully with the email "
 "address: "
@@ -574,15 +574,15 @@ msgstr ""
 "Votre inscription à la newsletter a été mise à jour avec succès avec "
 "l'adresse e-mail : "
 
-#: accounts/views.py:142
+#: accounts/views.py:137
 msgid "Your profile has been updated successfully"
 msgstr "Votre compte a été mis à jour avec succès"
 
-#: accounts/views.py:162
+#: accounts/views.py:157
 msgid "Your account has been successfully deleted"
 msgstr "Votre compte a été supprimé avec succès"
 
-#: accounts/views.py:183 accounts/views.py:185
+#: accounts/views.py:178 accounts/views.py:180
 msgid " has been removed successfully from the team."
 msgstr " a été retiré de l'équipe avec succès."
 
@@ -617,7 +617,7 @@ msgstr "Pas d'ouverture"
 msgid "Machines"
 msgstr "Machines"
 
-#: fabcal/forms.py:92 fabcal/forms.py:324
+#: fabcal/forms.py:92 fabcal/forms.py:334
 msgid "Start time after end time."
 msgstr "Heure du début après heure de fin"
 
@@ -627,7 +627,7 @@ msgid "Your openings has been successfully %(crud_state)s on "
 msgstr "Votre ouverture a été %(crud_state)s avec succès le "
 
 #: fabcal/forms.py:109 fabcal/forms.py:213 fabcal/forms.py:250
-#: fabcal/forms.py:412
+#: fabcal/forms.py:422
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:11
 #: fabcal/templates/fabcal/training_registration_form.html:10
 #: fabcal/views.py:189 fabcal/views.py:254 fabcal/views.py:420
@@ -636,13 +636,14 @@ msgid " from "
 msgstr " de "
 
 #: fabcal/forms.py:111 fabcal/forms.py:215 fabcal/forms.py:252
-#: fabcal/forms.py:414
+#: fabcal/forms.py:424
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:13
 #: fabcal/views.py:191 fabcal/views.py:256 fabcal/views.py:422
 msgid " to "
 msgstr " à "
 
 #: fabcal/forms.py:116 fabcal/forms.py:220 fabcal/forms.py:257
+#: fabcal/forms.py:296
 msgid "Download .ICS file"
 msgstr "Téléchager le ficher .ICS"
 
@@ -714,57 +715,61 @@ msgstr "Votre formation a été %(crud_state)s avec succès le "
 msgid "A training was updated"
 msgstr "Une formation a été mise à jour"
 
-#: fabcal/forms.py:290 fabcal/views.py:327
-msgid "Well done! We sent you an email to confirme your registration"
+#: fabcal/forms.py:292
+#, fuzzy
+#| msgid "Well done! We sent you an email to confirme your registration"
+msgid ""
+"Well done! We sent you an email to confirme your registration</br><a href=\"/"
+"fabcal/download-ics-file/"
 msgstr ""
 "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
 
-#: fabcal/forms.py:298 fabcal/forms.py:299 fabcal/views.py:321
+#: fabcal/forms.py:308 fabcal/forms.py:309 fabcal/views.py:321
 #: fabcal/views.py:322
 msgid "Confirmation of your registration"
 msgstr "Confirmation de votre inscription"
 
-#: fabcal/forms.py:329
+#: fabcal/forms.py:339
 #, python-format
 msgid "Please reserve minimum %(time)s minutes !"
 msgstr "Veuillez réserver minimum %(time)s minutes"
 
-#: fabcal/forms.py:335
+#: fabcal/forms.py:345
 #, python-format
 msgid "Please reserve in %(time)s minute increments !"
 msgstr "Veuillez réserver des tranches de %(time)s minutes"
 
-#: fabcal/forms.py:341
+#: fabcal/forms.py:351
 #, python-format
 msgid "The machine is already booked until %(time)s !"
 msgstr "La machine est déjà réservée jusqu'à %(time)s"
 
-#: fabcal/forms.py:348
+#: fabcal/forms.py:358
 #, python-format
 msgid "The machine is already booked from %(time)s !"
 msgstr "La machine est déjà réservée depuis %(time)s"
 
-#: fabcal/forms.py:361
+#: fabcal/forms.py:371
 #, python-format
 msgid "You cannot start earlier than %(start_time)s"
 msgstr "Vous ne pouvez pas commencer avant %(start_time)s"
 
-#: fabcal/forms.py:376 fabcal/forms.py:388
+#: fabcal/forms.py:386 fabcal/forms.py:398
 #, python-format
 msgid "You cannot end later than %(start_time)s"
 msgstr "Vous ne pouvez pas finir après %(start_time)s"
 
-#: fabcal/forms.py:399 fabcal/forms.py:400
+#: fabcal/forms.py:409 fabcal/forms.py:410
 #, fuzzy
 #| msgid "Confirmation of your unregistration"
 msgid "Confirmation of your machine reservation"
 msgstr "Confirmation de votre réservation machine"
 
-#: fabcal/forms.py:408
+#: fabcal/forms.py:418
 msgid "You successfully booked the machine "
 msgstr "Yous avez réserver la machine avec succès "
 
-#: fabcal/forms.py:410
+#: fabcal/forms.py:420
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:9
 msgid " on "
 msgstr " le "
@@ -785,19 +790,19 @@ msgstr "Créneau d'évènement"
 msgid "Event Slots"
 msgstr "Créneaux d'évènements"
 
-#: fabcal/models.py:88
+#: fabcal/models.py:95
 msgid "Training Slot"
 msgstr "Créneau de formation"
 
-#: fabcal/models.py:89
+#: fabcal/models.py:96
 msgid "Training Slots"
 msgstr "Créneaux de formation"
 
-#: fabcal/models.py:96
+#: fabcal/models.py:103
 msgid "Machine Slot"
 msgstr "Céneau machine"
 
-#: fabcal/models.py:97
+#: fabcal/models.py:104
 msgid "Machine Slots"
 msgstr "Créneaux machine"
 
@@ -827,6 +832,7 @@ msgstr "Nous vous confirmons que vous êtes inscrit à l'évènement"
 #: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:8
 #: fabcal/templates/fabcal/email/training_create_alert.html:8
 #: fabcal/templates/fabcal/email/training_registration_confirmation.html:8
+#: fabcal/templates/fabcal/email/training_unregistration_confirmation.html:8
 msgid "which will take place "
 msgstr "qui aura lieu"
 
@@ -834,6 +840,7 @@ msgstr "qui aura lieu"
 #: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:10
 #: fabcal/templates/fabcal/email/training_create_alert.html:9
 #: fabcal/templates/fabcal/email/training_registration_confirmation.html:9
+#: fabcal/templates/fabcal/email/training_unregistration_confirmation.html:9
 #: fabcal/templates/fabcal/email/training_update_alert.html:14
 msgid "on"
 msgstr "le"
@@ -844,6 +851,7 @@ msgstr "le"
 #: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:13
 #: fabcal/templates/fabcal/email/training_create_alert.html:11
 #: fabcal/templates/fabcal/email/training_registration_confirmation.html:11
+#: fabcal/templates/fabcal/email/training_unregistration_confirmation.html:10
 #: fabcal/templates/fabcal/email/training_update_alert.html:16
 #: fabcal/templates/fabcal/event_info_datetime.html:16
 msgid "From"
@@ -855,6 +863,7 @@ msgstr "de"
 #: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:13
 #: fabcal/templates/fabcal/email/training_create_alert.html:13
 #: fabcal/templates/fabcal/email/training_registration_confirmation.html:13
+#: fabcal/templates/fabcal/email/training_unregistration_confirmation.html:10
 #: fabcal/templates/fabcal/email/training_update_alert.html:18
 #: fabcal/templates/fabcal/event_info_datetime.html:17
 #: fabcal/templates/fabcal/training_registration_form.html:10
@@ -891,6 +900,10 @@ msgstr "Nous avons planifié une nouvelle formation"
 #: fabcal/templates/fabcal/email/training_registration_confirmation.html:6
 msgid "We confirme that you are register for the training"
 msgstr "Nous vous confirmons que vous êtes inscrit à la formation"
+
+#: fabcal/templates/fabcal/email/training_unregistration_confirmation.html:6
+msgid "We confirme that you are unregister for the training"
+msgstr "Nous vous confirmons que vous êtes desinscrit de la formation"
 
 #: fabcal/templates/fabcal/email/training_update_alert.html:7
 msgid "We have updated the training"
@@ -978,6 +991,7 @@ msgid "peoples registered for the event"
 msgstr "personnes inscrites à l'évènement"
 
 #: fabcal/templates/fabcal/event_unregistration_form.html:9
+#: fabcal/templates/fabcal/training/unregistration.html:9
 msgid "Unregistration"
 msgstr "Desinscription"
 
@@ -1017,6 +1031,28 @@ msgstr "Modes d'ouverture"
 msgid "Events"
 msgstr "Évènements"
 
+#: fabcal/templates/fabcal/training/delete.html:10
+msgid ""
+"Are you sure you want to remove the training %(title)s on %(date)s from "
+"%(start)s to %(end)s"
+msgstr ""
+"Êtes-vous sûr de vouloir supprimer la formation %(title)s du %(date)s de "
+"%(start)s à %(end)s"
+
+#: fabcal/templates/fabcal/training/unregistration.html:11
+#, fuzzy, python-format
+#| msgid ""
+#| "Are you sure you want to remove the event %(title)s on %(date)s from "
+#| "%(start)s to %(end)s"
+msgid ""
+"\n"
+"    Are you sure you want to unregister from training %(title)s scheduled on "
+"%(date)s from %(start)s to %(end)s?\n"
+"    "
+msgstr ""
+"Êtes-vous sûr de vouloir vous désinscire de la formation %(title)s du %(date)s de "
+"%(start)s à %(end)s"
+
 #: fabcal/templates/fabcal/weekly.html:4
 msgid "Our next openings"
 msgstr "Nos prochaines ouvertures"
@@ -1053,11 +1089,17 @@ msgstr "Mettre à jour l'évènement"
 msgid "Your event has been successfully deleted on "
 msgstr "Votre évènement a été supprimée avec succès le "
 
-#: fabcal/views.py:343 fabcal/views.py:344
+#: fabcal/views.py:327
+msgid "Well done! We sent you an email to confirme your registration"
+msgstr ""
+"Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
+
+#: fabcal/views.py:343 fabcal/views.py:344 fabcal/views.py:472
+#: fabcal/views.py:473
 msgid "Confirmation of your unregistration"
 msgstr "Confirmation de votre desinscription"
 
-#: fabcal/views.py:349
+#: fabcal/views.py:349 fabcal/views.py:478
 msgid "Oh no! We sent you an email to confirme your unregistration"
 msgstr ""
 "Oh non ! Nous vous avons envoyé un e-mail pour confirmer votre desinscription"
@@ -1070,7 +1112,7 @@ msgstr "Créer la formation"
 msgid "Update training"
 msgstr "Mettre à jour la formation"
 
-#: fabcal/views.py:476
+#: fabcal/views.py:507
 msgid ""
 "Sorry, you cannont reserve this machine, because you need to complete the "
 "training before using it"
