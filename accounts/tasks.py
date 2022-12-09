@@ -1,5 +1,3 @@
-from multiprocessing import context
-import os
 from django.contrib.sites.models import Site
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -23,7 +21,7 @@ def send_reminder_subscription_email():
         html_message = render_to_string('accounts/email/subscription_reminder.html', context)
         send_mail(
             from_email=None,
-            subject=_('Your subscription will expire in 7 days'),
+            subject = _('Your subscription will expire in 7 days'),
             message = _("Your subscription will expire in 7 days"),
             recipient_list = [profile.user.email],
             html_message=html_message
@@ -37,10 +35,10 @@ def send_expire_subscription_email():
         context['profile'] = profile
         html_message = render_to_string('accounts/email/subscription_expire.html', context)
         send_mail(
-            from_email=None,
-            subject=_('Your subscription expire today'),
+            from_email = None,
+            subject = _('Your subscription expire today'),
             message = _("Your subscription expire today"),
             recipient_list = [profile.user.email],
-            html_message=html_message
+            html_message = html_message
         )
     return(list(profiles))
