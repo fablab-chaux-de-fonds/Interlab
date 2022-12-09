@@ -7,18 +7,9 @@ services:
       - ./data/db:/var/lib/postgresql/data
     env_file:
         - .env
-  queue:
-    build: .
-    restart: always
-    command: python manage.py qcluster
-    env_file:
-      - .env
-    volumes:
-      - ./interlab:/code/interlab
-      - ./accounts:/code/accounts
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver_queue 0.0.0.0:8000
     env_file:
       - .env
     volumes:
@@ -37,5 +28,4 @@ services:
       - 3000:3000
     depends_on:
       - db
-      - queue
 

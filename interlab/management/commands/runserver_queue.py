@@ -1,30 +1,11 @@
-from django.core.management.base import BaseCommand
-from subprocess import Popen
-from sys import stdout, stdin, stderr
-import time
-import os
-import signal
+from django.core.management.commands.runserver import Command as RunServerCommand
+from django_q.cluster import Cluster
 
-
-class Command(BaseCommand):
-    help = 'Run all commands'
-    commands = [
-        'python manage.py qcluster',
-        'python manage.py runserver 0.0.0.0:8000'
-    ]
-
+class Command(RunServerCommand):
     def handle(self, *args, **options):
-        proc_list = []
-
-        for command in self.commands:
-            print("$ " + command)
-            proc = Popen(command, shell=True, stdin=stdin,
-                         stdout=stdout, stderr=stderr)
-            proc_list.append(proc)
-
+        q = Cluster()
+        q.start()
         try:
-            while True:
-                time.sleep(10)
-        except KeyboardInterrupt:
-            for proc in proc_list:
-                os.kill(proc.pid, signal.SIGKILL)
+            super().handle(*args, **options)
+        finally:
+            q.stop()
