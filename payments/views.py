@@ -14,8 +14,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView
 
-
-from accounts.models import Profile
+from accounts.models import Profile, Subscription
 
 class SubscriptionUpdateView(LoginRequiredMixin, TemplateView):
     template_name = "payments/subscription_update.html"
@@ -101,9 +100,15 @@ def stripe_webhook(request):
 def fulfill_order(session, request):
     customer_email = session['customer_details']['email']
     profile = Profile.objects.get(pk=session['metadata']["profile_id"])
-    end_updated = max(datetime.date.today(), profile.subscription.end) + datetime.timedelta(days=profile.subscription.subscription_category.duration)
-    profile.subscription.end = end_updated
-    profile.subscription.save()
+    new_start = max(datetime.date.today(), profile.subscription.end)
+    subscription = Subscription.objects.create(
+        start = new_start,
+        end = new_start + datetime.timedelta(days=profile.subscription.subscription_category.duration),
+        subscription_category = profile.subscription.subscription_category,
+        access_number = profile.subscription.access_number
+    )
+    profile.subscription = subscription
+    profile.save()
 
     context = {
         'profile': profile
