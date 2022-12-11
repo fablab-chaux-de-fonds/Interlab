@@ -148,3 +148,8 @@ docker exec -i interlab_web_1 python manage.py shell < tools/fabmanager.py
 ```shell
 docker exec -i interlab_web_1 python manage.py createtasks
 ```
+
+## Launch unit and integration tests
+```shell
+docker exec -i interlab_web_1 python manage.py test
+```
