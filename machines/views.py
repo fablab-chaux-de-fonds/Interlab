@@ -102,3 +102,6 @@ class MachineShowView(DetailView):
         context['FABCAL_MINIMUM_RESERVATION_TIME'] = settings.FABCAL_MINIMUM_RESERVATION_TIME
         context['FABCAL_RESERVATION_INCREMENT_TIME'] = settings.FABCAL_RESERVATION_INCREMENT_TIME
         return context
+
+class MachineSlotView(MachineShowView):
+    template_name = 'machines/mobile_slots.html'

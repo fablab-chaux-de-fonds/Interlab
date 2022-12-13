@@ -5,8 +5,25 @@
 
 {% block content %}
 <div class="row">
-    <h2 class="text-red">{{object.category.name | safe}} {{object.title}}</h2>
-    <div class="d-md-none"> {%include 'machines/show_img.html'%} </div>
+    <div class="col">
+        <h2 class="text-red">{{object.category.name | safe}} {{object.title}}</h2>
+        <div class="d-md-none"> 
+            {%include 'machines/show_img.html'%}
+            {% if machine.reservable %}
+                {% if next_opening_slots %}
+                <div class="d-flex justify-content-center">
+                    <a class="btn btn-primary" href="{% url 'machines:machines-slot' object.pk %}">{% trans "Book now" %}</a>
+                </div>
+                {% else %}
+                    {% trans "Sorry, no slot available for this machine. You can ask an opening via mail" %}    
+                {% endif %}
+
+            {% else %}
+                <h3>{% trans "No reservation possible" %}</h3>
+                <p> {% trans "This tool is available when the Fablab is open" %} <p>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
 <div class="row">

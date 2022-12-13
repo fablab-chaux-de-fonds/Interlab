@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-07 19:50+0000\n"
+"POT-Creation-Date: 2022-12-13 06:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1286,7 +1286,7 @@ msgid "Material"
 msgstr "Matière"
 
 #: machines/models.py:134 machines/templates/machines/list.html:24
-#: machines/templates/machines/show.html:39
+#: machines/templates/machines/show.html:56
 msgid "Materials"
 msgstr "Matières"
 
@@ -1295,7 +1295,7 @@ msgid "Workshop"
 msgstr "Atelier"
 
 #: machines/models.py:139 machines/templates/machines/list.html:10
-#: machines/templates/machines/show.html:33
+#: machines/templates/machines/show.html:50
 msgid "Workshops"
 msgstr "Ateliers"
 
@@ -1335,30 +1335,44 @@ msgstr "Spécifications"
 msgid "Sorry, no machine available in this category"
 msgstr "Désolé, pas de machine disponible dans cette catégorie"
 
-#: machines/templates/machines/show.html:26
+#: machines/templates/machines/show.html:15
+msgid "Book now"
+msgstr "Réserver maintenant !"
+
+#: machines/templates/machines/show.html:18
+#: machines/templates/machines/show_next_slots.html:32
+msgid ""
+"Sorry, no slot available for this machine. You can ask an opening via mail"
+msgstr ""
+"Désolé, pas de créneau disponible pour cette machine. Vous pouvez nous "
+"écrire un email pour demander une ouverture"
+
+#: machines/templates/machines/show.html:22
+#: machines/templates/machines/show.html:99
+msgid "No reservation possible"
+msgstr "Pas de réservation possible"
+
+#: machines/templates/machines/show.html:23
+#: machines/templates/machines/show.html:100
+msgid "This tool is available when the Fablab is open"
+msgstr "Cet outil est disponible lorsque le Fablab est ouvert."
+
+#: machines/templates/machines/show.html:43
 msgid "Categories"
 msgstr "Catégories"
 
-#: machines/templates/machines/show.html:47
+#: machines/templates/machines/show.html:64
 msgid "Frequently asked questions"
 msgstr "Foire au questions"
 
-#: machines/templates/machines/show.html:54
+#: machines/templates/machines/show.html:71
 #: machines/templates/trainings/show.html:65
 msgid "Support and tools"
 msgstr "Aide et outils"
 
-#: machines/templates/machines/show.html:63
+#: machines/templates/machines/show.html:80
 msgid "Technical specifications"
 msgstr "Spécifications techniques"
-
-#: machines/templates/machines/show.html:82
-msgid "No reservation possible"
-msgstr "Pas de réservation possible"
-
-#: machines/templates/machines/show.html:83
-msgid "This tool is available when the Fablab is open"
-msgstr "Cet outil est disponible lorsque le Fablab est ouvert."
 
 #: machines/templates/machines/show_next_slots.html:3
 msgid "Book my next Slot"
@@ -1380,13 +1394,6 @@ msgstr ""
 #: machines/templates/machines/show_next_slots.html:27
 msgid "Sorry, no slot available for this machine."
 msgstr "Désolé, pas de créneau disponible pour cette machine"
-
-#: machines/templates/machines/show_next_slots.html:32
-msgid ""
-"Sorry, no slot available for this machine. You can ask an opening via mail"
-msgstr ""
-"Désolé, pas de créneau disponible pour cette machine. Vous pouvez nous "
-"écrire une email pour demander une ouverture"
 
 #: machines/templates/trainings/list.html:8
 msgid "Category"
@@ -1467,19 +1474,3 @@ msgstr "Merci ! Vous êtes maintenant inscrit à notre newsletter"
 #: openings/apps.py:7 openings/models.py:38
 msgid "Openings"
 msgstr "Ouvertures"
-
-#, python-format
-#~ msgid ""
-#~ "\n"
-#~ "    Are you sure you want to unregister from training %(title)s scheduled "
-#~ "on %(date)s from %(start)s to %(end)s?\n"
-#~ "    "
-#~ msgstr ""
-#~ "Êtes-vous sûr de vouloir vous désinscire de la formation %(title)s du "
-#~ "%(date)s de %(start)s à %(end)s"
-
-#~ msgid "This week"
-#~ msgstr "Cette semaine"
-
-#~ msgid "Use the %(title)s "
-#~ msgstr "Utiliser la %(title)s"

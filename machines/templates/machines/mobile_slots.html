@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n training_extras %}
+
+{% block title %}{{block.super}} - {{object.title}} {% endblock %}
+
+{% block content %}
+    <h2 class="text-red">{{object.category.name | safe}} {{object.title}}</h2>
+    {% include 'machines/show_next_slots.html' %}
+{% endblock %}
