@@ -121,6 +121,24 @@ msgstr "Formation supprimée"
 msgid "email address"
 msgstr "adresse e-mail"
 
+#: accounts/tasks.py:26 accounts/tasks.py:27
+#: accounts/templates/accounts/email/subscription_reminder.html:6
+msgid "Your subscription will expire in 7 days"
+msgstr "Votre abonnement sera expiré dans 7 jours"
+
+#: accounts/tasks.py:41 accounts/tasks.py:42
+msgid "Your subscription expire today"
+msgstr "Votre abonnement est expiré aujourd'hui"
+
+#: accounts/templates/accounts/email/subscription_expire.html:6
+msgid "Your subscription will expire today"
+msgstr "Votre abonnement sera expiré dans 7 jours"
+
+#: accounts/templates/accounts/email/subscription_expire.html:8
+#: accounts/templates/accounts/email/subscription_reminder.html:8
+msgid "Update my subscription"
+msgstr "Renouveler mon abonnement"
+
 #: accounts/templates/accounts/email/create_training_validation.html:7
 msgid "We have validated the training"
 msgstr "Nous avons validé la formation"

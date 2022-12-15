@@ -66,7 +66,7 @@ class CalendarOpeningsPluginModel(CMSPlugin):
 class EventSlot(AbstractSlot, AbstractRegistration):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     has_registration = models.BooleanField()
-    registrations = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='event_registration_users', blank=True, null=True)
+    registrations = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='event_registration_users', blank=True)
     is_active = models.BooleanField(default=True)
     price = models.TextField(max_length=255)
     opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
