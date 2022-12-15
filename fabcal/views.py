@@ -36,12 +36,107 @@ def get_start_end(self, context):
             context['start'] = slot.start
             context['end'] = slot.end
     elif self.request.method =='POST':
-            context['start'] = super(OpeningForm, context['form']).clean_start()
-            context['end'] = super(OpeningForm, context['form']).clean_end()
+            context['start'] = super(type(context['form']), context['form']).clean_start()
+            context['end'] = super(type(context['form']), context['form']).clean_end()
 
     return context
 
-class OpeningBaseView(CustomFormView):
+class AbstractMachineView(FormView):
+    def form_valid(self, form):
+
+        # add user_id in cleaned_data
+        form.cleaned_data['user_id'] = self.request.user.id
+
+        if form.cleaned_data['opening'] != None:
+            self.opening_slot = form.update_or_create_opening_slot(self)
+
+            if self.crud_state == 'created':
+                # TODO: check if machine slot already exists
+                for machine in form.cleaned_data['machine']:
+                    form.create_machine_slot(self, machine)
+
+            elif self.crud_state == 'updated':
+                # Remove machine slot
+                for pk in form.initial.get('machine', []):
+                    if pk not in form.cleaned_data['machine'].values_list('pk', flat=True):
+                        form.delete_machine_slot(self, pk)
+
+                # Update machine slot
+                for machine in form.cleaned_data['machine']:
+                    qs = MachineSlot.objects.filter(
+                            opening_slot=self.opening_slot,
+                            machine = machine
+                    ).order_by('start')
+
+                    if form.cleaned_data['start'] < form.initial['start']:
+                        # extend start opening before
+                        obj = qs.first()
+                        if obj.user:
+                            # create new slot to not modify user reservation
+                            MachineSlot.objects.create(
+                                opening_slot = self.opening_slot,
+                                machine = machine,
+                                start = form.cleaned_data['start'],
+                                end = form.initial['start'],
+                            )
+                        else:
+                            # exend slot
+                            obj.start = form.cleaned_data['start']
+                            obj.save()
+
+                    # shorten or remove start slots
+                    if form.cleaned_data['start'] > form.initial['start']:
+                        for obj in qs:
+                            if obj.start < form.cleaned_data['start']:
+                                
+                                # shorten start slot
+                                if obj.end > form.cleaned_data['start']:
+                                    obj.start = form.cleaned_data['start']
+                                    obj.save()
+                                
+                                # remove start slot
+                                else:
+                                    obj.delete()
+
+                    # shorten or remove start slots
+                    if form.cleaned_data['end'] < form.initial['end']:
+                        for obj in qs:
+                            if obj.end > form.cleaned_data['end']:
+                                
+                                # shorten start slot
+                                if obj.start < form.cleaned_data['end']:
+                                    obj.end = form.cleaned_data['end']
+                                    obj.save()
+                                
+                                # remove start slot
+                                else:
+                                    obj.delete()
+
+                    if form.cleaned_data['end'] > form.initial['end']:
+                        # extend end opening after
+                        obj = qs.last()
+
+                        if obj.user:
+                            # create new slot to not modify user reservation
+                            MachineSlot.objects.create(
+                                opening_slot = self.opening_slot,
+                                machine = machine,
+                                start = form.initial['end'],
+                                end = form.cleaned_data['end'],
+                            )
+                        else:
+                            # exend slot
+                            obj.end = form.cleaned_data['end']
+                            obj.save()
+
+                # Create a new machine slot
+                for machine in form.cleaned_data['machine']:
+                    if machine.pk not in form.initial['machine']:
+                        form.create_machine_slot(self, machine)
+        
+        return super().form_valid(form)
+
+class OpeningBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/opening_create_or_update_form.html'
     form_class = OpeningForm
 
@@ -55,96 +150,6 @@ class OpeningBaseView(CustomFormView):
 
         context = get_start_end(self, context)
         return context
-
-    def form_valid(self, form):
-        # add user_id in cleaned_data
-        form.cleaned_data['user_id'] = self.request.user.id
-        self.opening_slot = form.update_or_create_opening_slot(self)
-
-        if self.crud_state == 'created':
-            for machine in form.cleaned_data['machine']:
-                form.create_machine_slot(self, machine)
-
-        elif self.crud_state == 'updated':
-            # Remove machine slot
-            for pk in form.initial['machine']:
-                if pk not in form.cleaned_data['machine'].values_list('pk', flat=True):
-                    form.delete_machine_slot(self, pk)
-
-            # Update machine slot
-            for machine in form.cleaned_data['machine']:
-                qs = MachineSlot.objects.filter(
-                        opening_slot=self.opening_slot,
-                        machine = machine
-                ).order_by('start')
-
-                if form.cleaned_data['start'] < form.initial['start']:
-                    # extend start opening before
-                    obj = qs.first()
-                    if obj.user:
-                        # create new slot to not modify user reservation
-                        MachineSlot.objects.create(
-                            opening_slot = self.opening_slot,
-                            machine = machine,
-                            start = form.cleaned_data['start'],
-                            end = form.initial['start'],
-                        )
-                    else:
-                        # exend slot
-                        obj.start = form.cleaned_data['start']
-                        obj.save()
-
-                # shorten or remove start slots
-                if form.cleaned_data['start'] > form.initial['start']:
-                    for obj in qs:
-                        if obj.start < form.cleaned_data['start']:
-                            
-                            # shorten start slot
-                            if obj.end > form.cleaned_data['start']:
-                                obj.start = form.cleaned_data['start']
-                                obj.save()
-                            
-                            # remove start slot
-                            else:
-                                obj.delete()
-
-                # shorten or remove start slots
-                if form.cleaned_data['end'] < form.initial['end']:
-                    for obj in qs:
-                        if obj.end > form.cleaned_data['end']:
-                            
-                            # shorten start slot
-                            if obj.start < form.cleaned_data['end']:
-                                obj.end = form.cleaned_data['end']
-                                obj.save()
-                            
-                            # remove start slot
-                            else:
-                                obj.delete()
-
-                if form.cleaned_data['end'] > form.initial['end']:
-                    # extend end opening after
-                    obj = qs.last()
-
-                    if obj.user:
-                        # create new slot to not modify user reservation
-                        MachineSlot.objects.create(
-                            opening_slot = self.opening_slot,
-                            machine = machine,
-                            start = form.initial['end'],
-                            end = form.cleaned_data['end'],
-                        )
-                    else:
-                        # exend slot
-                        obj.end = form.cleaned_data['end']
-                        obj.save()
-
-            # Create a new machine slot
-            for machine in form.cleaned_data['machine']:
-                if machine.pk not in form.initial['machine']:
-                    form.create_machine_slot(self, machine)
-        
-        return super().form_valid(form)
 
 class CreateOpeningView(OpeningBaseView):
     crud_state = 'created'
@@ -189,7 +194,7 @@ class DeleteOpeningView(View):
             ) 
         return redirect('/schedule/')
 
-class EventBaseView(CustomFormView):
+class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
     form_class = EventForm
 
@@ -205,18 +210,9 @@ class EventBaseView(CustomFormView):
         return context
 
     def form_valid(self, form):
-        # add user_id in cleaned_data
-        form.cleaned_data['user_id'] = self.request.user.id
-        
-        if form.cleaned_data['opening']:
-            opening_slot = form.update_or_create_opening_slot(self)
-        else: 
-            opening_slot = None
-        
-        form.update_or_create_event_slot(self, opening_slot)
-
-
-        return super().form_valid(form)
+        response  = super().form_valid(form)
+        form.update_or_create_event_slot(self)
+        return response
 
 class CreateEventView(EventBaseView):
     crud_state = 'created'
@@ -267,23 +263,9 @@ class DetailEventView(View):
     template_name = 'fabcal/event_details.html'
 
     def get(self, request, pk, *args, **kwargs):
-        event = EventSlot.objects.get(pk=pk)
         #Refactoring with event queryset
         context = {
-            'pk': event.pk,
-            'title': event.event.title,
-            'img': event.event.img,
-            'lead': event.event.lead,
-            'desc': event.event.desc,
-            'start': event.start,
-            'end': event.end,
-            'price': event.price,
-            'location': event.event.location,
-            'has_registration': event.has_registration,
-            'is_registration_open': event.is_registration_open, 
-            'registrations': event.registrations.all(),
-            'is_single_day': event.is_single_day,
-            'available_registration': event.available_registration
+            'event_slot': get_object_or_404(EventSlot, pk=self.kwargs['pk'])
         }
         return render(request, self.template_name, context)
 
@@ -330,7 +312,7 @@ class RegisterEventView(RegisterEventBaseView):
 
         messages.success(request, _("Well done! We sent you an email to confirme your registration"))
 
-        return redirect('show-event', pk)
+        return redirect('fabcal:show-event', pk)
     
 class UnregisterEventView(RegisterEventBaseView):
     template_name = 'fabcal/event_unregistration_form.html'
@@ -354,7 +336,7 @@ class UnregisterEventView(RegisterEventBaseView):
 
         return redirect('event', pk)
 
-class TrainingBaseView(CustomFormView): 
+class TrainingBaseView(CustomFormView, AbstractMachineView): 
     template_name = 'fabcal/trainig_create_or_update_form.html'
     form_class = TrainingForm
     type = 'training'
@@ -371,17 +353,10 @@ class TrainingBaseView(CustomFormView):
         return context
 
     def form_valid(self, form):
-        # add user_id in cleaned_data
-        form.cleaned_data['user_id'] = self.request.user.id
-        
-        # Create opening
-        if form.cleaned_data['opening']:
-            opening_slot = form.update_or_create_opening_slot(self)
-        else: 
-            opening_slot = None
+        super().form_valid(form)
         
         # Create training
-        training_slot = form.update_or_create_training_slot(self, opening_slot)
+        training_slot = form.update_or_create_training_slot(self)
 
         # Alert users
         self.context = {
@@ -409,7 +384,7 @@ class UpdateTrainingView(TrainingBaseView):
         return initial
 
 class DeleteTrainingView(View):
-    template_name = 'fabcal/delete_training.html'
+    template_name = 'fabcal/training/delete.html'
 
     def get(self, request, pk, *args, **kwargs):
         event = TrainingSlot.objects.get(pk=pk)
@@ -417,7 +392,7 @@ class DeleteTrainingView(View):
         context = {
             'start': event.start,
             'end': event.end,
-            'title': event.event.title
+            'title': event.training.title
             }
         return render(request, self.template_name, context)  
 
@@ -460,6 +435,37 @@ class RegisterTrainingView(LoginRequiredMixin, FormView):
         form.send_mail(self)
         return super().form_valid(form)
 
+class UnregisterTrainingView(LoginRequiredMixin, View):
+    template_name = 'fabcal/training/unregistration.html'
+    success_url = "/"
+
+    def get(self, request, pk, *args, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+    def get_context_data(self, **kwargs):
+        return {
+            'training_slot': get_object_or_404(TrainingSlot, pk=self.kwargs['pk'])
+        }
+
+    def post(self, request, pk, *args, **kwargs):
+        context = self.get_context_data()
+
+        context['training_slot'].registrations.remove(request.user)
+        html_message = render_to_string('fabcal/email/training_unregistration_confirmation.html', context)
+        
+        send_mail(
+            from_email=None,
+            subject=_('Confirmation of your unregistration'),
+            message = _("Confirmation of your unregistration"),
+            recipient_list = [request.user.email],
+            html_message = html_message
+        )
+
+        messages.success(request, _("Oh no! We sent you an email to confirme your unregistration"))
+
+        return redirect('profile')
+
+
 class MachineReservationBaseView(LoginRequiredMixin, FormView):
     template_name = 'fabcal/machine/reservation_form.html'
     form_class = MachineReservationForm
@@ -484,7 +490,7 @@ class MachineReservationBaseView(LoginRequiredMixin, FormView):
                 ).order_by('start').last()
 
         if self.request.user.profile.pk not in self.machine_slot.machine.trained_profile_list:
-            messages.warning(request, _('Sorry, you cannont reserve this machine, because you need to complete the training before using it'))
+            messages.error(request, _('Sorry, you cannont reserve this machine, because you need to complete the training before using it'))
             return redirect('/trainings/?machine_category=' + str(self.machine_slot.machine.category.pk))
 
         return super(MachineReservationBaseView, self).dispatch(request, *args, **kwargs)

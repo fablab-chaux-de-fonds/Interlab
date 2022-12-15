@@ -16,7 +16,6 @@
 
     {% csrf_token %}
 
-
     <div class="form-group">
 
         <div class="mb-3">
@@ -26,10 +25,22 @@
         </div>
 
         <div class="mb-3">
+            {{ form.registration_limit.label_tag }}
+            <input class="form-control" id={{form.registration_limit.auto_id}} name="registration_limit" placeholder=""
+                type="number" min="0"
+                value={% if form.registration_limit.value %}{{ form.registration_limit.value }}{% endif %}>
+            </input>
+            {{ form.registration_limit.errors }}
+            <small>{{ form.registration_limit.help_text }}</small>
+        </div>
+
+        <div class="mb-3">
             <label for="{{ form.opening.id_for_label }}">{{ form.opening.label_tag }}</label>
             {{ form.opening }}
             {{ form.opening.errors }}
         </div>
+
+        {%include './form/select_machines.html'%}
 
         <div data-app>
             <div id="vue">
@@ -52,16 +63,6 @@
                     </v-row>
                 </div>
             </div>
-        </div>
-
-        <div class="mb-3">
-            {{ form.registration_limit.label_tag }}
-            <input class="form-control" id={{form.registration_limit.auto_id}} name="registration_limit" placeholder=""
-                type="number" min="0"
-                value={% if form.registration_limit.value %}{{ form.registration_limit.value }}{% endif %}>
-            </input>
-            {{ form.registration_limit.errors }}
-            <small>{{ form.registration_limit.help_text }}</small>
         </div>
 
         <div class="mb-3">

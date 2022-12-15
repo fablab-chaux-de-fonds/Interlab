@@ -18,9 +18,9 @@
     </div>
     <div class="col-4 text-end">
         {% if training_slot.available_registration > 0 %}
-        <a href="{% url 'fabcal:register-training' training_slot.pk %}" class="btn">{% trans "Register" %}</a>
+        <a href="{% url 'fabcal:register-training' training_slot.pk %}" class="btn btn-primary">{% trans "Register" %}</a>
         {% elif training_slot.available_registration == 0 %}
-        <button class="btn" disabled>{% trans "Register" %}</button>
+        <button class="btn btn-primary" disabled>{% trans "Register" %}</button>
         {% endif %}
         {% if request.user|has_group:"superuser" %}
             <a href="{% url 'fabcal:update-training' training_slot.pk %}" class="btn btn-outline-primary"><i class="bi bi-pencil"></i></a>
