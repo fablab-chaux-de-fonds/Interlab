@@ -217,6 +217,7 @@ INSTALLED_APPS = [
     'openings',
     'colorfield',
     'django_filters',
+    'url_or_relative_url_field',
     'django_q',
 ]
 

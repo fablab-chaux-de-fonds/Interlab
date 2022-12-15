@@ -6,15 +6,15 @@
     </div>
     <div class="col-10 ">
         <h4>{% trans "Date and schedule" %}</h4>
-        {% if is_single_day %}
+        {% if event_slot.is_single_day %}
         <p>
-            {{start|date:"l j F Y"}}<br>
-            {{start|date:"H:i"}} - {{end|date:"H:i"}}
+            {{event_slot.start|date:"l j F Y"}}<br>
+            {{event_slot.start|date:"H:i"}} - {{event_slot.end|date:"H:i"}}
         </p>
         {% else %}
         <p>
-            {% trans "From" %} {{start|date:"l j F Y"}} {% trans "at" %} {{start|date:"H:i"}} <br>
-            {% trans "to" %} {{start|date:"l j F Y"}} {% trans "at" %} {{end|date:"H:i"}}
+            {% trans "From" %} {{event_slot.start|date:"l j F Y"}} {% trans "at" %} {{event_slot.start|date:"H:i"}} <br>
+            {% trans "to" %} {{event_slot.start|date:"l j F Y"}} {% trans "at" %} {{event_slot.end|date:"H:i"}}
         </p>
         {% endif %}
     </div>

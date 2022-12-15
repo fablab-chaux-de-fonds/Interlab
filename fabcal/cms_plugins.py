@@ -1,11 +1,11 @@
 import json
+import datetime
 
-from urllib import request
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 from django.utils.translation import gettext as _
 
-from .models import WeeklyPluginModel, OpeningSlot, EventSlot, TrainingSlot, CalendarOpeningsPluginModel, EventsListPluginModel
+from .models import WeeklyPluginModel, OpeningSlot, EventSlot, TrainingSlot, CalendarOpeningsPluginModel, EventsListPluginModel, Opening
 
 from datetime import date, timedelta
 
@@ -19,16 +19,15 @@ class WeeklyPluginPublisher(CMSPluginBase):
     def render(self, context, instance, placeholder):
         context.update({'instance': instance})
 
-        current_week = date.today().isocalendar()[1]
-        current_week_slots = OpeningSlot.objects.filter(start__week=current_week)
-        
-        slots = {}
-        day_of_week = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
-        for day in day_of_week:
-            slots[day] = [slot for slot in current_week_slots if slot.get_day_of_the_week() == day]
+        now = datetime.datetime.now()
+        next_week_slots = OpeningSlot.objects.filter(end__gt=now, start__lt= now + datetime.timedelta(days=7)).order_by('start')
+        weekdays = [(now + datetime.timedelta(days=x)).strftime('%A') for x in range(7)]
 
-        
-        context.update({'slots': slots, 'day_of_week': day_of_week})
+        slots = {}
+        for weekday in weekdays:
+            slots[weekday] = [slot for slot in next_week_slots if slot.get_day_of_the_week() == weekday]
+
+        context.update({'slots': slots, 'weekdays': weekdays})
 
         return context
 
@@ -97,9 +96,10 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
         backend["is_superuser"] = request.user.groups.filter(name='superuser').exists()
         backend["username"] = request.user.username
 
-        context.update({
+        context = {
             'backend': json.dumps(backend, default=str),
-            })
+            'public_openings': Opening.objects.filter(is_public=True)
+            }
         return context
 
 

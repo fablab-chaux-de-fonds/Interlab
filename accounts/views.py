@@ -99,8 +99,12 @@ def AccountsView(request):
         'user': user,
         'slots': sorted(chain(
             TrainingSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now()),
+            TrainingSlot.objects.filter(registrations=request.user, end__gt=datetime.datetime.now()),
             OpeningSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now()), 
-            MachineSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now())
+            MachineSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now()),
+            EventSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now()),
+            EventSlot.objects.filter(registrations=request.user, end__gt=datetime.datetime.now()),
+
         ),
         key=attrgetter('start')
         )

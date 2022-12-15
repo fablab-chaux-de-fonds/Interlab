@@ -19,6 +19,7 @@ django-q
 django-registration
 django-sekizai
 django-treebeard
+django-url-or-relative-url-field
 django-webpack-loader
 djangocms-admin-style
 djangocms-bootstrap4
@@ -31,6 +32,7 @@ djangocms-text-ckeditor
 djangocms-video
 easy_thumbnails
 html5lib
+packaging
 Pillow
 psycopg2-binary
 pytz

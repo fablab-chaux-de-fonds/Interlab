@@ -5,8 +5,25 @@
 
 {% block content %}
 <div class="row">
-    <h2 class="text-red">{{object.category.name | safe}} {{object.title}}</h2>
-    <div class="d-md-none"> {%include 'machines/show_img.html'%} </div>
+    <div class="col">
+        <h2 class="text-red">{{object.category.name | safe}} {{object.title}}</h2>
+        <div class="d-md-none"> 
+            {%include 'machines/show_img.html'%}
+            {% if machine.reservable %}
+                {% if next_opening_slots %}
+                <div class="d-flex justify-content-center">
+                    <a class="btn btn-primary" href="{% url 'machines:machines-slot' object.pk %}">{% trans "Book now" %}</a>
+                </div>
+                {% else %}
+                    {% trans "Sorry, no slot available for this machine. You can ask an opening via mail" %}    
+                {% endif %}
+
+            {% else %}
+                <h3>{% trans "No reservation possible" %}</h3>
+                <p> {% trans "This tool is available when the Fablab is open" %} <p>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
 <div class="row">
@@ -24,7 +41,9 @@
         <div class="row py-4">
         <p>
             <span class='text-red'> <i class="bi bi-tag-fill"></i> {% trans "Categories" %} : </span>
-            <span class="badge rounded-pill text-bg-danger-light">{{object.category}}</span>
+            {% if object.category is not None %}
+                <span class="badge rounded-pill text-bg-danger-light">{{object.category}}</span>
+            {% endif %}
             <span class="badge rounded-pill text-bg-danger-light">{{object.group}}</span>
         </p>
         <p>
@@ -36,7 +55,7 @@
         <p>
             <i class="bi bi-bag-fill"></i> {% trans "Materials" %} : 
             {% for material in object.materials %}
-                <a href='/machines/?material={{material.id}}'><span class="badge rounded-pill text-bg-info">{{material.name}}</span></a>
+                <a href='/machines/?material={{material.id}}'><span class="badge rounded-pill text-bg-info-light">{{material.name}}</span></a>
             {% endfor %}
         </p>
         </div>
@@ -74,9 +93,12 @@
     <div class="col-md-6">
         <div class="d-none d-md-block">{%include 'machines/show_img.html'%}</div>
         <div class="d-none d-md-block">
-            {% comment %} {% include 'machines/info.html' %} {% endcomment %}
-            {% include 'machines/show_next_slots.html' %}
-            {% comment %} {% include 'machines/show_waiting_list.html' %} {% endcomment %}
+            {% if machine.reservable %}
+                {% include 'machines/show_next_slots.html' %}
+            {% else %}
+                <h3>{% trans "No reservation possible" %}</h3>
+                <p> {% trans "This tool is available when the Fablab is open" %} <p>
+            {% endif %}
         </div>
     </div>
 </div>
