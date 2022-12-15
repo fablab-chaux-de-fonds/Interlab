@@ -20,6 +20,11 @@ h2 {
 }
 
 .text-bg-info {
+  background-color: $custom-blue !important;
+  color: white !important;
+}
+
+.text-bg-info-light {
   background-color: $custom-blue-light !important;
   color: $custom-blue !important;
 }

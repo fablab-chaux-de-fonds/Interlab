@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content_form %}
-<h1>{% blocktrans with date=start|date:"l j F" start=start|date:"G:i" end=end|date:"G:i" %}Are you sure you want to remove the event {{title}} on {{date}} from {{start}} to {{end}}{% endblocktrans %}</h1>
+<h1>{% blocktrans with date=start|date:"l j F" start=start|date:"G:i" end=end|date:"G:i" %}Are you sure you want to remove the training {{title}} on {{date}} from {{start}} to {{end}}{% endblocktrans %}</h1>
 <form action="." method="POST">
     {% csrf_token %}
     {% include "forms/base_submit_button.html" with submit_btn="Yes, I'm sure" %}

@@ -13,7 +13,7 @@
             </div>
             <div class="col-10 ">
                 <h4>{% trans "Price" %}</h4>
-                <p>{{price}}</p>
+                <p>{{event_slot.price}}</p>
             </div>
         </div>
     </div>
@@ -27,10 +27,10 @@
                 <h4>{% trans "Registration" %}</h4>
                 {% if has_registration %}
                     <p>{% trans 'Registration mandatory' %}<br>
-                    {% if available_registration > 0  %}
+                    {% if event_slot.available_registration > 0  %}
                         <small  class"fs-6">
-                            {% blocktrans %}still {{available_registration}} places available !{% endblocktrans %}</small>
-                    {% elif available_registration == 0 %}
+                            {% blocktrans with available_registration=event_slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}</small>
+                    {% elif event_slot.available_registration == 0 %}
                         <small class="text-red">{% trans "sold out" %}</small>
                     {% endif %}
                     </p>
@@ -48,7 +48,7 @@
             </div>
             <div class="col-10 ">
                 <h4>{% trans "Location" %}</h4>
-                <p>{{location}}</p>
+                <p>{{event_slot.event.location}}</p>
             </div>
         </div>
     </div>

@@ -167,6 +167,9 @@ class SuperuserProfileEditForm(forms.Form):
         )
 
     def update_training_validation(self, view):
+
+        if not 'training' in self.initial:
+            self.initial['training']=[]
         
         # check if new training selected and created it
         for training in self.cleaned_data['training']:

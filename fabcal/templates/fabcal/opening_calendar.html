@@ -2,6 +2,11 @@
 {% load render_bundle from webpack_loader %}
 
 {% block content %}
+<h3> {% trans "Opening modes" %}</h3>
+<p> {% for opening in public_openings %}<span class="badge"  style="color: {{opening.color}}; background-color: {{opening.background_color}};">{{opening.title}}</span> {{opening.desc}}</br>{% endfor %}
+<span class="badge text-bg-info-light">{% trans "Trainings" %}</span> </br>
+<span class="badge text-bg-info">{% trans "Events" %}</span> </br>
+</p>
 <div data-app>
     <div id="vue">
         <opening-calendar :backend="{{backend}}"></opening-calendar>
