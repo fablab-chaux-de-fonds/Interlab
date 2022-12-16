@@ -1,31 +1,49 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
+  # Triggers the workflow on push or pull request events but dev and main branches
   push:
-    branches: [ master, dev ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ dev ]
+    branches: [ main, dev ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: self-hosted
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+  test:
+    runs-on: self-hosted
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.9, 3.10]
+    environment:
+      SECRET_KEY: ci
+
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Tests
+      run: |
+        python manage.py test
+
+  # Build the docker-image containing frontend and backend
+  build:
+    runs-on: self-hosted
+    steps:
+      # Workspace checkout
+      - uses: actions/checkout@v3
       
-      # Runs a single command using the runners shell
+      # Generate docker image and propagate to private registry
       - name: Build staging docker image
         run: |
           touch .env
@@ -33,4 +51,3 @@ jobs:
           docker-compose build --pull --no-cache
           docker image tag interlab_web:latest registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
           docker image push registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
-          
