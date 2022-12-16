@@ -38,3 +38,5 @@ psycopg2-binary
 pytz
 six
 bcrypt
+unittest-xml-reporting
+coverage

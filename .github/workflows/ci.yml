@@ -12,33 +12,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-
-  test:
-    runs-on: self-hosted
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: ["3.9", "3.10"]
-    env:
-      SECRET_KEY: ci
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Run Tests
-        run: |
-          python manage.py test
-
   # Build the docker-image containing frontend and backend
   build:
-    needs: test
     runs-on: self-hosted
     steps:
       # Workspace checkout
@@ -52,3 +27,23 @@ jobs:
           docker-compose build --pull --no-cache
           docker image tag interlab_web:latest registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
           docker image push registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
+
+  # Run unit tests
+  test:
+    runs-on: self-hosted
+    need: build
+    steps:
+      - name: Build staging docker image
+        uses: actions/checkout@v3
+        run: |
+          export TAG=PR$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+          docker run --rm -e SECRET_KEY=ci interlab_web:$TAG coverage.sh
+      - name: Upload pytest test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: pytest-results
+          path: 
+            test/coverage.xml
+            test/test-results.xml
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
