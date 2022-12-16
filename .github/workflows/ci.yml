@@ -34,6 +34,7 @@ jobs:
     need: build
     steps:
       - name: Test and measure coverage
+      - uses: actions/checkout@v3
         run: |
           export TAG=PR$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
           docker run --rm -e SECRET_KEY=ci interlab_web:$TAG coverage.sh
@@ -41,8 +42,8 @@ jobs:
     runs-on: self-hosted
     need: test
     steps:
-      - uses: actions/upload-artifact@v3
       - name: Upload pytest test results
+      - uses: actions/upload-artifact@v3
         with:
           name: pytest-results
           path: 
