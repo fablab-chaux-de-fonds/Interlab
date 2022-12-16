@@ -18,7 +18,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.9, 3.10]
+        python-version: ['3.10', '3.11', '3.12']
     env:
       SECRET_KEY: ci
 
@@ -38,6 +38,7 @@ jobs:
 
   # Build the docker-image containing frontend and backend
   build:
+    needs: test
     runs-on: self-hosted
     steps:
       # Workspace checkout
