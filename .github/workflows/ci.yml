@@ -19,7 +19,7 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.9, 3.10]
-    environment:
+    env:
       SECRET_KEY: ci
 
     steps:
