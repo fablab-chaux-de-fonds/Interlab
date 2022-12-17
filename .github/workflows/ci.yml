@@ -16,10 +16,8 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      # Workspace checkout
-      - uses: actions/checkout@v3
-      
       # Generate docker image and propagate to private registry
+      - uses: actions/checkout@v3
       - name: Build staging docker image
         run: |
           touch .env
@@ -27,17 +25,13 @@ jobs:
           docker-compose build --pull --no-cache
           docker image tag interlab_web:latest registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
           docker image push registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
-
-  # Run unit tests
-  test:
-    runs-on: self-hosted
-    needs: build
-    steps:
+      
       - uses: actions/checkout@v3
-      - name: Test and measure coverage
+      - name: Run unit tests and mesure code coverage
         run: |
           export TAG=PR$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
           docker run --rm -v $(pwd)/test:/code/test -e SECRET_KEY=ci interlab_web:$TAG test/coverage.sh
+          
       - uses: actions/upload-artifact@v3
         with:
           name: pytest-results
