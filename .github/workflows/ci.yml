@@ -23,13 +23,9 @@ jobs:
           touch .env
           export TAG=PR$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
           docker-compose build --pull --no-cache
+          docker run --rm -v $(pwd)/test:/code/test -e SECRET_KEY=ci interlab_web:latest test/coverage.sh
           docker image tag interlab_web:latest registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
           docker image push registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
-      
-      - name: Run unit tests and mesure code coverage
-        run: |
-          export TAG=PR$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-          docker run --rm -v $(pwd)/test:/code/test -e SECRET_KEY=ci interlab_web:$TAG test/coverage.sh
           
       - uses: actions/upload-artifact@v3
         with:
