@@ -31,7 +31,7 @@ jobs:
   # Run unit tests
   test:
     runs-on: self-hosted
-    need: build
+    needs: build
     steps:
       - uses: actions/checkout@v3
       - name: Test and measure coverage
@@ -39,7 +39,6 @@ jobs:
           export TAG=PR$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
           docker run --rm -v $(pwd)/test:/code/test -e SECRET_KEY=ci interlab_web:$TAG test/coverage.sh
       - uses: actions/upload-artifact@v3
-      - name: Upload pytest test results
         with:
           name: pytest-results
           path: 
