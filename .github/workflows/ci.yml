@@ -30,7 +30,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: pytest-results
-          path: 
+          path: |
             test/coverage.xml
             test/test-results.xml
         # Use always() to always run this step to publish test results when there are test failures
