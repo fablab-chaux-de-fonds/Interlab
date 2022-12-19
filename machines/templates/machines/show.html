@@ -15,7 +15,7 @@
         <p>{{object.desc}}</p>
         <div class="row py-4">
             {% for highlight in object.highlights %}
-                <div class="text-center col col-sm-4 px-0">
+                <div class="text-center col-6 col-lg-4 px-0">
                     {% include 'cards/show.html' with card=highlight.card %}
                 </div>
             {% endfor %}
@@ -51,7 +51,7 @@
         <div class="row py-4">
         <h3> {% trans "Support and tools" %} </h3>
         {% for tool in object.tools %}
-            <div class="text-center col col-sm-4 px-0">
+            <div class="text-center col-6 col-lg-4 px-0">
                 {% include 'cards/show.html' with card=tool.card %}
             </div>
         {% endfor %}
