@@ -471,7 +471,10 @@ class MachineReservationBaseView(LoginRequiredMixin, FormView):
     form_class = MachineReservationForm
 
     def dispatch(self, request, *args, **kwargs):
-        # Check if user is trained
+
+        if not request.user.is_authenticated:
+            return redirect('/accounts/login?next=%s' % request.path)
+
         self.machine_slot = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
         self.next_machine_slot = MachineSlot.objects.filter(
                 start__gt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=False
@@ -489,6 +492,7 @@ class MachineReservationBaseView(LoginRequiredMixin, FormView):
                 start__lt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=True
                 ).order_by('start').last()
 
+        # Check if user is trained
         if self.request.user.profile.pk not in self.machine_slot.machine.trained_profile_list:
             messages.error(request, _('Sorry, you cannont reserve this machine, because you need to complete the training before using it'))
             return redirect('/trainings/?machine_category=' + str(self.machine_slot.machine.category.pk))
