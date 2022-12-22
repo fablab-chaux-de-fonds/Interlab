@@ -659,10 +659,9 @@ msgstr " de "
 msgid " to "
 msgstr " à "
 
-#: fabcal/forms.py:126 fabcal/forms.py:230 fabcal/forms.py:267
-#: fabcal/forms.py:306
-msgid "Download .ICS file"
-msgstr "Téléchager le ficher .ICS"
+#: fabcal/forms.py:87 fabcal/forms.py:230 fabcal/forms.py:265
+msgid "Add to my calendar"
+msgstr "Ajouter à mon calendrier"
 
 #: fabcal/forms.py:151
 #, fuzzy, python-format
