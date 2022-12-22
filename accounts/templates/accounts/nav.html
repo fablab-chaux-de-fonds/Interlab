@@ -32,6 +32,17 @@
             </div>
         </div>
     </a>
+    <hr>
+    <a class="nav-link px-0 text-blue" href="/accounts/logout">
+        <div class="row">
+            <div class="col-10">
+                <h2>{% trans "Logout" %}</h2>
+            </div>
+            <div class="col-2">
+                <h1><i class="bi bi-arrow-right-square"></i></h1>
+            </div>
+        </div>
+    </a>
     {% if request.user|has_group:"superuser" %}
     <hr class="text-red">
         <h1 class="text-red">{%trans "Superuser area" %}</h1>
@@ -49,15 +60,4 @@
         </div>
     </a>
     {% endif %}
-    <hr>
-    <a class="nav-link px-0 text-blue" href="/accounts/logout">
-        <div class="row">
-            <div class="col-10">
-                <h2>{% trans "Logout" %}</h2>
-            </div>
-            <div class="col-2">
-                <h1><i class="bi bi-arrow-right-square"></i></h1>
-            </div>
-        </div>
-    </a>
 </nav>
