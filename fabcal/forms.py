@@ -84,7 +84,7 @@ class AbstractSlotForm(forms.Form):
             "</br>" +
             "<a href=\"/fabcal/download-ics-file/" + self.cleaned_data['opening'].title + "/" + self.cleaned_data['start'].strftime("%Y%m%dT%H%M%S%z")  + "/" + self.cleaned_data['end'].strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
             "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
-            _('Download .ICS file') +
+            _('Add to my calendar') +
             "</a>"
             )
         )
@@ -227,7 +227,7 @@ class EventForm(AbstractSlotForm):
             "</br>" +
             "<a href=\"/fabcal/download-ics-file/" + self.cleaned_data['event'].title + "/" + self.cleaned_data['start'].strftime("%Y%m%dT%H%M%S%z")  + "/" + self.cleaned_data['end'].strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
             "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
-            _('Download .ICS file') +
+            _('Add to my calendar') +
              "</a>"
             )
         )
@@ -262,7 +262,7 @@ class TrainingForm(AbstractSlotForm):
             "</br>" +
             "<a href=\"/fabcal/download-ics-file/" + self.cleaned_data['training'].title + "/" + self.cleaned_data['start'].strftime("%Y%m%dT%H%M%S%z")  + "/" + self.cleaned_data['end'].strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
             "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
-            _('Download .ICS file') +
+            _('Add to my calendar') +
             "</a>"
             )
         )

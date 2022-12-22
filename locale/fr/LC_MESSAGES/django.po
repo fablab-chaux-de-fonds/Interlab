@@ -656,8 +656,8 @@ msgid " to "
 msgstr " à "
 
 #: fabcal/forms.py:87 fabcal/forms.py:230 fabcal/forms.py:265
-msgid "Download .ICS file"
-msgstr "Téléchager le ficher .ICS"
+msgid "Add to my calendar"
+msgstr "Ajouter à mon calendrier"
 
 #: fabcal/forms.py:97
 msgid "Select an opening"
