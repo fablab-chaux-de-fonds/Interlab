@@ -40,3 +40,4 @@ six
 bcrypt
 unittest-xml-reporting
 coverage
+coverage-badge
