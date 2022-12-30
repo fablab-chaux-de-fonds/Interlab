@@ -16,7 +16,7 @@ jobs:
   build:
     runs-on: self-hosted
     permissions:
-      content: write 
+      contents: write 
     steps:
       # Generate docker image and propagate to private registry
       - uses: actions/checkout@v3
