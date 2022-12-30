@@ -1,5 +1,8 @@
 # Interlab
 
+[![CI](https://github.com/fablab-chaux-de-fonds/Interlab/actions/workflows/ci.yml/badge.svg)](https://github.com/fablab-chaux-de-fonds/Interlab/actions/workflows/ci.yml)
+[![Coverage](https://fablab-chaux-de-fonds.github.io/Interlab/coverage/refs/pull/211/merge/coverage.svg)](https://fablab-chaux-de-fonds.github.io/Interlab/coverage/refs/pull/211/merge/)
+
 ## Start using docker
 
 Docker image is using environment variables, copy env.example to .env with your environment values
