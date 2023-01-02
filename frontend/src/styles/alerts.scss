@@ -1,10 +1,15 @@
 .alert-success {
   background-color: $custom-green-light;
+  border-color: $custom-green;
   color: $custom-green;
 }
 
-.alert-warning,
 .alert-danger {
   background-color: $custom-red-light;
+  border-color: $custom-red;
   color: $custom-red;
+}
+
+.alert-error {
+  @extend .alert-danger;
 }

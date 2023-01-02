@@ -29,6 +29,13 @@ class AbstractRegistration(models.Model):
             return self.registration_limit - self.registrations.count()
         else:
             return None
+
+    @property
+    def is_editable(self):
+        if self.start-datetime.timedelta(days=1) > datetime.datetime.now():
+            return True 
+        else:
+            return False
     class Meta:
         abstract = True
 class OpeningSlot(AbstractSlot):
@@ -59,7 +66,7 @@ class CalendarOpeningsPluginModel(CMSPlugin):
 class EventSlot(AbstractSlot, AbstractRegistration):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     has_registration = models.BooleanField()
-    registrations = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='event_registration_users', blank=True, null=True)
+    registrations = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='event_registration_users', blank=True)
     is_active = models.BooleanField(default=True)
     price = models.TextField(max_length=255)
     opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
@@ -73,16 +80,13 @@ class EventSlot(AbstractSlot, AbstractRegistration):
     @property
     def is_single_day(self):
         return self.start.date() == self.end.date()
-    
-    @property
-    def is_registration_open(self):
-        "Check registration deadline (24h) "
-        return datetime.datetime.now()-datetime.timedelta(hours=24) < self.start
 
 class TrainingSlot(AbstractSlot, AbstractRegistration):
     training = models.ForeignKey(Training, on_delete=models.CASCADE)
     opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
     registrations = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='training_registration_users', blank=True, null=True)
+    
+
 
     class Meta:
         verbose_name = _("Training Slot")

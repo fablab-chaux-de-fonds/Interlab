@@ -1,4 +1,5 @@
 import smtplib
+from datetime import datetime
 from crispy_forms.helper import FormHelper
 
 from django import forms
@@ -132,30 +133,71 @@ class SuperuserProfileEditForm(forms.Form):
         widget=forms.CheckboxSelectMultiple
         )
 
+    def _remove_subscription(self, view, user_profile: Profile):
+        user_profile.subscription = None
+        user_profile.save()
+        messages.success(view.request, mark_safe(_('Remove subscription for user {}'.format(user_profile.user))))
+
+    def _create_subscription(self, view, new_subscription_category: int, user_profile: Profile):
+        # Only send mail for new subscriptions
+        is_new_subscription = user_profile.subscription is None
+        
+        # Default value start today
+        today = datetime.today()
+        
+        user_profile.subscription = Subscription.objects.create(
+            subscription_category = new_subscription_category,
+            access_number = new_subscription_category.default_access_number,
+            start = self.start or today,
+            end = self.end or (today + new_subscription_category.duration)
+        )
+        # When subscription is defined, it means it has changed somehow, save it.
+        user_profile.subscription.save()
+        user_profile.save()
+
+        # Notify super-user of operation result
+        messages.success(
+            view.request, 
+            mark_safe(_("Subcription updated to %(subcription_category)s for user %(user)s") % {
+                'subcription_category': user_profile.subscription.subscription_category.title if user_profile.subscription is not None else '',
+                'user': str(user_profile.user)
+            })
+        )
+
+        # --- New subscription email sending ---
+        if is_new_subscription:
+            self._send_subscription_mail(view)
+
+
+    def _update_duration(self, view, user_profile: Profile):
+        user_profile.subscription.start = self.start
+        user_profile.subscription.end = self.end
+        user_profile.subscription.save()
+        messages.success(view.request, mark_safe(_('Subscription duration updated for user {}'.format(user_profile.user))))
+
     def update_or_create_subscription(self, view):
+        (user_profile, is_new_profile) = Profile.objects.get_or_create(user=view.user)
+        
+        old_subscription_category_pk = None
+        if user_profile.subscription is not None \
+            and user_profile.subscription.subscription_category is not None:
+            old_subscription_category_pk = user_profile.subscription.subscription_category.pk
 
-        subcription_category = self.cleaned_data['subscription_category']
-        kwargs = {
-                'subscription_category': subcription_category,
-                'start': self.start,
-                'end': self.end,
-                "access_number" : subcription_category.default_access_number
-        }
-        s = Subscription(**kwargs)
-        s.save()
+        new_subscription_category = self.cleaned_data.get('subscription_category', None)
+        new_subscription_category_pk = new_subscription_category.pk if new_subscription_category is not None else None
 
-        Profile.objects.update_or_create(user=view.user, defaults={'subscription':s})
+        if new_subscription_category_pk != old_subscription_category_pk:
+            if new_subscription_category is None:
+                self._remove_subscription(view, user_profile)
+            else:
+                self._create_subscription(view, new_subscription_category, user_profile)
+        elif user_profile.subscription is not None \
+            and (self.initial.get('start', self.start) != self.start or self.initial.get('end', self.end) != self.end):
+                self._update_duration(view, user_profile)
+        elif is_new_profile:
+            user_profile.save()
 
-        message = _("Subcription updated to %(subcription_category)s for user ") % {'subcription_category': subcription_category.title}
-       
-        if view.user.first_name:
-            message += view.user.first_name + ' ' + view.user.last_name
-        else:
-            message += view.user.email + view.user.first_name + ' ' + view.user.last_name 
-
-        messages.success(view.request, mark_safe(message))
-    
-    def send_subscription_mail(self, view):
+    def _send_subscription_mail(self, view):
         html_message = render_to_string('accounts/email/new_subscription.html', view.context)
 
         send_mail(
@@ -167,51 +209,55 @@ class SuperuserProfileEditForm(forms.Form):
         )
 
     def update_training_validation(self, view):
+
+        if not 'training' in self.initial:
+            self.initial['training']=[]
         
-        # check if new training selected and created it
-        for training in self.cleaned_data['training']:
-            if not training.pk in self.initial['training']:
-                TrainingValidation.objects.create(
-                    profile = view.user.profile,
-                    training = training
-                )
+        selectedTrainings = self.cleaned_data.get('training', None)
+        if selectedTrainings is None:
+            return
+        
+        userTrainings = TrainingValidation.objects.filter(profile=view.user.profile)
 
-                messages.success(view.request, 
-                    _("Training %(training)s has been successfully valided for %(first_name)s %(last_name)s") % {'training': training.title, 'first_name': view.user.first_name, 'last_name': view.user.last_name}
-                )
+        # Deleting trainings not in new selection
+        for trainingValidation in userTrainings.exclude(training__pk__in=selectedTrainings):
+            trainingValidation.delete()
 
-                view.context = {'training': training}
+            messages.success(view.request, 
+                _("Training %(training)s has been successfully deleted for %(first_name)s %(last_name)s") % {'training': trainingValidation.training.title, 'first_name': view.user.first_name, 'last_name': view.user.last_name}
+            )
 
-                html_message = render_to_string('accounts/email/create_training_validation.html', view.context)
+            view.context = {'training': trainingValidation.training}
+            html_message = render_to_string('accounts/email/delete_training_validation.html', view.context)
 
-                send_mail(
-                    from_email=None,
-                    subject=_("Start to use the machine !"),
-                    message = _("Training validated"),
-                    recipient_list = [view.user.email],
-                    html_message = html_message
-                )
-       
-        # check if a training has been unchecked and delete it
-        for pk in self.initial['training']:
-            if not pk in [training.pk for training in self.cleaned_data['training']]:
-                training = Training.objects.get(pk=pk) 
-                TrainingValidation.objects.get(
-                    profile = view.user.profile,
-                    training = training
-                ).delete()
+            send_mail(
+                from_email=None,
+                subject=_("Sorry, we cancel your training validation"),
+                message = _("Training deleted"),
+                recipient_list = [view.user.email],
+                html_message = html_message
+            )  
 
-                messages.success(view.request, 
-                    _("Training %(training)s has been successfully deleted for %(first_name)s %(last_name)s") % {'training': training.title, 'first_name': view.user.first_name, 'last_name': view.user.last_name}
-                )
 
-                view.context = {'training': training}
-                html_message = render_to_string('accounts/email/delete_training_validation.html', view.context)
+        existingTrainings = [t.training.pk for t in userTrainings]
+        for trainingValidation in Training.objects.exclude(pk__in=existingTrainings).filter(pk__in=selectedTrainings):
+            TrainingValidation.objects.create(
+                profile = view.user.profile,
+                training = trainingValidation
+            )
 
-                send_mail(
-                    from_email=None,
-                    subject=_("Sorry, we cancel your training validation"),
-                    message = _("Training deleted"),
-                    recipient_list = [view.user.email],
-                    html_message = html_message
-                )  
+            messages.success(view.request, 
+                _("Training %(training)s has been successfully valided for %(first_name)s %(last_name)s") % {'training': trainingValidation.title, 'first_name': view.user.first_name, 'last_name': view.user.last_name}
+            )
+
+            view.context = {'training': trainingValidation}
+
+            html_message = render_to_string('accounts/email/create_training_validation.html', view.context)
+
+            send_mail(
+                from_email=None,
+                subject=_("Start to use the machine !"),
+                message = _("Training validated"),
+                recipient_list = [view.user.email],
+                html_message = html_message
+            )
