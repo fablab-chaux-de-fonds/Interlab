@@ -45,9 +45,6 @@
     </a>
     {% if request.user|has_group:"superuser" %}
     <hr class="text-red">
-        <h1 class="text-red">{%trans "Superuser area" %}</h1>
-    
-    <hr class="text-red">
     <a class="nav-link px-0" href="{% url 'user-list' %}">
         <div class="row">
             <div class="col-10">
