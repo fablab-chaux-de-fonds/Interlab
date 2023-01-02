@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-13 06:20+0000\n"
+"POT-Creation-Date: 2023-01-02 13:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -140,12 +140,12 @@ msgid "Update my subscription"
 msgstr "Renouveler mon abonnement"
 
 #: accounts/templates/accounts/email/create_training_validation.html:7
-msgid "We have validated the training"
-msgstr "Nous avons validé la formation"
+msgid "We have validated your training"
+msgstr "Nous avons validé votre formation"
 
 #: accounts/templates/accounts/email/delete_training_validation.html:7
-msgid "Sorry, we have cancel the validity for the training"
-msgstr "Désolé, nous avons annulé la validité de la formation."
+msgid "Sorry, we have cancel the training"
+msgstr "Désolé, nous vous avons annulé la formation"
 
 #: accounts/templates/accounts/email/new_subscription.html:7
 msgid "We have created you a new subscription valid until"
