@@ -29,3 +29,8 @@ def schedule(request):
     template = loader.get_template('vuejs.html')
     context = {}
     return HttpResponse(template.render(context, request))
+
+def error_500(request):
+    template = loader.get_template('500.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
