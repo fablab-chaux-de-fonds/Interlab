@@ -48,7 +48,7 @@ def training_show(request, pk):
     return render(request, 'trainings/show.html', context)
 
 
-class TrainingValidation(LoginRequiredMixin, FormView):
+class TrainingValidationView(LoginRequiredMixin, FormView):
     template_name = 'trainings/training_validation.html'
     form_class = TrainingValidationForm
     success_url = "/" # TODO redirect to training show view
