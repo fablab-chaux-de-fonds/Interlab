@@ -61,22 +61,23 @@ class TrainingValidationView(LoginRequiredMixin, FormView):
         context = {
             'registrations': registrations,
             'graduates': graduates,
-            'training': training_slot.training
+            'training': training_slot.training,
+            'training_slot': training_slot
         }
 
         return context
 
 
     def form_valid(self, form, **kwargs):
-            context = self.get_context_data(**kwargs)
-            self.old = [graduate.pk for graduate in context['graduates']] # list of initial Profile pk checked
-            self.new = self.request.POST.getlist('validations') # list of checked Profile pk after validation
-            self.training = context['training']
+        context = self.get_context_data(**kwargs)
+        self.old = [graduate.pk for graduate in context['graduates']] # list of initial Profile pk checked
+        self.new = self.request.POST.getlist('validations') # list of checked Profile pk after validation
+        self.training = context['training']
 
-            form.add_new_training_validation(self)
-            form.remove_training_validation(self)
+        form.add_new_training_validation(self)
+        form.remove_training_validation(self)
 
-            return redirect('/')
+        return redirect('/')
 
 @login_required
 def training_waiting_list(request, pk):
