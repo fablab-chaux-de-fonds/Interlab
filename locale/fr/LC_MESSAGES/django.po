@@ -87,9 +87,7 @@ msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 msgid "Welcome to Fablab !"
 msgstr "Bienvenue au FabLab !"
 
-#: accounts/forms.py:206 fabcal/forms.py:278 fabcal/forms.py:289
-#, fuzzy
-#| msgid "my next trainings"
+#: accounts/forms.py:164 fabcal/forms.py:278 fabcal/forms.py:289
 msgid "A new training was planned"
 msgstr "Une nouvelle formation a été planifiée"
 
