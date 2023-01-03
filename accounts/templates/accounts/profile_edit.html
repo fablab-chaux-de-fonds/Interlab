@@ -12,15 +12,7 @@
         <a class="btn btn-outline-primary my-4" href="../../password_change/"> {% trans "Change password" %} </a>
         <a class="text-center" href="{% url 'delete-profile' %}">{% trans "delete account"|capfirst %}</a> 
     </div>
-
-    <div class="row text-center align-items-center my-5">
-        <div class="col">
-            <a href="{{request.META.HTTP_REFERER}}">{% trans 'Whoops, no !' %} </a>
-        </div> 
-        <div class="col">
-            <input class="btn mx-auto" type="submit" value="{% trans 'Update' %}">
-        </div>
-    </div>
+    {% include "forms/base_submit_button.html" with submit_btn="Update" %}
  </form>
     
 {% endblock content_form %}

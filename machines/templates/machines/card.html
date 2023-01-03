@@ -3,7 +3,8 @@
     <div class="card card-border-red">
         <img class="card-img" src="{{machine.photo.url}}"  alt="{{machine}}">
         <div class="card-body card-img-overlay h-100 d-flex flex-column justify-content-end p-0">
-            <p class="card-title card-title-overlay mb-0 p-2"> {{machine.category}} - {{machine.title}}</p>
+            <p class="card-title card-title-overlay mb-0 p-2">
+                {% if machine.category %} {{machine.category}} - {% endif %}{{machine.title}}</p>
         </div>
     </div>
 </a>
