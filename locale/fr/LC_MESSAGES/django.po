@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-16 06:14+0000\n"
+"POT-Creation-Date: 2023-01-03 16:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -213,7 +213,11 @@ msgstr "complet"
 msgid "Opening"
 msgstr "Ouverture"
 
-#: accounts/templates/accounts/profile.html:56
+#: accounts/templates/accounts/profile.html:53
+msgid "No reservations for the moment"
+msgstr "Pas de réservations pour le moment"
+
+#: accounts/templates/accounts/profile.html:58
 #: interlab/templates/menu-mobile.html:18
 #: interlab/templates/navbar-header.html:17
 msgid "Reservation"
@@ -1341,13 +1345,15 @@ msgstr "Réserver mon prochain créneau"
 #: machines/templates/machines/show_next_slots.html:5
 #, python-format
 msgid " Minimum slot duration: %(FABCAL_MINIMUM_RESERVATION_TIME)s minutes "
-msgstr " Durée minimum de réservation: %(FABCAL_MINIMUM_RESERVATION_TIME)s minutes "
+msgstr ""
+" Durée minimum de réservation: %(FABCAL_MINIMUM_RESERVATION_TIME)s minutes "
 
 #: machines/templates/machines/show_next_slots.html:6
 #, python-format
 msgid ""
 " Reservations in %(FABCAL_RESERVATION_INCREMENT_TIME)s minute increments"
-msgstr "Réservation par tranche de %(FABCAL_RESERVATION_INCREMENT_TIME)s minutes"
+msgstr ""
+"Réservation par tranche de %(FABCAL_RESERVATION_INCREMENT_TIME)s minutes"
 
 #: machines/templates/machines/show_next_slots.html:27
 msgid "Sorry, no slot available for this machine."

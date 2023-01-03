@@ -49,6 +49,8 @@
                     {% for reservation in slot.get_reservation_list %}
                         {{reservation.start|date:"H:i"}} - {{reservation.end|date:"H:i"}}: {{reservation.machine.title}} - {{reservation.user.first_name}} {{reservation.user.last_name}}
                         <br>
+                    {% empty %}
+                        {% trans "No reservations for the moment" %}
                     {% endfor %}
                     
                     {% elif slot.machine %}
