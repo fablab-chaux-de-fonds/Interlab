@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-03 13:12+0000\n"
+"POT-Creation-Date: 2023-01-03 15:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,7 +192,7 @@ msgid "Users"
 msgstr "Utilisateurs"
 
 #: accounts/templates/accounts/nav.html:52
-#: machines/templates/trainings/training_validation.html:10
+#: machines/templates/trainings/training_validation.html:12
 msgid "training validation"
 msgstr "validation de formations"
 
@@ -1171,24 +1171,6 @@ msgstr "Liste des formations"
 msgid "Machine list"
 msgstr "Lise des machines"
 
-#: machines/forms.py:22
-#, python-format
-msgid ""
-"You successfully validate the training %(title)s for user %(first_name)s "
-"%(last_name)s"
-msgstr ""
-"Vous avez validé avec succès la formation %(title)s pour l'utilisateur "
-"%(first_name)s %(last_name)s"
-
-#: machines/forms.py:40
-#, python-format
-msgid ""
-"You successfully remove the training %(title)s for user %(first_name)s "
-"%(last_name)s"
-msgstr ""
-"Vous avez validé avec succès la formation %(title)s pour l'utilisateur "
-"%(first_name)s %(last_name)s"
-
 #: machines/models.py:15
 msgid "Photo"
 msgstr "Photo"
@@ -1465,7 +1447,11 @@ msgstr ""
 msgid "Show users list"
 msgstr "Afficher la liste des utilisateurs"
 
-#: machines/templates/trainings/training_validation.html:26
+#: machines/templates/trainings/training_validation.html:17
+msgid "Subscription list: "
+msgstr "List des participants"
+
+#: machines/templates/trainings/training_validation.html:34
 msgid "Validate training"
 msgstr "Valider la formation"
 
@@ -1492,6 +1478,22 @@ msgstr "Merci ! Vous êtes maintenant inscrit à notre newsletter"
 #: openings/apps.py:7 openings/models.py:38
 msgid "Openings"
 msgstr "Ouvertures"
+
+#, python-format
+#~ msgid ""
+#~ "You successfully validate the training %(title)s for user %(first_name)s "
+#~ "%(last_name)s"
+#~ msgstr ""
+#~ "Vous avez validé avec succès la formation %(title)s pour l'utilisateur "
+#~ "%(first_name)s %(last_name)s"
+
+#, python-format
+#~ msgid ""
+#~ "You successfully remove the training %(title)s for user %(first_name)s "
+#~ "%(last_name)s"
+#~ msgstr ""
+#~ "Vous avez validé avec succès la formation %(title)s pour l'utilisateur "
+#~ "%(first_name)s %(last_name)s"
 
 #~ msgid "Your subscription will expire today"
 #~ msgstr "Votre abonnement sera expiré dans 7 jours"
