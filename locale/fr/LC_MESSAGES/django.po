@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-03 15:25+0000\n"
+"POT-Creation-Date: 2023-01-03 15:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,14 +72,13 @@ msgid "Remove subscription for user {}"
 msgstr ""
 
 #: accounts/forms.py:161
-#, fuzzy, python-format
-#| msgid "Subcription updated to %(subcription_category)s for user "
+#, python-format
 msgid "Subcription updated to %(subcription_category)s for user %(user)s"
-msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
+msgstr ""
+"Abonnement %(subcription_category)s mise à jour pour l'utilisateur %(user)s"
 
 #: accounts/forms.py:176
 #, fuzzy
-#| msgid "Subcription updated to %(subcription_category)s for user "
 msgid "Subscription duration updated for user {}"
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
@@ -87,7 +86,7 @@ msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 msgid "Welcome to Fablab !"
 msgstr "Bienvenue au FabLab !"
 
-#: accounts/forms.py:164 fabcal/forms.py:278 fabcal/forms.py:289
+#: accounts/forms.py:206 fabcal/forms.py:278 fabcal/forms.py:289
 msgid "A new training was planned"
 msgstr "Une nouvelle formation a été planifiée"
 
