@@ -4,7 +4,7 @@
         <v-dialog ref="dialog" v-model="dialog" :return-value.sync="date" persistent width="290px">
             <template v-slot:activator="{ on, attrs }">
                 <v-text-field :label=label readonly v-bind="attrs" v-on="on" outlined :name=inputName
-                    :value="formatDate()"></v-text-field>
+                    :value="formatDate()" hide-details></v-text-field>
             </template>
             <v-date-picker v-model="date" scrollable color="#0b1783" first-day-of-week=1 prev-icon="bi bi-chevron-left"
                 next-icon="bi bi-chevron-right">

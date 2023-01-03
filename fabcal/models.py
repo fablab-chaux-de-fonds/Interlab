@@ -18,6 +18,10 @@ class AbstractSlot(models.Model):
     class Meta:
         abstract = True
 
+    @property
+    def get_duration(self):
+        return int((self.end-self.start).seconds / 60)
+
 
 class AbstractRegistration(models.Model):
     registration_limit = models.IntegerField(blank=True, null=True)
