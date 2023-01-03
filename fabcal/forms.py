@@ -33,6 +33,15 @@ class AbstractSlotForm(forms.Form):
         required=False,
         )
 
+    machine = forms.ModelMultipleChoiceField(
+        queryset = Machine.objects.filter(reservable=True),
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'checked' : ''}
+        ),
+        label=_('Machines'),
+        required=False
+    )
+
     def __init__(self, *args, **kwargs):
         kwargs["label_suffix"] = ""
         super().__init__(*args, **kwargs)
@@ -40,18 +49,48 @@ class AbstractSlotForm(forms.Form):
         abstract = True
 
     def clean_start(self):
+        if 'date' in self.data:
+            start_date = self.data['date']
+        else:
+            start_date = self.data['start_date']
+
         self.cleaned_data['start'] = datetime.datetime.combine(
-            dateparser.parse(self.data['date']), 
+            dateparser.parse(start_date), 
             dateparser.parse(self.data['start_time']).time()
             )
+
+        # check if opening slot already exist / for update
+        if 'opening' in self.initial:
+
+            # check if user alread booked a modified slot
+            qs = MachineSlot.objects.filter(opening_slot=OpeningSlot.objects.get(pk=self.initial['id']))
+
+            for obj in qs:
+                if obj.start < self.cleaned_data['start'] and obj.user:
+                    self.validation_slot(obj)
 
         return self.cleaned_data['start']
 
     def clean_end(self):
+        if 'date' in self.data:
+            end_date = self.data['date']
+        else:
+            end_date = self.data['end_date']
+
         self.cleaned_data['end'] = datetime.datetime.combine(
-            dateparser.parse(self.data['date']), 
+            dateparser.parse(end_date), 
             dateparser.parse(self.data['end_time']).time()
             )
+
+        # check if opening slot already exist / for update
+        if 'opening' in self.initial:
+
+            # check if user alread booked a modified slot
+            qs = MachineSlot.objects.filter(opening_slot=OpeningSlot.objects.get(pk=self.initial['id']))
+
+            for obj in qs:
+                if obj.end > self.cleaned_data['end'] and obj.user:
+                    self.validation_slot(obj)
         
         return self.cleaned_data['end']
 
@@ -84,61 +123,12 @@ class AbstractSlotForm(forms.Form):
             "</br>" +
             "<a href=\"/fabcal/download-ics-file/" + self.cleaned_data['opening'].title + "/" + self.cleaned_data['start'].strftime("%Y%m%dT%H%M%S%z")  + "/" + self.cleaned_data['end'].strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
             "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
-            _('Download .ICS file') +
+            _('Add to my calendar') +
             "</a>"
             )
         )
 
         return opening_slot[0]
-class OpeningForm(AbstractSlotForm):
-    opening = forms.ModelChoiceField(
-        queryset=Opening.objects.all(),
-        label=_('Opening'),
-        empty_label=_('Select an opening'),
-        error_messages={'required': _('Please select an opening.')}
-        )
-    machine = forms.ModelMultipleChoiceField(
-        queryset = Machine.objects.filter(reservable=True),
-        widget=forms.CheckboxSelectMultiple(
-            attrs={'checked' : ''}
-        ),
-        label=_('Machines'),
-        required=False
-    )
-    date = forms.CharField()
-
-    start = forms.DateTimeField(required=False)
-    end = forms.DateTimeField(required=False)
-                
-    def clean_start(self):
-        super(OpeningForm, self).clean_start()
-
-        # check if opening slot already exist / for update
-        if 'opening' in self.initial:
-
-            # check if user alread booked a modified slot
-            qs = MachineSlot.objects.filter(opening_slot=OpeningSlot.objects.get(pk=self.initial['id']))
-
-            for obj in qs:
-                if obj.start < self.cleaned_data['start'] and obj.user:
-                    self.validation_slot(obj)
-
-        return self.cleaned_data['start']
-
-    def clean_end(self):
-        super(OpeningForm, self).clean_end()
-
-        # check if opening slot already exist / for update
-        if 'opening' in self.initial:
-
-            # check if user alread booked a modified slot
-            qs = MachineSlot.objects.filter(opening_slot=OpeningSlot.objects.get(pk=self.initial['id']))
-
-            for obj in qs:
-                if obj.end > self.cleaned_data['end'] and obj.user:
-                    self.validation_slot(obj)
-
-        return self.cleaned_data['end']
 
     def clean_machine(self):
         """Check if machine removed and already booked"""
@@ -179,6 +169,14 @@ class OpeningForm(AbstractSlotForm):
 
     def delete_machine_slot(self, view, pk):
         MachineSlot.objects.filter(opening_slot=view.opening_slot, machine_id = pk).delete()
+class OpeningForm(AbstractSlotForm):
+    opening = forms.ModelChoiceField(
+        queryset=Opening.objects.all(),
+        label=_('Opening'),
+        empty_label=_('Select an opening'),
+        error_messages={'required': _('Please select an opening.')}
+        )
+    date = forms.CharField()
         
 class EventForm(AbstractSlotForm):
     event = forms.ModelChoiceField(
@@ -207,10 +205,12 @@ class EventForm(AbstractSlotForm):
             )
         return self.cleaned_data['end']
 
-    def update_or_create_event_slot(self, view, opening_slot):
+    def update_or_create_event_slot(self, view):
         fields = [f.name for f in EventSlot._meta.get_fields()] + ['user_id']
         defaults = {key: self.cleaned_data[key]  for key in self.cleaned_data if key in fields}
-        defaults['opening_slot'] = opening_slot
+        
+        if hasattr(view, 'opening_slot'):
+            defaults['opening_slot'] = view.opening_slot
 
         EventSlot.objects.update_or_create(
             pk = view.kwargs.get('pk', None),
@@ -227,7 +227,7 @@ class EventForm(AbstractSlotForm):
             "</br>" +
             "<a href=\"/fabcal/download-ics-file/" + self.cleaned_data['event'].title + "/" + self.cleaned_data['start'].strftime("%Y%m%dT%H%M%S%z")  + "/" + self.cleaned_data['end'].strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
             "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
-            _('Download .ICS file') +
+            _('Add to my calendar') +
              "</a>"
             )
         )
@@ -237,15 +237,17 @@ class TrainingForm(AbstractSlotForm):
         queryset= Training.objects.filter(is_active=True),
         label=_('Training'),
         empty_label=_('Select a training'),
-        error_messages={'required': _('Please select a training.')}, 
+        error_messages={'required': _('Please select a training.')}
         )
     date = forms.CharField()
     registration_limit = forms.IntegerField(required=True, label=_('Registration limit'))
 
-    def update_or_create_training_slot(self, view,opening_slot):
+    def update_or_create_training_slot(self, view):
         fields = [f.name for f in TrainingSlot._meta.get_fields()] + ['user_id']
         defaults = {key: self.cleaned_data[key]  for key in self.cleaned_data if key in fields}
-        defaults['opening_slot'] = opening_slot
+
+        if hasattr(view, 'opening_slot'):
+            defaults['opening_slot'] = view.opening_slot
 
         training_slot = TrainingSlot.objects.update_or_create(
             pk = view.kwargs.get('pk', None),
@@ -262,7 +264,7 @@ class TrainingForm(AbstractSlotForm):
             "</br>" +
             "<a href=\"/fabcal/download-ics-file/" + self.cleaned_data['training'].title + "/" + self.cleaned_data['start'].strftime("%Y%m%dT%H%M%S%z")  + "/" + self.cleaned_data['end'].strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
             "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
-            _('Download .ICS file') +
+            _('Add to my calendar') +
             "</a>"
             )
         )
@@ -295,7 +297,17 @@ class RegistrationTrainingForm(forms.Form):
     def register(self, view):
         training_slot = TrainingSlot.objects.get(pk=view.kwargs['pk'])
         training_slot.registrations.add(view.request.user)
-        messages.success(view.request, _("Well done! We sent you an email to confirme your registration"))
+        messages.success(view.request, mark_safe(
+        _(
+            "Well done! We sent you an email to confirme your registration" + 
+            "</br>" +
+            "<a href=\"/fabcal/download-ics-file/" + training_slot.training.title + "/" + training_slot.start.strftime("%Y%m%dT%H%M%S%z")  + "/" + training_slot.end.strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
+            "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
+            _('Download .ICS file') +
+            "</a>"
+            )
+            )
+        )
     
     def send_mail(self, view):
 

@@ -48,7 +48,7 @@ def training_show(request, pk):
     return render(request, 'trainings/show.html', context)
 
 
-class TrainingValidation(LoginRequiredMixin, FormView):
+class TrainingValidationView(LoginRequiredMixin, FormView):
     template_name = 'trainings/training_validation.html'
     form_class = TrainingValidationForm
     success_url = "/" # TODO redirect to training show view
@@ -102,3 +102,6 @@ class MachineShowView(DetailView):
         context['FABCAL_MINIMUM_RESERVATION_TIME'] = settings.FABCAL_MINIMUM_RESERVATION_TIME
         context['FABCAL_RESERVATION_INCREMENT_TIME'] = settings.FABCAL_RESERVATION_INCREMENT_TIME
         return context
+
+class MachineSlotView(MachineShowView):
+    template_name = 'machines/mobile_slots.html'

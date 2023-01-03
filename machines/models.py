@@ -1,5 +1,6 @@
 import datetime
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext as _
 from djangocms_text_ckeditor.fields import HTMLField
@@ -7,9 +8,10 @@ from cms.models import CMSPlugin
 
 from accounts.models import Profile
 from openings.models import AbstractOpening
+from url_or_relative_url_field.fields import URLOrRelativeURLField
 
 class ItemForRent(AbstractOpening):
-    full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2)
+    full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2, null=True, blank=False)
     photo = models.ImageField(upload_to='img', verbose_name=_('Photo'))
     header = HTMLField(verbose_name=_('Header'),blank=True,configuration='CKEDITOR_SETTINGS')
 
@@ -51,9 +53,6 @@ class Training(ItemForRent):
     sort = models.PositiveSmallIntegerField(default=1)
     is_active = models.BooleanField(default=True)
 
-    def __str__(self):
-        return _('Training') + ' :' +self.title
-
     @property
     def outcome_list(self):
         return self.outcomelistitem_set.all()
@@ -84,7 +83,7 @@ class Card(models.Model):
     bootstrap_icon = models.CharField(max_length=255, blank=True)
     title = models.CharField(max_length=255, verbose_name=_('Title'))
     description = models.CharField(max_length=255, verbose_name=_('Description'), blank=True)
-    link = models.URLField(verbose_name=_('Link'), blank=True)
+    link = URLOrRelativeURLField(verbose_name=_('Link'), blank=True)
     link_text = models.CharField(max_length=255, verbose_name=_('Link text'), blank=True)
 
     def __str__(self):
@@ -93,6 +92,11 @@ class Card(models.Model):
     class Meta:
         verbose_name = _("Card")
         verbose_name_plural = _("Cards")
+
+    def clean(self):
+        if not self.icon.name and not self.bootstrap_icon:
+            raise ValidationError('Please file either an icon or a bootstrap icon')
+       
 
 class AbstractCardSorting(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
@@ -148,15 +152,12 @@ class Machine(ItemForRent):
         default='available'
     )
 
-    group = models.ForeignKey(MachineGroup,null=True,on_delete=models.SET_NULL)
-    category = models.ForeignKey(MachineCategory,null=True,on_delete=models.SET_NULL)
-    material = models.ManyToManyField(Material, blank=True)
-    workshop = models.ManyToManyField(Workshop, blank=True)
+    group = models.ForeignKey(MachineGroup, blank=True, null=True,on_delete=models.SET_NULL)
+    category = models.ForeignKey(MachineCategory, blank=True, null=True, on_delete=models.SET_NULL)
+    material = models.ManyToManyField(Material,null=True, blank=True)
+    workshop = models.ManyToManyField(Workshop,null=True, blank=True)
     reservable = models.BooleanField(default=True)
-    premium_price = models.DecimalField(verbose_name=_('Premium Price'),max_digits=6,decimal_places=2)
-
-    def __str__(self):
-        return _('Machine') + ': ' + self.title
+    premium_price = models.DecimalField(verbose_name=_('Premium Price'),max_digits=6,decimal_places=2, null=True, blank=False)
 
     @property
     def highlights(self):
