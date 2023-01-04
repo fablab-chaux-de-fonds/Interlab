@@ -1,5 +1,5 @@
 {% extends "forms/base_forms.html" %}
-{% load i18n crispy_forms_tags %}
+{% load i18n crispy_forms_tags training_extras %}
 {% load render_bundle from webpack_loader %}
 
 {% block header %}
@@ -12,14 +12,16 @@
 
 {% block content_form %}
 <div class="text-center">
-    <h1> {% trans "Choose your schedule !" %} </h1>
-    
-    {% if machine_slot.machine.category.name == '3D' %} <h4> {% trans "Start" %} </h4> {% endif %}
-    <p>{{machine_slot.start|date:"l j F Y"|capfirst}}<br>
+    <h3> {% trans "Choose your schedule !" %} </h3>
+
+    <p>{{machine_slot.start|date:"l j F Y"|capfirst}} </br>
         <span class='badge align-middle' style="color:{{machine_slot.opening_slot.opening.color}};background-color:{{machine_slot.opening_slot.opening.background_color}}">
             {{machine_slot.opening_slot.opening.title}} - {{machine_slot.opening_slot.user.first_name}}
         </span >
     </p>
+
+    {% if machine_slot.machine.category.name == '3D' %} <h4> {% trans "Start" %} </h4> {% endif %}
+
 </div>
 
 <form action="." method="POST">
@@ -79,6 +81,18 @@
         </div>
     </div>
 
+    <hr>
+    <div class="text-center">
+        {% if request.user.profile.subscription == None %}
+            <h4>{{machine_slot.machine.full_price|price_format}} / 30 min </h4>
+        
+            <small> {% trans "Benefit from half price prices<br> for 15 CHF / month" %}<br></small>
+            <a class="btn btn-outline-primary my-2" href="/abonnement-demi-tarif"> {% trans "I take advantage of it" %}</a>        
+        {% else %}
+            <h4>{{machine_slot.machine.premium_price|price_format}} / 30 min </h4>
+        {% endif %}
+    </div>
+    <hr>
     {% include 'forms/base_submit_button.html' with submit_btn='Reserve'%}
 </form>
 
