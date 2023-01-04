@@ -1,14 +1,23 @@
 {% extends "forms/base_forms.html" %}
-{% load i18n %}
+{% load i18n training_extras %}
 
 {% block content_form_img %}
-    <i class="bi bi-calendar-check mb-5 img-form-logo mx-auto d-block"></i>
+    <img class="img img-fluid rounded" src="{{training.photo.url}}">
 {% endblock %}
 
 {% block content_form %}
-<h1>{% trans "Registration" %} : {{training.title}}</h1>
-<h3>{{training_slot.start|date:"l j F Y"}} {% trans " from " %} {{training_slot.start|date:"H:i"}} {% trans "to" %} {{training_slot.end|date:"H:i"}}</h3>
-{% include 'trainings/info.html' %}
+<div class="text-center">
+    <h3>{{training.title}}</h3>
+
+    <p>
+        {{training_slot.start|date:"l j F"|capfirst}}</br>
+        {{training_slot.start|date:"H:i"}} - {{training_slot.end|date:"H:i"}}
+    </p>
+    <p>
+        <i class="bi bi-cash"></i> {{training.full_price|price_format}}</br>
+        <small>({% trans "The payment will be made on site" %})</small>
+    </p>
+</div>
 
 <form action="." method="POST">
     {% csrf_token %}

@@ -9,8 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.sessions.models import Session
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.core.paginator import Paginator
 from django.db.models import Q 
 from django.http import HttpResponse
@@ -99,23 +98,21 @@ def AccountsView(request):
         'user': user,
         'slots': sorted(chain(
             TrainingSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now()),
+            TrainingSlot.objects.filter(registrations=request.user, end__gt=datetime.datetime.now()),
             OpeningSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now()), 
-            MachineSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now())
+            MachineSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now()),
+            EventSlot.objects.filter(user=request.user, end__gt=datetime.datetime.now()),
+            EventSlot.objects.filter(registrations=request.user, end__gt=datetime.datetime.now()),
+
         ),
         key=attrgetter('start')
         )
     }
-    try:
-        subscription = Profile.objects.get(user_id=user.id).subscription
-    except ObjectDoesNotExist:
-        profile = Profile(user=request.user, subscription=None)
-        profile.save()
 
-        subscription = Profile.objects.get(user_id=user.id).subscription
-
-    if subscription is not None:
-        context['subscription'] = subscription
-        context['subscription_category']=SubscriptionCategory.objects.get(pk=subscription.subscription_category_id)
+    (profile, _) = Profile.objects.get_or_create(user=user)
+    if profile.subscription is not None:
+        context['subscription'] = profile.subscription
+        context['subscription_category']=profile.subscription.subscription_category_id
         
     return HttpResponse(template.render(context, request))
 
@@ -242,41 +239,51 @@ class SuperuserProfileEditView(LoginRequiredMixin, CustomFormView):
     def get_initial(self):
         initial = super().get_initial()
         self.user = get_user_model().objects.get(pk=self.kwargs['pk'])
-        if self.user.profile.subscription.subscription_category:
+        if self.user.profile is not None \
+            and self.user.profile.subscription is not None \
+            and self.user.profile.subscription.subscription_category is not None:
             initial['subscription_category'] = self.user.profile.subscription.subscription_category
             initial['start'] = self.user.profile.subscription.start
             initial['end'] = self.user.profile.subscription.end
 
-        if TrainingValidation.objects.filter(profile=self.user.profile):
-            initial['training'] = [pk for pk in TrainingValidation.objects.filter(profile=self.user.profile).values_list("training", flat=True)]
+        if self.user.profile is not None:
+             initial['training'] = [t.training.pk for t in TrainingValidation.objects.filter(profile=self.user.profile)]
+
         return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = self.user
 
-        if context['form'].initial['subscription_category']:
+        if context['form'].initial.get('subscription_category', None) is not None:
             context['start'] = context['form'].initial['start']
             context['end'] = context['form'].initial['end']
         else:
-            context['start'] = datetime.datetime.now()
-            context['end'] = datetime.datetime.now() + datetime.timedelta(days=365)
+            today = datetime.datetime.today()
+            context['start'] = today
+            context['end'] = today + datetime.timedelta(days=365)
         return context
     
     def form_invalide(self):
         pass
 
     def form_valid(self, form):
-        form.start = dateparser.parse(form.cleaned_data['start']).date()
-        form.end = dateparser.parse(form.cleaned_data['end']).date()
-
         if 'subscription_category' in form.changed_data or \
-            form.initial['start'] != form.start or \
-            form.initial['end'] != form.end:
+            'start' in form.changed_data or \
+            'end' in form.changed_data:
 
-            form.update_or_create_subscription(self)
+            if 'start' in form.cleaned_data:
+                form.start = dateparser.parse(form.cleaned_data['start']).date()
+            
+            if 'end' in form.cleaned_data:
+                form.end = dateparser.parse(form.cleaned_data['end']).date()
+
+            if form.start is not None and form.end is not None and form.start >= form.end:
+                messages.error(self.request, _('Invalid subscription duration from %(start)s to %(end)s') % {'start':form.start, 'end':form.end})
+                return super().form_valid(form)
+
             self.context={'user': self.user}
-            form.send_subscription_mail(self)
+            form.update_or_create_subscription(self)
 
         if 'training' in form.changed_data:
             form.update_training_validation(self)

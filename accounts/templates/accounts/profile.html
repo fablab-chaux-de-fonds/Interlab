@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n org_tags %}
+{% load i18n org_tags interlab_tags %}
 
 {% block content %}
 <div class="row">
@@ -19,25 +19,25 @@
                 {{slot.start|date:"D j b"}}</br>
                 <small>{{slot.start|date:"H:i"}} - {{slot.end|date:"H:i"}}</small><br>
             </div>
-            <div class="col-8">
-                
-                    {% if slot.training %}
+            <div class="col-7">
+                    {% if slot|get_type == 'TrainingSlot'%}
                     <h5>
                         {% trans "Training" %}
                         {{slot.training.title}}
                     </h5>
+                    {% if request.user|has_group:"superuser" %}
+                        <p>
+                            {% if slot.available_registration > 0  %}
+                            <small class"fs-6">
+                                {% blocktrans with available_registration=slot.available_registration %} still {{available_registration}} places available !{% endblocktrans %}
+                            </small>
+                            {% elif slot.available_registration == 0 %}
+                            <small>{% trans "sold out" %}</small>
+                            {% endif %}
+                        </p>
+                    {% endif %}
 
-                    <p>
-                        {% if slot.available_registration > 0  %}
-                        <small class"fs-6">
-                            {% blocktrans with available_registration=slot.available_registration %} still {{available_registration}} places available !{% endblocktrans %}
-                        </small>
-                        {% elif slot.available_registration == 0 %}
-                        <small>{% trans "sold out" %}</small>
-                        {% endif %}
-                    </p>
-
-                    {% elif slot.opening %}
+                    {% elif slot|get_type == 'OpeningSlot' %}
                     <span class="h5">
                         {% trans "Opening" %}
                     </span>
@@ -49,12 +49,25 @@
                     {% for reservation in slot.get_reservation_list %}
                         {{reservation.start|date:"H:i"}} - {{reservation.end|date:"H:i"}}: {{reservation.machine.title}} - {{reservation.user.first_name}} {{reservation.user.last_name}}
                         <br>
+                    {% empty %}
+                        {% trans "No reservations for the moment" %}
                     {% endfor %}
                     
-                    {% elif slot.machine %}
+                    {% elif slot|get_type == 'MachineSlot' %}
+                    <span class="h5">
+                    {% trans "Reservation" %} - {{slot.get_duration}} min
+                    </span>
+                    <p class='badge'
+                    style="color:{{slot.opening_slot.opening.color}};background-color:{{slot.opening_slot.opening.background_color}}">
+                    {{slot.opening_slot.opening.title}}
+                    </p>
+                    <br>
+                    {{slot.machine.title}}
+
+                    {% elif slot|get_type == 'EventSlot' %}
                     <h5>
-                        {% trans "Reservation" %}
-                        {{slot.machine.title}}
+                        {% trans "Event" %}
+                        {{slot.event.title}}
                     </h5>
                     <p class='badge align-middle'
                         style="color:{{slot.opening_slot.opening.color}};background-color:{{slot.opening_slot.opening.background_color}}">
@@ -62,21 +75,35 @@
                     </p>
                     {% endif %}
             </div>
-            <div class="col-1">
-                {% if slot.training %}
-                <a href="{% url 'machines:training-validation' slot.pk %}">
-                    <h2><i class="bi bi-arrow-right-square text-blue"></i></h2>
-                </a>
+            <div class="col-2 text-end">
+                {% if slot|get_type == 'TrainingSlot'%}
+                    {% if request.user|has_group:"superuser" and slot.registriations == None %}
+                        <a href="{% url 'fabcal:delete-training' slot.pk %}">
+                            <i class="bi bi-trash3 fs-2"></i>
+                        </a>
+                        <a href="{% url 'machines:training-validation' slot.pk %}">
+                            <i class="bi bi-arrow-right-square text-blue fs-2"></i>
+                        </a>
+                    {% else %}
+                        <a class="btn btn-link {% if not slot.is_editable %}disabled{% endif %}" href="{% url 'fabcal:unregister-training' slot.pk %}">
+                            <i class="bi bi-trash3 fs-2"></i>
+                        </a>
+                    {%endif%}
 
-                {% elif slot.opening %}
-                <a href="{% url 'fabcal:update-opening' slot.pk %}">
-                    <h2><i class="bi bi-arrow-right-square text-blue"></i></h2>
-                </a>
+                {% elif slot|get_type == 'OpeningSlot' %}
+                    <a href="{% url 'fabcal:update-opening' slot.pk %}">
+                        <h2><i class="bi bi-arrow-right-square text-blue"></i></h2>
+                    </a>
 
-                {% elif slot.machine %}
-                <a href="{% url 'fabcal:machine-reservation-update' slot.pk %}">
-                    <h2><i class="bi bi-arrow-right-square text-blue"></i></h2>
-                </a>
+                {% elif slot|get_type == 'MachineSlot' %}
+                    <a href="{% url 'fabcal:machine-reservation-update' slot.pk %}">
+                        <h2><i class="bi bi-arrow-right-square text-blue"></i></h2>
+                    </a>
+                
+                {% elif slot|get_type == 'EventSlot' %}
+                    <a href="{% url 'fabcal:show-event' slot.pk %}">
+                        <h2><i class="bi bi-arrow-right-square text-blue"></i></h2>
+                    </a>
                 {%endif%}
             </div>
         </div>

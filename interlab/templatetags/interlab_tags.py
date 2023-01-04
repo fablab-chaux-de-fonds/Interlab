@@ -17,3 +17,7 @@ def filter_machine(obj, machine):
 @register.filter
 def filter_user(obj):
     return obj.filter(user__isnull=True)
+
+@register.filter
+def get_type(value):
+    return value.__class__.__name__

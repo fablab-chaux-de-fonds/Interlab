@@ -48,7 +48,7 @@ def training_show(request, pk):
     return render(request, 'trainings/show.html', context)
 
 
-class TrainingValidation(LoginRequiredMixin, FormView):
+class TrainingValidationView(LoginRequiredMixin, FormView):
     template_name = 'trainings/training_validation.html'
     form_class = TrainingValidationForm
     success_url = "/" # TODO redirect to training show view
@@ -61,22 +61,23 @@ class TrainingValidation(LoginRequiredMixin, FormView):
         context = {
             'registrations': registrations,
             'graduates': graduates,
-            'training': training_slot.training
+            'training': training_slot.training,
+            'training_slot': training_slot
         }
 
         return context
 
 
     def form_valid(self, form, **kwargs):
-            context = self.get_context_data(**kwargs)
-            self.old = [graduate.pk for graduate in context['graduates']] # list of initial Profile pk checked
-            self.new = self.request.POST.getlist('validations') # list of checked Profile pk after validation
-            self.training = context['training']
+        context = self.get_context_data(**kwargs)
+        self.old = [graduate.pk for graduate in context['graduates']] # list of initial Profile pk checked
+        self.new = self.request.POST.getlist('validations') # list of checked Profile pk after validation
+        self.training = context['training']
 
-            form.add_new_training_validation(self)
-            form.remove_training_validation(self)
+        form.add_new_training_validation(self)
+        form.remove_training_validation(self)
 
-            return redirect('/')
+        return redirect('/')
 
 @login_required
 def training_waiting_list(request, pk):
@@ -102,3 +103,6 @@ class MachineShowView(DetailView):
         context['FABCAL_MINIMUM_RESERVATION_TIME'] = settings.FABCAL_MINIMUM_RESERVATION_TIME
         context['FABCAL_RESERVATION_INCREMENT_TIME'] = settings.FABCAL_RESERVATION_INCREMENT_TIME
         return context
+
+class MachineSlotView(MachineShowView):
+    template_name = 'machines/mobile_slots.html'

@@ -73,12 +73,12 @@
                   <i class="bi bi-door-open pe-2"></i> {{ $vuetify.lang.t('$vuetify.opening') }}
               </v-btn>
               <br>
-              <v-btn @click="createEventSlot" class="my-2 v-btn-primary-outlined" outlined>
-                <i class="bi bi-calendar-event pe-2"></i> {{ $vuetify.lang.t('$vuetify.event') }}
-              </v-btn>
-              <br>
               <v-btn @click="createTrainingSlot" class="my-2 v-btn-primary-outlined" outlined>
                 <i class="bi bi-mortarboard pe-2"></i> {{ $vuetify.lang.t('$vuetify.training') }}
+              </v-btn>
+              <br>
+              <v-btn @click="createEventSlot" class="my-2 v-btn-primary-outlined" outlined>
+                <i class="bi bi-calendar-event pe-2"></i> {{ $vuetify.lang.t('$vuetify.event') }}
               </v-btn>
             </v-card-text>
           </v-card>
@@ -101,7 +101,7 @@
                   <v-btn icon>
                     <a :href="'/fabcal/delete-' + selectedEvent.type + '/' + selectedEvent.pk + '/'"
                       :style="{'color':selectedEvent.text_color}">
-                      <i class="bi bi-trash"></i>
+                      <i class="bi bi-trash3"></i>
                     </a>
                   </v-btn>
 
@@ -267,7 +267,12 @@
       endDrag() {
         if (this.backend.is_superuser) {
           this.start = this.createEvent.start;
-          this.end = this.createEvent.end;
+          if (this.start === this.createEvent.end){
+            console.log(this.createEvent.start)
+            this.end = this.createEvent.start + 5400000;
+          } else {
+            this.end = this.createEvent.end;
+          }
           this.selectSlotCategory = true;
         }
       },
