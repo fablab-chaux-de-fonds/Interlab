@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-04 16:19+0000\n"
+"POT-Creation-Date: 2023-01-04 17:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,15 +82,15 @@ msgstr ""
 msgid "Subscription duration updated for user {}"
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
-#: accounts/forms.py:205
+#: accounts/forms.py:206
 msgid "Welcome to Fablab !"
 msgstr "Bienvenue au FabLab !"
 
-#: accounts/forms.py:206 fabcal/forms.py:278 fabcal/forms.py:289
+#: accounts/forms.py:207 fabcal/forms.py:278 fabcal/forms.py:289
 msgid "A new training was planned"
 msgstr "Une nouvelle formation a été planifiée"
 
-#: accounts/forms.py:227
+#: accounts/forms.py:228
 #, python-format
 msgid ""
 "Training %(training)s has been successfully deleted for %(first_name)s "
@@ -98,15 +98,15 @@ msgid ""
 msgstr ""
 "La fomation %(training)s a été supprimée pour %(first_name)s %(last_name)s"
 
-#: accounts/forms.py:235
+#: accounts/forms.py:236
 msgid "Sorry, we cancel your training validation"
 msgstr "Désolé, nous avec supplimé votre formation"
 
-#: accounts/forms.py:236
+#: accounts/forms.py:237
 msgid "Training deleted"
 msgstr "Formation supprimée"
 
-#: accounts/forms.py:250
+#: accounts/forms.py:251
 #, python-format
 msgid ""
 "Training %(training)s has been successfully valided for %(first_name)s "
@@ -115,11 +115,11 @@ msgstr ""
 "La fomation %(training)s a été validée avec succès pour %(first_name)s "
 "%(last_name)s"
 
-#: accounts/forms.py:259
+#: accounts/forms.py:260
 msgid "Start to use the machine !"
 msgstr "Commence à utiliser la machine !"
 
-#: accounts/forms.py:260
+#: accounts/forms.py:261
 msgid "Training validated"
 msgstr "Formation validée"
 
@@ -257,8 +257,8 @@ msgstr "Abonnement"
 
 #: accounts/templates/accounts/superuser-profile-edit.html:26
 #: fabcal/templates/fabcal/event_create_or_update_form.html:39
-#: fabcal/templates/fabcal/machine/reservation_form.html:17
-#: fabcal/templates/fabcal/machine/reservation_form.html:35
+#: fabcal/templates/fabcal/machine/reservation_form.html:23
+#: fabcal/templates/fabcal/machine/reservation_form.html:37
 #: fabcal/templates/fabcal/opening_create_or_update_form.html:38
 #: fabcal/templates/fabcal/trainig_create_or_update_form.html:56
 msgid "Start"
@@ -266,8 +266,8 @@ msgstr "Début"
 
 #: accounts/templates/accounts/superuser-profile-edit.html:30
 #: fabcal/templates/fabcal/event_create_or_update_form.html:52
-#: fabcal/templates/fabcal/machine/reservation_form.html:39
-#: fabcal/templates/fabcal/machine/reservation_form.html:58
+#: fabcal/templates/fabcal/machine/reservation_form.html:41
+#: fabcal/templates/fabcal/machine/reservation_form.html:60
 #: fabcal/templates/fabcal/opening_create_or_update_form.html:42
 #: fabcal/templates/fabcal/trainig_create_or_update_form.html:60
 msgid "End"
@@ -945,7 +945,7 @@ msgstr "Plus d'informations"
 
 #: fabcal/templates/fabcal/event_create_or_update_form.html:43
 #: fabcal/templates/fabcal/event_create_or_update_form.html:55
-#: fabcal/templates/fabcal/machine/reservation_form.html:66
+#: fabcal/templates/fabcal/machine/reservation_form.html:68
 #: fabcal/templates/fabcal/opening_create_or_update_form.html:32
 #: fabcal/templates/fabcal/trainig_create_or_update_form.html:50
 msgid "Date"
@@ -953,8 +953,8 @@ msgstr "Date"
 
 #: fabcal/templates/fabcal/event_create_or_update_form.html:48
 #: fabcal/templates/fabcal/event_create_or_update_form.html:59
-#: fabcal/templates/fabcal/machine/reservation_form.html:50
-#: fabcal/templates/fabcal/machine/reservation_form.html:70
+#: fabcal/templates/fabcal/machine/reservation_form.html:52
+#: fabcal/templates/fabcal/machine/reservation_form.html:72
 msgid "Time"
 msgstr "Heure"
 
@@ -1028,23 +1028,31 @@ msgstr "Pas d'évènement planifié pour le moment"
 msgid "Choose your schedule !"
 msgstr "Choisissez votre horaire"
 
-#: fabcal/templates/fabcal/machine/reservation_form.html:49
+#: fabcal/templates/fabcal/machine/reservation_form.html:51
 msgid "You can start between "
 msgstr "Vous pouvez commencer entre"
 
-#: fabcal/templates/fabcal/machine/reservation_form.html:49
+#: fabcal/templates/fabcal/machine/reservation_form.html:51
 msgid " and "
 msgstr " et "
 
-#: fabcal/templates/fabcal/machine/reservation_form.html:61
+#: fabcal/templates/fabcal/machine/reservation_form.html:63
 msgid "The 3D print in free until:"
 msgstr "L'imprimante 3D est libre jusqu'à"
 
-#: fabcal/templates/fabcal/machine/reservation_form.html:64
+#: fabcal/templates/fabcal/machine/reservation_form.html:66
 msgid "There are no reservations for the next few days. Feel free to use it !"
 msgstr ""
 "Il n'y a pas de réserveration les prochains jours, sentez-vous libre de "
 "l'utiliser !"
+
+#: fabcal/templates/fabcal/machine/reservation_form.html:89
+msgid "Benefit from half price prices<br> for 15 CHF / month"
+msgstr "Bénéficiez des prix demi-tarifs<br> pour 15 CHF / mois"
+
+#: fabcal/templates/fabcal/machine/reservation_form.html:90
+msgid "I take advantage of it"
+msgstr "J'en profite"
 
 #: fabcal/templates/fabcal/training/delete.html:10
 #, python-format
