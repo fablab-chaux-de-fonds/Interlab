@@ -1155,11 +1155,6 @@ msgstr "Oups, non !"
 msgid "Schedule"
 msgstr "Horaire"
 
-#: interlab/templates/menu-mobile.html:18
-#: interlab/templates/navbar-header.html:17
-msgid "Reservation"
-msgstr "Réservation"
-
 #: interlab/templates/menu-mobile.html:29
 #: interlab/templates/navbar-header.html:32
 msgid "Login"
