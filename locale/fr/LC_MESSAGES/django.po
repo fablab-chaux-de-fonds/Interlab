@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-04 08:05+0000\n"
+"POT-Creation-Date: 2023-01-04 16:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -233,7 +233,7 @@ msgstr "Pas de réservations pour le moment"
 msgid "Reservation"
 msgstr "Réservation"
 
-#: accounts/templates/accounts/profile.html:56 fabcal/forms.py:184
+#: accounts/templates/accounts/profile.html:69 fabcal/forms.py:184
 #: openings/models.py:53
 msgid "Event"
 msgstr "Évènement"
@@ -796,35 +796,35 @@ msgstr "Yous avez réserver la machine avec succès "
 msgid " on "
 msgstr " le "
 
-#: fabcal/models.py:44
+#: fabcal/models.py:48
 msgid "Opening Slot"
 msgstr "Créneau d'ouverture"
 
-#: fabcal/models.py:45
+#: fabcal/models.py:49
 msgid "Opening Slots"
 msgstr "Créneaux d'ouverture"
 
-#: fabcal/models.py:77
+#: fabcal/models.py:81
 msgid "Event Slot"
 msgstr "Créneau d'évènement"
 
-#: fabcal/models.py:78
+#: fabcal/models.py:82
 msgid "Event Slots"
 msgstr "Créneaux d'évènements"
 
-#: fabcal/models.py:92
+#: fabcal/models.py:96
 msgid "Training Slot"
 msgstr "Créneau de formation"
 
-#: fabcal/models.py:93
+#: fabcal/models.py:97
 msgid "Training Slots"
 msgstr "Créneaux de formation"
 
-#: fabcal/models.py:100
+#: fabcal/models.py:104
 msgid "Machine Slot"
 msgstr "Céneau machine"
 
-#: fabcal/models.py:101
+#: fabcal/models.py:105
 msgid "Machine Slots"
 msgstr "Créneaux machine"
 
