@@ -198,6 +198,7 @@ class SuperuserProfileEditForm(forms.Form):
             user_profile.save()
 
     def _send_subscription_mail(self, view):
+        view.context['profile'] = Profile.objects.get(user=view.user)
         html_message = render_to_string('accounts/email/new_subscription.html', view.context)
 
         send_mail(
