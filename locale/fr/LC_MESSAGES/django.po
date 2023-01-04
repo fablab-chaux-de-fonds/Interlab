@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-03 15:49+0000\n"
+"POT-Creation-Date: 2023-01-04 08:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -222,6 +222,16 @@ msgstr "complet"
 #: fabcal/forms.py:175 openings/models.py:37
 msgid "Opening"
 msgstr "Ouverture"
+
+#: accounts/templates/accounts/profile.html:53
+msgid "No reservations for the moment"
+msgstr "Pas de réservations pour le moment"
+
+#: accounts/templates/accounts/profile.html:58
+#: interlab/templates/menu-mobile.html:18
+#: interlab/templates/navbar-header.html:17
+msgid "Reservation"
+msgstr "Réservation"
 
 #: accounts/templates/accounts/profile.html:56 fabcal/forms.py:184
 #: openings/models.py:53
@@ -1144,11 +1154,6 @@ msgstr "Oups, non !"
 #: interlab/templates/navbar-header.html:12
 msgid "Schedule"
 msgstr "Horaire"
-
-#: interlab/templates/menu-mobile.html:18
-#: interlab/templates/navbar-header.html:17
-msgid "Reservation"
-msgstr "Réservation"
 
 #: interlab/templates/menu-mobile.html:29
 #: interlab/templates/navbar-header.html:32
