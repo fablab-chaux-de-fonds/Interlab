@@ -154,5 +154,5 @@ docker exec -i interlab_web_1 python manage.py createtasks
 
 ## Launch unit and integration tests
 ```shell
-docker exec -i interlab_web_1 python manage.py test
+docker exec -i interlab-web-1 coverage run --data-file=test/.coverage --source='/code' manage.py test
 ```
