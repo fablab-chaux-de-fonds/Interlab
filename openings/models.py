@@ -4,7 +4,6 @@ from djangocms_text_ckeditor.fields import HTMLField
 
 from colorfield.fields import ColorField
 
-
 class AbstractOpening(models.Model):
     COLOR_PALETTE = [
         ("#0b1783", "blue", ),
@@ -25,20 +24,15 @@ class AbstractOpening(models.Model):
     def __str__(self):
         return self.title
     
-
-# Create your models here.
 class Opening(AbstractOpening):
-
     is_open_to_reservation = models.BooleanField()
     is_open_to_questions = models.BooleanField()
     is_reservation_mandatory = models.BooleanField()
     is_public = models.BooleanField()
+
     class Meta:
         verbose_name = _("Opening")
         verbose_name_plural = _("Openings")
-
-    def __str__(self):
-        return self.title
 
 class Event(AbstractOpening):
     img = models.ImageField()
@@ -47,8 +41,6 @@ class Event(AbstractOpening):
     location = models.CharField(max_length=255, default='Fablab')
     is_active = models.BooleanField()
 
-    def __str__(self):
-        return self.title
     class Meta:
         verbose_name = _("Event")
         verbose_name_plural = _("Events")   

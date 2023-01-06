@@ -14,11 +14,17 @@ import distutils.util
 import os  # isort:skip
 import sys
 
+
 gettext = lambda s: s
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# To have GITHUB compatible test reports
+TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
+TEST_OUTPUT_DIR = os.path.join(BASE_DIR, 'test')
+TEST_OUTPUT_FILE_NAME = 'test-results.xml'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -37,9 +43,6 @@ ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
-
-
-
 
 
 ROOT_URLCONF = 'interlab.urls'
@@ -274,7 +277,7 @@ if 'test' in sys.argv:
         'default' : {
             'ENGINE': 'django.db.backends.sqlite3',
             'TEST': {
-                'NAME': os.path.join(BASE_DIR, 'tests.sqlite3'),
+                'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
             }
         }
     }

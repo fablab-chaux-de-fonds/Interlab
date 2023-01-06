@@ -1,36 +1,36 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
+  # Triggers the workflow on push or pull request events but dev and main branches
   push:
-    branches: [ master, dev ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ dev ]
+    branches: [ main, dev ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  # Build the docker-image containing frontend and backend
   build:
-    # The type of runner that the job will run on
     runs-on: self-hosted
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    permissions:
+      contents: write 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      
-      # Runs a single command using the runners shell
+      # Generate docker image and propagate to private registry
+      - uses: actions/checkout@v3
       - name: Build staging docker image
         run: |
           touch .env
           export TAG=PR$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
           docker-compose build --pull --no-cache
+          docker run --rm -u $UID:$GID -v $(pwd)/test:/code/test -e SECRET_KEY=ci interlab_web:latest test/coverage.sh
           docker image tag interlab_web:latest registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
           docker image push registry.fablab-chaux-de-fonds.ch/flcdf/interlab:$TAG
-          
+
+      - name: Publish coverage report to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: test/html
+          target-folder: coverage/${{ github.ref }}
