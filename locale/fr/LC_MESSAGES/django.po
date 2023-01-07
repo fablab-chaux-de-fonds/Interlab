@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-04 17:51+0000\n"
+"POT-Creation-Date: 2023-01-07 16:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -219,7 +219,7 @@ msgid "sold out"
 msgstr "complet"
 
 #: accounts/templates/accounts/profile.html:42 fabcal/forms.py:31
-#: fabcal/forms.py:175 openings/models.py:37
+#: fabcal/forms.py:175 openings/models.py:34
 msgid "Opening"
 msgstr "Ouverture"
 
@@ -234,7 +234,7 @@ msgid "Reservation"
 msgstr "Réservation"
 
 #: accounts/templates/accounts/profile.html:69 fabcal/forms.py:184
-#: openings/models.py:53
+#: openings/models.py:45
 msgid "Event"
 msgstr "Évènement"
 
@@ -846,6 +846,10 @@ msgstr ""
 "Êtes-vous sûr de vouloir supprimer le créneau du %(date)s de %(start)s à "
 "%(end)s"
 
+#: fabcal/templates/fabcal/delete_opening.html:13
+msgid "Yes, I'm sure"
+msgstr "Oui, j'en suis sûr"
+
 #: fabcal/templates/fabcal/email/event_registration_confirmation.html:6
 msgid "We confirme that you are register for the event"
 msgstr "Nous vous confirmons que vous êtes inscrit à l'évènement"
@@ -1054,6 +1058,10 @@ msgstr "Bénéficiez des prix demi-tarifs<br> pour 15 CHF / mois"
 msgid "I take advantage of it"
 msgstr "J'en profite"
 
+#: fabcal/templates/fabcal/machine/reservation_form.html:96
+msgid "Reserve"
+msgstr "Réserver"
+
 #: fabcal/templates/fabcal/training/delete.html:10
 #, python-format
 msgid ""
@@ -1130,7 +1138,7 @@ msgstr ""
 "Désolé, vous ne pouvez pas réserver la machine parce que vous devez faire la "
 "formation avant de l'utiliser"
 
-#: interlab/settings.py:226 interlab/settings.py:245
+#: interlab/settings.py:229 interlab/settings.py:248
 msgid "fr"
 msgstr "fr"
 
@@ -1169,7 +1177,7 @@ msgid "Login"
 msgstr "Connexion"
 
 #: interlab/templates/menu-mobile.html:46
-#: interlab/templates/navbar-header.html:22 openings/models.py:54
+#: interlab/templates/navbar-header.html:22 openings/models.py:46
 msgid "Events"
 msgstr "Évènements"
 
@@ -1235,7 +1243,7 @@ msgid "Title"
 msgstr "Titre"
 
 #: machines/models.py:85 machines/templates/trainings/show.html:20
-#: openings/models.py:18
+#: openings/models.py:17
 msgid "Description"
 msgstr "Description"
 
@@ -1485,7 +1493,7 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 msgid "Thank you ! You are now registered in our newsletter list"
 msgstr "Merci ! Vous êtes maintenant inscrit à notre newsletter"
 
-#: openings/apps.py:7 openings/models.py:38
+#: openings/apps.py:7 openings/models.py:35
 msgid "Openings"
 msgstr "Ouvertures"
 
