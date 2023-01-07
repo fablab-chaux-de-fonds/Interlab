@@ -10,11 +10,13 @@ class MachineFilter(django_filters.FilterSet):
     workshop = django_filters.ModelMultipleChoiceFilter(
         queryset=Workshop.objects.all(),
         widget=forms.CheckboxSelectMultiple(),
+        conjoined=True
     )
 
     material = django_filters.ModelMultipleChoiceFilter(
         queryset=Material.objects.all(),
-        widget=forms.CheckboxSelectMultiple()
+        widget=forms.CheckboxSelectMultiple(),
+        conjoined=True
     )
 
     class Meta:
@@ -26,6 +28,7 @@ class TrainingFilter(django_filters.FilterSet):
     machine_category = django_filters.ModelMultipleChoiceFilter(
         queryset=MachineCategory.objects.all(),
         widget=forms.CheckboxSelectMultiple(),
+        conjoined=True
     )
 
     class Meta:
