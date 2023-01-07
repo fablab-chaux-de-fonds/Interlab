@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-04 17:51+0000\n"
+"POT-Creation-Date: 2023-01-07 17:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -207,9 +207,10 @@ msgid "Training"
 msgstr "Formation"
 
 #: accounts/templates/accounts/profile.html:32
-#, fuzzy, python-format
-#| msgid "still %(available_registration)s places available !"
-msgid " still %(available_registration)s places available !"
+#: fabcal/templates/fabcal/event_info.html:32
+#: machines/templates/trainings/show_next_trainings.html:13
+#, python-format
+msgid "still %(available_registration)s places available !"
 msgstr "encore %(available_registration)s places disponibles !"
 
 #: accounts/templates/accounts/profile.html:35
@@ -219,22 +220,22 @@ msgid "sold out"
 msgstr "complet"
 
 #: accounts/templates/accounts/profile.html:42 fabcal/forms.py:31
-#: fabcal/forms.py:175 openings/models.py:37
+#: fabcal/forms.py:175 openings/models.py:34
 msgid "Opening"
 msgstr "Ouverture"
 
-#: accounts/templates/accounts/profile.html:53
+#: accounts/templates/accounts/profile.html:54
 msgid "No reservations for the moment"
 msgstr "Pas de réservations pour le moment"
 
-#: accounts/templates/accounts/profile.html:58
+#: accounts/templates/accounts/profile.html:59
 #: interlab/templates/menu-mobile.html:18
 #: interlab/templates/navbar-header.html:17
 msgid "Reservation"
 msgstr "Réservation"
 
-#: accounts/templates/accounts/profile.html:69 fabcal/forms.py:184
-#: openings/models.py:53
+#: accounts/templates/accounts/profile.html:70 fabcal/forms.py:184
+#: openings/models.py:45
 msgid "Event"
 msgstr "Évènement"
 
@@ -972,12 +973,6 @@ msgstr "Inscription"
 msgid "Registration mandatory"
 msgstr "Inscription obligatoire"
 
-#: fabcal/templates/fabcal/event_info.html:32
-#: machines/templates/trainings/show_next_trainings.html:13
-#, python-format
-msgid "still %(available_registration)s places available !"
-msgstr "encore %(available_registration)s places disponibles !"
-
 #: fabcal/templates/fabcal/event_info.html:38
 msgid "No registration required for this event"
 msgstr "Pas d'inscription requise pour cet évènement"
@@ -1023,6 +1018,14 @@ msgstr "Desinscription"
 #: fabcal/templates/fabcal/events_list.html:10
 msgid "No events scheduled for the moment"
 msgstr "Pas d'évènement planifié pour le moment"
+
+#: fabcal/templates/fabcal/machine/delete_form.html:14
+msgid "Are you sure you want to cancel your reservation"
+msgstr "Êtes-vous sûr de vouloir annuler votre réservation ?"
+
+#: fabcal/templates/fabcal/machine/delete_form.html:26
+msgid "Yes, I'm sure"
+msgstr "Oui, j'en suis sûr"
 
 #: fabcal/templates/fabcal/machine/reservation_form.html:15
 msgid "Choose your schedule !"
@@ -1122,7 +1125,7 @@ msgstr "Créer la formation"
 msgid "Update training"
 msgstr "Mettre à jour la formation"
 
-#: fabcal/views.py:497
+#: fabcal/views.py:496
 msgid ""
 "Sorry, you cannont reserve this machine, because you need to complete the "
 "training before using it"
@@ -1130,7 +1133,13 @@ msgstr ""
 "Désolé, vous ne pouvez pas réserver la machine parce que vous devez faire la "
 "formation avant de l'utiliser"
 
-#: interlab/settings.py:226 interlab/settings.py:245
+#: fabcal/views.py:687
+#, fuzzy
+#| msgid "No reservation possible"
+msgid "You reservation has been canceled !"
+msgstr "Pas de réservation possible"
+
+#: interlab/settings.py:229 interlab/settings.py:248
 msgid "fr"
 msgstr "fr"
 
@@ -1169,7 +1178,7 @@ msgid "Login"
 msgstr "Connexion"
 
 #: interlab/templates/menu-mobile.html:46
-#: interlab/templates/navbar-header.html:22 openings/models.py:54
+#: interlab/templates/navbar-header.html:22 openings/models.py:46
 msgid "Events"
 msgstr "Évènements"
 
@@ -1235,7 +1244,7 @@ msgid "Title"
 msgstr "Titre"
 
 #: machines/models.py:85 machines/templates/trainings/show.html:20
-#: openings/models.py:18
+#: openings/models.py:17
 msgid "Description"
 msgstr "Description"
 
@@ -1485,39 +1494,6 @@ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
 msgid "Thank you ! You are now registered in our newsletter list"
 msgstr "Merci ! Vous êtes maintenant inscrit à notre newsletter"
 
-#: openings/apps.py:7 openings/models.py:38
+#: openings/apps.py:7 openings/models.py:35
 msgid "Openings"
 msgstr "Ouvertures"
-
-#, python-format
-#~ msgid ""
-#~ "You successfully validate the training %(title)s for user %(first_name)s "
-#~ "%(last_name)s"
-#~ msgstr ""
-#~ "Vous avez validé avec succès la formation %(title)s pour l'utilisateur "
-#~ "%(first_name)s %(last_name)s"
-
-#, python-format
-#~ msgid ""
-#~ "You successfully remove the training %(title)s for user %(first_name)s "
-#~ "%(last_name)s"
-#~ msgstr ""
-#~ "Vous avez validé avec succès la formation %(title)s pour l'utilisateur "
-#~ "%(first_name)s %(last_name)s"
-
-#~ msgid "Your subscription will expire today"
-#~ msgstr "Votre abonnement sera expiré dans 7 jours"
-
-#~ msgid "Opening modes"
-#~ msgstr "Modes d'ouverture"
-
-#~ msgid "User area"
-#~ msgstr "Espace utilisateur"
-
-#, python-brace-format
-#~ msgid ""
-#~ "You successfully remove the training {training.title} for user {profile."
-#~ "user.first_name} {profile.user.last_name}"
-#~ msgstr ""
-#~ "Vous avez réussi à supprimer la formation {training.title} pour "
-#~ "l'utilisateur {profile.user.first_name} {profile.user.last_name}"
