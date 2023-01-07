@@ -11,7 +11,7 @@ from openings.models import AbstractOpening
 from url_or_relative_url_field.fields import URLOrRelativeURLField
 
 class ItemForRent(AbstractOpening):
-    full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2, null=True, blank=False)
+    full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2, null=True, blank=False, help_text='for 30 min')
     photo = models.ImageField(upload_to='img', verbose_name=_('Photo'))
     header = HTMLField(verbose_name=_('Header'),blank=True,configuration='CKEDITOR_SETTINGS')
 

@@ -2,10 +2,10 @@
 {% load i18n %}
 
 {% block content %}
-<p> Hello {{user.first_name}}, </p> 
+<p> Hello {{profile.user.first_name}}, </p> 
 <p>
     {% trans "We have created you a new subscription valid until" %}
-    {{user.profile.subscription.end|date:"D j b"}}.
+    {{profile.subscription.end|date:"j F Y"}}.
 </p>
 
 {% endblock content %}

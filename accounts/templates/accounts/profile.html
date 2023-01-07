@@ -49,8 +49,21 @@
                     {% for reservation in slot.get_reservation_list %}
                         {{reservation.start|date:"H:i"}} - {{reservation.end|date:"H:i"}}: {{reservation.machine.title}} - {{reservation.user.first_name}} {{reservation.user.last_name}}
                         <br>
+                    {% empty %}
+                        {% trans "No reservations for the moment" %}
                     {% endfor %}
                     
+                    {% elif slot|get_type == 'MachineSlot' %}
+                    <span class="h5">
+                    {% trans "Reservation" %} - {{slot.get_duration}} min
+                    </span>
+                    <p class='badge'
+                    style="color:{{slot.opening_slot.opening.color}};background-color:{{slot.opening_slot.opening.background_color}}">
+                    {{slot.opening_slot.opening.title}}
+                    </p>
+                    <br>
+                    {{slot.machine.title}}
+
                     {% elif slot|get_type == 'EventSlot' %}
                     <h5>
                         {% trans "Event" %}
