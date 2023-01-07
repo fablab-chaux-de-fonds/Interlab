@@ -847,6 +847,10 @@ msgstr ""
 "Êtes-vous sûr de vouloir supprimer le créneau du %(date)s de %(start)s à "
 "%(end)s"
 
+#: fabcal/templates/fabcal/delete_opening.html:13
+msgid "Yes, I'm sure"
+msgstr "Oui, j'en suis sûr"
+
 #: fabcal/templates/fabcal/email/event_registration_confirmation.html:6
 msgid "We confirme that you are register for the event"
 msgstr "Nous vous confirmons que vous êtes inscrit à l'évènement"
@@ -1057,6 +1061,10 @@ msgstr "Bénéficiez des prix demi-tarifs<br> pour 15 CHF / mois"
 msgid "I take advantage of it"
 msgstr "J'en profite"
 
+#: fabcal/templates/fabcal/machine/reservation_form.html:96
+msgid "Reserve"
+msgstr "Réserver"
+
 #: fabcal/templates/fabcal/training/delete.html:10
 #, python-format
 msgid ""
@@ -1134,8 +1142,6 @@ msgstr ""
 "formation avant de l'utiliser"
 
 #: fabcal/views.py:687
-#, fuzzy
-#| msgid "No reservation possible"
 msgid "You reservation has been canceled !"
 msgstr "Pas de réservation possible"
 
