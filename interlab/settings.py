@@ -397,10 +397,17 @@ FABCAL_RESERVATION_INCREMENT_TIME = 30
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+    'require_debug_false': {
+        '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
     'handlers': {
         'db_log': {
             'level': 'DEBUG',
             'class': 'django_db_logger.db_log_handler.DatabaseLogHandler',
+            'filters': ['require_debug_false'], # only records error in DB when DEBUG is False
+
         },
     },
     'loggers': {
@@ -412,7 +419,6 @@ LOGGING = {
             'handlers': ['db_log'],
             'level': 'ERROR',
             'propagate': False,
-            'filters': ['require_debug_false'], # only records error in DB when DEBUG is False
         }
     }
 }
