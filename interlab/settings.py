@@ -412,6 +412,7 @@ LOGGING = {
             'handlers': ['db_log'],
             'level': 'ERROR',
             'propagate': False,
+            'filters': ['require_debug_false'], # only records error in DB when DEBUG is False
         }
     }
 }
