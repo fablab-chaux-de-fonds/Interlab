@@ -222,6 +222,7 @@ INSTALLED_APPS = [
     'django_filters',
     'url_or_relative_url_field',
     'django_q',
+    'django_db_logger',
 ]
 
 LANGUAGES = (
@@ -388,5 +389,29 @@ CKEDITOR_SETTINGS = {
 USERREPORT_LINK = os.environ.get('USERREPORT_LINK')
 USERREPORT_TOKEN = os.environ.get('USERREPORT_TOKEN')
 
+# FabCal
 FABCAL_MINIMUM_RESERVATION_TIME = 30
 FABCAL_RESERVATION_INCREMENT_TIME = 30
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'db_log': {
+            'level': 'DEBUG',
+            'class': 'django_db_logger.db_log_handler.DatabaseLogHandler',
+        },
+    },
+    'loggers': {
+        'db': {
+            'handlers': ['db_log'],
+            'level': 'DEBUG'
+        },
+        'django.request': { # logging 500 errors to database
+            'handlers': ['db_log'],
+            'level': 'ERROR',
+            'propagate': False,
+        }
+    }
+}
