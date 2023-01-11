@@ -8,7 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-07 15:54+0000\n"
+"POT-Creation-Date: 2023-01-07 16:03+0000\n"
+
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -218,8 +219,8 @@ msgstr "encore %(available_registration)s places disponibles !"
 msgid "sold out"
 msgstr "complet"
 
-#: accounts/templates/accounts/profile.html:42 fabcal/forms.py:32
-#: fabcal/forms.py:176 openings/models.py:34
+#: accounts/templates/accounts/profile.html:42 fabcal/forms.py:31
+#: fabcal/forms.py:175 openings/models.py:34
 msgid "Opening"
 msgstr "Ouverture"
 
@@ -233,7 +234,7 @@ msgstr "Pas de réservations pour le moment"
 msgid "Reservation"
 msgstr "Réservation"
 
-#: accounts/templates/accounts/profile.html:69 fabcal/forms.py:185
+#: accounts/templates/accounts/profile.html:69 fabcal/forms.py:184
 #: openings/models.py:45
 msgid "Event"
 msgstr "Évènement"
@@ -842,6 +843,10 @@ msgstr ""
 "Êtes-vous sûr de vouloir supprimer le créneau du %(date)s de %(start)s à "
 "%(end)s"
 
+#: fabcal/templates/fabcal/delete_opening.html:13
+msgid "Yes, I'm sure"
+msgstr "Oui, j'en suis sûr"
+
 #: fabcal/templates/fabcal/email/event_registration_confirmation.html:6
 msgid "We confirme that you are register for the event"
 msgstr "Nous vous confirmons que vous êtes inscrit à l'évènement"
@@ -1053,6 +1058,10 @@ msgstr "Bénéficiez des prix demi-tarifs<br> pour 15 CHF / mois"
 #: fabcal/templates/fabcal/machine/reservation_form.html:90
 msgid "I take advantage of it"
 msgstr "J'en profite"
+
+#: fabcal/templates/fabcal/machine/reservation_form.html:96
+msgid "Reserve"
+msgstr "Réserver"
 
 #: fabcal/templates/fabcal/training/delete.html:10
 #, python-format
