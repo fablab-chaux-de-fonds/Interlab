@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-07 17:37+0000\n"
+"POT-Creation-Date: 2023-01-15 20:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -219,8 +219,8 @@ msgstr "encore %(available_registration)s places disponibles !"
 msgid "sold out"
 msgstr "complet"
 
-#: accounts/templates/accounts/profile.html:42 fabcal/forms.py:31
-#: fabcal/forms.py:175 openings/models.py:34
+#: accounts/templates/accounts/profile.html:42 fabcal/forms.py:32
+#: fabcal/forms.py:176 openings/models.py:34
 msgid "Opening"
 msgstr "Ouverture"
 
@@ -234,7 +234,7 @@ msgstr "Pas de réservations pour le moment"
 msgid "Reservation"
 msgstr "Réservation"
 
-#: accounts/templates/accounts/profile.html:70 fabcal/forms.py:184
+#: accounts/templates/accounts/profile.html:70 fabcal/forms.py:185
 #: openings/models.py:45
 msgid "Event"
 msgstr "Évènement"
@@ -844,6 +844,7 @@ msgstr ""
 "%(end)s"
 
 #: fabcal/templates/fabcal/delete_opening.html:13
+#: fabcal/templates/fabcal/machine/delete_form.html:26
 msgid "Yes, I'm sure"
 msgstr "Oui, j'en suis sûr"
 
@@ -1027,10 +1028,6 @@ msgstr "Pas d'évènement planifié pour le moment"
 msgid "Are you sure you want to cancel your reservation"
 msgstr "Êtes-vous sûr de vouloir annuler votre réservation ?"
 
-#: fabcal/templates/fabcal/machine/delete_form.html:26
-msgid "Yes, I'm sure"
-msgstr "Oui, j'en suis sûr"
-
 #: fabcal/templates/fabcal/machine/reservation_form.html:15
 msgid "Choose your schedule !"
 msgstr "Choisissez votre horaire"
@@ -1145,7 +1142,7 @@ msgstr ""
 msgid "You reservation has been canceled !"
 msgstr "Pas de réservation possible"
 
-#: interlab/settings.py:229 interlab/settings.py:248
+#: interlab/settings.py:230 interlab/settings.py:249
 msgid "fr"
 msgstr "fr"
 
