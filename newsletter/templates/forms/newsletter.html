@@ -1,6 +1,6 @@
 {% load i18n crispy_forms_tags %}
 
-<form hx-post="newsletter">
+<form hx-post="/newsletter">
     {% csrf_token %}
     <div class="row">
         <div class="col text-center">

@@ -1,5 +1,6 @@
 import dateparser
 import datetime
+from babel.dates import format_datetime, get_timezone
 
 from django import forms
 from django.conf import settings
@@ -423,14 +424,11 @@ class MachineReservationForm(forms.Form):
         )
 
     def message(self, view):
-        return messages.success(
-            view.request,
-            _('You successfully booked the machine ') + 
-            self.machine_slot.machine.title + 
-            _(" on ") +
-            self.machine_slot.start.strftime('%A %d %B') +
-            _(" from ") +
-            self.machine_slot.start.strftime('%H:%M')+
-            _(" to ") +
-            self.machine_slot.end.strftime('%H:%M')
-            )
+        context = {
+            'machine': self.machine_slot.machine.title,
+            'date': format_datetime(self.machine_slot.start, "EEEE d MMMM", locale=settings.LANGUAGE_CODE), 
+            'start': format_datetime(self.machine_slot.start, "H:mm", locale=settings.LANGUAGE_CODE),
+            'end': format_datetime(self.machine_slot.end, "H:mm", locale=settings.LANGUAGE_CODE),
+            'duration': self.machine_slot.get_duration,
+        }
+        return messages.success(view.request, _("You successfully booked the machine %(machine)s during %(duration)s minutes on %(date)s from %(start)s to %(end)s") % context)
