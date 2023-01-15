@@ -227,7 +227,7 @@ INSTALLED_APPS = [
     'share',
     'django_htmx',
     'analytical',
-    'phonenumber_field',, 
+    'phonenumber_field',
     'payments.apps.PaymentsConfig'
 ]
 
