@@ -1249,10 +1249,6 @@ msgstr "Oups ! Page non trouvée"
 msgid "Whoops ! Server error"
 msgstr "Oups ! Erreur de serveur"
 
-#: interlab/templates/forms/base_submit_button.html:5
-msgid "Whoops, no !"
-msgstr "Oups, non !"
-
 #: interlab/templates/menu-mobile.html:13
 #: interlab/templates/navbar-header.html:12
 msgid "Schedule"
