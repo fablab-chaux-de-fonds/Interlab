@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col text-end">
         <a href="{% url 'fabcal:delete-event' event_slot.pk %}"
-            class="btn btn-outline-primary pe-2 {%if event_slot.regristration == None%} disabled {%endif%}">
+            class="btn btn-outline-primary pe-2 {%if event_slot.regristration.all%} disabled {%endif%}">
             <i class="bi bi-trash3 pe-1"></i> {% trans "Delete" %}
         </a>
         <a href="{% url 'fabcal:update-event' event_slot.pk %}" class="btn btn-outline-primary">
