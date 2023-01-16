@@ -256,7 +256,7 @@ class TrainingForm(AbstractSlotForm):
             )
 
         context = {
-            'crud_state': "créé" if view.crud_state == "created" else "mise à jour",
+            'crud_state': "créée" if view.crud_state == "created" else "mise à jour",
             'start_date': format_datetime(self.cleaned_data['start'], "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
             'start_time': format_datetime(self.cleaned_data['start'], "H:mm", locale=settings.LANGUAGE_CODE), 
             'end_time': format_datetime(self.cleaned_data['end'], "H:mm", locale=settings.LANGUAGE_CODE),
