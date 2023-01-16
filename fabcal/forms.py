@@ -217,21 +217,21 @@ class EventForm(AbstractSlotForm):
             pk = view.kwargs.get('pk', None),
             defaults = defaults
             )
+
+        context = {
+            'crud_state': "créé" if view.crud_state == "created" else "mise à jour",
+            'start_date': format_datetime(self.cleaned_data['start'], "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
+            'start_time': format_datetime(self.cleaned_data['start'], "H:mm", locale=settings.LANGUAGE_CODE), 
+            'end_time': format_datetime(self.cleaned_data['end'], "H:mm", locale=settings.LANGUAGE_CODE),
+            'event_title': self.cleaned_data['event'].title,
+            'start': self.cleaned_data['start'].isoformat(),
+            'end': self.cleaned_data['end'].isoformat()
+        }
         
-        messages.success(view.request, mark_safe(
-            _("Your event has been successfully %(crud_state)s on ") % {'crud_state': _(view.crud_state)} + 
-            _date(self.cleaned_data['start'], "l d F Y") + 
-            _(" from ") +
-            self.cleaned_data['start'].strftime("%H:%M") + 
-            _(" to ") + 
-            self.cleaned_data['end'].strftime("%H:%M") + 
-            "</br>" +
-            "<a href=\"/fabcal/download-ics-file/" + self.cleaned_data['event'].title + "/" + self.cleaned_data['start'].strftime("%Y%m%dT%H%M%S%z")  + "/" + self.cleaned_data['end'].strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
-            "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
-            _('Add to my calendar') +
-             "</a>"
-            )
-        )
+        messages.success(
+            view.request,
+            mark_safe(_('Your event has been successfully %(crud_state)s on %(start_date)s from %(start_time)s to %(end_time)s</br><a href="/fabcal/download-ics-file/%(event_title)s/%(start)s/%(end)s"><i class="bi bi-file-earmark-arrow-down-fill"></i> Add to my calendar</a>')
+            % context))
 
 class TrainingForm(AbstractSlotForm):
     training = forms.ModelChoiceField(
@@ -255,20 +255,20 @@ class TrainingForm(AbstractSlotForm):
             defaults = defaults
             )
 
-        messages.success(view.request, mark_safe(
-            _("Your trainings has been successfully %(crud_state)s on ") % {'crud_state': _(view.crud_state)} + 
-            _date(self.cleaned_data['start'], "l d F Y") + 
-            _(" from ") +
-            self.cleaned_data['start'].strftime("%H:%M") + 
-            _(" to ") + 
-            self.cleaned_data['end'].strftime("%H:%M") + 
-            "</br>" +
-            "<a href=\"/fabcal/download-ics-file/" + self.cleaned_data['training'].title + "/" + self.cleaned_data['start'].strftime("%Y%m%dT%H%M%S%z")  + "/" + self.cleaned_data['end'].strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
-            "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
-            _('Add to my calendar') +
-            "</a>"
-            )
-        )
+        context = {
+            'crud_state': "créé" if view.crud_state == "created" else "mise à jour",
+            'start_date': format_datetime(self.cleaned_data['start'], "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
+            'start_time': format_datetime(self.cleaned_data['start'], "H:mm", locale=settings.LANGUAGE_CODE), 
+            'end_time': format_datetime(self.cleaned_data['end'], "H:mm", locale=settings.LANGUAGE_CODE),
+            'training_title': self.cleaned_data['training'].title,
+            'start': self.cleaned_data['start'].isoformat(),
+            'end': self.cleaned_data['end'].isoformat()
+        }
+        
+        messages.success(
+            view.request,
+            mark_safe(_('Your training has been successfully %(crud_state)s on %(start_date)s from %(start_time)s to %(end_time)s</br><a href="/fabcal/download-ics-file/%(training_title)s/%(start)s/%(end)s"><i class="bi bi-file-earmark-arrow-down-fill"></i> Add to my calendar</a>')
+            % context))
 
         return training_slot[0]
 

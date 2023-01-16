@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-16 19:59+0000\n"
+"POT-Creation-Date: 2023-01-16 20:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -700,27 +700,18 @@ msgstr "Limite d'inscriptions"
 msgid "leave blank if no limit"
 msgstr "Laisser vide si pas de limite"
 
-#: fabcal/forms.py:222
+#: fabcal/forms.py:233
 #, python-format
-msgid "Your event has been successfully %(crud_state)s on "
-msgstr "Votre évènement a été %(crud_state)s avec succès le "
-
-#: fabcal/forms.py:224 fabcal/forms.py:261
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:11
-#: fabcal/views.py:189 fabcal/views.py:254 fabcal/views.py:406
-#: machines/templates/trainings/show_next_trainings.html:9
-msgid " from "
-msgstr " de "
-
-#: fabcal/forms.py:226 fabcal/forms.py:263
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:13
-#: fabcal/views.py:191 fabcal/views.py:256 fabcal/views.py:408
-msgid " to "
-msgstr " à "
-
-#: fabcal/forms.py:231 fabcal/forms.py:268
-msgid "Add to my calendar"
-msgstr "Ajouter à mon calendrier"
+msgid ""
+"Your event has been successfully %(crud_state)s on %(start_date)s from "
+"%(start_time)s to %(end_time)s</br><a href=\"/fabcal/download-ics-file/"
+"%(event_title)s/%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-down-"
+"fill\"></i> Add to my calendar</a>"
+msgstr ""
+"Votre évènement a été %(crud_state)s avec succès le %(start_date)s de "
+"%(start_time)s à %(end_time)s</br><a href=\"/fabcal/download-ics-file/"
+"%(event_title)s/%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-down-"
+"fill\"></i> Ajouter à mon calendrier</a>"
 
 #: fabcal/forms.py:240
 msgid "Select a training"
@@ -730,10 +721,18 @@ msgstr "Selectionnez une formation"
 msgid "Please select a training."
 msgstr "Veuillez sélectionner une formation."
 
-#: fabcal/forms.py:259
+#: fabcal/forms.py:270
 #, python-format
-msgid "Your trainings has been successfully %(crud_state)s on "
-msgstr "Votre formation a été %(crud_state)s avec succès le "
+msgid ""
+"Your training has been successfully %(crud_state)s on %(start_date)s from "
+"%(start_time)s to %(end_time)s</br><a href=\"/fabcal/download-ics-file/"
+"%(training_title)s/%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-"
+"down-fill\"></i> Add to my calendar</a>"
+msgstr ""
+"Votre formation a été %(crud_state)s avec succès le %(start_date)s de "
+"%(start_time)s à %(end_time)s</br><a href=\"/fabcal/download-ics-file/"
+"%(training_title)s/%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-"
+"down-fill\"></i> Ajouter à mon calendrier</a>"
 
 #: fabcal/forms.py:282
 msgid "A training was updated"
@@ -926,6 +925,17 @@ msgstr "Nous vous confirmons que vous avez réserver la machine "
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:9
 msgid " on "
 msgstr " le "
+
+#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:11
+#: fabcal/views.py:189 fabcal/views.py:254 fabcal/views.py:406
+#: machines/templates/trainings/show_next_trainings.html:9
+msgid " from "
+msgstr " de "
+
+#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:13
+#: fabcal/views.py:191 fabcal/views.py:256 fabcal/views.py:408
+msgid " to "
+msgstr " à "
 
 #: fabcal/templates/fabcal/email/training_create_alert.html:6
 msgid "We have planned a new training"
@@ -1504,3 +1514,14 @@ msgstr "Merci ! Vous êtes maintenant inscrit à notre newsletter"
 #: openings/apps.py:7 openings/models.py:35
 msgid "Openings"
 msgstr "Ouvertures"
+
+#, python-format
+#~ msgid "Your trainings has been successfully %(crud_state)s on "
+#~ msgstr "Votre formation a été %(crud_state)s avec succès le "
+
+#~ msgid "Add to my calendar"
+#~ msgstr "Ajouter à mon calendrier"
+
+#, python-format
+#~ msgid "Your event has been successfully %(crud_state)s on "
+#~ msgstr "Votre évènement a été %(crud_state)s avec succès le "
