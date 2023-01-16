@@ -106,8 +106,9 @@ class AbstractSlotForm(forms.Form):
         return self.cleaned_data
 
     def update_or_create_opening_slot(self, view):
-        fields = [f.name for f in OpeningSlot._meta.get_fields()] + ['user_id']
+        fields = [f.name for f in OpeningSlot._meta.get_fields()]
         defaults = {key: self.cleaned_data[key] for key in self.cleaned_data if key in fields}
+        defaults['user'] = view.request.user
 
         opening_slot = OpeningSlot.objects.update_or_create(
             pk = view.kwargs.get('pk', None),
@@ -170,6 +171,7 @@ class AbstractSlotForm(forms.Form):
 
     def delete_machine_slot(self, view, pk):
         MachineSlot.objects.filter(opening_slot=view.opening_slot, machine_id = pk).delete()
+
 class OpeningForm(AbstractSlotForm):
     opening = forms.ModelChoiceField(
         queryset=Opening.objects.all(),
@@ -244,8 +246,9 @@ class TrainingForm(AbstractSlotForm):
     registration_limit = forms.IntegerField(required=True, label=_('Registration limit'))
 
     def update_or_create_training_slot(self, view):
-        fields = [f.name for f in TrainingSlot._meta.get_fields()] + ['user_id']
-        defaults = {key: self.cleaned_data[key]  for key in self.cleaned_data if key in fields}
+        fields = [f.name for f in TrainingSlot._meta.get_fields()]
+        defaults = {key: self.cleaned_data[key] for key in self.cleaned_data if key in fields}
+        defaults['user'] = view.request.user
 
         if hasattr(view, 'opening_slot'):
             defaults['opening_slot'] = view.opening_slot
@@ -291,7 +294,6 @@ class TrainingForm(AbstractSlotForm):
             recipient_list = recipient_list,
             html_message = html_message
         )
-
 
 class RegistrationTrainingForm(forms.Form):
 
