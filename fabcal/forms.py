@@ -114,20 +114,20 @@ class AbstractSlotForm(forms.Form):
             defaults = defaults
             )
 
-        messages.success(view.request, mark_safe(
-            _("Your openings has been successfully %(crud_state)s on ") % {'crud_state': _(view.crud_state)} + 
-            _date(self.cleaned_data['start'], "l d F Y") + 
-            _(" from ") +
-            self.cleaned_data['start'].strftime("%H:%M") + 
-            _(" to ") + 
-            self.cleaned_data['end'].strftime("%H:%M") + 
-            "</br>" +
-            "<a href=\"/fabcal/download-ics-file/" + self.cleaned_data['opening'].title + "/" + self.cleaned_data['start'].strftime("%Y%m%dT%H%M%S%z")  + "/" + self.cleaned_data['end'].strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
-            "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
-            _('Add to my calendar') +
-            "</a>"
-            )
-        )
+        context = {
+            'crud_state': "créée" if view.crud_state == "created" else "mise à jour",
+            'start_date': format_datetime(self.cleaned_data['start'], "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
+            'start_time': format_datetime(self.cleaned_data['start'], "H:mm", locale=settings.LANGUAGE_CODE), 
+            'end_time': format_datetime(self.cleaned_data['end'], "H:mm", locale=settings.LANGUAGE_CODE),
+            'opening_title': self.cleaned_data['opening'].title,
+            'start': self.cleaned_data['start'].isoformat(),
+            'end': self.cleaned_data['end'].isoformat()
+        }
+        
+        messages.success(
+            view.request,
+            mark_safe(_('Your openings has been successfully %(crud_state)s on %(start_date)s from %(start_time)s to %(end_time)s</br><a href="/fabcal/download-ics-file/%(opening_title)s/%(start)s/%(end)s"><i class="bi bi-file-earmark-arrow-down-fill"></i> Add to my calendar</a>')
+            % context))
 
         return opening_slot[0]
 

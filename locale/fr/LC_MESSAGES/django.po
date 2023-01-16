@@ -8,8 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-07 16:03+0000\n"
-
+"POT-Creation-Date: 2023-01-16 19:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -219,8 +218,8 @@ msgstr "encore %(available_registration)s places disponibles !"
 msgid "sold out"
 msgstr "complet"
 
-#: accounts/templates/accounts/profile.html:42 fabcal/forms.py:31
-#: fabcal/forms.py:175 openings/models.py:34
+#: accounts/templates/accounts/profile.html:42 fabcal/forms.py:32
+#: fabcal/forms.py:176 openings/models.py:34
 msgid "Opening"
 msgstr "Ouverture"
 
@@ -234,7 +233,7 @@ msgstr "Pas de réservations pour le moment"
 msgid "Reservation"
 msgstr "Réservation"
 
-#: accounts/templates/accounts/profile.html:69 fabcal/forms.py:184
+#: accounts/templates/accounts/profile.html:69 fabcal/forms.py:185
 #: openings/models.py:45
 msgid "Event"
 msgstr "Évènement"
@@ -646,27 +645,18 @@ msgstr "Machines"
 msgid "Start time after end time."
 msgstr "Heure du début après heure de fin"
 
-#: fabcal/forms.py:118
+#: fabcal/forms.py:129
 #, python-format
-msgid "Your openings has been successfully %(crud_state)s on "
-msgstr "Votre ouverture a été %(crud_state)s avec succès le "
-
-#: fabcal/forms.py:120 fabcal/forms.py:224 fabcal/forms.py:261
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:11
-#: fabcal/views.py:189 fabcal/views.py:254 fabcal/views.py:406
-#: machines/templates/trainings/show_next_trainings.html:9
-msgid " from "
-msgstr " de "
-
-#: fabcal/forms.py:122 fabcal/forms.py:226 fabcal/forms.py:263
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:13
-#: fabcal/views.py:191 fabcal/views.py:256 fabcal/views.py:408
-msgid " to "
-msgstr " à "
-
-#: fabcal/forms.py:127 fabcal/forms.py:231 fabcal/forms.py:268
-msgid "Add to my calendar"
-msgstr "Ajouter à mon calendrier"
+msgid ""
+"Your openings has been successfully %(crud_state)s on %(start_date)s from "
+"%(start_time)s to %(end_time)s</br><a href=\"/fabcal/download-ics-file/"
+"%(opening_title)s/%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-"
+"down-fill\"></i> Add to my calendar</a>"
+msgstr ""
+"Votre ouverture a été %(crud_state)s avec succès le %(start_date)s de "
+"%(start_time)s à %(end_time)s</br><a href=\"/fabcal/download-ics-file/"
+"%(opening_title)s/%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-"
+"down-fill\"></i> Ajouter à mon calendrier</a>"
 
 #: fabcal/forms.py:152
 #, fuzzy, python-format
@@ -714,6 +704,23 @@ msgstr "Laisser vide si pas de limite"
 #, python-format
 msgid "Your event has been successfully %(crud_state)s on "
 msgstr "Votre évènement a été %(crud_state)s avec succès le "
+
+#: fabcal/forms.py:224 fabcal/forms.py:261
+#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:11
+#: fabcal/views.py:189 fabcal/views.py:254 fabcal/views.py:406
+#: machines/templates/trainings/show_next_trainings.html:9
+msgid " from "
+msgstr " de "
+
+#: fabcal/forms.py:226 fabcal/forms.py:263
+#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:13
+#: fabcal/views.py:191 fabcal/views.py:256 fabcal/views.py:408
+msgid " to "
+msgstr " à "
+
+#: fabcal/forms.py:231 fabcal/forms.py:268
+msgid "Add to my calendar"
+msgstr "Ajouter à mon calendrier"
 
 #: fabcal/forms.py:240
 msgid "Select a training"
@@ -1139,7 +1146,7 @@ msgstr ""
 "Désolé, vous ne pouvez pas réserver la machine parce que vous devez faire la "
 "formation avant de l'utiliser"
 
-#: interlab/settings.py:229 interlab/settings.py:248
+#: interlab/settings.py:230 interlab/settings.py:249
 msgid "fr"
 msgstr "fr"
 
