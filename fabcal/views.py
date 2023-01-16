@@ -6,6 +6,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.core.mail import send_mail
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import loader
@@ -36,8 +37,15 @@ def get_start_end(self, context):
             context['start'] = slot.start
             context['end'] = slot.end
     elif self.request.method =='POST':
+        try:
             context['start'] = super(type(context['form']), context['form']).clean_start()
+        except ValidationError:
+            context['start'] = context['form'].initial['start']
+
+        try:
             context['end'] = super(type(context['form']), context['form']).clean_end()
+        except ValidationError:
+            context['end'] = context['form'].initial['end']
 
     return context
 
