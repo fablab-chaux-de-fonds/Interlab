@@ -6,6 +6,6 @@
     class="img my-2" alt="avatar">
 {% endif %}
 
-{% if user.profile.subscription %}
+{% if user.profile.is_subscription_valid %}
 <i class="bi bi-star-fill text-red position-relative icon-subscription icon-shadow"></i>
 {% endif %}
