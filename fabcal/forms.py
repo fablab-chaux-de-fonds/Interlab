@@ -170,6 +170,7 @@ class AbstractSlotForm(forms.Form):
 
     def delete_machine_slot(self, view, pk):
         MachineSlot.objects.filter(opening_slot=view.opening_slot, machine_id = pk).delete()
+
 class OpeningForm(AbstractSlotForm):
     opening = forms.ModelChoiceField(
         queryset=Opening.objects.all(),
@@ -292,23 +293,28 @@ class TrainingForm(AbstractSlotForm):
             html_message = html_message
         )
 
-
 class RegistrationTrainingForm(forms.Form):
 
     def register(self, view):
         training_slot = TrainingSlot.objects.get(pk=view.kwargs['pk'])
         training_slot.registrations.add(view.request.user)
-        messages.success(view.request, mark_safe(
-        _(
-            "Well done! We sent you an email to confirme your registration" + 
-            "</br>" +
-            "<a href=\"/fabcal/download-ics-file/" + training_slot.training.title + "/" + training_slot.start.strftime("%Y%m%dT%H%M%S%z")  + "/" + training_slot.end.strftime("%Y%m%dT%H%M%S%z")  + "/\" download>" + 
-            "<i class=\"bi bi-file-earmark-arrow-down-fill\"></i> " + 
-            _('Download .ICS file') +
-            "</a>"
+
+        context = {
+            'training_title': training_slot.training.title,
+            'start_date': format_datetime(training_slot.start, "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
+            'start_time': format_datetime(training_slot.start, "H:mm", locale=settings.LANGUAGE_CODE), 
+            'end_time': format_datetime(training_slot.end, "H:mm", locale=settings.LANGUAGE_CODE),
+            'start': training_slot.start.isoformat(),
+            'end': training_slot.end.isoformat()
+        }
+        messages.success(
+            view.request, 
+            mark_safe( 
+                _(
+                    'Well done! We sent you an email to confirme your registration for the training %(training_title)s on %(start_date)s from %(start_time)s to %(end_time)s</br><a href="/fabcal/download-ics-file/%(training_title)s/%(start)s/%(end)s"><i class="bi bi-file-earmark-arrow-down-fill"></i> Add to my calendar</a>'
+                )
+            % context)
             )
-            )
-        )
     
     def send_mail(self, view):
 

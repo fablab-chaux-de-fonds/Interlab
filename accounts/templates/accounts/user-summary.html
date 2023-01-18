@@ -14,7 +14,7 @@
 
 <p>
     <small>
-        {% if user.profile.subscription %}
+        {% if user.profile.is_subscription_valid %}
             {{ user.profile.subscription.subscription_category.title }} {% trans "valid until" %}
             {{ user.profile.subscription.end|date:'d.m.Y' }} </br>
 

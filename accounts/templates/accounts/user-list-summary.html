@@ -4,7 +4,7 @@
 {{user.email}}
 {% endif %}
 <br>
-{% if user.profile.subscription %}
+{% if user.profile.is_subscription_valid %}
 <small> {{user.profile.subscription.subscription_category.title}},
     {{ user.profile.subscription.end|date:'d.m.Y' }} </small>
 {% endif %}
