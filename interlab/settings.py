@@ -223,6 +223,7 @@ INSTALLED_APPS = [
     'url_or_relative_url_field',
     'django_q',
     'django_db_logger',
+    'share',
 ]
 
 LANGUAGES = (
