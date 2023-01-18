@@ -8,8 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-07 16:03+0000\n"
-
+"POT-Creation-Date: 2023-01-18 08:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -219,8 +218,8 @@ msgstr "encore %(available_registration)s places disponibles !"
 msgid "sold out"
 msgstr "complet"
 
-#: accounts/templates/accounts/profile.html:42 fabcal/forms.py:31
-#: fabcal/forms.py:175 openings/models.py:34
+#: accounts/templates/accounts/profile.html:42 fabcal/forms.py:32
+#: fabcal/forms.py:176 openings/models.py:34
 msgid "Opening"
 msgstr "Ouverture"
 
@@ -234,7 +233,7 @@ msgstr "Pas de réservations pour le moment"
 msgid "Reservation"
 msgstr "Réservation"
 
-#: accounts/templates/accounts/profile.html:69 fabcal/forms.py:184
+#: accounts/templates/accounts/profile.html:69 fabcal/forms.py:185
 #: openings/models.py:45
 msgid "Event"
 msgstr "Évènement"
@@ -585,6 +584,17 @@ msgstr "Votre adresse email"
 #, python-format
 msgid "Password reset on %(site_name)s"
 msgstr "Réinitialiser votre mot de passe - %(site_name)s"
+
+#: accounts/templates/registration/registration_form.html:16
+#, python-format
+msgid ""
+"I have read and accept <a href=\"%(link)s\" target=\"_blank\">the rules of "
+"use, the FabLab charter, and the statutes of the Association FabLab La Chaux-"
+"de-Fonds</a>"
+msgstr ""
+"J'ai lu et j'accepte <a href=\"%(link)s\" target=\"_blank\">les règles "
+"d'utilisation, la charte du FabLab et les statuts de l'Association FabLab"
+"La Chaux-de-Fonds</a>"
 
 #: accounts/views.py:136
 msgid ""
@@ -1139,7 +1149,7 @@ msgstr ""
 "Désolé, vous ne pouvez pas réserver la machine parce que vous devez faire la "
 "formation avant de l'utiliser"
 
-#: interlab/settings.py:229 interlab/settings.py:248
+#: interlab/settings.py:230 interlab/settings.py:249
 msgid "fr"
 msgstr "fr"
 
