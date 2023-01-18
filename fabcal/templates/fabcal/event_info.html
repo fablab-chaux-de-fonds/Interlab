@@ -25,7 +25,7 @@
             </div>
             <div class="col-10 ">
                 <h4>{% trans "Registration" %}</h4>
-                {% if has_registration %}
+                {% if event_slot.has_registration %}
                     <p>{% trans 'Registration mandatory' %}<br>
                     {% if event_slot.available_registration > 0  %}
                         <small  class"fs-6">

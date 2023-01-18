@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
@@ -40,5 +42,13 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}, ({self.user.username})"
 
+    @property 
     def get_training_validations(self):
         return self.trainingvalidation_set.all()
+
+    @property 
+    def is_subscription_valid(self):
+        if self.subscription:
+            return date.today() > self.subscription.start and date.today() < self.subscription.end
+        else:
+            return False
