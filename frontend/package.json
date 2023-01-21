@@ -66,6 +66,7 @@
     "core-js": "^3.8.1",
     "htmx.org": "^1.6.0",
     "jquery": "^3.6.0",
+    "masonry-layout": "^4.2.2",
     "moment": "^2.29.3",
     "stylelint-scss": "^3.20.1",
     "vue": "^2.6.14",

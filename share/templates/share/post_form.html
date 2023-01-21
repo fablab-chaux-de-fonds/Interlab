@@ -1,0 +1,39 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n interlab_tags %}
+
+{% block content_form_img %}
+<i class="bi bi-share-fill mb-5 img-form-logo mx-auto d-block"></i>
+{% endblock %}
+
+{% block content_form %}
+
+<form action="/share/create" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <div class="mb-3">
+            <label for="{{ form.title.id_for_label }}">{{ form.title.label_tag }}</label>
+            {{ form.title }}
+            {{ form.title.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.img.id_for_label }}">{{ form.img.label_tag }}</label>
+            <input type="file" name="img" accept="image/*" capture="camera" class="form-control" required="" id="id_img">
+            {{ form.img.errors }}
+        </div>
+
+        {% if request.user|has_group:"superuser" %}
+        <div class="mb-3">
+            <label for="{{ form.profile.id_for_label }}">{{ form.profile.label_tag }}</label>
+            {{ form.profile }}
+            {{ form.profile.errors }}
+        </div>
+        {% endif %}
+        
+    </div>
+
+    {% include "forms/base_submit_button.html" with submit_btn=_("Create post") %}
+ </form>
+    
+{% endblock content_form %}

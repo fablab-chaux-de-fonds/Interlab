@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-18 10:12+0000\n"
+"POT-Creation-Date: 2023-01-21 11:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -758,11 +758,11 @@ msgid ""
 "%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-down-fill\"></i> Add "
 "to my calendar</a>"
 msgstr ""
-"Bien joué! Nous vous avons envoyé un e-mail pour confirmer votre inscription à la "
-"formation %(training_title)s le %(start_date)s de %(start_time)s à "
+"Bien joué! Nous vous avons envoyé un e-mail pour confirmer votre inscription "
+"à la formation %(training_title)s le %(start_date)s de %(start_time)s à "
 "%(end_time)s</br><a href=\"/fabcal/download-ics-file/%(training_title)s/"
-"%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-down-fill\"></i> Ajouter "
-"à mon calendrier</a>"
+"%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-down-fill\"></i> "
+"Ajouter à mon calendrier</a>"
 
 #: fabcal/forms.py:325 fabcal/forms.py:326 fabcal/views.py:307
 #: fabcal/views.py:308
@@ -1169,7 +1169,7 @@ msgstr ""
 "Désolé, vous ne pouvez pas réserver la machine parce que vous devez faire la "
 "formation avant de l'utiliser"
 
-#: interlab/settings.py:230 interlab/settings.py:249
+#: interlab/settings.py:233 interlab/settings.py:252
 msgid "fr"
 msgstr "fr"
 
@@ -1528,22 +1528,18 @@ msgstr "Merci ! Vous êtes maintenant inscrit à notre newsletter"
 msgid "Openings"
 msgstr "Ouvertures"
 
-#, fuzzy
-#~| msgid "Well done! We sent you an email to confirme your registration"
-#~ msgid ""
-#~ "Well done! We sent you an email to confirme your registration</br><a href="
-#~ "\"/fabcal/download-ics-file/"
-#~ msgstr ""
-#~ "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre "
-#~ "inscription"
+#: share/templates/share/post_confirm_delete.html:11
+msgid "Are you sure you want to delete the post: %(title)s ?"
+msgstr "Êtes-vous sûr de vouloir supprimer le post: %(title)s?"
 
-#, python-format
-#~ msgid "Your trainings has been successfully %(crud_state)s on "
-#~ msgstr "Votre formation a été %(crud_state)s avec succès le "
+#: share/templates/share/post_form.html:36
+msgid "Create post"
+msgstr "Publier le poste"
 
-#~ msgid "Add to my calendar"
-#~ msgstr "Ajouter à mon calendrier"
+#: share/templates/share/post_list.html:7
+msgid "Share your creations"
+msgstr "Partagez vos créations"
 
-#, python-format
-#~ msgid "Your event has been successfully %(crud_state)s on "
-#~ msgstr "Votre évènement a été %(crud_state)s avec succès le "
+#: share/templates/share/post_list.html:10
+msgid "Add a new post"
+msgstr "Ajouter un poste"

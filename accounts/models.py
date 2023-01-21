@@ -38,6 +38,7 @@ class Subscription(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, blank=True, null=True)
+    discord = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}, ({self.user.username})"

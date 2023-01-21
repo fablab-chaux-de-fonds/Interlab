@@ -5,6 +5,7 @@ import * as bootstrap from 'bootstrap';
 
 import "bootstrap-show-password/dist/bootstrap-show-password.js";
 import "htmx.org";
+import "masonry-layout";
 
 // Bootstrap - initialize tooltips
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');

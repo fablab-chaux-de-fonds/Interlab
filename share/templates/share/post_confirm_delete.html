@@ -1,0 +1,14 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n interlab_tags %}
+
+{% block content_form_img %}
+<img class="card-img rounded" src="{{object.img.url}}"  alt="{{post.title}}">
+{% endblock %}
+
+
+{% block content_form %}
+<form method="post">{% csrf_token %}
+    {% blocktranslate with title=object.title %}Are you sure you want to delete the post: {{title}} ?{% endblocktranslate %}
+    {% include "forms/base_submit_button.html" with submit_btn="Yes, I'm sure" %}
+</form>
+{% endblock %}

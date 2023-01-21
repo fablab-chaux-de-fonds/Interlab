@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n interlab_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <h1> {% trans "Share your creations" %}</h1>
+    </div>
+    <div class="col-12 col-sm-6 text-center text-sm-end">
+        <a class="btn btn-outline-primary" href="{% url 'post_create'%}">{% trans "Add a new post" %}</a>
+    </div>
+</div>
+
+<div class="row" data-masonry='{"percentPosition": true }'>
+    {% for post in object_list %}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="row">
+                <div class="col">
+                    <p class="mb-0">{{post.title}}</p>
+                </div>
+                
+                {% if request.user|has_group:"superuser" %}
+                <div class="col-2">
+                    <a class="btn btn-link" href="{% url 'post_delete' post.pk%}"><i class="bi bi-trash3"></i></a>
+                </div>
+                {% endif %}
+
+            </div>
+            <img class="card-img rounded" src="{{post.img.url}}"  alt="{{post.title}}">
+            <div class="text-end">
+                {% if post.profile.discord %}
+                    <i class="bi bi-discord"></i> {{post.profile.discord}}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
