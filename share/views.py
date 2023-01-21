@@ -9,6 +9,7 @@ from .models import Post
 
 class PostListView(ListView):
     model = Post
+    ordering = ['-created_at']
 
 class PostCreateView(LoginRequiredMixin, CreateView, CustomFormView):
     model = Post
