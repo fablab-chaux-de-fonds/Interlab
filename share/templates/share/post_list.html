@@ -18,10 +18,9 @@
                 <div class="col">
                     <p class="mb-0">{{post.title}}</p>
                 </div>
-                
                 {% if request.user|has_group:"superuser" %}
-                <div class="col-2">
-                    <a class="btn btn-link" href="{% url 'post_delete' post.pk%}"><i class="bi bi-trash3"></i></a>
+                <div class="col-3 text-end">
+                    <a class="btn btn-link p-0" href="{% url 'post_delete' post.pk%}"><i class="bi bi-trash3"></i></a>
                 </div>
                 {% endif %}
 
