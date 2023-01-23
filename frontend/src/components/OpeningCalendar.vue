@@ -125,8 +125,8 @@
               <div v-if="selectedEvent.type=='opening'">
                 <h4> {{ $vuetify.lang.t('$vuetify.machines') }} </h4>
                   <span v-for="machine in selectedEvent.machines">
-                  <a :href="'/machines/machines/' + machine.pk + '/show'" class="btn btn-secondary rounded-pill btn-sm m-1">
-                    {{ machine.title }}
+                  <a :href="'/machines/machines/' + machine.pk + '/show'" class="badge text-bg-info rounded-pill btn-sm m-1">
+                    {{machine.category}} - {{ machine.title }}
                   </a>
                 </span>
               </div>
