@@ -9,7 +9,7 @@
             </div>
             <div class="col-8 ">
                 <h4>{% trans "Price" %}</h4>
-                <p>{{training.full_price|price_format}}</p>
+                <p>{{training.full_price|price_format}} {% if training.includ_free_machine_voucher %}*{% endif %}</p>
             </div>
         </div>
     </div>
@@ -41,4 +41,6 @@
             </div>
         </div>
     </div>
+
+    {% if training.includ_free_machine_voucher %}* {% trans "the training + 1 voucher of 1h machine to practice" %}{% endif %}
 </div>

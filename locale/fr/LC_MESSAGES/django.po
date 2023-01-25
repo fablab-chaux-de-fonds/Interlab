@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-25 10:06+0000\n"
+"POT-Creation-Date: 2023-01-25 10:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -656,7 +656,7 @@ msgstr "Pas d'ouverture"
 
 #: fabcal/forms.py:42 interlab/templates/menu-mobile.html:58
 #: interlab/templates/navbar-header.html:20 machines/cms_plugins.py:13
-#: machines/cms_plugins.py:26 machines/models.py:195
+#: machines/cms_plugins.py:26 machines/models.py:196
 #: machines/templates/trainings/show.html:38
 msgid "Machines"
 msgstr "Machines"
@@ -1244,151 +1244,155 @@ msgstr "Photo"
 msgid "Header"
 msgstr "Chapeau"
 
-#: machines/models.py:36
+#: machines/models.py:35
 msgid "Machine Category"
 msgstr "Catégorie de machine"
 
-#: machines/models.py:37
+#: machines/models.py:36
 msgid "Machine Categories"
 msgstr "Catégories de machine"
 
 # For the trainings models
-#: machines/models.py:45
+#: machines/models.py:44
 msgid "Beginner"
 msgstr "Débutant"
 
-#: machines/models.py:46
+#: machines/models.py:45
 msgid "Intermediate"
 msgstr "Intermédiaire"
 
-#: machines/models.py:47
+#: machines/models.py:46
 msgid "Advanced"
 msgstr "Avancé"
 
-#: machines/models.py:50
+#: machines/models.py:49
 msgid "Machine category"
 msgstr "Catégorie de machine"
 
-#: machines/models.py:51 machines/templates/trainings/info.html:39
+#: machines/models.py:50 machines/templates/trainings/info.html:39
 msgid "Level"
 msgstr "Niveau"
 
-#: machines/models.py:52 machines/templates/trainings/info.html:23
+#: machines/models.py:51 machines/templates/trainings/info.html:23
 msgid "Duration"
 msgstr "Durée"
 
-#: machines/models.py:52
+#: machines/models.py:51
 msgid "Use the format HH:MM:SS"
 msgstr "Utiliser le format HH:MM:SS"
 
-#: machines/models.py:82
+#: machines/models.py:54
+msgid "Include free machine voucher"
+msgstr "Inclus bon machine"
+
+#: machines/models.py:84
 msgid "Icon"
 msgstr "Icone"
 
-#: machines/models.py:84
+#: machines/models.py:86
 msgid "Title"
 msgstr "Titre"
 
-#: machines/models.py:85 machines/templates/trainings/show.html:20
+#: machines/models.py:87 machines/templates/trainings/show.html:20
 #: openings/models.py:17
 msgid "Description"
 msgstr "Description"
 
-#: machines/models.py:86
+#: machines/models.py:88
 msgid "Link"
 msgstr "Lien"
 
-#: machines/models.py:87
+#: machines/models.py:89
 msgid "Link text"
 msgstr "Text lien"
 
-#: machines/models.py:93
+#: machines/models.py:95
 msgid "Card"
 msgstr "Carte"
 
-#: machines/models.py:94
+#: machines/models.py:96
 msgid "Cards"
 msgstr "Cartes"
 
-#: machines/models.py:111
+#: machines/models.py:112
 msgid "Training tool"
 msgstr "Outil de formation"
 
-#: machines/models.py:112
+#: machines/models.py:113
 msgid "Training tools"
 msgstr "Outils de formation"
 
-#: machines/models.py:116
+#: machines/models.py:117
 msgid "Question"
 msgstr "Question"
 
-#: machines/models.py:117
+#: machines/models.py:118
 msgid "Answer"
 msgstr "Réponse"
 
-#: machines/models.py:120
+#: machines/models.py:121
 msgid "FAQ"
 msgstr "FAQ"
 
-#: machines/models.py:121
+#: machines/models.py:122
 msgid "FAQs"
 msgstr "FAQs"
 
-#: machines/models.py:127
+#: machines/models.py:128
 msgid "Machine group"
 msgstr "Groupe de machine"
 
-#: machines/models.py:128
+#: machines/models.py:129
 msgid "Machine groups"
 msgstr "Groupes de machine"
 
-#: machines/models.py:133
+#: machines/models.py:134
 msgid "Material"
 msgstr "Matière"
 
-#: machines/models.py:134 machines/templates/machines/list.html:24
+#: machines/models.py:135 machines/templates/machines/list.html:24
 #: machines/templates/machines/show.html:56
 msgid "Materials"
 msgstr "Matières"
 
-#: machines/models.py:138
+#: machines/models.py:139
 msgid "Workshop"
 msgstr "Atelier"
 
-#: machines/models.py:139 machines/templates/machines/list.html:10
+#: machines/models.py:140 machines/templates/machines/list.html:10
 #: machines/templates/machines/show.html:50
 msgid "Workshops"
 msgstr "Ateliers"
 
-#: machines/models.py:160
+#: machines/models.py:161
 msgid "Premium Price"
 msgstr "Tarif membre"
 
-#: machines/models.py:194
+#: machines/models.py:195
 msgid "Machine"
 msgstr "Machine"
 
-#: machines/models.py:201
+#: machines/models.py:202
 msgid "Machine tool"
 msgstr "Outil machine"
 
-#: machines/models.py:202
+#: machines/models.py:203
 msgid "Machine tools"
 msgstr "Outils machines"
 
-#: machines/models.py:208
+#: machines/models.py:209
 msgid "Machine highlight"
 msgstr "Atouts machine"
 
-#: machines/models.py:209
+#: machines/models.py:210
 msgid "Machine highlights"
 msgstr "Atouts machine"
 
-#: machines/models.py:218
+#: machines/models.py:219
 msgid "Specification"
 msgstr "Spécification"
 
-#: machines/models.py:219
+#: machines/models.py:220
 msgid "Specifications"
 msgstr "Spécifications"
 
@@ -1455,6 +1459,10 @@ msgstr ""
 #: machines/templates/machines/show_next_slots.html:27
 msgid "Sorry, no slot available for this machine."
 msgstr "Désolé, pas de créneau disponible pour cette machine"
+
+#: machines/templates/trainings/info.html:45
+msgid "the training + 1 voucher of 1h machine to practice"
+msgstr "la formation + 1 bon de 1h machine pour pratiquer"
 
 #: machines/templates/trainings/list.html:8
 msgid "Category"
@@ -1543,23 +1551,3 @@ msgstr "Merci ! Vous êtes maintenant inscrit à notre newsletter"
 #: openings/apps.py:7 openings/models.py:35
 msgid "Openings"
 msgstr "Ouvertures"
-
-#, fuzzy
-#~| msgid "Well done! We sent you an email to confirme your registration"
-#~ msgid ""
-#~ "Well done! We sent you an email to confirme your registration</br><a href="
-#~ "\"/fabcal/download-ics-file/"
-#~ msgstr ""
-#~ "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre "
-#~ "inscription"
-
-#, python-format
-#~ msgid "Your trainings has been successfully %(crud_state)s on "
-#~ msgstr "Votre formation a été %(crud_state)s avec succès le "
-
-#~ msgid "Add to my calendar"
-#~ msgstr "Ajouter à mon calendrier"
-
-#, python-format
-#~ msgid "Your event has been successfully %(crud_state)s on "
-#~ msgstr "Votre évènement a été %(crud_state)s avec succès le "
