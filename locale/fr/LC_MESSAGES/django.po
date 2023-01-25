@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-18 10:12+0000\n"
+"POT-Creation-Date: 2023-01-25 10:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -289,7 +289,7 @@ msgstr "Chercher un utilisateur"
 
 #: accounts/templates/accounts/user-summary.html:18
 #: accounts/templates/organizations/organization_detail.html:17
-#: fabcal/templates/fabcal/event_registration_list.html:22
+#: fabcal/templates/fabcal/event_registration_list.html:23
 msgid "valid until"
 msgstr "valable jusqu'au"
 
@@ -344,8 +344,9 @@ msgstr ""
 "Pour activer votre compte et confirmer votre addresse mail, cliquez sur le "
 "lien"
 
-#: accounts/templates/django_registration/activation_email_body.txt:9
 # python-format
+#: accounts/templates/django_registration/activation_email_body.txt:9
+#, python-format
 msgid "This link is only valid for %(expiration_days)s days."
 msgstr "Ce lien est valide uniquement pendant %(expiration_days)s jours"
 
@@ -647,7 +648,7 @@ msgstr "Pas d'ouverture"
 
 #: fabcal/forms.py:42 interlab/templates/menu-mobile.html:58
 #: interlab/templates/navbar-header.html:20 machines/cms_plugins.py:13
-#: machines/cms_plugins.py:26 machines/models.py:195
+#: machines/cms_plugins.py:26 machines/models.py:196
 #: machines/templates/trainings/show.html:38
 msgid "Machines"
 msgstr "Machines"
@@ -758,14 +759,14 @@ msgid ""
 "%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-down-fill\"></i> Add "
 "to my calendar</a>"
 msgstr ""
-"Bien joué! Nous vous avons envoyé un e-mail pour confirmer votre inscription à la "
-"formation %(training_title)s le %(start_date)s de %(start_time)s à "
+"Bien joué! Nous vous avons envoyé un e-mail pour confirmer votre inscription "
+"à la formation %(training_title)s le %(start_date)s de %(start_time)s à "
 "%(end_time)s</br><a href=\"/fabcal/download-ics-file/%(training_title)s/"
-"%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-down-fill\"></i> Ajouter "
-"à mon calendrier</a>"
+"%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-down-fill\"></i> "
+"Ajouter à mon calendrier</a>"
 
-#: fabcal/forms.py:325 fabcal/forms.py:326 fabcal/views.py:307
-#: fabcal/views.py:308
+#: fabcal/forms.py:325 fabcal/forms.py:326 fabcal/views.py:299
+#: fabcal/views.py:300
 msgid "Confirmation of your registration"
 msgstr "Confirmation de votre inscription"
 
@@ -940,13 +941,13 @@ msgid " on "
 msgstr " le "
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:11
-#: fabcal/views.py:189 fabcal/views.py:254 fabcal/views.py:406
+#: fabcal/views.py:189 fabcal/views.py:254 fabcal/views.py:398
 #: machines/templates/trainings/show_next_trainings.html:9
 msgid " from "
 msgstr " de "
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:13
-#: fabcal/views.py:191 fabcal/views.py:256 fabcal/views.py:408
+#: fabcal/views.py:191 fabcal/views.py:256 fabcal/views.py:400
 msgid " to "
 msgstr " à "
 
@@ -998,7 +999,6 @@ msgid "Edit"
 msgstr "Modifier"
 
 #: fabcal/templates/fabcal/event_info.html:27
-#: fabcal/templates/fabcal/event_registration_form.html:9
 #: fabcal/templates/fabcal/event_registration_list.html:7
 msgid "Registration"
 msgstr "Inscription"
@@ -1050,11 +1050,6 @@ msgstr "Espace Superutilisateur"
 msgid "peoples registered for the event"
 msgstr "personnes inscrites à l'évènement"
 
-#: fabcal/templates/fabcal/event_unregistration_form.html:9
-#: fabcal/templates/fabcal/training/unregistration.html:9
-msgid "Unregistration"
-msgstr "Desinscription"
-
 #: fabcal/templates/fabcal/events_list.html:10
 msgid "No events scheduled for the moment"
 msgstr "Pas d'évènement planifié pour le moment"
@@ -1102,6 +1097,18 @@ msgstr ""
 "Êtes-vous sûr de vouloir supprimer la formation %(title)s du %(date)s de "
 "%(start)s à %(end)s"
 
+#: fabcal/templates/fabcal/training/unregistration.html:9
+msgid "Unregistration"
+msgstr "Desinscription"
+
+#: fabcal/templates/fabcal/training/unregistration.html:11
+msgid ""
+"Are you sure you want to unregister from training %(title)s scheduled on "
+"%(date)s from %(start)s to %(end)s?"
+msgstr ""
+"Êtes-vous sûr de vouloir vous desinscrire de la formation %(title)s du %(date)s de "
+"%(start)s à %(end)s"
+
 #: fabcal/templates/fabcal/weekly.html:4
 msgid "Our next openings"
 msgstr "Nos prochaines ouvertures"
@@ -1134,34 +1141,34 @@ msgstr "Créer l'évènement"
 msgid "Update event"
 msgstr "Mettre à jour l'évènement"
 
-#: fabcal/views.py:252 fabcal/views.py:404
+#: fabcal/views.py:252 fabcal/views.py:396
 msgid "Your event has been successfully deleted on "
 msgstr "Votre évènement a été supprimée avec succès le "
 
-#: fabcal/views.py:313
+#: fabcal/views.py:305
 msgid "Well done! We sent you an email to confirme your registration"
 msgstr ""
 "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
 
-#: fabcal/views.py:329 fabcal/views.py:330 fabcal/views.py:458
-#: fabcal/views.py:459
+#: fabcal/views.py:321 fabcal/views.py:322 fabcal/views.py:450
+#: fabcal/views.py:451
 msgid "Confirmation of your unregistration"
 msgstr "Confirmation de votre desinscription"
 
-#: fabcal/views.py:335 fabcal/views.py:464
+#: fabcal/views.py:327 fabcal/views.py:456
 msgid "Oh no! We sent you an email to confirme your unregistration"
 msgstr ""
 "Oh non ! Nous vous avons envoyé un e-mail pour confirmer votre desinscription"
 
-#: fabcal/views.py:348
+#: fabcal/views.py:340
 msgid "Create training"
 msgstr "Créer la formation"
 
-#: fabcal/views.py:350
+#: fabcal/views.py:342
 msgid "Update training"
 msgstr "Mettre à jour la formation"
 
-#: fabcal/views.py:497
+#: fabcal/views.py:489
 msgid ""
 "Sorry, you cannont reserve this machine, because you need to complete the "
 "training before using it"
@@ -1228,151 +1235,155 @@ msgstr "Photo"
 msgid "Header"
 msgstr "Chapeau"
 
-#: machines/models.py:36
+#: machines/models.py:35
 msgid "Machine Category"
 msgstr "Catégorie de machine"
 
-#: machines/models.py:37
+#: machines/models.py:36
 msgid "Machine Categories"
 msgstr "Catégories de machine"
 
 # For the trainings models
-#: machines/models.py:45
+#: machines/models.py:44
 msgid "Beginner"
 msgstr "Débutant"
 
-#: machines/models.py:46
+#: machines/models.py:45
 msgid "Intermediate"
 msgstr "Intermédiaire"
 
-#: machines/models.py:47
+#: machines/models.py:46
 msgid "Advanced"
 msgstr "Avancé"
 
-#: machines/models.py:50
+#: machines/models.py:49
 msgid "Machine category"
 msgstr "Catégorie de machine"
 
-#: machines/models.py:51 machines/templates/trainings/info.html:39
+#: machines/models.py:50 machines/templates/trainings/info.html:39
 msgid "Level"
 msgstr "Niveau"
 
-#: machines/models.py:52 machines/templates/trainings/info.html:23
+#: machines/models.py:51 machines/templates/trainings/info.html:23
 msgid "Duration"
 msgstr "Durée"
 
-#: machines/models.py:52
+#: machines/models.py:51
 msgid "Use the format HH:MM:SS"
 msgstr "Utiliser le format HH:MM:SS"
 
-#: machines/models.py:82
+#: machines/models.py:54
+msgid "Include free machine voucher"
+msgstr "Inclus bon machine"
+
+#: machines/models.py:84
 msgid "Icon"
 msgstr "Icone"
 
-#: machines/models.py:84
+#: machines/models.py:86
 msgid "Title"
 msgstr "Titre"
 
-#: machines/models.py:85 machines/templates/trainings/show.html:20
+#: machines/models.py:87 machines/templates/trainings/show.html:20
 #: openings/models.py:17
 msgid "Description"
 msgstr "Description"
 
-#: machines/models.py:86
+#: machines/models.py:88
 msgid "Link"
 msgstr "Lien"
 
-#: machines/models.py:87
+#: machines/models.py:89
 msgid "Link text"
 msgstr "Text lien"
 
-#: machines/models.py:93
+#: machines/models.py:95
 msgid "Card"
 msgstr "Carte"
 
-#: machines/models.py:94
+#: machines/models.py:96
 msgid "Cards"
 msgstr "Cartes"
 
-#: machines/models.py:111
+#: machines/models.py:112
 msgid "Training tool"
 msgstr "Outil de formation"
 
-#: machines/models.py:112
+#: machines/models.py:113
 msgid "Training tools"
 msgstr "Outils de formation"
 
-#: machines/models.py:116
+#: machines/models.py:117
 msgid "Question"
 msgstr "Question"
 
-#: machines/models.py:117
+#: machines/models.py:118
 msgid "Answer"
 msgstr "Réponse"
 
-#: machines/models.py:120
+#: machines/models.py:121
 msgid "FAQ"
 msgstr "FAQ"
 
-#: machines/models.py:121
+#: machines/models.py:122
 msgid "FAQs"
 msgstr "FAQs"
 
-#: machines/models.py:127
+#: machines/models.py:128
 msgid "Machine group"
 msgstr "Groupe de machine"
 
-#: machines/models.py:128
+#: machines/models.py:129
 msgid "Machine groups"
 msgstr "Groupes de machine"
 
-#: machines/models.py:133
+#: machines/models.py:134
 msgid "Material"
 msgstr "Matière"
 
-#: machines/models.py:134 machines/templates/machines/list.html:24
+#: machines/models.py:135 machines/templates/machines/list.html:24
 #: machines/templates/machines/show.html:56
 msgid "Materials"
 msgstr "Matières"
 
-#: machines/models.py:138
+#: machines/models.py:139
 msgid "Workshop"
 msgstr "Atelier"
 
-#: machines/models.py:139 machines/templates/machines/list.html:10
+#: machines/models.py:140 machines/templates/machines/list.html:10
 #: machines/templates/machines/show.html:50
 msgid "Workshops"
 msgstr "Ateliers"
 
-#: machines/models.py:160
+#: machines/models.py:161
 msgid "Premium Price"
 msgstr "Tarif membre"
 
-#: machines/models.py:194
+#: machines/models.py:195
 msgid "Machine"
 msgstr "Machine"
 
-#: machines/models.py:201
+#: machines/models.py:202
 msgid "Machine tool"
 msgstr "Outil machine"
 
-#: machines/models.py:202
+#: machines/models.py:203
 msgid "Machine tools"
 msgstr "Outils machines"
 
-#: machines/models.py:208
+#: machines/models.py:209
 msgid "Machine highlight"
 msgstr "Atouts machine"
 
-#: machines/models.py:209
+#: machines/models.py:210
 msgid "Machine highlights"
 msgstr "Atouts machine"
 
-#: machines/models.py:218
+#: machines/models.py:219
 msgid "Specification"
 msgstr "Spécification"
 
-#: machines/models.py:219
+#: machines/models.py:220
 msgid "Specifications"
 msgstr "Spécifications"
 
@@ -1439,6 +1450,10 @@ msgstr ""
 #: machines/templates/machines/show_next_slots.html:27
 msgid "Sorry, no slot available for this machine."
 msgstr "Désolé, pas de créneau disponible pour cette machine"
+
+#: machines/templates/trainings/info.html:45
+msgid "the training + 1 voucher of 1h machine to practice"
+msgstr "la formation + 1 bon de 1h machine pour pratiquer"
 
 #: machines/templates/trainings/list.html:8
 msgid "Category"
@@ -1527,23 +1542,3 @@ msgstr "Merci ! Vous êtes maintenant inscrit à notre newsletter"
 #: openings/apps.py:7 openings/models.py:35
 msgid "Openings"
 msgstr "Ouvertures"
-
-#, fuzzy
-#~| msgid "Well done! We sent you an email to confirme your registration"
-#~ msgid ""
-#~ "Well done! We sent you an email to confirme your registration</br><a href="
-#~ "\"/fabcal/download-ics-file/"
-#~ msgstr ""
-#~ "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre "
-#~ "inscription"
-
-#, python-format
-#~ msgid "Your trainings has been successfully %(crud_state)s on "
-#~ msgstr "Votre formation a été %(crud_state)s avec succès le "
-
-#~ msgid "Add to my calendar"
-#~ msgstr "Ajouter à mon calendrier"
-
-#, python-format
-#~ msgid "Your event has been successfully %(crud_state)s on "
-#~ msgstr "Votre évènement a été %(crud_state)s avec succès le "
