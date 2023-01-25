@@ -345,7 +345,7 @@ msgstr ""
 "lien"
 
 #: accounts/templates/django_registration/activation_email_body.txt:9
-#, fuzzy, python-format
+# python-format
 msgid "This link is only valid for %(expiration_days)s days."
 msgstr "Ce lien est valide uniquement pendant %(expiration_days)s jours"
 
