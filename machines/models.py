@@ -28,7 +28,6 @@ class AbstractMachinesFilter(models.Model):
     class Meta:
         abstract = True
 
-
 class MachineCategory(AbstractMachinesFilter):
     """For Training validation"""
     
@@ -52,6 +51,7 @@ class Training(ItemForRent):
     duration = models.DurationField(verbose_name=_('Duration'), help_text=_('Use the format HH:MM:SS')) # TODO essayer de trouver un truc plus pratique pour dire la durée
     sort = models.PositiveSmallIntegerField(default=1)
     is_active = models.BooleanField(default=True)
+    includ_free_machine_voucher = models.BooleanField(default=True, verbose_name=_('Include free machine voucher'))
 
     @property
     def outcome_list(self):
@@ -73,8 +73,10 @@ class AbstractTrainingProfile(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     class Meta:
         abstract = True
+
 class TrainingNotification(AbstractTrainingProfile):
     pass
+
 class TrainingValidation(AbstractTrainingProfile):
     pass
 
@@ -97,7 +99,6 @@ class Card(models.Model):
         if not self.icon.name and not self.bootstrap_icon:
             raise ValidationError('Please file either an icon or a bootstrap icon')
        
-
 class AbstractCardSorting(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     sort = models.PositiveSmallIntegerField(default=1)
