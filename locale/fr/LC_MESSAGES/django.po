@@ -929,7 +929,7 @@ msgstr "Le paiement se fera sur place"
 
 #: fabcal/templates/fabcal/email/event_unregistration_confirmation.html:6
 msgid "We confirme that you are unregister for the event"
-msgstr "Nous vous confirmons que vous êtes desinscrit à l'évènement"
+msgstr "Nous vous confirmons que vous êtes desinscrit(e) à l'évènement"
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:7
 msgid "We confirme that you are reserve the machine "
