@@ -14,7 +14,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView
 
-from accounts.models import Profile, Subscription
+from accounts.models import Profile, Subscription, SubscriptionCategory
 
 class SubscriptionUpdateView(LoginRequiredMixin, TemplateView):
     template_name = "payments/subscription_update.html"
@@ -33,17 +33,23 @@ def stripe_config(request):
 
 class CreateCheckoutSessionView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
+        if 'category' in kwargs:
+            category = SubscriptionCategory.objects.get(pk=kwargs['category'])
+        elif request.user is not None and request.user.profile is not None and request.user.profile.subscription is not None:
+            category = request.user.profile.subscription.subscription_category
+        else:
+            return HttpResponse(status=400)
         stripe.api_key = settings.STRIPE_SECRET_KEY
-        YOUR_DOMAIN =  request.scheme + '://' + Site.objects.get_current().domain + '/'
+        base_url =  request.scheme + '://' + Site.objects.get_current().domain + '/'
         try:
             checkout_session = stripe.checkout.Session.create(
                 line_items=[
                     {
                     'price_data': {
                         'currency': settings.STRIPE_CURRENCY,
-                        'unit_amount': request.user.profile.subscription.subscription_category.price * 100, # stripe use cents
+                        'unit_amount': category.price * 100, # stripe use cents
                         'product_data': {
-                            'name': request.user.profile.subscription.subscription_category.title,
+                            'name': category.title,
                             'images': [
                                 "https://www.fablab-chaux-de-fonds.ch/assets/fablab-logo-officiel-ddbeac0f8738a60507bd2441b7bc3bc9.svg"
                             ]
@@ -57,8 +63,8 @@ class CreateCheckoutSessionView(LoginRequiredMixin, View):
                 },
                 payment_method_types=['card'],
                 mode='payment',
-                success_url=YOUR_DOMAIN + 'payments/subscription-update-success/',
-                cancel_url=YOUR_DOMAIN + 'payments/subscription-update-cancel/',
+                success_url=base_url + 'payments/subscription-update-success/',
+                cancel_url=base_url + 'payments/subscription-update-cancel/',
                 customer_email=request.user.email,
             )
         except Exception as e:
