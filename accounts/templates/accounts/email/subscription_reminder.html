@@ -5,6 +5,6 @@
 <p> Hello {{profile.user.first_name}}, </p> 
 <p>{%trans "Your subscription will expire in 7 days" %}</p>
 <div class="btn btn-primary text-center">
-    <a href="#">{% trans "Update my subscription" %}</a>
+    <a href="{{ protocol }}://{{ domain }}{% url 'subscription-update'  %}">{% trans "Update my subscription" %}</a>
 </div>
 {% endblock content %} 
