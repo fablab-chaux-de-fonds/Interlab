@@ -277,20 +277,12 @@ class RegisterEventBaseView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
     def get_context(self, request, pk):
-        event = EventSlot.objects.get(pk=pk)
+        event_slot = EventSlot.objects.get(pk=pk)
         #Refactoring with event queryset
         return {
-                'pk': event.pk,
-                'title': event.event.title,
-                'start': event.start,
-                'end': event.end,
-                'price': event.price,
-                'location': event.event.location,
-                'has_registration': event.has_registration,
-                'first_name': request.user.first_name,
-                'is_single_day': event.is_single_day,
-                'href': request.scheme + '://' + request.get_host() + '/fabcal/event/' + str(pk)
-            }
+            'event_slot': event_slot,
+            'request': request
+        }
 
 class RegisterEventView(RegisterEventBaseView):
     template_name = 'fabcal/event_registration_form.html'
@@ -334,7 +326,7 @@ class UnregisterEventView(RegisterEventBaseView):
 
         messages.success(request, _("Oh no! We sent you an email to confirme your unregistration"))
 
-        return redirect('event', pk)
+        return redirect('fabcal:show-event', pk)
 
 class TrainingBaseView(CustomFormView, AbstractMachineView): 
     template_name = 'fabcal/trainig_create_or_update_form.html'

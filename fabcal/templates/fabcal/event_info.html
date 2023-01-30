@@ -2,11 +2,11 @@
 
 <div class="row">
 
-    <div class="col">
+    <div class="col-12 {% if "register-event" not in request.path %}col-sm-6{% endif %}">
         {% include 'fabcal/event_info_datetime.html' %}
     </div>
 
-    <div class="col-6">
+    <div class="col-12 {% if "register-event" not in request.path %}col-sm-6{% endif %}">
         <div class="row">
             <div class="col-2 text-end pe-0">
                 <h4><i class="bi bi-wallet2"></i></h4>
@@ -18,30 +18,30 @@
         </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-12 {% if "register-event" not in request.path %}col-sm-6{% endif %}">
         <div class="row">
             <div class="col-2 text-end pe-0">
                 <h4><i class="bi bi-info-circle"></i></h4>
             </div>
             <div class="col-10 ">
                 <h4>{% trans "Registration" %}</h4>
-                {% if has_registration %}
-                    <p>{% trans 'Registration mandatory' %}<br>
+                {% if event_slot.has_registration %}
+                <p>{% trans 'Registration mandatory' %}<br>
                     {% if event_slot.available_registration > 0  %}
-                        <small  class"fs-6">
-                            {% blocktrans with available_registration=event_slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}</small>
+                    <small class"fs-6">
+                        {% blocktrans with available_registration=event_slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}</small>
                     {% elif event_slot.available_registration == 0 %}
-                        <small class="text-red">{% trans "sold out" %}</small>
+                    <small class="text-red">{% trans "sold out" %}</small>
                     {% endif %}
-                    </p>
+                </p>
                 {% else %}
-                    <p>{% trans 'No registration required for this event' %}</p>
+                <p>{% trans 'No registration required for this event' %}</p>
                 {% endif %}
             </div>
         </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-12 {% if "register-event" not in request.path %}col-sm-6{% endif %}">
         <div class="row">
             <div class="col-2 text-end pe-0">
                 <h4><i class="bi bi-geo-alt"></i></h4>
@@ -52,5 +52,5 @@
             </div>
         </div>
     </div>
-    
+
 </div>

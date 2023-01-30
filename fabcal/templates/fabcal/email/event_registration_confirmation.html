@@ -2,15 +2,15 @@
 {% load i18n %}
 
 {% block content %}
-<p> Hello {{first_name}}, </p> 
+<p> Hello {{request.user.first_name}}, </p> 
 <p>{%trans "We confirme that you are register for the event" %} 
-    <a href="{{href}}">"{{title}}"</a> 
+    <a href="{{href}}">"{{event_slot.event.title}}"</a> 
     {% trans "which will take place " %}
-    {% if is_single_day %}
+    {% if event_slot.is_single_day %}
         {% trans "on" %}
-        {{start|date:"l j F Y"}} {% trans "From" %} {{start|date:"H:i"}} {% trans "to" %} {{end|date:"H:i"}}
+        {{event_slot.start|date:"l j F Y"}} {% trans "From" %} {{event_slot.start|date:"H:i"}} {% trans "to" %} {{event_slot.end|date:"H:i"}}
     {% else %}
-        {% trans "From" %} {{start|date:"l j F Y"}} {% trans "at" %} {{start|date:"H:i"}} {% trans "to" %} {{start|date:"l j F Y"}} {% trans "at" %} {{end|date:"H:i"}}
+        {% trans "From" %} {{event_slot.start|date:"l j F Y"}} {% trans "at" %} {{event_slot.start|date:"H:i"}} {% trans "to" %} {{event_slot.start|date:"l j F Y"}} {% trans "at" %} {{event_slot.end|date:"H:i"}}
     {% endif %}
 </p>
 

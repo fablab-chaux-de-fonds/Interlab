@@ -23,7 +23,7 @@
         <button class="btn btn-primary" disabled>{% trans "Register" %}</button>
         {% endif %}
         {% if request.user|has_group:"superuser" %}
-            <a href="{% url 'fabcal:update-training' training_slot.pk %}" class="btn btn-outline-primary"><i class="bi bi-pencil"></i></a>
+            <a href="{% url 'fabcal:update-training' training_slot.pk %}" class="btn btn-outline-primary my-1"><i class="bi bi-pencil"></i></a>
         {% endif %}
     </div>
     {% endfor %}
