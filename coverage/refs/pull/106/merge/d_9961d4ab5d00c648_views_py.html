@@ -65,7 +65,7 @@
             <a id="nextFileLink" class="nav" href="index.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io">coverage.py v7.1.0</a>,
-            created at 2023-01-30 18:22 +0000
+            created at 2023-01-30 19:07 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"/>
@@ -188,7 +188,7 @@
     <p class="run"><span class="n"><a id="t106" href="#t106">106</a></span><span class="t"><span class="key">def</span> <span class="nam">fulfill_order</span><span class="op">(</span><span class="nam">session</span><span class="op">,</span> <span class="nam">request</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t107" href="#t107">107</a></span><span class="t">    <span class="nam">customer_email</span> <span class="op">=</span> <span class="nam">session</span><span class="op">[</span><span class="str">'customer_details'</span><span class="op">]</span><span class="op">[</span><span class="str">'email'</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t108" href="#t108">108</a></span><span class="t">    <span class="nam">profile</span> <span class="op">=</span> <span class="nam">Profile</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="nam">pk</span><span class="op">=</span><span class="nam">session</span><span class="op">[</span><span class="str">'metadata'</span><span class="op">]</span><span class="op">[</span><span class="str">"profile_id"</span><span class="op">]</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t109" href="#t109">109</a></span><span class="t">    <span class="nam">new_start</span> <span class="op">=</span> <span class="nam">max</span><span class="op">(</span><span class="nam">datetime</span><span class="op">.</span><span class="nam">date</span><span class="op">.</span><span class="nam">today</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">profile</span><span class="op">.</span><span class="nam">subscription</span><span class="op">.</span><span class="nam">end</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t109" href="#t109">109</a></span><span class="t">    <span class="nam">new_start</span> <span class="op">=</span> <span class="nam">max</span><span class="op">(</span><span class="nam">datetime</span><span class="op">.</span><span class="nam">date</span><span class="op">.</span><span class="nam">today</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">profile</span><span class="op">.</span><span class="nam">subscription</span><span class="op">.</span><span class="nam">end</span> <span class="key">if</span> <span class="nam">profile</span><span class="op">.</span><span class="nam">subscription</span> <span class="key">is</span> <span class="key">not</span> <span class="key">None</span> <span class="key">else</span> <span class="nam">datetime</span><span class="op">.</span><span class="nam">date</span><span class="op">.</span><span class="nam">today</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t110" href="#t110">110</a></span><span class="t">    <span class="nam">subscription</span> <span class="op">=</span> <span class="nam">Subscription</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">create</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t111" href="#t111">111</a></span><span class="t">        <span class="nam">start</span> <span class="op">=</span> <span class="nam">new_start</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t112" href="#t112">112</a></span><span class="t">        <span class="nam">end</span> <span class="op">=</span> <span class="nam">new_start</span> <span class="op">+</span> <span class="nam">datetime</span><span class="op">.</span><span class="nam">timedelta</span><span class="op">(</span><span class="nam">days</span><span class="op">=</span><span class="nam">profile</span><span class="op">.</span><span class="nam">subscription</span><span class="op">.</span><span class="nam">subscription_category</span><span class="op">.</span><span class="nam">duration</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
@@ -219,7 +219,7 @@
             <a id="nextFileLink" class="nav" href="index.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io">coverage.py v7.1.0</a>,
-            created at 2023-01-30 18:22 +0000
+            created at 2023-01-30 19:07 +0000
         </p>
     </div>
 </footer>
