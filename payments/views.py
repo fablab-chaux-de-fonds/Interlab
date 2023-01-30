@@ -106,7 +106,7 @@ def stripe_webhook(request):
 def fulfill_order(session, request):
     customer_email = session['customer_details']['email']
     profile = Profile.objects.get(pk=session['metadata']["profile_id"])
-    new_start = max(datetime.date.today(), profile.subscription.end)
+    new_start = max(datetime.date.today(), profile.subscription.end if profile.subscription is not None else datetime.date.today())
     subscription = Subscription.objects.create(
         start = new_start,
         end = new_start + datetime.timedelta(days=profile.subscription.subscription_category.duration),
