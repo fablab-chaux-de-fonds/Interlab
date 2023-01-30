@@ -285,20 +285,12 @@ class RegisterEventBaseView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
     def get_context(self, request, pk):
-        event = EventSlot.objects.get(pk=pk)
+        event_slot = EventSlot.objects.get(pk=pk)
         #Refactoring with event queryset
         return {
-                'pk': event.pk,
-                'title': event.event.title,
-                'start': event.start,
-                'end': event.end,
-                'price': event.price,
-                'location': event.event.location,
-                'has_registration': event.has_registration,
-                'first_name': request.user.first_name,
-                'is_single_day': event.is_single_day,
-                'href': request.scheme + '://' + request.get_host() + '/fabcal/event/' + str(pk)
-            }
+            'event_slot': event_slot,
+            'request': request
+        }
 
 class RegisterEventView(RegisterEventBaseView):
     template_name = 'fabcal/event_registration_form.html'
@@ -342,7 +334,7 @@ class UnregisterEventView(RegisterEventBaseView):
 
         messages.success(request, _("Oh no! We sent you an email to confirme your unregistration"))
 
-        return redirect('event', pk)
+        return redirect('fabcal:show-event', pk)
 
 class TrainingBaseView(CustomFormView, AbstractMachineView): 
     template_name = 'fabcal/trainig_create_or_update_form.html'
@@ -472,7 +464,6 @@ class UnregisterTrainingView(LoginRequiredMixin, View):
         messages.success(request, _("Oh no! We sent you an email to confirme your unregistration"))
 
         return redirect('profile')
-
 
 class MachineReservationBaseView(LoginRequiredMixin, FormView):
     template_name = 'fabcal/machine/reservation_form.html'
@@ -676,8 +667,27 @@ class UpdateMachineReservationView(MachineReservationBaseView):
 
         return super().form_valid(form)
 
-            
 
+class DeleteMachineReservationView(TemplateView):
+    template_name = 'fabcal/machine/delete_form.html'
+
+    def get_success_url(self, **kwargs):
+        return reverse('profile')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['machine_slot'] = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
+        return context
+
+    def post(self, request, pk):
+        obj = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
+        obj.user = None
+        obj.save()
+        
+        messages.success(request, _("You reservation has been canceled !"))
+        return redirect('profile') 
+
+    
 class downloadIcsFileView(TemplateView):
     template_name = 'fabcal/fablab.ics'
 

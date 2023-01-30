@@ -99,6 +99,8 @@ class CustomOrganizationUserAddForm(OrganizationUserAddForm):
 
 class CustomRegistrationForm(RegistrationForm):
     "This form is used for registration - Base class form Django"
+    first_name = forms.CharField(max_length=50, label=_('First name')) # Required
+    last_name = forms.CharField(max_length=50, label=_('Last name')) # Required
     newsletter = forms.BooleanField(required=False, label=_('I subscribe to the newsletter'), help_text=_('about once a month'))
     class Meta(RegistrationForm.Meta):
             model = get_user_model()

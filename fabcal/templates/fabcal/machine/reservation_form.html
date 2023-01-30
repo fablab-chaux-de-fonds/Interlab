@@ -83,7 +83,7 @@
 
     <hr>
     <div class="text-center">
-        {% if request.user.profile.subscription == None %}
+        {% if request.user.profile.is_subscription_valid == None %}
             <h4>{{machine_slot.machine.full_price|price_format}} / 30 min </h4>
         
             <small> {% trans "Benefit from half price prices<br> for 15 CHF / month" %}<br></small>
