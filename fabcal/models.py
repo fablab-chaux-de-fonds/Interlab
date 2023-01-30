@@ -22,6 +22,13 @@ class AbstractSlot(models.Model):
     def get_duration(self):
         return int((self.end-self.start).seconds / 60)
 
+    @property
+    def is_editable(self):
+        if self.start-datetime.timedelta(days=1) > datetime.datetime.now():
+            return True 
+        else:
+            return False
+
 
 class AbstractRegistration(models.Model):
     registration_limit = models.IntegerField(blank=True, null=True)
@@ -33,13 +40,6 @@ class AbstractRegistration(models.Model):
             return self.registration_limit - self.registrations.count()
         else:
             return None
-
-    @property
-    def is_editable(self):
-        if self.start-datetime.timedelta(days=1) > datetime.datetime.now():
-            return True 
-        else:
-            return False
     class Meta:
         abstract = True
 class OpeningSlot(AbstractSlot):

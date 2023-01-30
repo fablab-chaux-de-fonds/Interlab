@@ -58,7 +58,7 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
                 'desc': event.opening.desc,
                 'background_color': event.opening.background_color,
                 'color': event.opening.color,
-                'machines': [{'pk': i.pk, 'title': i.title} for i in event.get_machine_list()]
+                'machines': [{'pk': i.pk, 'title': i.title, 'category': i.category} for i in event.get_machine_list()]
             })
 
         

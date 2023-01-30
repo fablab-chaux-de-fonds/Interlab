@@ -8,6 +8,14 @@
 <form method="post" action=".">
   {% csrf_token %}
   {{ form | crispy }}
+
+  <div id="div_id_conditions" class="mb-3 form-check required"> 
+    <input type="checkbox" name="conditions" class="checkboxinput form-check-input" required="" id="id_conditions"> 
+      <label class="form-check-label requiredField">
+        {% blocktrans with link="/conditions-generales-dutilisation-et-statuts"%}I have read and accept <a href="{{link}}" target="_blank">the rules of use, the FabLab charter, and the statutes of the Association FabLab La Chaux-de-Fonds</a>{% endblocktrans %}
+    </label> 
+  </div>
+
   {% include "forms/base_submit_button.html" with submit_btn="Subscribe" %}
 </form>
 {% endblock %}

@@ -10,15 +10,9 @@
     <div class="row">
         <div class="col-2">
             <a href="{% url 'superuser-profile-edit' registration.pk %}">
-            <div class="text-center">
-            {% if event_slot.registration.first_name %}
-                <img src="https://eu.ui-avatars.com/api/?rounded=true&name={{registration.first_name}}+{{registration.last_name}}&color=fff&background=e3005c"
-                    class="img w-50" alt="avatar"> </br>
-            {% else %}
-                <img src="https://eu.ui-avatars.com/api/?rounded=true&name={{registration.username}}&color=fff&background=e3005c"
-                    class="img w-50" alt="avatar"> </br>
+                <div class="text-center">
+                    {%include 'accounts/avatar.html'%}
                 </div>
-            {% endif %}
             </a>
         </div>
         <div class="col-10">
