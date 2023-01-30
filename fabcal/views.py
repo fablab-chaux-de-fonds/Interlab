@@ -457,7 +457,6 @@ class UnregisterTrainingView(LoginRequiredMixin, View):
 
         return redirect('profile')
 
-
 class MachineReservationBaseView(LoginRequiredMixin, FormView):
     template_name = 'fabcal/machine/reservation_form.html'
     form_class = MachineReservationForm
@@ -660,8 +659,27 @@ class UpdateMachineReservationView(MachineReservationBaseView):
 
         return super().form_valid(form)
 
-            
 
+class DeleteMachineReservationView(TemplateView):
+    template_name = 'fabcal/machine/delete_form.html'
+
+    def get_success_url(self, **kwargs):
+        return reverse('profile')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['machine_slot'] = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
+        return context
+
+    def post(self, request, pk):
+        obj = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
+        obj.user = None
+        obj.save()
+        
+        messages.success(request, _("You reservation has been canceled !"))
+        return redirect('profile') 
+
+    
 class downloadIcsFileView(TemplateView):
     template_name = 'fabcal/fablab.ics'
 

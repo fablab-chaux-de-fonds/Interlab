@@ -1,0 +1,29 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n crispy_forms_tags training_extras %}
+
+{% block header %}
+{{ form.media }}
+{% endblock header %}
+
+{% block content_form_img %}
+<img class="card-img pb-4" src="{{machine_slot.machine.photo.url}}"  alt="{{machine}}">
+{% endblock %}
+
+{% block content_form %}
+<div class="text-center">
+    <h3> {% trans "Are you sure you want to cancel your reservation" %} </h3>
+
+    <p>{{machine_slot.start|date:"l j F Y"|capfirst}} </br>
+        {{machine_slot.start|date:"H:i"}} - {{machine_slot.end|date:"H:i"}} <br>
+        <span class='badge align-middle' style="color:{{machine_slot.opening_slot.opening.color}};background-color:{{machine_slot.opening_slot.opening.background_color}}">
+            {{machine_slot.opening_slot.opening.title}} - {{machine_slot.opening_slot.user.first_name}}
+        </span >
+    </p>
+</div>
+
+<form action="." method="POST">
+    {% csrf_token %}
+    {% include 'forms/base_submit_button.html' with submit_btn=_("Yes, I'm sure")%}
+</form>
+
+{% endblock content_form %}
