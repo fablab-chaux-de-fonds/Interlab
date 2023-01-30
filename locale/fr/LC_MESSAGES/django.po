@@ -966,17 +966,6 @@ msgstr "Nous vous confirmons que vous avez réserver la machine "
 msgid " on "
 msgstr " le "
 
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:11
-#: fabcal/views.py:189 fabcal/views.py:254 fabcal/views.py:398
-#: machines/templates/trainings/show_next_trainings.html:9
-msgid " from "
-msgstr " de "
-
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:13
-#: fabcal/views.py:191 fabcal/views.py:256 fabcal/views.py:400
-msgid " to "
-msgstr " à "
-
 #: fabcal/templates/fabcal/email/training_create_alert.html:6
 msgid "We have planned a new training"
 msgstr "Nous avons planifié une nouvelle formation"
