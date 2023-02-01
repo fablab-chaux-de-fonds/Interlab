@@ -44,9 +44,6 @@ def get_start_end(self, context):
 class AbstractMachineView(FormView):
     def form_valid(self, form):
 
-        # add user_id in cleaned_data
-        form.cleaned_data['user_id'] = self.request.user.id
-
         if form.cleaned_data['opening'] != None:
             self.opening_slot = form.update_or_create_opening_slot(self)
 
@@ -345,8 +342,7 @@ class TrainingBaseView(CustomFormView, AbstractMachineView):
         return context
 
     def form_valid(self, form):
-        super().form_valid(form)
-        
+
         # Create training
         training_slot = form.update_or_create_training_slot(self)
 
@@ -456,7 +452,6 @@ class UnregisterTrainingView(LoginRequiredMixin, View):
         messages.success(request, _("Oh no! We sent you an email to confirme your unregistration"))
 
         return redirect('profile')
-
 
 class MachineReservationBaseView(LoginRequiredMixin, FormView):
     template_name = 'fabcal/machine/reservation_form.html'
@@ -660,7 +655,24 @@ class UpdateMachineReservationView(MachineReservationBaseView):
 
         return super().form_valid(form)
 
-            
+class DeleteMachineReservationView(TemplateView):
+    template_name = 'fabcal/machine/delete_form.html'
+
+    def get_success_url(self, **kwargs):
+        return reverse('profile')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['machine_slot'] = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
+        return context
+
+    def post(self, request, pk):
+        obj = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
+        obj.user = None
+        obj.save()
+        
+        messages.success(request, _("You reservation has been canceled !"))
+        return redirect('profile') 
 
 class downloadIcsFileView(TemplateView):
     template_name = 'fabcal/fablab.ics'
