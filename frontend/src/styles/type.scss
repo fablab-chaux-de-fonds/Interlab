@@ -58,3 +58,13 @@ h2 {
   border-radius: 20% 25% 20% 24%;
   padding: 10px 3px 3px 10px;
 }
+
+.fs-title {
+  font-size: 4rem;
+}
+
+@include media-breakpoint-up(sm) {
+  .fs-title {
+    font-size: 8rem;
+  }
+}
