@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 20:58+0000\n"
+"POT-Creation-Date: 2023-01-16 17:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -242,7 +242,7 @@ msgstr "Pas de réservations pour le moment"
 msgid "Reservation"
 msgstr "Réservation"
 
-#: accounts/templates/accounts/profile.html:70 fabcal/forms.py:185
+#: accounts/templates/accounts/profile.html:69 fabcal/forms.py:185
 #: openings/models.py:45
 msgid "Event"
 msgstr "Évènement"
@@ -679,13 +679,30 @@ msgstr ""
 "%(opening_title)s/%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-"
 "down-fill\"></i> Ajouter à mon calendrier</a>"
 
+#: fabcal/forms.py:120 fabcal/forms.py:224 fabcal/forms.py:261
+#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:11
+#: fabcal/views.py:197 fabcal/views.py:262 fabcal/views.py:414
+#: machines/templates/trainings/show_next_trainings.html:9
+msgid " from "
+msgstr " de "
+
+#: fabcal/forms.py:122 fabcal/forms.py:226 fabcal/forms.py:263
+#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:13
+#: fabcal/views.py:199 fabcal/views.py:264 fabcal/views.py:416
+msgid " to "
+msgstr " à "
+
+#: fabcal/forms.py:127 fabcal/forms.py:231 fabcal/forms.py:268
+msgid "Add to my calendar"
+msgstr "Ajouter à mon calendrier"
+
 #: fabcal/forms.py:152
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Could not update slot, %(first_name)s %(last_name)s books the slot: "
 "%(machine)s from %(start)s to %(end)s"
 msgstr ""
-"Le cérneau ne peut être mis à jour,  %(first_name)s %(last_name)s a déjà "
+"Le créneau ne peut être mis à jour,  %(first_name)s %(last_name)s a déjà "
 "réserver le créneau: %(machine)s de %(start)s a %(end)s"
 
 #: fabcal/forms.py:178
@@ -950,17 +967,6 @@ msgstr "Nous vous confirmons que vous avez réserver la machine "
 msgid " on "
 msgstr " le "
 
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:11
-#: fabcal/views.py:189 fabcal/views.py:254 fabcal/views.py:398
-#: machines/templates/trainings/show_next_trainings.html:9
-msgid " from "
-msgstr " de "
-
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:13
-#: fabcal/views.py:191 fabcal/views.py:256 fabcal/views.py:400
-msgid " to "
-msgstr " à "
-
 #: fabcal/templates/fabcal/email/training_create_alert.html:6
 msgid "We have planned a new training"
 msgstr "Nous avons planifié une nouvelle formation"
@@ -1130,37 +1136,37 @@ msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
 msgid "Closed"
 msgstr "Fermé"
 
-#: fabcal/views.py:147
+#: fabcal/views.py:155
 msgid "Create opening"
 msgstr "Créer l'ouverture"
 
-#: fabcal/views.py:149
+#: fabcal/views.py:157
 msgid "Update opening"
 msgstr "Mettre à jour l'ouverture"
 
-#: fabcal/views.py:187
+#: fabcal/views.py:195
 msgid "Your opening has been successfully deleted on "
 msgstr "Votre ouverture a été supprimée avec succès le "
 
-#: fabcal/views.py:205
+#: fabcal/views.py:213
 msgid "Create event"
 msgstr "Créer l'évènement"
 
-#: fabcal/views.py:207
+#: fabcal/views.py:215
 msgid "Update event"
 msgstr "Mettre à jour l'évènement"
 
-#: fabcal/views.py:252 fabcal/views.py:396
+#: fabcal/views.py:260 fabcal/views.py:412
 msgid "Your event has been successfully deleted on "
 msgstr "Votre évènement a été supprimée avec succès le "
 
-#: fabcal/views.py:305
+#: fabcal/views.py:321
 msgid "Well done! We sent you an email to confirme your registration"
 msgstr ""
 "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
 
-#: fabcal/views.py:321 fabcal/views.py:322 fabcal/views.py:450
-#: fabcal/views.py:451
+#: fabcal/views.py:337 fabcal/views.py:338 fabcal/views.py:466
+#: fabcal/views.py:467
 msgid "Confirmation of your unregistration"
 msgstr "Confirmation de votre desinscription"
 
@@ -1169,15 +1175,15 @@ msgid "Oh no! We sent you an email to confirme your unregistration"
 msgstr ""
 "Oh non ! Nous vous avons envoyé un e-mail pour confirmer votre desinscription"
 
-#: fabcal/views.py:340
+#: fabcal/views.py:356
 msgid "Create training"
 msgstr "Créer la formation"
 
-#: fabcal/views.py:342
+#: fabcal/views.py:358
 msgid "Update training"
 msgstr "Mettre à jour la formation"
 
-#: fabcal/views.py:496
+#: fabcal/views.py:505
 msgid ""
 "Sorry, you cannont reserve this machine, because you need to complete the "
 "training before using it"
