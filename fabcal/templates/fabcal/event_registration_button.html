@@ -3,7 +3,7 @@
 <div class='row text-center'>
     <div class='col'>
     {% if event_slot.has_registration %}
-        {% if request.user in event_slot.registrations %}
+        {% if request.user in event_slot.registrations.all %}
             {% if event_slot.is_editable %}
                 <a href={% url 'fabcal:unregister-event' event_slot.pk %} class="btn btn-primary"> <i class="bi bi-calendar2-x pe-2"></i> {% trans "Unregister" %}</a>
             {% else %}

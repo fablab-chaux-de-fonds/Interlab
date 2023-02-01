@@ -8,12 +8,7 @@
 {% block content_form %}
 <h1>{% trans "Unregistration" %}</h1>
 <p>
-    {% blocktrans with 
-        title=training_slot.training.title 
-        date=training_slot.start|date:'l j F' 
-        start=training_slot.start|date:'H:i' 
-        end=training_slot.end|date:'H:i' %}Are you sure you want to unregister from training {{title}} scheduled on {{date}} from {{start}} to {{end}}?
-    {% endblocktrans %}
+    {% blocktrans with title=training_slot.training.title date=training_slot.start|date:'l j F' start=training_slot.start|date:'H:i' end=training_slot.end|date:'H:i' %}Are you sure you want to unregister from training {{title}} scheduled on {{date}} from {{start}} to {{end}}?{% endblocktrans %}
 
 <form action="." method="POST">
     {% csrf_token %}
