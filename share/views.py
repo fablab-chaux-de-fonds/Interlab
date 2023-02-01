@@ -1,7 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView
+from django.views.generic.edit import CreateView, DeleteView
 from django.urls import reverse_lazy
 
 from interlab.views import CustomFormView
@@ -24,11 +23,7 @@ class PostCreateView(LoginRequiredMixin, CreateView, CustomFormView):
         initial['profile'] = self.request.user.profile
         return initial
 
-    def is_valid(self):
-        # Get the initial dictionary from the superclass method
-        initial = super(PostCreateView, self).is_valid()
-        pass
-
 class PostDeleteView(DeleteView):
     model = Post
     success_url = reverse_lazy('post_list')
+    
