@@ -9,6 +9,13 @@ from .models import Post
 class PostListView(ListView):
     model = Post
     ordering = ['-created_at']
+    paginate_by = 20
+    context_object_name = 'posts'
+
+    def get_template_names(self):
+        if self.request.htmx:
+            return 'share/post_list_items.html'
+        return 'share/post_list.html'
 
 class PostCreateView(LoginRequiredMixin, CreateView, CustomFormView):
     model = Post

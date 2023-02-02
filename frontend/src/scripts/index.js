@@ -6,6 +6,7 @@ import * as bootstrap from 'bootstrap';
 import "bootstrap-show-password/dist/bootstrap-show-password.js";
 import "htmx.org";
 import "masonry-layout";
+import "imagesloaded";
 import Typewriter from 'typewriter-effect/dist/core';
 
 
@@ -22,5 +23,16 @@ const images = importAll(require.context('../img', false, /\.(png|jpe?g|svg)$/))
 new Typewriter('#typewriter', {
     strings: ['Apprenez', 'Fabriquez', 'Partagez'],
     autoStart: true,
-    loop: true, 
+    loop: true,
+});
+
+// init Masonry
+var $grid = $('.grid').masonry({
+    itemSelector: '.grid-item',
+    percentPosition: true
+});
+
+// layout Masonry after each image loads
+$grid.imagesLoaded().progress( function() {
+    $grid.masonry('layout');
   });

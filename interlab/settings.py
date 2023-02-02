@@ -164,6 +164,7 @@ MIDDLEWARE = [
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
     'cms.middleware.language.LanguageCookieMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 INSTALLED_APPS = [
@@ -224,6 +225,7 @@ INSTALLED_APPS = [
     'django_q',
     'django_db_logger',
     'share',
+    'django_htmx'
 ]
 
 LANGUAGES = (
