@@ -7,8 +7,6 @@ import "bootstrap-show-password/dist/bootstrap-show-password.js";
 import "htmx.org";
 import "masonry-layout";
 import "imagesloaded";
-import Typewriter from 'typewriter-effect/dist/core';
-
 
 // Bootstrap - initialize tooltips
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -20,19 +18,19 @@ function importAll(r) {
 
 const images = importAll(require.context('../img', false, /\.(png|jpe?g|svg)$/));
 
-new Typewriter('#typewriter', {
-    strings: ['Apprenez', 'Fabriquez', 'Partagez'],
-    autoStart: true,
-    loop: true,
-});
+// Share grid
+import $ from 'jquery';
+let ImagesLoaded = require('imagesloaded');
+let jQueryBridget = require('jquery-bridget');
+let Masonry = require('masonry-layout');
 
-// init Masonry
-var $grid = $('.grid').masonry({
-    itemSelector: '.grid-item',
-    percentPosition: true
-});
+jQueryBridget( 'masonry', Masonry, $ );
+jQueryBridget( 'imagesLoaded', ImagesLoaded, $ );
 
-// layout Masonry after each image loads
-$grid.imagesLoaded().progress( function() {
-    $grid.masonry('layout');
-  });
+let $grid = $('.grid');
+$grid.imagesLoaded(function () {
+    $grid.masonry({
+        itemSelector: '.grid-item',
+        percentPosition: true
+    });
+ });
