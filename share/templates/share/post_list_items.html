@@ -1,14 +1,7 @@
 {% load i18n interlab_tags %}
 
 {% for post in object_list %}
-
-{% if forloop.last and page_obj.has_next %}
-    <div class="col-6 col-md-4 col-lg-3 grid-item"
-        hx-get="{% url 'post_list' %}?page={{ page_obj.number|add:1 }}" hx-trigger="revealed" hx-swap="afterend"
-        hx-target="this">
-{% else %}
     <div class="col-6 col-md-4 col-lg-3 grid-item">
-{% endif %}
 
     <div class="row">
         <div class="col">
