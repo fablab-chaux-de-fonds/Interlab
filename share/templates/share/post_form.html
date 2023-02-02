@@ -23,6 +23,12 @@
             {{ form.img.errors }}
         </div>
 
+        <div class="mb-3">
+            <label for="{{ form.url.id_for_label }}">{{ form.url.label_tag }}</label>
+            {{ form.url }}
+            {{ form.url.errors }}
+        </div>
+
         {% if request.user|has_group:"superuser" %}
         <div class="mb-3">
             <label for="{{ form.profile.id_for_label }}">{{ form.profile.label_tag }}</label>

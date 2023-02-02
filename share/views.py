@@ -19,7 +19,7 @@ class PostListView(ListView):
 
 class PostCreateView(LoginRequiredMixin, CreateView, CustomFormView):
     model = Post
-    fields = ['img', 'title', 'profile']
+    fields = ['img', 'title', 'url', 'profile']
     success_url = reverse_lazy('post_list')
 
     def get_initial(self):

@@ -12,7 +12,12 @@
 
     <div class="row">
         <div class="col">
-            <p class="mb-0">{{post.title}}</p>
+            {% if post.url %}<a href="{{post.url}}" class="text-blue">{% endif %}
+            <p class="mb-0">
+                {{post.title}}
+                {% if post.url %}<i class="bi bi-box-arrow-up-right"></i>{% endif %}
+            </p> 
+            {% if post.url %}</a>{% endif %}
         </div>
         {% if request.user|has_group:"superuser" %}
         <div class="col-3 text-end">
@@ -20,7 +25,10 @@
         </div>
         {% endif %}
     </div>
-    <img class="card-img rounded" src="{{post.img.url}}" alt="{{post.title}}">
+    {% if post.url %}<a href="{{post.url}}">{% endif %}
+        <img class="card-img rounded" src="{{post.img.url}}" alt="{{post.title}}">
+    {% if post.url %}</a>{% endif %}
+
     <div class="text-end">
         {% if post.profile.discord %}
         <i class="bi bi-discord"></i> {{post.profile.discord}}
