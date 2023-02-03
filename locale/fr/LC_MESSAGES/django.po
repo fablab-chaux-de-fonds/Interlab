@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-03 19:04+0000\n"
+"POT-Creation-Date: 2023-02-03 20:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -135,6 +135,14 @@ msgstr "Formation validée"
 msgid "email address"
 msgstr "adresse e-mail"
 
+#: accounts/models.py:48
+msgid "Plublic canal"
+msgstr "Canal"
+
+#: accounts/models.py:49
+msgid "Public contact"
+msgstr "Contact"
+
 #: accounts/tasks.py:24 accounts/tasks.py:25
 #: accounts/templates/accounts/email/subscription_reminder.html:6
 msgid "Your subscription will expire in 7 days"
@@ -184,7 +192,7 @@ msgid "password"
 msgstr "mot de passe"
 
 #: accounts/templates/accounts/nav.html:28
-#: accounts/templates/accounts/profile_edit.html:14
+#: accounts/templates/accounts/profile_edit.html:16
 msgid "delete account"
 msgstr "supprimer mon compte"
 
@@ -255,7 +263,11 @@ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 msgid "Edit my profile"
 msgstr "Modifier mon Profil"
 
-#: accounts/templates/accounts/profile_edit.html:13
+#: accounts/templates/accounts/profile_edit.html:12
+msgid "Public profile"
+msgstr "Profile public"
+
+#: accounts/templates/accounts/profile_edit.html:15
 #: accounts/templates/registration/password_change_done.html:4
 msgid "Change password"
 msgstr "Changer mon mot de passe"
@@ -1569,11 +1581,11 @@ msgstr "Utilisateur"
 msgid "Are you sure you want to delete the post: %(title)s ?"
 msgstr "Êtes-vous sûr de vouloir supprimer le post: %(title)s?"
 
-#: share/templates/share/post_form.html:43
+#: share/templates/share/post_form.html:44
 msgid "Update post"
 msgstr "Mettre à jour le poste"
 
-#: share/templates/share/post_form.html:46
+#: share/templates/share/post_form.html:47
 msgid "Create post"
 msgstr "Publier le poste"
 
@@ -1584,3 +1596,19 @@ msgstr "Partagez vos créations"
 #: share/templates/share/post_list.html:10
 msgid "Add a new post"
 msgstr "Ajouter un poste"
+
+#: share/views.py:32
+msgid "Thanks ! Post was created successfully."
+msgstr "Merci ! Votre poste a été créé avec succès."
+
+#: share/views.py:34 share/views.py:50
+msgid ""
+"Complete your <a href=\"/accounts/profile/edit/\">public profile</a> to "
+"allow other users to contact you"
+msgstr ""
+"Complétez votre <a href=\"/accounts/profile/edit/\">profile public</a> pour "
+"permettre à d'autres utilisateurs de vous contacter"
+
+#: share/views.py:48
+msgid "Thanks ! Post was updated successfully."
+msgstr "Merci ! Votre poste a été mis à jour avec succès."

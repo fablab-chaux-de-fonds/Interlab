@@ -13,7 +13,7 @@
             {% if post.url %}</a>{% endif %}
         </div>
         {% if request.user|has_group:"superuser" %}
-        <div class="col-3 text-end">
+        <div class="col-4 text-end">
             {% if request.user.profile == post.profile %}
                 <a class="btn btn-link p-0" href="{% url 'post_delete' post.pk%}"><i class="bi bi-trash3"></i></a>
                 <a class="btn btn-link p-0 text-blue" href="{% url 'post_update' post.pk%}"><i class="bi bi-pencil-square"></i></a>
@@ -26,8 +26,8 @@
     {% if post.url %}</a>{% endif %}
 
     <div class="text-end">
-        {% if post.profile.discord %}
-        <i class="bi bi-discord"></i> {{post.profile.discord}}
+        {% if post.profile.public_contact_plateform %}
+        <i class="bi bi-{{post.profile.public_contact_plateform}}"></i> {{post.profile.public_contact}}
         {% endif %}
     </div>
 </div>

@@ -39,7 +39,7 @@ class EditUserForm(UserChangeForm):
 class EditProfileForm(ModelForm):
     class Meta: 
         model = Profile
-        fields = ('discord',)
+        fields = ('public_contact_plateform','public_contact')
 
 
 class CustomAuthenticationForm(AuthenticationForm):

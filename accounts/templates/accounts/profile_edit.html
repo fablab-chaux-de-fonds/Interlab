@@ -8,6 +8,8 @@
 <form action="." method="POST">
     {% csrf_token %}
     {{ edit_user_form | crispy }}
+    <hr>
+    <h3>{% trans "Public profile" %}</h3>
     {{ edit_profile_form | crispy }}
     <div class="d-grid">
         <a class="btn btn-outline-primary my-4" href="../../password_change/"> {% trans "Change password" %} </a>
