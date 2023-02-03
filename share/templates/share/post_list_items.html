@@ -14,7 +14,10 @@
         </div>
         {% if request.user|has_group:"superuser" %}
         <div class="col-3 text-end">
-            <a class="btn btn-link p-0" href="{% url 'post_delete' post.pk%}"><i class="bi bi-trash3"></i></a>
+            {% if request.user.profile == post.profile %}
+                <a class="btn btn-link p-0" href="{% url 'post_delete' post.pk%}"><i class="bi bi-trash3"></i></a>
+                <a class="btn btn-link p-0 text-blue" href="{% url 'post_update' post.pk%}"><i class="bi bi-pencil-square"></i></a>
+            {% endif %}
         </div>
         {% endif %}
     </div>

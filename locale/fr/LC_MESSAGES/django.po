@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-02 20:17+0000\n"
+"POT-Creation-Date: 2023-02-03 19:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1293,7 +1293,7 @@ msgstr "Inclus bon machine"
 msgid "Icon"
 msgstr "Icon"
 
-#: machines/models.py:86 share/models.py:6
+#: machines/models.py:86 share/models.py:7
 msgid "Title"
 msgstr "Titre"
 
@@ -1302,7 +1302,7 @@ msgstr "Titre"
 msgid "Description"
 msgstr "Description"
 
-#: machines/models.py:88
+#: machines/models.py:88 share/models.py:10
 msgid "Link"
 msgstr "Lien"
 
@@ -1556,12 +1556,24 @@ msgstr "Merci ! Vous êtes maintenant inscrit à notre newsletter"
 msgid "Openings"
 msgstr "Ouvertures"
 
+#: share/models.py:8
+msgid "Image"
+msgstr "Image"
+
+#: share/models.py:9
+msgid "User"
+msgstr "Utilisateur"
+
 #: share/templates/share/post_confirm_delete.html:11
 #, python-format
 msgid "Are you sure you want to delete the post: %(title)s ?"
 msgstr "Êtes-vous sûr de vouloir supprimer le post: %(title)s?"
 
-#: share/templates/share/post_form.html:42
+#: share/templates/share/post_form.html:43
+msgid "Update post"
+msgstr "Mettre à jour le poste"
+
+#: share/templates/share/post_form.html:46
 msgid "Create post"
 msgstr "Publier le poste"
 

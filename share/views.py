@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 
 from interlab.views import CustomFormView
@@ -11,11 +11,6 @@ class PostListView(ListView):
     ordering = ['-created_at']
     paginate_by = 20
     context_object_name = 'posts'
-
-    def get_template_names(self):
-        if self.request.htmx:
-            return 'share/post_list_items.html'
-        return 'share/post_list.html'
 
 class PostCreateView(LoginRequiredMixin, CreateView, CustomFormView):
     model = Post
@@ -33,4 +28,14 @@ class PostCreateView(LoginRequiredMixin, CreateView, CustomFormView):
 class PostDeleteView(DeleteView):
     model = Post
     success_url = reverse_lazy('post_list')
+
+class PostUpdateView(LoginRequiredMixin, UpdateView, CustomFormView):
+    model = Post
+    fields = ['img', 'title', 'url', 'profile']
+    success_url = reverse_lazy('post_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
     

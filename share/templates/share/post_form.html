@@ -7,7 +7,7 @@
 
 {% block content_form %}
 
-<form action="/share/create" method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     
     <div class="form-group">
@@ -18,8 +18,9 @@
         </div>
 
         <div class="mb-3">
-            <label for="{{ form.img.id_for_label }}">{{ form.img.label_tag }}</label>
+            <label for="{{ form.img.id_for_label }}">{{ form.img.label_tag }}</label></br>
             <input type="file" name="img" accept="image/*" capture="camera" class="form-control" required="" id="id_img">
+            <a class="small" href="{{object.img.url}}">{{object.img.name}}</a>
             {{ form.img.errors }}
         </div>
 
@@ -38,8 +39,14 @@
         {% endif %}
         
     </div>
+    
+    {% if 'update' in request.path %}
+    {% include "forms/base_submit_button.html" with submit_btn=_("Update post") %}
+    {% else %}
 
     {% include "forms/base_submit_button.html" with submit_btn=_("Create post") %}
+    {% endif %}
+
  </form>
     
 {% endblock content_form %}
