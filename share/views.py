@@ -1,10 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import ListView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from interlab.views import CustomFormView
 from .models import Post
@@ -35,11 +36,13 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView, Custom
         
         return mark_safe(success_message)
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(UserPassesTestMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('post_list')
 
-class PostUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView, CustomFormView):
+    def test_func(self):
+        return self.request.user.profile == get_object_or_404(Post, pk=self.kwargs['pk']).profile
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView, CustomFormView):
     model = Post
     fields = ['img', 'title', 'url', 'profile']
     success_url = reverse_lazy('post_list')
@@ -50,4 +53,7 @@ class PostUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView, Custom
             success_message += " " + _('Complete your <a href="/accounts/profile/edit/">public profile</a> to allow other users to contact you')
         
         return mark_safe(success_message)
+
+    def test_func(self):
+        return self.request.user.profile == get_object_or_404(Post, pk=self.kwargs['pk']).profile
     
