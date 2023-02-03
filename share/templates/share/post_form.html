@@ -19,7 +19,7 @@
 
         <div class="mb-3">
             <label for="{{ form.img.id_for_label }}">{{ form.img.label_tag }}</label></br>
-            <input type="file" name="img" accept="image/*" capture="camera" class="form-control" required="" id="id_img">
+            <input type="file" accept="image/*" name="img" class="form-control" required="" id="id_img">
             <a class="small" href="{{object.img.url}}">{{object.img.name}}</a>
             {{ form.img.errors }}
         </div>
