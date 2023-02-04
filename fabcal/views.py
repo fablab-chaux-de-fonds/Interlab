@@ -16,6 +16,7 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.urls import reverse, reverse_lazy
+from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.views import View
@@ -204,14 +205,12 @@ class DeleteOpeningView(View):
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
     form_class = EventForm
+    crud_state = None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if self.crud_state == 'created':
-            context['submit_btn'] = _('Create event')
-        elif self.crud_state == 'updated':
-            context['submit_btn'] = _('Update event')
+        context['submit_btn'] = _('Create event') if self.crud_state == 'created' else _('Update event')
 
         context = get_start_end(self, context)
         return context
@@ -255,22 +254,21 @@ class DeleteEventView(View):
         event_slot = EventSlot.objects.get(pk=pk)
         event_slot.delete()
 
-        messages.success(request, (
-                _("Your event has been successfully deleted on ") + 
-                event_slot.start.strftime("%A %d %B %Y") + 
-                _(" from ") +
-                event_slot.start.strftime("%H:%M") + 
-                _(" to ") + 
-                event_slot.end.strftime("%H:%M")
-                )
-            ) 
+        messages.success(request, 
+            _("Your event on %(date)s from %(start)s to %(end)s has been successfully deleted") %
+            {
+                'date': format_datetime(event_slot.start, "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
+                'start': format_datetime(event_slot.start, "H:mm", locale=settings.LANGUAGE_CODE), 
+                'end': format_datetime(event_slot.end, "H:mm", locale=settings.LANGUAGE_CODE),
+            }
+        )
+
         return redirect('/schedule/')  
 
 class DetailEventView(View):
     template_name = 'fabcal/event_details.html'
 
     def get(self, request, pk, *args, **kwargs):
-        #Refactoring with event queryset
         context = {
             'event_slot': get_object_or_404(EventSlot, pk=self.kwargs['pk'])
         }
