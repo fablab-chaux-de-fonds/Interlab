@@ -1,0 +1,12 @@
+{% extends "email/base_email.html" %}
+{% load i18n %}
+
+{% block content %}
+<p> Hello {{first_name}}, </p> 
+<p>
+    {{email_body}}
+</p>
+<p>
+    {{email_footer}}
+</p>
+{% endblock content %}
