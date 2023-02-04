@@ -65,6 +65,12 @@ h2 {
 
 @include media-breakpoint-up(sm) {
   .fs-title {
+    font-size: 5rem;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .fs-title {
     font-size: 8rem;
   }
 }
