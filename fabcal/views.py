@@ -191,14 +191,13 @@ class DeleteOpeningView(View):
         opening_slot = OpeningSlot.objects.get(pk=pk)
         opening_slot.delete()
 
-        messages.success(request, (
-                _("Your opening has been successfully deleted on ") + 
-                opening_slot.start.strftime("%A %d %B %Y") + 
-                _(" from ") +
-                opening_slot.start.strftime("%H:%M") + 
-                _(" to ") + 
-                opening_slot.end.strftime("%H:%M")
-                )
+        messages.success(request, 
+            _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted") % 
+            { 
+                'date': opening_slot.start.strftime("%A %d %B %Y"), 
+                'start': opening_slot.start.strftime("%H:%M"), 
+                'end': opening_slot.end.strftime("%H:%M") 
+                }
             )
         return redirect('/schedule/')
 
