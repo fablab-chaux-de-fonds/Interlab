@@ -223,6 +223,7 @@ INSTALLED_APPS = [
     'url_or_relative_url_field',
     'django_q',
     'django_db_logger',
+    'analytical'
 ]
 
 LANGUAGES = (
@@ -422,3 +423,8 @@ LOGGING = {
         }
     }
 }
+
+
+# Matomo
+MATOMO_DOMAIN_PATH = os.environ.get('MATOMO_DOMAIN_PATH')
+MATOMO_SITE_ID = os.environ.get('MATOMO_SITE_ID')
