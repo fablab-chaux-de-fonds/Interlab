@@ -139,7 +139,7 @@ class AbstractMachineView(FormView):
 
                 # Create a new machine slot
                 for machine in form.cleaned_data['machine']:
-                    if machine.pk not in form.initial['machine']:
+                    if machine.pk not in form.initial.get('machine', []):
                         form.create_machine_slot(self, machine)
         
         return super().form_valid(form)

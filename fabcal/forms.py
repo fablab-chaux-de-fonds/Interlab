@@ -211,6 +211,7 @@ class EventForm(AbstractSlotForm):
     def update_or_create_event_slot(self, view):
         fields = [f.name for f in EventSlot._meta.get_fields()] + ['user_id']
         defaults = {key: self.cleaned_data[key]  for key in self.cleaned_data if key in fields}
+        defaults['user'] = view.request.user
         
         if hasattr(view, 'opening_slot'):
             defaults['opening_slot'] = view.opening_slot
