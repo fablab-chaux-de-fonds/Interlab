@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-05 19:36+0000\n"
+"POT-Creation-Date: 2023-02-08 07:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -774,8 +774,8 @@ msgstr ""
 "%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-down-fill\"></i> "
 "Ajouter à mon calendrier</a>"
 
-#: fabcal/forms.py:327 fabcal/forms.py:328 fabcal/views.py:342
-#: fabcal/views.py:343
+#: fabcal/forms.py:327 fabcal/forms.py:328 fabcal/views.py:341
+#: fabcal/views.py:342
 msgid "Confirmation of your registration"
 msgstr "Confirmation de votre inscription"
 
@@ -886,19 +886,19 @@ msgid " on "
 msgstr " le "
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:11
-#: fabcal/views.py:452 machines/templates/trainings/show_next_trainings.html:9
+#: fabcal/views.py:451 machines/templates/trainings/show_next_trainings.html:9
 msgid " from "
 msgstr " de "
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:13
-#: fabcal/views.py:454
+#: fabcal/views.py:453
 msgid " to "
 msgstr " à "
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:18
 #: fabcal/templates/fabcal/email/training_registration_confirmation.html:19
 #: fabcal/templates/fabcal/training_registration_form.html:18
-#: fabcal/views.py:330
+#: fabcal/views.py:329
 msgid "The payment will be made on site"
 msgstr "Le paiement se fera sur place"
 
@@ -1100,15 +1100,15 @@ msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
 msgid "Closed"
 msgstr "Fermé"
 
-#: fabcal/views.py:156
+#: fabcal/views.py:155
 msgid "Create opening"
 msgstr "Créer l'ouverture"
 
-#: fabcal/views.py:158
+#: fabcal/views.py:157
 msgid "Update opening"
 msgstr "Mettre à jour l'ouverture"
 
-#: fabcal/views.py:196
+#: fabcal/views.py:195
 #, python-format
 msgid ""
 "Your opening on %(date)s from %(start)s to %(end)s has been successfully "
@@ -1116,15 +1116,15 @@ msgid ""
 msgstr ""
 "Votre ouverture du %(date)s de %(start)s à %(end)s a bien été supprimée"
 
-#: fabcal/views.py:213
+#: fabcal/views.py:212
 msgid "Create event"
 msgstr "Créer l'évènement"
 
-#: fabcal/views.py:213
+#: fabcal/views.py:212
 msgid "Update event"
 msgstr "Mettre à jour l'évènement"
 
-#: fabcal/views.py:258
+#: fabcal/views.py:257
 #, python-format
 msgid ""
 "Your event on %(date)s from %(start)s to %(end)s has been successfully "
@@ -1132,18 +1132,18 @@ msgid ""
 msgstr ""
 "Votre évènement du %(date)s de %(start)s à %(end)s a bien été supprimée"
 
-#: fabcal/views.py:283 fabcal/views.py:312
+#: fabcal/views.py:282 fabcal/views.py:311
 #, python-format
 msgid "%(start_date)s <br> %(start_time)s - %(end_time)s"
 msgstr ""
 
-#: fabcal/views.py:285 fabcal/views.py:314
+#: fabcal/views.py:284 fabcal/views.py:313
 #, python-format
 msgid ""
 "From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s "
 msgstr ""
 
-#: fabcal/views.py:326
+#: fabcal/views.py:325
 #, python-format
 msgid ""
 "We confirm that you are registered for the event <a href=\"%(href)s\">"
@@ -1154,7 +1154,7 @@ msgstr ""
 "\">%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s à "
 "%(end_time)s."
 
-#: fabcal/views.py:328
+#: fabcal/views.py:327
 #, python-format
 msgid ""
 "We confirm that you are registered for the event <a href=\"%(href)s\">"
@@ -1165,12 +1165,12 @@ msgstr ""
 "\">%(title)s</a> qui aura lieu du %(start_date)s à %(start_time)s au "
 "%(end_date)s à %(end_time)s."
 
-#: fabcal/views.py:348
+#: fabcal/views.py:347
 msgid "Well done! We sent you an email to confirme your registration"
 msgstr ""
 "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
 
-#: fabcal/views.py:360
+#: fabcal/views.py:359
 #, python-format
 msgid ""
 "We confirme that you are unregister for the event <a href=\"%(href)s\">"
@@ -1181,7 +1181,7 @@ msgstr ""
 "%(href)s>%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s à "
 "%(end_time)s."
 
-#: fabcal/views.py:362
+#: fabcal/views.py:361
 #, python-format
 msgid ""
 "We confirme that you are unregister for the event <a href=\"%(href)s\">"
@@ -1192,33 +1192,33 @@ msgstr ""
 "\"%(href)s\">%(title)s</a> qui aura lieu du %(start_date)s à %(start_time)s "
 "au %(end_date)s à %(end_time)s."
 
-#: fabcal/views.py:364
+#: fabcal/views.py:363
 msgid "We hope to see you back soon !"
 msgstr "Nous espérons vous revoir bientôt !"
 
-#: fabcal/views.py:376 fabcal/views.py:377 fabcal/views.py:504
-#: fabcal/views.py:505
+#: fabcal/views.py:375 fabcal/views.py:376 fabcal/views.py:503
+#: fabcal/views.py:504
 msgid "Confirmation of your unregistration"
 msgstr "Confirmation de votre desinscription"
 
-#: fabcal/views.py:382 fabcal/views.py:510
+#: fabcal/views.py:381 fabcal/views.py:509
 msgid "Oh no! We sent you an email to confirme your unregistration"
 msgstr ""
 "Oh non ! Nous vous avons envoyé un e-mail pour confirmer votre desinscription"
 
-#: fabcal/views.py:395
+#: fabcal/views.py:394
 msgid "Create training"
 msgstr "Créer la formation"
 
-#: fabcal/views.py:397
+#: fabcal/views.py:396
 msgid "Update training"
 msgstr "Mettre à jour la formation"
 
-#: fabcal/views.py:450
+#: fabcal/views.py:449
 msgid "Your event has been successfully deleted on "
 msgstr "Votre évènement a été supprimée avec succès le "
 
-#: fabcal/views.py:542
+#: fabcal/views.py:541
 msgid ""
 "Sorry, you cannont reserve this machine, because you need to complete the "
 "training before using it"
@@ -1226,7 +1226,7 @@ msgstr ""
 "Désolé, vous ne pouvez pas réserver la machine parce que vous devez faire la "
 "formation avant de l'utiliser"
 
-#: fabcal/views.py:732
+#: fabcal/views.py:731
 msgid "You reservation has been canceled !"
 msgstr "Pas de réservation possible"
 
@@ -1599,42 +1599,24 @@ msgstr "Ouvertures"
 
 #: share/models.py:8
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
 #: share/models.py:9
 msgid "User"
 msgstr "Utilisateur"
 
 #: share/templates/share/post_confirm_delete.html:11
-#, fuzzy, python-format
-#| msgid "Are you sure you want to delete your account ?"
 msgid "Are you sure you want to delete the post: %(title)s ?"
-msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
+msgstr "Êtes-vous sûr de vouloir supprimer le post: %(title)s ?"
 
 #: share/templates/share/post_form.html:42
-#, fuzzy
-#| msgid "Create event"
 msgid "Create post"
-msgstr "Créer l'évènement"
+msgstr "Créer le post"
 
 #: share/templates/share/post_list.html:7
 msgid "Share your creations"
-msgstr ""
+msgstr "Partagez vos créations"
 
 #: share/templates/share/post_list.html:10
 msgid "Add a new post"
-msgstr ""
-
-#~ msgid "at"
-#~ msgstr "à"
-
-#~ msgid ""
-#~ "Your event has been successfully deleted on %(date)s from %(start)s to "
-#~ "%(end)s"
-#~ msgstr "Votre évènement a été supprimée avec succès le "
-
-#~ msgid "We confirme that you are unregister for the event"
-#~ msgstr "Nous vous confirmons que vous êtes desinscrit(e) à l'évènement"
-
-#~ msgid "Add to my calendar"
-#~ msgstr "Ajouter à mon calendrier"
+msgstr "Ajouter un nouveau post"
