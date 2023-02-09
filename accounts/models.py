@@ -45,7 +45,7 @@ class Profile(models.Model):
     ]
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, blank=True, null=True)
-    public_contact_plateform = models.CharField(max_length=255, blank=True, null=True, choices=PUBLIC_CONTACT_PLATEFORM_CHOICES, verbose_name=_('Plublic canal'))
+    public_contact_plateform = models.CharField(max_length=255, blank=True, null=True, choices=PUBLIC_CONTACT_PLATEFORM_CHOICES, verbose_name=_('Plublic chanel'))
     public_contact = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('Public contact'))
 
     def __str__(self):
