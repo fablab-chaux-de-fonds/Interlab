@@ -226,6 +226,7 @@ INSTALLED_APPS = [
     'django_db_logger',
     'share',
     'django_htmx'
+    'analytical'
 ]
 
 LANGUAGES = (
@@ -425,3 +426,8 @@ LOGGING = {
         }
     }
 }
+
+
+# Matomo
+MATOMO_DOMAIN_PATH = os.environ.get('MATOMO_DOMAIN_PATH')
+MATOMO_SITE_ID = os.environ.get('MATOMO_SITE_ID')

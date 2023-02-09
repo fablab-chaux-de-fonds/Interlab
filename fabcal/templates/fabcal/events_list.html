@@ -2,12 +2,10 @@
 
 {% block content %}
 <div class="row">
-{% if events %}
-    {% for event in events %}
+    {% for event_slot in event_slots %}
             {% include 'fabcal/event_card.html' %}
-        {% endfor %}
-    {% else %}
-    <p> {% trans "No events scheduled for the moment" %} </p>
-{% endif %}
+    {% empty %}
+            <p> {% trans "No events scheduled for the moment" %} </p>
+    {% endfor %}
 </div>
 {% endblock content %}

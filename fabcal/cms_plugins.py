@@ -112,6 +112,6 @@ class EventListPluginPublisher(CMSPluginBase):
 
     def render(self, context, instance, placeholder):
         context = {
-            'events': list(EventSlot.objects.filter(end__gt = date.today()).order_by('start'))
+            'event_slots': list(EventSlot.objects.filter(end__gt = date.today()).order_by('start'))
         }
         return context

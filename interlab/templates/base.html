@@ -1,6 +1,7 @@
 {% load static %}
 {% load i18n cms_tags sekizai_tags menu_tags %}
 {% load render_bundle from webpack_loader %}
+{% load matomo %}
 <!doctype html>
 <html class="{% block html_class %}{% endblock %}">
 
@@ -43,6 +44,7 @@
     {% render_bundle 'app' 'js' %}
     {% render_block "js" %}
     {% block js_footer %}{% endblock js_footer %}
+    {% matomo %}
 </body>
 {% block modal %}{% endblock modal %}
 </html>

@@ -60,11 +60,5 @@ h2 {
 }
 
 .fs-title {
-  font-size: 4rem;
-}
-
-@include media-breakpoint-up(sm) {
-  .fs-title {
-    font-size: 8rem;
-  }
+  @include font-size(6rem);
 }
