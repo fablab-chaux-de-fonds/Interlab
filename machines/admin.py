@@ -13,7 +13,7 @@ class TrainingValidationAdmin(admin.ModelAdmin):
 
 @admin.register(Faq)
 class TrainingFaqAdmin(admin.ModelAdmin):
-    list_display = ['about', 'question', 'answer']
+    list_display = ['about', 'question', 'answer', 'sort']
 
 @admin.register(Machine)
 class MachineAdmin(admin.ModelAdmin):

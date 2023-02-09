@@ -17,7 +17,7 @@ class ItemForRent(AbstractOpening):
 
     @property
     def faq_list(self):
-        return self.faq_set.all()
+        return self.faq_set.all().order_by('sort')
 
 class AbstractMachinesFilter(models.Model):
     name = models.CharField(max_length=255)
@@ -116,6 +116,7 @@ class Faq(models.Model):
     about = models.ForeignKey(ItemForRent, on_delete=models.CASCADE)
     question = models.CharField(max_length=255, verbose_name=_('Question'))
     answer = HTMLField(verbose_name=_('Answer'),configuration='CKEDITOR_SETTINGS')
+    sort = models.PositiveSmallIntegerField(default=1)
 
     class Meta:
         verbose_name = _("FAQ")
