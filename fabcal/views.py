@@ -1,6 +1,8 @@
 from copy import deepcopy
 import dateparser
 
+from babel.dates import format_datetime
+
 from datetime import datetime, timedelta
 from django.conf import settings
 from django.contrib import messages
@@ -11,11 +13,12 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import loader
 from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from django.views import View
 
 from .forms import OpeningForm, EventForm, TrainingForm, RegistrationTrainingForm, MachineReservationForm
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
@@ -188,28 +191,25 @@ class DeleteOpeningView(View):
         opening_slot = OpeningSlot.objects.get(pk=pk)
         opening_slot.delete()
 
-        messages.success(request, (
-                _("Your opening has been successfully deleted on ") + 
-                opening_slot.start.strftime("%A %d %B %Y") + 
-                _(" from ") +
-                opening_slot.start.strftime("%H:%M") + 
-                _(" to ") + 
-                opening_slot.end.strftime("%H:%M")
-                )
-            ) 
+        messages.success(request, 
+            _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted") % 
+            { 
+                'date': opening_slot.start.strftime("%A %d %B %Y"), 
+                'start': opening_slot.start.strftime("%H:%M"), 
+                'end': opening_slot.end.strftime("%H:%M") 
+                }
+            )
         return redirect('/schedule/')
 
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
     form_class = EventForm
+    crud_state = None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if self.crud_state == 'created':
-            context['submit_btn'] = _('Create event')
-        elif self.crud_state == 'updated':
-            context['submit_btn'] = _('Update event')
+        context['submit_btn'] = _('Create event') if self.crud_state == 'created' else _('Update event')
 
         context = get_start_end(self, context)
         return context
@@ -253,51 +253,88 @@ class DeleteEventView(View):
         event_slot = EventSlot.objects.get(pk=pk)
         event_slot.delete()
 
-        messages.success(request, (
-                _("Your event has been successfully deleted on ") + 
-                event_slot.start.strftime("%A %d %B %Y") + 
-                _(" from ") +
-                event_slot.start.strftime("%H:%M") + 
-                _(" to ") + 
-                event_slot.end.strftime("%H:%M")
-                )
-            ) 
+        messages.success(request, 
+            _("Your event on %(date)s from %(start)s to %(end)s has been successfully deleted") %
+            {
+                'date': format_datetime(event_slot.start, "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
+                'start': format_datetime(event_slot.start, "H:mm", locale=settings.LANGUAGE_CODE), 
+                'end': format_datetime(event_slot.end, "H:mm", locale=settings.LANGUAGE_CODE),
+            }
+        )
+
         return redirect('/schedule/')  
 
 class DetailEventView(View):
     template_name = 'fabcal/event_details.html'
 
+
     def get(self, request, pk, *args, **kwargs):
-        #Refactoring with event queryset
+        event_slot = get_object_or_404(EventSlot, pk=self.kwargs['pk'])
+
         context = {
-            'event_slot': get_object_or_404(EventSlot, pk=self.kwargs['pk'])
+            'start_date': format_datetime(event_slot.start, "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
+            'start_time': format_datetime(event_slot.start, "H:mm", locale=settings.LANGUAGE_CODE), 
+            'end_date': format_datetime(event_slot.end, "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
+            'end_time': format_datetime(event_slot.end, "H:mm", locale=settings.LANGUAGE_CODE), 
         }
-        return render(request, self.template_name, context)
 
-# Refactoring with TemplateView + get_context_data
-class RegisterEventBaseView(LoginRequiredMixin, View):
+        if event_slot.is_single_day:
+            message_format = _("%(start_date)s <br> %(start_time)s - %(end_time)s")
+        else:
+            message_format = _("From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s ")
 
-    def get(self, request, pk, *args, **kwargs):
-        context = self.get_context(request, pk)
-        return render(request, self.template_name, context)
-
-    def get_context(self, request, pk):
-        event_slot = EventSlot.objects.get(pk=pk)
-        #Refactoring with event queryset
-        return {
+        context = {
             'event_slot': event_slot,
-            'request': request
+            'format_info_datetime': mark_safe( message_format % context)
         }
+        return render(request, self.template_name, context)
+
+class RegisterEventBaseView(LoginRequiredMixin, TemplateView):
+
+    def get_event_slot(self, pk):
+        return EventSlot.objects.get(pk=pk)
+
+    def get_context_data(self, **kwargs):
+        event_slot = self.get_event_slot(self.kwargs['pk'])
+        context =  {
+            'event_slot': event_slot,
+            'request': self.request,
+            'start_date': format_datetime(event_slot.start, "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
+            'start_time': format_datetime(event_slot.start, "H:mm", locale=settings.LANGUAGE_CODE), 
+            'end_date': format_datetime(event_slot.end, "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
+            'end_time': format_datetime(event_slot.end, "H:mm", locale=settings.LANGUAGE_CODE), 
+            'first_name': self.request.user.first_name,
+            'href': f"{self.request._current_scheme_host}/fabcal/event/{event_slot.pk}",
+            'title': event_slot.event.title,
+        }
+        
+        context['format_info_datetime'] = mark_safe(_("%(start_date)s <br> %(start_time)s - %(end_time)s") % context) \
+            if event_slot.is_single_day else \
+            mark_safe(_("From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s ") % context)
+
+        return context
 
 class RegisterEventView(RegisterEventBaseView):
     template_name = 'fabcal/event_registration_form.html'
 
-    def post(self, request, pk, *args, **kwargs):
-        event = EventSlot.objects.get(pk=pk)
-        event.registrations.add(request.user)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        event_slot = self.get_event_slot(self.kwargs['pk'])
 
-        context = self.get_context(request, pk)
-        html_message = render_to_string('fabcal/email/event_registration_confirmation.html', context)
+        context['email_body'] = \
+            mark_safe(_('We confirm that you are registered for the event <a href="%(href)s">%(title)s</a> which will take place on %(start_date)s from %(start_time)s to %(end_time)s.') % context) \
+            if event_slot.is_single_day else \
+            mark_safe(_('We confirm that you are registered for the event <a href="%(href)s">%(title)s</a> which will take place from %(start_date)s at %(start_time)s to %(end_date)s at %(end_time)s.') % context)
+
+        context['email_footer'] = _('The payment will be made on site')
+        
+        return context
+
+    def post(self, request, pk, *args, **kwargs):
+        event_slot = self.get_event_slot(pk)
+        event_slot.registrations.add(request.user)
+
+        html_message = render_to_string('fabcal/email/event_(un)registration_confirmation.html', self.get_context_data())
         
         send_mail(
             from_email=None,
@@ -314,12 +351,24 @@ class RegisterEventView(RegisterEventBaseView):
 class UnregisterEventView(RegisterEventBaseView):
     template_name = 'fabcal/event_unregistration_form.html'
 
-    def post(self, request, pk, *args, **kwargs):
-        event = EventSlot.objects.get(pk=pk)
-        event.registrations.remove(request.user)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        event_slot = self.get_event_slot(self.kwargs['pk'])
 
-        context = self.get_context(request, pk)
-        html_message = render_to_string('fabcal/email/event_unregistration_confirmation.html', context)
+        context['email_body'] = \
+            mark_safe( _('We confirme that you are unregister for the event <a href="%(href)s">%(title)s</a> which will take place on %(start_date)s from %(start_time)s to %(end_time)s.') % context) \
+            if event_slot.is_single_day else \
+            mark_safe(_('We confirme that you are unregister for the event <a href="%(href)s">%(title)s</a> which will take place from %(start_date)s at %(start_time)s to %(end_date)s at %(end_time)s.') % context)
+
+        context['email_footer'] = _('We hope to see you back soon !')
+
+        return context
+
+    def post(self, request, pk, *args, **kwargs):
+        event_slot = self.get_event_slot(pk)
+        event_slot.registrations.remove(request.user)
+
+        html_message = render_to_string('fabcal/email/event_(un)registration_confirmation.html', self.get_context_data())
         
         send_mail(
             from_email=None,

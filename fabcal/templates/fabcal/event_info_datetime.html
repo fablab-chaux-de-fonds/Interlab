@@ -6,16 +6,6 @@
     </div>
     <div class="col-10 ">
         <h4>{% trans "Date and schedule" %}</h4>
-        {% if event_slot.is_single_day %}
-        <p>
-            {{event_slot.start|date:"l j F Y"|capfirst}}<br>
-            {{event_slot.start|date:"H:i"}} - {{event_slot.end|date:"H:i"}}
-        </p>
-        {% else %}
-        <p>
-            {% trans "From" %} {{event_slot.start|date:"l j F Y"|capfirst}} {% trans "at" %} {{event_slot.start|date:"H:i"}} <br>
-            {% trans "to" %} {{event_slot.start|date:"l j F Y"|capfirst}} {% trans "at" %} {{event_slot.end|date:"H:i"}}
-        </p>
-        {% endif %}
+        <p> {{format_info_datetime|capfirst}}</p>
     </div>
 </div>
