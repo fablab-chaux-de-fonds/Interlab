@@ -11,6 +11,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.db.models import Q 
+from django.forms import ModelForm
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 from django.utils.safestring import mark_safe
@@ -23,9 +24,9 @@ from .models import SubscriptionCategory, Subscription, Profile
 
 from machines.models import Training, TrainingValidation
 
-class EditProfileForm(UserChangeForm):
+class EditUserForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
-        super(EditProfileForm, self).__init__(*args, **kwargs)
+        super(EditUserForm, self).__init__(*args, **kwargs)
         del self.fields['password']
 
     class Meta:
@@ -33,7 +34,13 @@ class EditProfileForm(UserChangeForm):
         labels = {
         'email': _("email")
         }
-        fields = ('first_name','last_name','username','email',)
+        fields = ('first_name','last_name','username','email')
+
+class EditProfileForm(ModelForm):
+    class Meta: 
+        model = Profile
+        fields = ('public_contact_plateform','public_contact')
+
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(label=_('Email / Username'))

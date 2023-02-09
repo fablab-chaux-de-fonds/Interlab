@@ -10,7 +10,11 @@
 <h1> {{ user.username }} </h1>
 {% endif %}
 
-<p>{{ user.email }}</p>
+<p>{{ user.email }}</br>
+{% if user.profile.discord %}
+    <i class="bi bi-discord"></i> {{user.profile.discord}}
+{% endif %}
+</p>
 
 <p>
     <small>

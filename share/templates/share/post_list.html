@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <h1> {% trans "Share your creations" %}</h1>
+    </div>
+    <div class="col-12 col-sm-6 text-center text-sm-end">
+        <a class="btn btn-outline-primary" href="{% url 'post_create'%}">{% trans "Add a new post" %}</a>
+    </div>
+</div>
+
+<div class="row grid">
+        {% include 'share/post_list_items.html' %}   
+</div>
+
+    {% include 'pagination.html' %}
+{% endblock %}

@@ -26,6 +26,7 @@ COPY locale /code/locale/
 COPY machines /code/machines/
 COPY newsletter /code/newsletter/
 COPY openings /code/openings
+COPY share /code/share
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # Front-end generation

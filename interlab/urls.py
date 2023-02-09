@@ -22,6 +22,7 @@ urlpatterns += i18n_patterns(
     path('machines/', include('machines.urls')),
     path('invitations/', include(invitation_backend().get_urls())),
     path('fabcal/', include('fabcal.urls')),
+    path('share/', include('share.urls')),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path('bootstrap/', views.bootstrap, name='bootstrap'),
     path('error-500/', views.error_500, name='error-500'),
@@ -40,4 +41,3 @@ if settings.DEBUG:
        path(r'^__debug__/', include(debug_toolbar.urls)),
        prefix_default_language=False
     )
-

@@ -44,3 +44,4 @@ unittest-xml-reporting
 coverage
 coverage-badge
 Babel
+django-htmx

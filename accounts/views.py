@@ -24,7 +24,7 @@ from django.views.generic.base import TemplateView
 from fabcal.models import EventSlot, OpeningSlot, TrainingSlot, MachineSlot
 from machines.models import TrainingValidation
 
-from .forms import EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm, CustomAuthenticationForm, SuperuserProfileEditForm
+from .forms import EditUserForm, EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm, CustomAuthenticationForm, SuperuserProfileEditForm
 from .models import Profile, SubscriptionCategory
 
 from organizations.views.base import BaseOrganizationUserCreate
@@ -124,9 +124,9 @@ def EditProfileView(request):
     }
 
     if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
+        if EditUserForm(request.POST, instance=request.user).is_valid() and EditProfileForm(request.POST, instance=request.user).is_valid() :
 
+            form = EditUserForm(request.POST, instance=request.user)
             # Check if profile has newsletter
             contacts = get_contact()
             mail_list = [ x['email'] for x in contacts['data']['data']]
@@ -136,13 +136,19 @@ def EditProfileView(request):
                 messages.success(request, _("Your newsletter registration has been updated successfully with the email address: ") + form.cleaned_data['email'])
 
             form.save()
+
+            form = EditProfileForm(request.POST, instance=request.user.profile)
+            form.save()
+
             messages.success(request, _("Your profile has been updated successfully") )
             return redirect(AccountsView)
 
     else:
-        form = EditProfileForm(instance=request.user)
+        user_form = EditUserForm(instance=request.user)
+        profile_form = EditProfileForm(instance=request.user.profile)
 
-    context["edit_profile_form"] = form
+    context["edit_user_form"] = user_form
+    context["edit_profile_form"] = profile_form
 
     return render(request, template, context)
 
