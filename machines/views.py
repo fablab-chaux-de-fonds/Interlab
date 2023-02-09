@@ -20,7 +20,7 @@ def training_show(request, pk):
     training = get_object_or_404(Training, pk=pk)
 
     if request.user.is_authenticated:
-        notification = TrainingNotification.objects.filter(profile__user = request.user).exists()
+        notification = TrainingNotification.objects.filter(profile=request.user.profile, training=training).exists()
         if request.method == 'POST':
             if notification:
                 # user has already the notification and want to unsuscribe
