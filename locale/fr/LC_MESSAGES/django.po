@@ -136,7 +136,7 @@ msgid "email address"
 msgstr "adresse e-mail"
 
 #: accounts/models.py:48
-msgid "Plublic canal"
+msgid "Plublic chanel"
 msgstr "Canal"
 
 #: accounts/models.py:49
