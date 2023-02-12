@@ -296,6 +296,7 @@ class RegisterBaseView(LoginRequiredMixin, SingleObjectMixin, AbstractSlotView, 
     pass
 
 class RegisterEventBaseView(RegisterBaseView):
+    template_name = 'fabcal/event_(un)registration_form.html'
     form_class = RegisterEventForm
     model = EventSlot
 
@@ -312,8 +313,6 @@ class RegisterEventBaseView(RegisterBaseView):
         return context
         
 class EventRegisterView(RegisterEventBaseView):
-    template_name = 'fabcal/event_registration_form.html'
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
@@ -355,8 +354,6 @@ class EventRegisterView(RegisterEventBaseView):
 
     
 class UnregisterEventView(RegisterEventBaseView):
-    template_name = 'fabcal/event_unregistration_form.html'
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 

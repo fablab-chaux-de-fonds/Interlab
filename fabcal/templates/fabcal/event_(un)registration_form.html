@@ -1,0 +1,28 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n %}
+{% load render_bundle from webpack_loader %}
+
+{% block content_form_img %}
+<img src="{{object.event.img.url}}" class="img img-fluid rounded" alt="{{object.event.title}}">
+{% endblock %}
+
+{% block content_form %}
+<h3>{{object.event.title}}</h3>
+{% include 'fabcal/event_info.html' %}
+
+<form action="
+    {% if 'unregister' in view.request.path %}
+        {% url 'fabcal:event-unregister' object.pk %}
+    {% else %}
+        {% url 'fabcal:event-register' object.pk %}{%endif%}"
+    method="POST">
+    {% csrf_token %}
+
+    {% if 'unregister' in view.request.path %}
+        {% include "forms/base_submit_button.html" with submit_btn="Unregister" %}
+    {% else %}
+        {% include "forms/base_submit_button.html" with submit_btn="Register" %}
+    {% endif %}
+</form>
+
+{% endblock content_form %}
