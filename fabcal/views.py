@@ -178,12 +178,12 @@ class AbstractSlotView(View):
             'fabcal/email/(un)registration_confirmation.html',
              self.get_context_data()
              )
-        subject = 'Confirmation of your unregistration' if 'unregister' in self.request.path else 'Confirmation of your registration'
+        subject = _('Confirmation of your unregistration') if 'unregister' in self.request.path else _('Confirmation of your registration')
 
         send_mail(
-            from_email=None,
-            subject=_(subject),
-            message = _(subject),
+            from_email = None,
+            subject = subject,
+            message = subject,
             recipient_list = [self.request.user.email],
             html_message = html_message
         )
