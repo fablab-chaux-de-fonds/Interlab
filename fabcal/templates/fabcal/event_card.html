@@ -7,7 +7,7 @@
             <p class="card-text"> {{event_slot.event.lead}} </p>
             {% include 'fabcal/event_info_datetime.html'%}
             <div class="text-center">
-                <a href="{% url 'fabcal:show-event' event_slot.pk %}" type="button" class="btn btn-outline-primary">
+                <a href="{% url 'fabcal:event-detail' event_slot.pk %}" type="button" class="btn btn-outline-primary">
                     <i class="bi bi-info-circle pe-2"></i> {% trans "More informations" %}
                 </a>
             </div>

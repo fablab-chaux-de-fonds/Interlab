@@ -2,24 +2,22 @@
 {% load i18n org_tags interlab_tags %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-4 py-5 d-none d-md-block border-end">
+<div class="row g-5">
+    <div class="col-12 col-lg-4 py-5">
         {% include 'accounts/user-summary.html' %}
-        <hr>
-        {% include 'accounts/nav.html' %}
-    </div>
-    <div class="col-md-8 py-5">
-        <div class="col-md-4 py-5 d-md-none">
-            {% include 'accounts/user-summary.html' %}
+        <div class="d-none d-lg-block">
             <hr>
+            {% include 'accounts/nav.html' %}
         </div>
+    </div>
+    <div class="col-12 col-lg-8 py-5">
         {% for slot in slots %}
-        <div class="row text-blue m-2">
-            <div class="col-3 col-lg-2 text-center rounded">
-                {{slot.start|date:"D j b"}}</br>
-                <small>{{slot.start|date:"H:i"}} - {{slot.end|date:"H:i"}}</small><br>
+        <hr>
+        <div class="row text-blue">
+            <div class="col-12">
+                {{slot.start|date:"D j b"|capfirst}} {{slot.start|date:"H:i"}} - {{slot.end|date:"H:i"}}<br>
             </div>
-            <div class="col-7">
+            <div class="col-8">
                 {% if slot|get_type == 'TrainingSlot'%}
                 <h5>
                     {% trans "Training" %}
@@ -31,8 +29,22 @@
                     <small class"fs-6">
                         {% blocktrans with available_registration=slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}
                     </small>
-                    {% elif slot.available_registration == 0 %}
-                    <small>{% trans "sold out" %}</small>
+                    {% if slot.registrations != None %}
+                    <h5>{% trans "Registration" %}</h5>
+                    <ul>
+                        {% for user in slot.registrations.all %}
+                        <li> <a href={% url 'superuser-profile-edit' user.pk %}>{{user.first_name}} {{user.last_name}}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <a class="btn btn-outline-primary" href="{% url 'machines:training-validation' slot.pk %}">
+                        <i class="bi bi-card-checklist"></i> {% trans "Validate trainings" %}
+                    </a>
+                    {% else %}
+                    <p>{% trans "No registrations for the moment" %}</p>
+                    {% endif %}
+
+                    {% elif slot.available_registration == 0 %}<small>{% trans "sold out" %}</small>
                     {% endif %}
                 </p>
                 {% endif %}
@@ -76,49 +88,51 @@
                 </p>
                 {% endif %}
             </div>
-            <div class="col-2 text-end">
+            <div class="col-4 text-end">
                 {% if slot|get_type == 'TrainingSlot'%}
                     {% if request.user|has_group:"superuser" and slot.registriations == None %}
-                    <a class="btn btn-link px-1" href="{% url 'fabcal:delete-training' slot.pk %}">
-                        <i class="bi bi-trash3 fs-2"></i>
-                    </a>
-                    <a class="btn btn-link px-0" href="{% url 'machines:training-validation' slot.pk %}">
-                        <i class="bi bi-arrow-right-square text-blue fs-2"></i>
-                    </a>
+                    <div class="btn-group inline">
+                        <button class="btn btn-link ps-1 pe-0" href="{% url 'fabcal:training-delete' slot.pk %}"
+                            {% if slot.registrations == None %}disabled{% endif %}>
+                            <i class="bi bi-trash3 fs-1"></i>
+                        </button>
+                        <button class="btn btn-link ps-1 pe-0" href="{% url 'fabcal:training-update' slot.pk %}">
+                            <i class="bi bi-arrow-right-square text-blue fs-1"></i>
+                        </button>
+                    </div>
                     {% else %}
                     <a class="btn btn-link {% if not slot.is_editable %}disabled{% endif %}"
-                        href="{% url 'fabcal:unregister-training' slot.pk %}">
-                        <i class="bi bi-trash3 fs-2"></i>
+                        href="{% url 'fabcal:training-unregister' slot.pk %}">
+                        <i class="bi bi-trash3 fs-1"></i>
                     </a>
-                    {%endif%}
+                    {% endif %}
 
                 {% elif slot|get_type == 'OpeningSlot' %}
                     <a href="{% url 'fabcal:update-opening' slot.pk %}">
-                        <h2><i class="bi bi-arrow-right-square text-blue"></i></h2>
+                        <i class="bi bi-arrow-right-square text-blue"></i>
                     </a>
 
                 {% elif slot|get_type == 'MachineSlot' %}
                     <a class="btn btn-link {% if not slot.is_editable %}disabled{% endif %} px-1"
                         href="{% url 'fabcal:machine-reservation-delete' slot.pk %}">
-                        <i class="bi bi-trash3 fs-2"></i>
+                        <i class="bi bi-trash3 fs-1"></i>
                     </a>
                     <a class="btn btn-link px-0" href="{% url 'fabcal:machine-reservation-update' slot.pk %}">
-                        <i class="bi bi-arrow-right-square text-blue fs-2"></i>
+                        <i class="bi bi-arrow-right-square text-blue fs-1"></i>
                     </a>
 
                 {% elif slot|get_type == 'EventSlot' %}
-                    <a href="{% url 'fabcal:show-event' slot.pk %}">
-                        <h2><i class="bi bi-arrow-right-square text-blue"></i></h2>
+                    <a href="{% url 'fabcal:event-detail' slot.pk %}">
+                        <i class="bi bi-arrow-right-square text-blue fs-1"></i>
                     </a>
                 {%endif%}
             </div>
         </div>
-        <hr>
         {% endfor %}
     </div>
-</div>
-<div class="col-md-4 py-5 d-md-none">
-    <hr>
-    {% include 'accounts/nav.html' %}
+    <div class="col-12 d-lg-none py-5">
+        <hr>
+        {% include 'accounts/nav.html' %}
+    </div>
 </div>
 {% endblock content %}

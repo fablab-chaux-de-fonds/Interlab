@@ -40,6 +40,10 @@ class AbstractRegistration(models.Model):
             return self.registration_limit - self.registrations.count()
         else:
             return None
+
+    @property
+    def is_single_day(self):
+        return self.start.date() == self.end.date()
     class Meta:
         abstract = True
 class OpeningSlot(AbstractSlot):
@@ -80,10 +84,6 @@ class EventSlot(AbstractSlot, AbstractRegistration):
     class Meta:
         verbose_name = _("Event Slot")
         verbose_name_plural = _("Event Slots")
-
-    @property
-    def is_single_day(self):
-        return self.start.date() == self.end.date()
 
 class TrainingSlot(AbstractSlot, AbstractRegistration):
     training = models.ForeignKey(Training, on_delete=models.CASCADE)

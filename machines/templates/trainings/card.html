@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="col-6 col-lg-4">
-    <a href="{% url 'machines:trainings-show' obj.pk %}">
+    <a href="{% url 'machines:training-detail' obj.pk %}">
         <div class="card card-border-red">
             <img class="card-img" src="{{obj.photo.url}}" alt="{{obj.title}}">
             <div class="card-img-overlay h-100 d-flex flex-column justify-content-end p-0">

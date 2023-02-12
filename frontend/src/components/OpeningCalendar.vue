@@ -218,11 +218,11 @@
       },
 
       createEventSlot(event) {
-        location.href = "/fabcal/create-event/" + this.start + "/" + this.end;
+        location.href = "/fabcal/event/add/" + this.start + "/" + this.end;
       },
 
       createTrainingSlot(event) {
-        location.href = "/fabcal/create-training/" + this.start + "/" + this.end;
+        location.href = "/fabcal/training/add/" + this.start + "/" + this.end;
       },
 
       cancelDrag() {
@@ -293,7 +293,7 @@
           } else if (this.selectedEvent.type === 'event') {
             location.href = "/fabcal/event/" + this.selectedEvent.pk;
           } else if (this.selectedEvent.type === 'training') {
-            location.href = "/machines/trainings/" + this.selectedEvent.pk + '/show';
+            location.href = "/machines/training/" + this.selectedEvent.pk;
           }
         };
 

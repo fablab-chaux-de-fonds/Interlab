@@ -16,6 +16,7 @@ from .forms import TrainingValidationForm
 
 from fabcal.models import TrainingSlot, MachineSlot
 
+# TODO change to DetailView
 def training_show(request, pk):
     training = get_object_or_404(Training, pk=pk)
 

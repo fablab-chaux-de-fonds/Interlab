@@ -9,11 +9,11 @@
     {% trans "on" %}
     {{training_slot.start|date:"l j F Y"}} 
     {% trans "From" %} 
-   <a href="{{request.scheme}}://{{request.get_host}}{% url 'machines:trainings-show' training_slot.training.pk %}">"{{training_slot.training.title}}"</a> {{training_slot.start|date:"H:i"}} 
+   <a href="{{request.scheme}}://{{request.get_host}}{% url 'machines:training-detail' training_slot.training.pk %}">"{{training_slot.training.title}}"</a> {{training_slot.start|date:"H:i"}} 
     {% trans "to" %} 
     {{training_slot.end|date:"H:i"}}
 </p>
 
-<a href="{{request.scheme}}://{{request.get_host}}{% url 'fabcal:register-training' training_slot.pk %}">{% trans "Subscribe" %}</a>
+<a href="{{request.scheme}}://{{request.get_host}}{% url 'fabcal:training-register' training_slot.pk %}">{% trans "Subscribe" %}</a>
 
 {% endblock content %}

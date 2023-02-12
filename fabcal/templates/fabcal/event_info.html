@@ -2,35 +2,35 @@
 
 <div class="row">
 
-    <div class="col-12 {% if "register-event" not in request.path %}col-sm-6{% endif %}">
+    <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
         {% include 'fabcal/event_info_datetime.html' %}
     </div>
 
-    <div class="col-12 {% if "register-event" not in request.path %}col-sm-6{% endif %}">
+    <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
         <div class="row">
             <div class="col-2 text-end pe-0">
                 <h4><i class="bi bi-wallet2"></i></h4>
             </div>
             <div class="col-10 ">
                 <h4>{% trans "Price" %}</h4>
-                <p>{{event_slot.price}}</p>
+                <p>{{object.price}}</p>
             </div>
         </div>
     </div>
 
-    <div class="col-12 {% if "register-event" not in request.path %}col-sm-6{% endif %}">
+    <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
         <div class="row">
             <div class="col-2 text-end pe-0">
                 <h4><i class="bi bi-info-circle"></i></h4>
             </div>
             <div class="col-10 ">
                 <h4>{% trans "Registration" %}</h4>
-                {% if event_slot.has_registration %}
+                {% if object.has_registration %}
                 <p>{% trans 'Registration mandatory' %}<br>
-                    {% if event_slot.available_registration > 0  %}
+                    {% if object.available_registration > 0  %}
                     <small class"fs-6">
-                        {% blocktrans with available_registration=event_slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}</small>
-                    {% elif event_slot.available_registration == 0 %}
+                        {% blocktrans with available_registration=object.available_registration %}still {{available_registration}} places available !{% endblocktrans %}</small>
+                    {% elif object.available_registration == 0 %}
                     <small class="text-red">{% trans "sold out" %}</small>
                     {% endif %}
                 </p>
@@ -41,14 +41,14 @@
         </div>
     </div>
 
-    <div class="col-12 {% if "register-event" not in request.path %}col-sm-6{% endif %}">
+    <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
         <div class="row">
             <div class="col-2 text-end pe-0">
                 <h4><i class="bi bi-geo-alt"></i></h4>
             </div>
             <div class="col-10 ">
                 <h4>{% trans "Location" %}</h4>
-                <p>{{event_slot.event.location}}</p>
+                <p>{{object.event.location}}</p>
             </div>
         </div>
     </div>

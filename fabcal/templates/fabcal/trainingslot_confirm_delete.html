@@ -7,8 +7,11 @@
 {% endblock %}
 
 {% block content_form %}
-<h1>{% blocktrans with date=start|date:"l j F" start=start|date:"G:i" end=end|date:"G:i" %}Are you sure you want to remove the event {{title}} on {{date}} from {{start}} to {{end}}{% endblocktrans %}</h1>
-<form action="." method="POST">
+<div class="text-center">
+    <h3> {% blocktrans with title=object.training.title  %} Do you want to delete the training {{title}}{% endblocktrans %}</h3>
+    <p>{{format_info_datetime}}</p>
+</div>
+<form action={% url 'fabcal:training-delete' object.pk %} method="POST">
     {% csrf_token %}
     {% include "forms/base_submit_button.html" with submit_btn="Yes, I'm sure" %}
 </form>
