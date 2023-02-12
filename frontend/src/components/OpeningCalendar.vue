@@ -218,7 +218,7 @@
       },
 
       createEventSlot(event) {
-        location.href = "/fabcal/create-event/" + this.start + "/" + this.end;
+        location.href = "/fabcal/event/add/" + this.start + "/" + this.end;
       },
 
       createTrainingSlot(event) {

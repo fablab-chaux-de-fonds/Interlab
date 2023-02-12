@@ -296,6 +296,9 @@ class TrainingForm(AbstractSlotForm):
             html_message = html_message
         )
 
+class RegisterEventForm(forms.Form):
+    pass
+
 class RegistrationTrainingForm(forms.Form):
 
     def register(self, view):

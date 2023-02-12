@@ -9,7 +9,7 @@
 {% block content_form %}
 <h3>{{event_slot.event.title}}</h3>
 {% include 'fabcal/event_info.html' %}
-<form action="." method="POST">
+<form action="{% url 'fabcal:event-register' object.pk %}" method="POST">
     {% csrf_token %}
     {% include "forms/base_submit_button.html" with submit_btn="Unregister" %}
 </form>
