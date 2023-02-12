@@ -1,0 +1,5 @@
+{% if 'unregister' in view.request.path %}
+{% include "forms/base_submit_button.html" with submit_btn="Unregister" %}
+{% else %}
+{% include "forms/base_submit_button.html" with submit_btn="Register" %}
+{% endif %}

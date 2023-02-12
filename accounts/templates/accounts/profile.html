@@ -79,7 +79,7 @@
             <div class="col-2 text-end">
                 {% if slot|get_type == 'TrainingSlot'%}
                     {% if request.user|has_group:"superuser" and slot.registriations == None %}
-                    <a class="btn btn-link px-1" href="{% url 'fabcal:delete-training' slot.pk %}">
+                    <a class="btn btn-link px-1" href="{% url 'fabcal:training-delete' slot.pk %}">
                         <i class="bi bi-trash3 fs-2"></i>
                     </a>
                     <a class="btn btn-link px-0" href="{% url 'machines:training-validation' slot.pk %}">
@@ -87,7 +87,7 @@
                     </a>
                     {% else %}
                     <a class="btn btn-link {% if not slot.is_editable %}disabled{% endif %}"
-                        href="{% url 'fabcal:unregister-training' slot.pk %}">
+                        href="{% url 'fabcal:training-unregister' slot.pk %}">
                         <i class="bi bi-trash3 fs-2"></i>
                     </a>
                     {%endif%}

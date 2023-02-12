@@ -5,7 +5,7 @@
 <p> Hello {{request.user.first_name}}, </p> 
 <p>
     {% trans "We have updated the training" %}
-    <a href="{{request.scheme}}://{{request.get_host}}{% url 'machines:trainings-show' training_slot.training.pk %}">
+    <a href="{{request.scheme}}://{{request.get_host}}{% url 'machines:training-detail' training_slot.training.pk %}">
     {{training_slot.training.title}} 
     </a>
     {% trans "originally scheduled on" %} {{training_slot.start}}
@@ -19,6 +19,6 @@
     {{training_slot.end|date:"H:i"}}
 </p>
 
-<a href="{{request.scheme}}://{{request.get_host}}{% url 'fabcal:register-training' training_slot.pk %}">{% trans "Subscribe" %}</a>
+<a href="{{request.scheme}}://{{request.get_host}}{% url 'fabcal:training-register' training_slot.pk %}">{% trans "Subscribe" %}</a>
 
 {% endblock content %}

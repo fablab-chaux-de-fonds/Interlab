@@ -21,7 +21,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, DeleteView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
-from .forms import OpeningForm, EventForm, TrainingForm, RegistrationTrainingForm, MachineReservationForm, RegisterEventForm
+from .forms import OpeningForm, EventForm, TrainingForm, RegisterTrainingForm, MachineReservationForm, RegisterEventForm
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 
 from interlab.views import CustomFormView
@@ -155,6 +155,7 @@ class AbstractSlotView(View):
             'start_time': format_datetime(context['object'].start, "H:mm", locale=language_code),
             'end_date': format_datetime(context['object'].end, "EEEE d MMMM y", locale=language_code),
             'end_time': format_datetime(context['object'].end, "H:mm", locale=language_code),
+            'first_name': self.request.user.first_name
         })
 
         if context['object'].is_single_day:
@@ -165,8 +166,43 @@ class AbstractSlotView(View):
         context.update({
             'format_info_datetime': mark_safe(message_format % context)
         })
+        if 'unregister' in self.request.path:
+            context["email_footer"] = _('We hope to see you back soon !')
+        else:
+            context["email_footer"] = _('The payment will be made on site')
 
-        return context    
+        return context
+
+    def send_email(self):
+        html_message = render_to_string(
+            'fabcal/email/(un)registration_confirmation.html',
+             self.get_context_data()
+             )
+        subject = 'Confirmation of your unregistration' if 'unregister' in self.request.path else 'Confirmation of your registration'
+
+        send_mail(
+            from_email=None,
+            subject=_(subject),
+            message = _(subject),
+            recipient_list = [self.request.user.email],
+            html_message = html_message
+        )
+
+    def get_success_message(self):
+        if 'unregister' in self.request.path: 
+            return messages.success(self.request, _("Oh no! We sent you an email to confirme your unregistration"))
+        else: 
+            return messages.success(self.request, _("Well done! We sent you an email to confirme your registration"))
+
+    def form_valid(self, form):
+        if 'unregister' in self.request.path:
+            self.get_object().registrations.remove(self.request.user)
+        else:
+            self.get_object().registrations.add(self.request.user)
+        self.send_email()
+        self.get_success_message()
+        return super().form_valid(form)
+ 
 
 class OpeningBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/opening_create_or_update_form.html'
@@ -281,7 +317,7 @@ class EventDetailView(AbstractSlotView, DetailView):
 class RegisterBaseView(LoginRequiredMixin, SingleObjectMixin, AbstractSlotView, FormView):
     pass
 
-class RegisterEventBaseView(RegisterBaseView):
+class EventRegisterBaseView(RegisterBaseView):
     template_name = 'fabcal/eventslot_(un)registration_form.html'
     form_class = RegisterEventForm
     model = EventSlot
@@ -291,14 +327,14 @@ class RegisterEventBaseView(RegisterBaseView):
 
     def get_context_data(self, **kwargs):
         self.object = self.get_object()
-        context = super(RegisterEventBaseView, self).get_context_data(**kwargs)
+        context = super(EventRegisterBaseView, self).get_context_data(**kwargs)
         context.update({
             'href': f"{self.request._current_scheme_host}/fabcal/event/{context['object'].pk}",
             'title': context['object'].event.title,
         })
         return context
         
-class EventRegisterView(RegisterEventBaseView):
+class EventRegisterView(EventRegisterBaseView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
@@ -306,40 +342,11 @@ class EventRegisterView(RegisterEventBaseView):
                 mark_safe(_('We confirm that you are registered for the event <a href="%(href)s">%(title)s</a> which will take place on %(start_date)s from %(start_time)s to %(end_time)s.') % context) \
                 if context['object'].is_single_day else \
                 mark_safe(_('We confirm that you are registered for the event <a href="%(href)s">%(title)s</a> which will take place from %(start_date)s at %(start_time)s to %(end_date)s at %(end_time)s.') % context)
-                ,
-             'email_footer': _('The payment will be made on site')
         })
 
         return context
 
-    def add_registration(self):
-        self.get_object().registrations.add(self.request.user)
-
-    def send_email(self):
-        html_message = render_to_string(
-            'fabcal/email/event_(un)registration_confirmation.html',
-             self.get_context_data()
-             )
-
-        send_mail(
-            from_email=None,
-            subject=_('Confirmation of your registration'),
-            message = _("Confirmation of your registration"),
-            recipient_list = [self.request.user.email],
-            html_message = html_message
-        )
-
-    def get_success_message(self):
-        return messages.success(self.request, _("Well done! We sent you an email to confirme your registration"))
-
-    def form_valid(self, form):
-        self.add_registration()
-        self.send_email()
-        self.get_success_message()
-        return super().form_valid(form)
-
-    
-class UnregisterEventView(RegisterEventBaseView):
+class EventUnregisterView(EventRegisterBaseView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -348,34 +355,9 @@ class UnregisterEventView(RegisterEventBaseView):
                 mark_safe( _('We confirme that you are unregister for the event <a href="%(href)s">%(title)s</a> which will take place on %(start_date)s from %(start_time)s to %(end_time)s.') % context) \
                 if context['object'].is_single_day else \
                 mark_safe(_('We confirme that you are unregister for the event <a href="%(href)s">%(title)s</a> which will take place from %(start_date)s at %(start_time)s to %(end_date)s at %(end_time)s.') % context)
-                ,
-            'email_footer': _('We hope to see you back soon !')
         })
 
         return context
-
-    def remove_registration(self):
-        self.get_object().registrations.remove(self.request.user)
-
-    def send_email(self):
-        html_message = render_to_string('fabcal/email/event_(un)registration_confirmation.html', self.get_context_data())
-        
-        send_mail(
-            from_email=None,
-            subject=_('Confirmation of your unregistration'),
-            message = _("Confirmation of your unregistration"),
-            recipient_list = [self.request.user.email],
-            html_message = html_message
-        )
-
-    def get_success_message(self):
-        return messages.success(self.request, _("Oh no! We sent you an email to confirme your unregistration"))
-
-    def form_valid(self, form):
-        self.remove_registration()
-        self.send_email()
-        self.get_success_message()
-        return super().form_valid(form)
 
 class TrainingBaseView(CustomFormView, AbstractMachineView): 
     template_name = 'fabcal/trainig_create_or_update_form.html'
@@ -407,10 +389,10 @@ class TrainingBaseView(CustomFormView, AbstractMachineView):
 
         return super().form_valid(form)
 
-class CreateTrainingView(TrainingBaseView):
+class TrainingCreateView(TrainingBaseView):
     crud_state = 'created'
 
-class UpdateTrainingView(TrainingBaseView):
+class TrainingUpdateView(TrainingBaseView):
     crud_state = 'updated'
 
     def get_initial(self):
@@ -423,7 +405,7 @@ class UpdateTrainingView(TrainingBaseView):
             initial['opening'] = None
         return initial
 
-class DeleteTrainingView(View):
+class TrainingDeleteView(View):
     template_name = 'fabcal/training/delete.html'
 
     def get(self, request, pk, *args, **kwargs):
@@ -451,80 +433,40 @@ class DeleteTrainingView(View):
             ) 
         return redirect('/schedule/') 
 
-class RegisterTrainingBaseView(LoginRequiredMixin, FormView):
-    success_url = "/"
-
-    def get_training_slot(self):
-        return get_object_or_404(TrainingSlot, pk=self.kwargs['pk'])
+class TrainingRegisterBaseView(RegisterBaseView):
+    template_name = 'fabcal/trainingslot_(un)registration_form.html'
+    form_class = RegisterTrainingForm
+    model = TrainingSlot
+    
+    def get_success_url(self):
+        return reverse_lazy("machines:training-detail", kwargs={'pk': self.object.training_id})
 
     def get_context_data(self, **kwargs):
-        training_slot = self.get_training_slot()
-        context =  {
-            'event_slot': training_slot,
-            'request': self.request,
-            'start_date': format_datetime(training_slot.start, "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
-            'start_time': format_datetime(training_slot.start, "H:mm", locale=settings.LANGUAGE_CODE), 
-            'end_date': format_datetime(training_slot.end, "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
-            'end_time': format_datetime(training_slot.end, "H:mm", locale=settings.LANGUAGE_CODE), 
-            'first_name': self.request.user.first_name,
-            'href': f"{self.request._current_scheme_host}/fabcal/event/{training_slot.pk}",
-            'title': training_slot.training.title,
-        }
-
-        context['format_info_datetime'] = mark_safe(_("%(start_date)s <br> %(start_time)s - %(end_time)s") % context) \
-
+        self.object = self.get_object()
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'href': f"{self.request._current_scheme_host}{self.get_success_url()}",
+            'title': context['object'].training.title,
+        })
         return context
 
-class RegisterTrainingView(RegisterTrainingBaseView):
-    template_name = 'fabcal/training_registration_form.html'
-    form_class = RegistrationTrainingForm
-
+class TrainingRegisterView(TrainingRegisterBaseView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        context["email_body"] = mark_safe(
-            _('We confirm that you are registered for the training <a href="%(href)s">%(title)s</a> which will take place on %(start_date)s from %(start_time)s to %(end_time)s.')
-        )
-
-        context['email_footer'] = _('The payment will be made on site')
+        context.update({
+            'email_body': mark_safe(_('We confirm that you are registered for the training <a href="%(href)s">%(title)s</a> which will take place on %(start_date)s from %(start_time)s to %(end_time)s.') % context),
+        })
 
         return context
 
-    def form_valid(self, form):
-
-        form.register(self)
-        form.send_mail(self)
-        return super().form_valid(form)
-
-class UnregisterTrainingView(LoginRequiredMixin, View):
-    template_name = 'fabcal/training/unregistration.html'
-    success_url = "/"
-
-    def get(self, request, pk, *args, **kwargs):
-        return render(request, self.template_name, self.get_context_data())
-
+class TrainingUnregisterView(TrainingRegisterBaseView):
     def get_context_data(self, **kwargs):
-        return {
-            'training_slot': get_object_or_404(TrainingSlot, pk=self.kwargs['pk'])
-        }
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'email_body': mark_safe(_('We confirm that you are unregistered for the training <a href="%(href)s">%(title)s</a> which will take place on %(start_date)s from %(start_time)s to %(end_time)s.') % context),
+        })
 
-    def post(self, request, pk, *args, **kwargs):
-        context = self.get_context_data()
-
-        context['training_slot'].registrations.remove(request.user)
-        html_message = render_to_string('fabcal/email/training_unregistration_confirmation.html', context)
-        
-        send_mail(
-            from_email=None,
-            subject=_('Confirmation of your unregistration'),
-            message = _("Confirmation of your unregistration"),
-            recipient_list = [request.user.email],
-            html_message = html_message
-        )
-
-        messages.success(request, _("Oh no! We sent you an email to confirme your unregistration"))
-
-        return redirect('profile')
+        return context
 
 class MachineReservationBaseView(LoginRequiredMixin, FormView):
     template_name = 'fabcal/machine/reservation_form.html'
@@ -689,9 +631,6 @@ class UpdateMachineReservationView(MachineReservationBaseView):
             # adjust start slot
             form.machine_slot.start = form.cleaned_data['start']
             form.machine_slot.save()
-
-
-        
 
 
         # end modification

@@ -17,12 +17,7 @@
         {% url 'fabcal:event-register' object.pk %}{%endif%}"
     method="POST">
     {% csrf_token %}
-
-    {% if 'unregister' in view.request.path %}
-        {% include "forms/base_submit_button.html" with submit_btn="Unregister" %}
-    {% else %}
-        {% include "forms/base_submit_button.html" with submit_btn="Register" %}
-    {% endif %}
+    {% include 'fabcal/(un)registration_button.html' %}
 </form>
 
 {% endblock content_form %}

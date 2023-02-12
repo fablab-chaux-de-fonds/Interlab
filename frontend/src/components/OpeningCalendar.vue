@@ -222,7 +222,7 @@
       },
 
       createTrainingSlot(event) {
-        location.href = "/fabcal/create-training/" + this.start + "/" + this.end;
+        location.href = "/fabcal/training/add/" + this.start + "/" + this.end;
       },
 
       cancelDrag() {

@@ -299,40 +299,9 @@ class TrainingForm(AbstractSlotForm):
 class RegisterEventForm(forms.Form):
     pass
 
-class RegistrationTrainingForm(forms.Form):
+class RegisterTrainingForm(forms.Form):
+    pass
 
-    def register(self, view):
-        training_slot = TrainingSlot.objects.get(pk=view.kwargs['pk'])
-        training_slot.registrations.add(view.request.user)
-
-        context = {
-            'training_title': training_slot.training.title,
-            'start_date': format_datetime(training_slot.start, "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
-            'start_time': format_datetime(training_slot.start, "H:mm", locale=settings.LANGUAGE_CODE), 
-            'end_time': format_datetime(training_slot.end, "H:mm", locale=settings.LANGUAGE_CODE),
-            'start': training_slot.start.isoformat(),
-            'end': training_slot.end.isoformat()
-        }
-        messages.success(
-            view.request, 
-            mark_safe( 
-                _(
-                    'Well done! We sent you an email to confirme your registration for the training %(training_title)s on %(start_date)s from %(start_time)s to %(end_time)s</br><a href="/fabcal/download-ics-file/%(training_title)s/%(start)s/%(end)s"><i class="bi bi-file-earmark-arrow-down-fill"></i> Add to my calendar</a>'
-                )
-            % context)
-            )
-    
-    def send_mail(self, view):
-
-        html_message = render_to_string('fabcal/email/training_registration_confirmation.html', view.context)
-    
-        send_mail(
-            from_email=None,
-            subject=_('Confirmation of your registration'),
-            message = _("Confirmation of your registration"),
-            recipient_list = [view.request.user.email],
-            html_message = html_message
-        )
 
 class MachineReservationForm(forms.Form):
     start_time = forms.TimeField()

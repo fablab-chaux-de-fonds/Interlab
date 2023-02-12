@@ -1,0 +1,30 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n training_extras %}
+
+{% block content_form_img %}
+    <img class="img img-fluid rounded" src="{{object.training.photo.url}}">
+{% endblock %}
+
+{% block content_form %}
+<div class="text-center">
+    <h3>{% trans "Training" %}: {{object.training.title}}</h3>
+    <p>{{format_info_datetime}}</p>
+    <p>
+        <i class="bi bi-cash"></i> {{object.training.full_price|price_format}}</br>
+        <small>({% trans "The payment will be made on site" %})</small>
+    </p>
+</div>
+
+<form action="
+    {% if 'unregister' in view.request.path %}
+        {% url 'fabcal:training-unregister' object.pk %}
+    {% else %}
+        {% url 'fabcal:training-register' object.pk %}{%endif%}"
+    method="POST">
+
+    <form action="." method="POST">
+    {% csrf_token %}
+    {% include 'fabcal/(un)registration_button.html' %}
+</form>
+
+{% endblock content_form %}
