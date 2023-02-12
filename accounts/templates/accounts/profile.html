@@ -27,10 +27,9 @@
                 <p>
                     {% if slot.available_registration > 0  %}
                     <small class"fs-6">
-                        {% blocktrans with available_registration=slot.available_registration %}still
-                        {{available_registration}} places available !{% endblocktrans %}
+                        {% blocktrans with available_registration=slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}
                     </small>
-                    {% if slot.registrations == None %}
+                    {% if slot.registrations != None %}
                     <h5>{% trans "Registration" %}</h5>
                     <ul>
                         {% for user in slot.registrations.all %}
@@ -38,9 +37,8 @@
                         </li>
                         {% endfor %}
                     </ul>
-
                     <a class="btn btn-outline-primary" href="{% url 'machines:training-validation' slot.pk %}">
-                        <i class="bi bi-card-checklist"></i> {% trans "Validate trainigs" %}
+                        <i class="bi bi-card-checklist"></i> {% trans "Validate trainings" %}
                     </a>
                     {% else %}
                     <p>{% trans "No registrations for the moment" %}</p>

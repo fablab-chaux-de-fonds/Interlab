@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-12 15:43+0000\n"
+"POT-Creation-Date: 2023-02-12 17:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: accounts/forms.py:35 accounts/templates/accounts/nav.html:28
+#: accounts/forms.py:35 accounts/templates/accounts/nav.html:44
 msgid "email"
 msgstr "e-mail"
 
@@ -170,46 +170,46 @@ msgstr "Nous vous avons créé un nouvel abonnement valable jusqu'au"
 msgid "Update my subscription"
 msgstr "Renouveler mon abonnement"
 
-#: accounts/templates/accounts/nav.html:10
+#: accounts/templates/accounts/nav.html:11
 msgid "My subscription"
 msgstr "Mon abonnement"
 
-#: accounts/templates/accounts/nav.html:11
+#: accounts/templates/accounts/nav.html:19
 msgid "Manage subscription members"
 msgstr "Gérer les membres de mon abonnement"
 
-#: accounts/templates/accounts/nav.html:27
+#: accounts/templates/accounts/nav.html:36
 msgid "My profile"
 msgstr "Mon profil"
 
-#: accounts/templates/accounts/nav.html:28
+#: accounts/templates/accounts/nav.html:44
 msgid "name"
 msgstr "nom"
 
-#: accounts/templates/accounts/nav.html:28
+#: accounts/templates/accounts/nav.html:44
 #: accounts/templates/registration/login.html:15
 msgid "password"
 msgstr "mot de passe"
 
-#: accounts/templates/accounts/nav.html:28
+#: accounts/templates/accounts/nav.html:45
 #: accounts/templates/accounts/profile_edit.html:16
 msgid "delete account"
 msgstr "supprimer mon compte"
 
-#: accounts/templates/accounts/nav.html:39
+#: accounts/templates/accounts/nav.html:57
 msgid "Logout"
 msgstr "Se déconnecter"
 
-#: accounts/templates/accounts/nav.html:51
+#: accounts/templates/accounts/nav.html:73
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: accounts/templates/accounts/nav.html:52
+#: accounts/templates/accounts/nav.html:81
 #: machines/templates/trainings/training_validation.html:12
 msgid "training validation"
 msgstr "validation de formations"
 
-#: accounts/templates/accounts/nav.html:52
+#: accounts/templates/accounts/nav.html:81
 msgid "subscription"
 msgstr "abonnement"
 
@@ -217,55 +217,55 @@ msgstr "abonnement"
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: accounts/templates/accounts/profile.html:25 fabcal/forms.py:242
+#: accounts/templates/accounts/profile.html:23 fabcal/forms.py:242
 #: fabcal/templates/fabcal/trainingslot_(un)registration_form.html:10
 #: machines/models.py:66
 msgid "Training"
 msgstr "Formation"
 
-#: accounts/templates/accounts/profile.html:32
+#: accounts/templates/accounts/profile.html:30
 #: fabcal/templates/fabcal/event_info.html:32
 #: machines/templates/trainings/show_next_trainings.html:13
 #, python-format
 msgid "still %(available_registration)s places available !"
 msgstr "encore %(available_registration)s places disponibles !"
 
-#: accounts/templates/accounts/profile.html:35
+#: accounts/templates/accounts/profile.html:33
 #: fabcal/templates/fabcal/event_info.html:27
 #: fabcal/templates/fabcal/event_registration_list.html:7
 msgid "Registration"
 msgstr "Inscription"
 
-#: accounts/templates/accounts/profile.html:43
-msgid "Validate trainigs"
+#: accounts/templates/accounts/profile.html:41
+msgid "Validate trainings"
 msgstr "Valider les formations"
 
-#: accounts/templates/accounts/profile.html:46
+#: accounts/templates/accounts/profile.html:44
 msgid "No registrations for the moment"
 msgstr "Pas de réservations pour le moment"
 
-#: accounts/templates/accounts/profile.html:49
+#: accounts/templates/accounts/profile.html:47
 #: fabcal/templates/fabcal/event_info.html:34
 #: machines/templates/trainings/show_next_trainings.html:16
 msgid "sold out"
 msgstr "complet"
 
-#: accounts/templates/accounts/profile.html:56 fabcal/forms.py:32
+#: accounts/templates/accounts/profile.html:54 fabcal/forms.py:32
 #: fabcal/forms.py:178 openings/models.py:34
 msgid "Opening"
 msgstr "Ouverture"
 
-#: accounts/templates/accounts/profile.html:68
+#: accounts/templates/accounts/profile.html:66
 msgid "No reservations for the moment"
 msgstr "Pas de réservations pour le moment"
 
-#: accounts/templates/accounts/profile.html:73
+#: accounts/templates/accounts/profile.html:71
 #: interlab/templates/menu-mobile.html:18
 #: interlab/templates/navbar-header.html:17
 msgid "Reservation"
 msgstr "Réservation"
 
-#: accounts/templates/accounts/profile.html:84 fabcal/forms.py:187
+#: accounts/templates/accounts/profile.html:82 fabcal/forms.py:187
 #: openings/models.py:45
 msgid "Event"
 msgstr "Évènement"
