@@ -293,7 +293,7 @@
           } else if (this.selectedEvent.type === 'event') {
             location.href = "/fabcal/event/" + this.selectedEvent.pk;
           } else if (this.selectedEvent.type === 'training') {
-            location.href = "/machines/trainings/" + this.selectedEvent.pk + '/show';
+            location.href = "/machines/training/" + this.selectedEvent.pk;
           }
         };
 

@@ -299,10 +299,6 @@ class EventUpdateView(EventBaseView):
 class EventDeleteView(AbstractSlotView, DeleteView):
     model = EventSlot
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
     def delete(self, request, *args, **kwargs):
         delete = super().delete(request, *args, **kwargs)
         messages.success(request, _("Your event has been successfully deleted"))
@@ -405,33 +401,16 @@ class TrainingUpdateView(TrainingBaseView):
             initial['opening'] = None
         return initial
 
-class TrainingDeleteView(View):
-    template_name = 'fabcal/training/delete.html'
+class TrainingDeleteView(AbstractSlotView, DeleteView):
+    model = TrainingSlot
 
-    def get(self, request, pk, *args, **kwargs):
-        event = TrainingSlot.objects.get(pk=pk)
-        # Refactoring with event queryset
-        context = {
-            'start': event.start,
-            'end': event.end,
-            'title': event.training.title
-            }
-        return render(request, self.template_name, context)  
+    def delete(self, request, *args, **kwargs):
+        delete = super().delete(request, *args, **kwargs)
+        messages.success(request, _("Your training has been successfully deleted"))
+        return delete
 
-    def post(self, request, pk):
-        event_slot = TrainingSlot.objects.get(pk=pk)
-        event_slot.delete()
-
-        messages.success(request, (
-                _("Your event has been successfully deleted on ") + 
-                event_slot.start.strftime("%A %d %B %Y") + 
-                _(" from ") +
-                event_slot.start.strftime("%H:%M") + 
-                _(" to ") + 
-                event_slot.end.strftime("%H:%M")
-                )
-            ) 
-        return redirect('/schedule/') 
+    def get_success_url(self):
+        return reverse_lazy("machines:training-detail", kwargs={'pk': self.object.training_id})
 
 class TrainingRegisterBaseView(RegisterBaseView):
     template_name = 'fabcal/trainingslot_(un)registration_form.html'
