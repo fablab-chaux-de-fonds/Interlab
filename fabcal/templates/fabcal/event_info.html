@@ -2,11 +2,11 @@
 
 <div class="row">
 
-    <div class="col-12 {% if "register" not in request.path %}col-sm-6{% endif %}">
+    <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
         {% include 'fabcal/event_info_datetime.html' %}
     </div>
 
-    <div class="col-12 {% if "register" not in request.path %}col-sm-6{% endif %}">
+    <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
         <div class="row">
             <div class="col-2 text-end pe-0">
                 <h4><i class="bi bi-wallet2"></i></h4>
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div class="col-12 {% if "register" not in request.path %}col-sm-6{% endif %}">
+    <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
         <div class="row">
             <div class="col-2 text-end pe-0">
                 <h4><i class="bi bi-info-circle"></i></h4>
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="col-12 {% if "register" not in request.path %}col-sm-6{% endif %}">
+    <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
         <div class="row">
             <div class="col-2 text-end pe-0">
                 <h4><i class="bi bi-geo-alt"></i></h4>

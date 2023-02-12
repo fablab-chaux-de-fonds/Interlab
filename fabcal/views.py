@@ -18,7 +18,7 @@ from django.utils.translation import ugettext as _
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, DeleteView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
 from .forms import OpeningForm, EventForm, TrainingForm, RegistrationTrainingForm, MachineReservationForm, RegisterEventForm
@@ -260,43 +260,29 @@ class EventUpdateView(EventBaseView):
             initial['opening'] = None
         return initial
 
-class EventDeleteView(View):
-    template_name = 'fabcal/delete_event.html'
+class EventDeleteView(AbstractSlotView, DeleteView):
+    model = EventSlot
 
-    def get(self, request, pk, *args, **kwargs):
-        event = EventSlot.objects.get(pk=pk)
-        # Refactoring with event queryset
-        context = {
-            'start': event.start,
-            'end': event.end,
-            'title': event.event.title
-            }
-        return render(request, self.template_name, context)  
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
-    def post(self, request, pk):
-        event_slot = EventSlot.objects.get(pk=pk)
-        event_slot.delete()
+    def delete(self, request, *args, **kwargs):
+        delete = super().delete(request, *args, **kwargs)
+        messages.success(request, _("Your event has been successfully deleted"))
+        return delete
 
-        messages.success(request, 
-            _("Your event on %(date)s from %(start)s to %(end)s has been successfully deleted") %
-            {
-                'date': format_datetime(event_slot.start, "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
-                'start': format_datetime(event_slot.start, "H:mm", locale=settings.LANGUAGE_CODE), 
-                'end': format_datetime(event_slot.end, "H:mm", locale=settings.LANGUAGE_CODE),
-            }
-        )
-
-        return redirect('/schedule/')  
+    def get_success_url(self):
+        return reverse_lazy('pages-details-by-slug', kwargs={'slug': 'schedule'})
 
 class EventDetailView(AbstractSlotView, DetailView):
-    template_name = 'fabcal/event_details.html'
     model = EventSlot
 
 class RegisterBaseView(LoginRequiredMixin, SingleObjectMixin, AbstractSlotView, FormView):
     pass
 
 class RegisterEventBaseView(RegisterBaseView):
-    template_name = 'fabcal/event_(un)registration_form.html'
+    template_name = 'fabcal/eventslot_(un)registration_form.html'
     form_class = RegisterEventForm
     model = EventSlot
 
