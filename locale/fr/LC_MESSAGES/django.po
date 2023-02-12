@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-12 15:12+0000\n"
+"POT-Creation-Date: 2023-02-12 15:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -231,27 +231,41 @@ msgid "still %(available_registration)s places available !"
 msgstr "encore %(available_registration)s places disponibles !"
 
 #: accounts/templates/accounts/profile.html:35
+#: fabcal/templates/fabcal/event_info.html:27
+#: fabcal/templates/fabcal/event_registration_list.html:7
+msgid "Registration"
+msgstr "Inscription"
+
+#: accounts/templates/accounts/profile.html:43
+msgid "Validate trainigs"
+msgstr "Valider les formations"
+
+#: accounts/templates/accounts/profile.html:46
+msgid "No registrations for the moment"
+msgstr "Pas de réservations pour le moment"
+
+#: accounts/templates/accounts/profile.html:49
 #: fabcal/templates/fabcal/event_info.html:34
 #: machines/templates/trainings/show_next_trainings.html:16
 msgid "sold out"
 msgstr "complet"
 
-#: accounts/templates/accounts/profile.html:42 fabcal/forms.py:32
+#: accounts/templates/accounts/profile.html:56 fabcal/forms.py:32
 #: fabcal/forms.py:178 openings/models.py:34
 msgid "Opening"
 msgstr "Ouverture"
 
-#: accounts/templates/accounts/profile.html:54
+#: accounts/templates/accounts/profile.html:68
 msgid "No reservations for the moment"
 msgstr "Pas de réservations pour le moment"
 
-#: accounts/templates/accounts/profile.html:59
+#: accounts/templates/accounts/profile.html:73
 #: interlab/templates/menu-mobile.html:18
 #: interlab/templates/navbar-header.html:17
 msgid "Reservation"
 msgstr "Réservation"
 
-#: accounts/templates/accounts/profile.html:70 fabcal/forms.py:187
+#: accounts/templates/accounts/profile.html:84 fabcal/forms.py:187
 #: openings/models.py:45
 msgid "Event"
 msgstr "Évènement"
@@ -940,11 +954,6 @@ msgstr "Date"
 msgid "Time"
 msgstr "Heure"
 
-#: fabcal/templates/fabcal/event_info.html:27
-#: fabcal/templates/fabcal/event_registration_list.html:7
-msgid "Registration"
-msgstr "Inscription"
-
 #: fabcal/templates/fabcal/event_info.html:29
 msgid "Registration mandatory"
 msgstr "Inscription obligatoire"
@@ -1070,6 +1079,14 @@ msgstr ""
 #: fabcal/views.py:170
 msgid "We hope to see you back soon !"
 msgstr "Nous espérons vous revoir bientôt !"
+
+#: fabcal/views.py:181
+msgid "Confirmation of your unregistration"
+msgstr "Confirmation de votre desinscription"
+
+#: fabcal/views.py:181
+msgid "Confirmation of your registration"
+msgstr "Confirmation de votre inscription"
 
 #: fabcal/views.py:193
 msgid "Oh no! We sent you an email to confirme your unregistration"
