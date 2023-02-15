@@ -22,12 +22,10 @@
 <hr>
 
 <div class="row">
-    {% if trainings %}
-        {% for obj in trainings %}
-            {%include 'trainings/card.html'%}
-        {% endfor %}
-    {% else %}
-    <p>{% trans "Sadly, no training is currently available." %}</p>
-    {% endif %}
+    {% for obj in trainings %}
+        {%include 'trainings/card.html'%}
+    {% empty %}
+        <p>{% trans "Sadly, no training founded." %}</p>
+    {% endfor %}
 </div>
 {% endblock %}
