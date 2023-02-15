@@ -1459,7 +1459,7 @@ msgstr "Catégories"
 
 #: machines/templates/machines/show.html:64
 msgid "Frequently asked questions"
-msgstr "Foire au questions"
+msgstr "Foire aux questions"
 
 #: machines/templates/machines/show.html:71
 #: machines/templates/trainings/show.html:65
