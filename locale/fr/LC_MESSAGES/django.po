@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-12 17:37+0000\n"
+"POT-Creation-Date: 2023-02-15 10:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -318,6 +318,10 @@ msgstr "Formations"
 #: accounts/templates/accounts/user-list-filtered.html:24
 msgid "Oups, no user founded !"
 msgstr "Oups, pas d'utilisateur trouvé"
+
+#: accounts/templates/accounts/user-list-summary.html:10
+msgid "Account deactivated"
+msgstr "Compte désactivé"
 
 #: accounts/templates/accounts/user-list.html:9
 msgid "Search Contacts"
