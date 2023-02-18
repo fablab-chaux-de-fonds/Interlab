@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('accounts', '0001_squashed_0006_alter_profile_public_contact_plateform'),
+        ('accounts', '0003_auto_20221222_0802'),
     ]
 
     operations = [
