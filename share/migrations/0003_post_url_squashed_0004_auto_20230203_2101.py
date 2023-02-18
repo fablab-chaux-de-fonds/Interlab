@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('accounts', '0005_auto_20230203_2054_squashed_0007_auto_20230215_2239'),
-        ('share', '0001_squashed'),
+        ('share', '0002_alter_post_created_at'),
     ]
 
     operations = [
