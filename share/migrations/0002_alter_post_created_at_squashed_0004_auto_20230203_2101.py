@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('share', '0001_squashed'),
-        ('accounts', '0006_alter_profile_public_contact_plateform'),
+        ('accounts', '0001_squashed_0006_alter_profile_public_contact_plateform'),
     ]
 
     operations = [
