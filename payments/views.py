@@ -59,7 +59,8 @@ class CreateCheckoutSessionView(LoginRequiredMixin, View):
                     },
                 ],
                 metadata = {
-                    'profile_id': request.user.profile.id
+                    'profile_id': request.user.profile.id,
+                    'subscription_category_id': request.user.profile.subscription.subscription_category.id if request.user.profile.subscription is not None else None 
                 },
                 payment_method_types=['card'],
                 mode='payment',
@@ -106,12 +107,13 @@ def stripe_webhook(request):
 def fulfill_order(session, request):
     customer_email = session['customer_details']['email']
     profile = Profile.objects.get(pk=session['metadata']["profile_id"])
+    subscription_category = SubscriptionCategory.objects.get(pk=session['metadata']["subscription_category_id"])
     new_start = max(datetime.date.today(), profile.subscription.end if profile.subscription is not None else datetime.date.today())
     subscription = Subscription.objects.create(
         start = new_start,
-        end = new_start + datetime.timedelta(days=profile.subscription.subscription_category.duration),
-        subscription_category = profile.subscription.subscription_category,
-        access_number = profile.subscription.access_number
+        end = new_start + datetime.timedelta(days=subscription_category.duration),
+        subscription_category = subscription_category,
+        access_number = profile.subscription.access_number if profile.subscription is not None else subscription_category.default_access_number
     )
     profile.subscription = subscription
     profile.save()
