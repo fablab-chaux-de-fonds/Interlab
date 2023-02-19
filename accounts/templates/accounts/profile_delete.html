@@ -8,11 +8,13 @@
 {% block content_form %}
 <h2>{% trans "Are you sure you want to delete your account ?" %}</h2>
 
-{% include "forms/base_submit_button.html" with submit_btn="Yes, I'm sure" %}
+<form action="." method="POST">
+  {% csrf_token %}
+  {% include "forms/base_submit_button.html" with submit_btn="Yes, I'm sure" %}
+</form>
 
 <div class="text-center mt-5 text-red">
-
-    <a href="profile/delete_done"></a>
-  </div>
+  <a href="profile/delete_done"></a>
+</div>
     
 {% endblock content_form %}
