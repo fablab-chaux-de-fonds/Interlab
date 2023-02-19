@@ -1206,11 +1206,11 @@ msgstr ""
 
 #: fabcal/views.py:478
 msgid ""
-"Sorry, you cannont reserve this machine, because you need to complete the "
-"training before using it"
+"Sorry, you cannot reserve this machine yet. You have to take the training "
+"first before you can use it."
 msgstr ""
-"Désolé, vous ne pouvez pas réserver la machine parce que vous devez faire la "
-"formation avant de l'utiliser"
+"Désolé, vous ne pouvez pas encore réserver cette machine. Vous devez d'abord "
+"suivre la formation avant de pouvoir l'utiliser."
 
 #: fabcal/views.py:665
 msgid "You reservation has been canceled !"
@@ -1459,7 +1459,7 @@ msgstr "Catégories"
 
 #: machines/templates/machines/show.html:64
 msgid "Frequently asked questions"
-msgstr "Foire au questions"
+msgstr "Foire aux questions"
 
 #: machines/templates/machines/show.html:71
 #: machines/templates/trainings/show.html:65
@@ -1631,6 +1631,3 @@ msgstr ""
 #: share/views.py:51
 msgid "Thanks ! Post was updated successfully."
 msgstr "Merci ! Votre poste a été mis à jour avec succès."
-
-#~ msgid "Subscribe to the newsletter to follow the FabLab news"
-#~ msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"

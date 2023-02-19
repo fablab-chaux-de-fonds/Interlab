@@ -475,7 +475,7 @@ class MachineReservationBaseView(LoginRequiredMixin, FormView):
 
         # Check if user is trained
         if self.request.user.profile.pk not in self.machine_slot.machine.trained_profile_list:
-            messages.error(request, _('Sorry, you cannont reserve this machine, because you need to complete the training before using it'))
+            messages.error(request, _('Sorry, you cannot reserve this machine yet. You have to take the training first before you can use it.'))
             return redirect('/trainings/?machine_category=' + str(self.machine_slot.machine.category.pk))
 
         return super(MachineReservationBaseView, self).dispatch(request, *args, **kwargs)
