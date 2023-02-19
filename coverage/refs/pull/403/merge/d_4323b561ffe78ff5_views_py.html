@@ -65,7 +65,7 @@
             <a id="nextFileLink" class="nav" href="d_e5bda708bf5bd334___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io">coverage.py v7.1.0</a>,
-            created at 2023-02-15 11:20 +0000
+            created at 2023-02-19 10:51 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"/>
@@ -557,7 +557,7 @@
     <p class="pln"><span class="n"><a id="t475" href="#t475">475</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t476" href="#t476">476</a></span><span class="t">        <span class="com"># Check if user is trained</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t477" href="#t477">477</a></span><span class="t">        <span class="key">if</span> <span class="nam">self</span><span class="op">.</span><span class="nam">request</span><span class="op">.</span><span class="nam">user</span><span class="op">.</span><span class="nam">profile</span><span class="op">.</span><span class="nam">pk</span> <span class="key">not</span> <span class="key">in</span> <span class="nam">self</span><span class="op">.</span><span class="nam">machine_slot</span><span class="op">.</span><span class="nam">machine</span><span class="op">.</span><span class="nam">trained_profile_list</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t478" href="#t478">478</a></span><span class="t">            <span class="nam">messages</span><span class="op">.</span><span class="nam">error</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="nam">_</span><span class="op">(</span><span class="str">'Sorry, you cannont reserve this machine, because you need to complete the training before using it'</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t478" href="#t478">478</a></span><span class="t">            <span class="nam">messages</span><span class="op">.</span><span class="nam">error</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="nam">_</span><span class="op">(</span><span class="str">'Sorry, you cannot reserve this machine yet. You have to take the training first before you can use it.'</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t479" href="#t479">479</a></span><span class="t">            <span class="key">return</span> <span class="nam">redirect</span><span class="op">(</span><span class="str">'/trainings/?machine_category='</span> <span class="op">+</span> <span class="nam">str</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">machine_slot</span><span class="op">.</span><span class="nam">machine</span><span class="op">.</span><span class="nam">category</span><span class="op">.</span><span class="nam">pk</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t480" href="#t480">480</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t481" href="#t481">481</a></span><span class="t">        <span class="key">return</span> <span class="nam">super</span><span class="op">(</span><span class="nam">MachineReservationBaseView</span><span class="op">,</span> <span class="nam">self</span><span class="op">)</span><span class="op">.</span><span class="nam">dispatch</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="op">*</span><span class="nam">args</span><span class="op">,</span> <span class="op">**</span><span class="nam">kwargs</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -771,7 +771,7 @@
             <a id="nextFileLink" class="nav" href="d_e5bda708bf5bd334___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io">coverage.py v7.1.0</a>,
-            created at 2023-02-15 11:20 +0000
+            created at 2023-02-19 10:51 +0000
         </p>
     </div>
 </footer>
