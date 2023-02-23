@@ -17,6 +17,7 @@ django-mathfilters
 django-mptt
 django-oauth-toolkit
 django-organizations
+django-phonenumber-field[phonenumberslite]
 django-q
 django-registration
 django-sekizai

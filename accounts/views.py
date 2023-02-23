@@ -119,9 +119,6 @@ def AccountsView(request):
 @login_required
 def EditProfileView(request):
     template = 'accounts/profile_edit.html'
-    context = {
-        'page_title': "Edit my profile" 
-    }
 
     if request.method == 'POST':
         if EditUserForm(request.POST, instance=request.user).is_valid() and EditProfileForm(request.POST, instance=request.user).is_valid() :
@@ -142,13 +139,18 @@ def EditProfileView(request):
 
             messages.success(request, _("Your profile has been updated successfully") )
             return redirect(AccountsView)
+        else:
+            user_form = EditUserForm(request.POST, instance=request.user)
+            profile_form = EditProfileForm(request.POST, instance=request.user.profile)
 
     else:
         user_form = EditUserForm(instance=request.user)
         profile_form = EditProfileForm(instance=request.user.profile)
-
-    context["edit_user_form"] = user_form
-    context["edit_profile_form"] = profile_form
+    
+    context = {
+        "edit_user_form": user_form,
+        "edit_profile_form": profile_form
+    }
 
     return render(request, template, context)
 

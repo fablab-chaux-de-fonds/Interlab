@@ -6,7 +6,6 @@ from django import forms
 from django.contrib import messages
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.forms import UserChangeForm, AuthenticationForm
-from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
@@ -16,11 +15,13 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 from django.utils.safestring import mark_safe
 
+from phonenumber_field.formfields import PhoneNumberField
+
 from organizations.forms import OrganizationUserAddForm
 from organizations.backends import invitation_backend
 
 from django_registration.forms import RegistrationForm
-from .models import SubscriptionCategory, Subscription, Profile
+from .models import SubscriptionCategory, Subscription, Profile, CustomUser
 
 from machines.models import Training, TrainingValidation
 
@@ -30,16 +31,21 @@ class EditUserForm(UserChangeForm):
         del self.fields['password']
 
     class Meta:
-        model = User
+        model = CustomUser
         labels = {
         'email': _("email")
         }
         fields = ('first_name','last_name','username','email')
 
 class EditProfileForm(ModelForm):
-    class Meta: 
+    class Meta:
         model = Profile
-        fields = ('public_contact_plateform','public_contact')
+        fields = ('phone_number','public_contact_plateform','public_contact')
+        widgets = {
+           'phone_number': forms.TextInput(attrs={ 'class': 'form-control' }),
+           'public_contact_plateform': forms.Select(attrs={ 'class': 'form-control' }),
+           'public_contact': forms.TextInput(attrs={ 'class': 'form-control' })
+       }
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -47,6 +53,7 @@ class CustomAuthenticationForm(AuthenticationForm):
     password= forms.PasswordInput(attrs={'data-toggle': 'password'})
 
     def clean(self):
+        # TODO - clean with super() method !
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
 
