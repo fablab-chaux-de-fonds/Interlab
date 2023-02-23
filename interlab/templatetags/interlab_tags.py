@@ -1,4 +1,7 @@
 from django import template
+from django.conf import settings
+from django.db.models.expressions import F
+
 
 register = template.Library() 
 
@@ -13,6 +16,10 @@ def get_list(dictionary, key):
 @register.filter
 def filter_machine(obj, machine):
     return obj.filter(machine=machine).order_by('start')
+
+@register.filter
+def filter_slot_minimum_time(obj):
+    return [i for i in obj if i.get_duration >=settings.FABCAL_MINIMUM_RESERVATION_TIME]
 
 @register.filter
 def filter_user(obj):
