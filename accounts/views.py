@@ -127,11 +127,15 @@ def EditProfileView(request):
         if user_form.is_valid() and profile_form.is_valid():
             # Check if profile has newsletter
             contacts = get_contact()
-            mail_list = [x['email'] for x in contacts['data']['data']]
-            if 'email' in user_form.changed_data and user_form.initial['email'] in mail_list:
-                user_id = [x['id'] for x in contacts['data']['data'] if x['email'] == user_form.initial['email']][0]
-                update_contact(user_id, user_form.cleaned_data['email'])
-                messages.success(request, _("Your newsletter registration has been updated successfully with the email address: ") + user_form.cleaned_data['email'])
+            mail_list = [contact['email'] for contact in contacts['data']['data']]
+            if 'email' in user_form.changed_data:
+                old_email = user_form.initial['email']
+                if old_email in mail_list:
+                    user_id = next((contact['id'] for contact in contacts['data']['data'] if contact['email'] == old_email), None)
+                    if user_id is not None:
+                        new_email = user_form.cleaned_data['email']
+                        update_contact(user_id, new_email)
+                        messages.success(request, _("Your newsletter registration has been updated successfully with the email address: ") + new_email)
 
             user_form.save()
             profile_form.save()
