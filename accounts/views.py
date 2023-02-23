@@ -121,32 +121,27 @@ def EditProfileView(request):
     template = 'accounts/profile_edit.html'
 
     if request.method == 'POST':
-        if EditUserForm(request.POST, instance=request.user).is_valid() and EditProfileForm(request.POST, instance=request.user).is_valid() :
+        user_form = EditUserForm(request.POST, instance=request.user)
+        profile_form = EditProfileForm(request.POST, instance=request.user.profile)
 
-            form = EditUserForm(request.POST, instance=request.user)
+        if user_form.is_valid() and profile_form.is_valid():
             # Check if profile has newsletter
             contacts = get_contact()
-            mail_list = [ x['email'] for x in contacts['data']['data']]
-            if 'email' in form.changed_data and form.initial['email'] in mail_list:
-                user_id = [x['id'] for x in contacts['data']['data'] if x['email'] == form.initial['email']][0]
-                update_contact(user_id, form.cleaned_data['email'])
-                messages.success(request, _("Your newsletter registration has been updated successfully with the email address: ") + form.cleaned_data['email'])
+            mail_list = [x['email'] for x in contacts['data']['data']]
+            if 'email' in user_form.changed_data and user_form.initial['email'] in mail_list:
+                user_id = [x['id'] for x in contacts['data']['data'] if x['email'] == user_form.initial['email']][0]
+                update_contact(user_id, user_form.cleaned_data['email'])
+                messages.success(request, _("Your newsletter registration has been updated successfully with the email address: ") + user_form.cleaned_data['email'])
 
-            form.save()
+            user_form.save()
+            profile_form.save()
 
-            form = EditProfileForm(request.POST, instance=request.user.profile)
-            form.save()
-
-            messages.success(request, _("Your profile has been updated successfully") )
+            messages.success(request, _("Your profile has been updated successfully"))
             return redirect(AccountsView)
-        else:
-            user_form = EditUserForm(request.POST, instance=request.user)
-            profile_form = EditProfileForm(request.POST, instance=request.user.profile)
-
     else:
         user_form = EditUserForm(instance=request.user)
         profile_form = EditProfileForm(instance=request.user.profile)
-    
+
     context = {
         "edit_user_form": user_form,
         "edit_profile_form": profile_form
