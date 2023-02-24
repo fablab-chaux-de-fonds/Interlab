@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('cms', '0022_auto_20180620_1551'),
-        ('accounts', '0004_merge_0003_auto_20220320_2116_0003_auto_20221222_0802'),
+        ('accounts', '0003_auto_20221222_0802'),
     ]
 
     operations = [
