@@ -91,14 +91,14 @@
             <div class="col-4 text-end">
                 {% if slot|get_type == 'TrainingSlot'%}
                     {% if request.user|has_group:"superuser" and slot.registriations == None %}
-                    <div class="btn-group inline">
-                        <button class="btn btn-link ps-1 pe-0" href="{% url 'fabcal:training-delete' slot.pk %}"
+                    <div class="d-flex justify-content-end align-items-center">
+                        <a class="btn btn-link align-middle" href="{% url 'fabcal:training-delete' slot.pk %}"
                             {% if slot.registrations == None %}disabled{% endif %}>
                             <i class="bi bi-trash3 fs-1"></i>
-                        </button>
-                        <button class="btn btn-link ps-1 pe-0" href="{% url 'fabcal:training-update' slot.pk %}">
+                        </a>
+                        <a class="btn btn-link align-middle" href="{% url 'fabcal:training-update' slot.pk %}">
                             <i class="bi bi-arrow-right-square text-blue fs-1"></i>
-                        </button>
+                        </a>
                     </div>
                     {% else %}
                     <a class="btn btn-link {% if not slot.is_editable %}disabled{% endif %}"
@@ -108,19 +108,25 @@
                     {% endif %}
 
                 {% elif slot|get_type == 'OpeningSlot' %}
-                    <a href="{% url 'fabcal:update-opening' slot.pk %}">
-                        <i class="bi bi-arrow-right-square text-blue"></i>
-                    </a>
-
+                    <div class="d-flex justify-content-end align-items-center">
+                        <a class="btn btn-link align-middle {% if not slot.can_be_deleted %}disabled{% endif %}"
+                            href="{% url 'fabcal:opening-delete' slot.pk %}">
+                            <i class="bi bi-trash3 fs-1"></i>
+                        </a>
+                        <a class="btn btn-link align-middle" href="{% url 'fabcal:update-opening' slot.pk %}">
+                            <i class="bi bi-arrow-right-square text-blue fs-1"></i>
+                        </a>
+                    </div>
                 {% elif slot|get_type == 'MachineSlot' %}
-                    <a class="btn btn-link {% if not slot.is_editable %}disabled{% endif %} px-1"
-                        href="{% url 'fabcal:machine-reservation-delete' slot.pk %}">
-                        <i class="bi bi-trash3 fs-1"></i>
-                    </a>
-                    <a class="btn btn-link px-0" href="{% url 'fabcal:machine-reservation-update' slot.pk %}">
-                        <i class="bi bi-arrow-right-square text-blue fs-1"></i>
-                    </a>
-
+                    <div class="d-flex justify-content-end align-items-center">
+                        <a class="btn btn-link align-middle {% if not slot.is_editable %}disabled{% endif %}"
+                            href="{% url 'fabcal:machine-reservation-delete' slot.pk %}">
+                            <i class="bi bi-trash3 fs-1"></i>
+                        </a>
+                        <a class="btn btn-link align-middle" href="{% url 'fabcal:machine-reservation-update' slot.pk %}">
+                            <i class="bi bi-arrow-right-square text-blue fs-1"></i>
+                        </a>
+                    </div>
                 {% elif slot|get_type == 'EventSlot' %}
                     <a href="{% url 'fabcal:event-detail' slot.pk %}">
                         <i class="bi bi-arrow-right-square text-blue fs-1"></i>
