@@ -63,6 +63,6 @@ class Profile(models.Model):
     @property 
     def is_subscription_valid(self):
         if self.subscription:
-            return date.today() > self.subscription.start and date.today() < self.subscription.end
+            return date.today() >= self.subscription.start and date.today() <= self.subscription.end
         else:
             return False
