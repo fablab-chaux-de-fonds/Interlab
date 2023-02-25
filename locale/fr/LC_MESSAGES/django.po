@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-15 09:21+0000\n"
+"POT-Creation-Date: 2023-02-15 09:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,7 +59,7 @@ msgstr "Nom"
 msgid "I subscribe to the newsletter"
 msgstr "Je m'abonne à la newsletter"
 
-#: accounts/forms.py:111 newsletter/templates/forms/newsletter.html:8
+#: accounts/forms.py:111
 msgid "about once a month"
 msgstr "environ une par mois"
 
@@ -1572,8 +1572,12 @@ msgid "Thanks for interest, we will contact you as soon as possible"
 msgstr "Merci de votre intérêt, nous vous contacterons dès que possible"
 
 #: newsletter/templates/forms/newsletter.html:7
-msgid "Subscribe to the newsletter to follow the FabLab news"
-msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
+msgid "Stay connected to the news of your fablab"
+msgstr "Restez connecté·e à l'actualité de votre Fablab"
+
+#: newsletter/templates/forms/newsletter.html:8
+msgid "one newsletter per month in your mailbox"
+msgstr "une newsletter par mois dans votre boîte mail"
 
 #: newsletter/templates/forms/newsletter.html:27
 msgid "Thank you ! You are now registered in our newsletter list"
