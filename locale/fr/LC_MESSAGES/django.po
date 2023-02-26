@@ -59,7 +59,7 @@ msgstr "Nom"
 msgid "I subscribe to the newsletter"
 msgstr "Je m'abonne à la newsletter"
 
-#: accounts/forms.py:111 newsletter/templates/forms/newsletter.html:8
+#: accounts/forms.py:111
 msgid "about once a month"
 msgstr "environ une par mois"
 
@@ -318,6 +318,10 @@ msgstr "Formations"
 #: accounts/templates/accounts/user-list-filtered.html:24
 msgid "Oups, no user founded !"
 msgstr "Oups, pas d'utilisateur trouvé"
+
+#: accounts/templates/accounts/user-list-summary.html:10
+msgid "Account deactivated"
+msgstr "Compte désactivé"
 
 #: accounts/templates/accounts/user-list.html:9
 msgid "Search Contacts"
@@ -1572,8 +1576,12 @@ msgid "Thanks for interest, we will contact you as soon as possible"
 msgstr "Merci de votre intérêt, nous vous contacterons dès que possible"
 
 #: newsletter/templates/forms/newsletter.html:7
-msgid "Subscribe to the newsletter to follow the FabLab news"
-msgstr "Abonnez-vous à la newsletter pour suivre l’actualité du FabLab"
+msgid "Stay connected to the news of your fablab"
+msgstr "Restez connecté·e à l'actualité de votre Fablab"
+
+#: newsletter/templates/forms/newsletter.html:8
+msgid "one newsletter per month in your mailbox"
+msgstr "une newsletter par mois dans votre boîte mail"
 
 #: newsletter/templates/forms/newsletter.html:27
 msgid "Thank you ! You are now registered in our newsletter list"
