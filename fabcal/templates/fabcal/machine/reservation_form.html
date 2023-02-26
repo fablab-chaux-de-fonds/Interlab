@@ -83,13 +83,13 @@
 
     <hr>
     <div class="text-center">
-        {% if request.user.profile.is_subscription_valid == None %}
+        {% if request.user.profile.is_subscription_valid %}
+            <h4>{{machine_slot.machine.premium_price|price_format}} / 30 min </h4>
+        {% else %}
             <h4>{{machine_slot.machine.full_price|price_format}} / 30 min </h4>
         
             <small> {% trans "Benefit from half price prices<br> for 15 CHF / month" %}<br></small>
-            <a class="btn btn-outline-primary my-2" href="/abonnement-demi-tarif"> {% trans "I take advantage of it" %}</a>        
-        {% else %}
-            <h4>{{machine_slot.machine.premium_price|price_format}} / 30 min </h4>
+            <a class="btn btn-outline-primary my-2" href="/comment-ca-marche/#abonnement-demi-tarif"> {% trans "I take advantage of it" %}</a>        
         {% endif %}
     </div>
     <hr>
