@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-15 10:04+0000\n"
+"POT-Creation-Date: 2023-02-15 11:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1503,9 +1503,9 @@ msgstr "la formation + 1 bon de 1h machine pour pratiquer"
 msgid "Category"
 msgstr "Catégorie"
 
-#: machines/templates/trainings/list.html:30
-msgid "Sadly, no training is currently available."
-msgstr "Malheureusement, aucune formation n'est disponible pour le moment."
+#: machines/templates/trainings/list.html:28
+msgid "Sadly, no training founded."
+msgstr "Malheureusement, aucune formation trouvée."
 
 #: machines/templates/trainings/show.html:48
 msgid "Sadly, no machine currently available."
