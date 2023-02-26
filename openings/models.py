@@ -25,6 +25,7 @@ class AbstractOpening(models.Model):
         return self.title
     
 class Opening(AbstractOpening):
+    desc = models.TextField(verbose_name=_('Description'), blank=True, null=True)
     is_open_to_reservation = models.BooleanField()
     is_open_to_questions = models.BooleanField()
     is_reservation_mandatory = models.BooleanField()
