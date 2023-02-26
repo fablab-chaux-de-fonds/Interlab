@@ -203,7 +203,6 @@ class AbstractSlotView(View):
         self.get_success_message()
         return super().form_valid(form)
  
-
 class OpeningBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/opening_create_or_update_form.html'
     form_class = OpeningForm
@@ -236,30 +235,32 @@ class UpdateOpeningView(OpeningBaseView):
         initial['machine'] = machine
         return initial
 
-class DeleteOpeningView(View):
-    template_name = 'fabcal/delete_opening.html'
+class OpeningSlotDeleteView(DeleteView):
+    model = OpeningSlot
+    success_url = '/schedule'
 
-    def get(self, request, pk, *args, **kwargs):
-        opening = OpeningSlot.objects.get(pk=pk)
-        context = {
-            'start': opening.start,
-            'end': opening.end,
-            }
-        return render(request, self.template_name, context)  
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        language_code = settings.LANGUAGE_CODE
+        context.update({ 
+            'date': format_datetime(self.object.start, "EEEE d MMMM y", locale=language_code),
+            'start': format_datetime(self.object.start, "H:mm", locale=language_code),
+            'end': format_datetime(self.object.end, "H:mm", locale=language_code),
+        })
+        return context
 
-    def post(self, request, pk):
-        opening_slot = OpeningSlot.objects.get(pk=pk)
-        opening_slot.delete()
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        context = self.get_context_data()
 
-        messages.success(request, 
-            _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted") % 
-            { 
-                'date': opening_slot.start.strftime("%A %d %B %Y"), 
-                'start': opening_slot.start.strftime("%H:%M"), 
-                'end': opening_slot.end.strftime("%H:%M") 
-                }
-            )
-        return redirect('/schedule/')
+        if not self.object.can_be_deleted:
+            messages.error(request, _('This opening slot cannot be deleted.'))
+            return redirect(success_url)
+
+        self.object.delete()
+        messages.success(request, _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted") % context)
+        return redirect(success_url)
 
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'

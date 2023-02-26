@@ -1,7 +1,14 @@
+{% load i18n %}
+
 {% if user.first_name %}
 {{user.first_name}} {{user.last_name}}
 {% else %}
 {{user.email}}
+{% endif %}
+{% if not user.is_active %}
+<div class="badge rounded-pill text-bg-danger-light">
+    {% trans "Account deactivated" %}
+</div>
 {% endif %}
 <br>
 {% if user.profile.is_subscription_valid %}

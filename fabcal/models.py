@@ -55,14 +55,21 @@ class OpeningSlot(AbstractSlot):
     def __str__(self):
         return str(self.pk) +' :' + self.opening.title
 
+    @property
     def get_day_of_the_week(self):
         return self.start.strftime("%A")
-
+    
+    @property
     def get_machine_list(self):
         return {i.machine for i in self.machineslot_set.all()}
-
+    
+    @property
     def get_reservation_list(self):
-        return {i for i in self.machineslot_set.filter(user__isnull=False)}
+        return self.machineslot_set.filter(user__isnull=False)
+
+    @property
+    def can_be_deleted(self):
+        return not bool(self.machineslot_set.filter(user__isnull=False).exists())
 
 
 class WeeklyPluginModel(CMSPlugin):

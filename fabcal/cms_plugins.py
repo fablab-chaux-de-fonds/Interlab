@@ -25,7 +25,7 @@ class WeeklyPluginPublisher(CMSPluginBase):
 
         slots = {}
         for weekday in weekdays:
-            slots[weekday] = [slot for slot in next_week_slots if slot.get_day_of_the_week() == weekday]
+            slots[weekday] = [slot for slot in next_week_slots if slot.get_day_of_the_week == weekday]
 
         context.update({'slots': slots, 'weekdays': weekdays})
 
@@ -58,10 +58,9 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
                 'desc': event.opening.desc,
                 'background_color': event.opening.background_color,
                 'color': event.opening.color,
-                'machines': [{'pk': i.pk, 'title': i.title, 'category': i.category} for i in event.get_machine_list()]
+                'machines': [{'pk': i.pk, 'title': i.title, 'category': i.category} for i in event.get_machine_list]
             })
 
-        
         events = list(EventSlot.objects.filter(start__gt = date.today() - timedelta(days=365) ))
         for event in events:
             backend['events'].append({
