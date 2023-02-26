@@ -442,7 +442,7 @@ msgstr "Veuillez vérifier votre boîte mail pour activer votre compte."
 #: interlab/templates/400.html:17 interlab/templates/403.html:15
 #: interlab/templates/404.html:15 interlab/templates/500.html:17
 msgid "Home page"
-msgstr "Page d'acceuil"
+msgstr "Page d'accueil"
 
 #: accounts/templates/django_registration/registration_form.html:12
 #: accounts/templates/organizations/register_form.html:14
