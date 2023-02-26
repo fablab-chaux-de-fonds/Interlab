@@ -5,15 +5,36 @@
 {% block content_form %}
 
 <h1>{% trans "Edit my profile" %}</h1> 
-<form action="." method="POST">
+<form action="{% url 'edit-profile' %}" method="POST">
     {% csrf_token %}
+    <div class="form-group">
     {{ edit_user_form | crispy }}
-    <hr>
-    <h3>{% trans "Public profile" %}</h3>
-    {{ edit_profile_form | crispy }}
-    <div class="d-grid">
-        <a class="btn btn-outline-primary my-4" href="../../password_change/"> {% trans "Change password" %} </a>
-        <a class="text-center" href="{% url 'delete-profile' %}">{% trans "delete account"|capfirst %}</a> 
+
+        <div class="mb-3">
+            <label for="{{ edit_profile_form.phone_number.id_for_label }}">{{ edit_profile_form.phone_number.label_tag }}</label>
+            {{ edit_profile_form.phone_number }}
+            {{ edit_profile_form.phone_number.errors }}
+        </div>
+        
+        <hr>
+        <h3>{% trans "Public profile" %}</h3>
+
+        <div class="mb-3">
+            <label for="{{ edit_profile_form.public_contact_plateform.id_for_label }}">{{ edit_profile_form.public_contact_plateform.label_tag }}</label>
+            {{ edit_profile_form.public_contact_plateform }}
+            {{ fedit_profile_form.public_contact_plateform.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ edit_profile_form.public_contact.id_for_label }}">{{ edit_profile_form.public_contact.label_tag }}</label>
+            {{ edit_profile_form.public_contact }}
+            {{ fedit_profile_form.public_contact.errors }}
+        </div>
+
+        <div class="d-grid">
+            <a class="btn btn-outline-primary my-4" href="../../password_change/"> {% trans "Change password" %} </a>
+            <a class="text-center" href="{% url 'delete-profile' %}">{% trans "delete account"|capfirst %}</a> 
+        </div>
     </div>
     {% include "forms/base_submit_button.html" with submit_btn="Update" %}
  </form>

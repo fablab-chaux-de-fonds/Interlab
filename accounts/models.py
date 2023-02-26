@@ -3,6 +3,7 @@ from datetime import date
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
+from phonenumber_field.modelfields import PhoneNumberField
 
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
@@ -45,6 +46,7 @@ class Profile(models.Model):
     ]
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, blank=True, null=True)
+    phone_number = PhoneNumberField(blank=True, null=True, verbose_name=_('Phone number'))
     public_contact_plateform = models.CharField(max_length=255, blank=True, null=True, choices=PUBLIC_CONTACT_PLATEFORM_CHOICES, verbose_name=_('Plublic chanel'))
     public_contact = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('Public contact'))
 

@@ -226,7 +226,8 @@ INSTALLED_APPS = [
     'django_db_logger',
     'share',
     'django_htmx',
-    'analytical'
+    'analytical',
+    'phonenumber_field',
 ]
 
 LANGUAGES = (
