@@ -1,0 +1,10 @@
+{% load i18n %}
+<div class="text-center">
+  <h1>{{selected_category.price}} {{ currency }}</h1>
+  <h2>{{selected_category.title}}</h2>
+  <h3>{% blocktranslate with start_d=helper.start|date:"d.m.Y" end_d=helper.end|date:"d.m.Y" %}Subscription from {{start_d}} to {{end_d}}{% endblocktranslate %}</h3>
+  {% if helper.different_category %}
+  <div>{% trans "you're changing the category of subscription" %}</div>
+  {% endif %}
+</div>
+<p>{% trans "Please confirm subscription category" %}</h1>
