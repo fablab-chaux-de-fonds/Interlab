@@ -171,7 +171,8 @@ def fulfill_order(session, request):
     profile.save()
 
     context = {
-        'profile': profile
+        'profile': profile,
+        'DOMAIN': Site.objects.first().domain
     }
 
     html_message = render_to_string('accounts/email/subscription_updated.html', context)
