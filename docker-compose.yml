@@ -24,6 +24,7 @@ services:
       - ./newsletter:/code/newsletter
       - ./openings:/code/openings
       - ./share:/code/share
+      - ./payments:/code/payments
     ports:
       - "8000:8000"
       - 3000:3000

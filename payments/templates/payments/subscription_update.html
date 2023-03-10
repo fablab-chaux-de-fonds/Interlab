@@ -1,0 +1,48 @@
+{% extends 'forms/base_forms.html' %}
+{% load i18n %}
+
+{% block content_form_img %}
+    <i class="bi bi-arrow-clockwise mb-5 img-form-logo mx-auto d-block icon-135"></i>
+{% endblock %}
+
+{% block content_form %}
+<section>
+  <div class="product" id="subscription-product">
+    {% include 'payments/subscription_product.html' %}
+  </div>
+  <form action="create/" method="post">
+    {% csrf_token %}
+
+    <div class="row">
+      <select name="category_id" hx-target="#subscription-product" hx-get="product/:category_id/" hx-trigger="change" hx-indicator=".htmx-indicator" class="form-select form-select-sm">
+        {% for category in available_categories %}
+        <option {% if selected_category.id == category.id %}selected{% endif %} value="{{ category.id }}">{{ category.title }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    
+    <div class="row text-center align-items-center my-5">
+      <div class="col">
+          <a href="/">{% trans 'Whoops, no !' %} </a>
+      </div> 
+      <div class="col">
+        <button class="btn btn-primary" type="submit" id="checkout-button">{% trans "Get subscription" %}</button>
+      </div>
+  </div>
+  </form>
+</section>
+{% endblock content_form %}
+{% block js_footer %}
+<script>
+  document.body.addEventListener('htmx:configRequest', e => {
+    e.detail.path = e.detail.path.replace(
+      /:([A-Za-z0-9_]+)/g, 
+      (_match, parameterName) => {
+        let value = e.detail.parameters[parameterName];
+        delete e.detail.parameters[parameterName];
+        return value
+      }
+    );
+  })
+</script>
+{% endblock js_footer %}

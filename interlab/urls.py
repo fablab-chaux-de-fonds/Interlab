@@ -23,6 +23,7 @@ urlpatterns += i18n_patterns(
     path('invitations/', include(invitation_backend().get_urls())),
     path('fabcal/', include('fabcal.urls')),
     path('share/', include('share.urls')),
+    path('payments/', include('payments.urls')),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path('bootstrap/', views.bootstrap, name='bootstrap'),
     path('error-500/', views.error_500, name='error-500'),

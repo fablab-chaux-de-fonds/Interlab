@@ -27,6 +27,7 @@ COPY machines /code/machines/
 COPY newsletter /code/newsletter/
 COPY openings /code/openings
 COPY share /code/share
+COPY payments /code/payments 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # Front-end generation

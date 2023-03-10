@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+{% include 'forms/forms_success.html' %}
+<div class="text-center">
+    <h1>{% trans "Your subscription has been updated successfully" %}</h1>
+    <p>{% trans "We have sent you an email to confirme the subscription update." %}</p>
+    <p>{%trans "You can continue to use the fablab with premium prices" %} </p>
+    <a href="/machines/" class="btn btn-primary">{%trans "Book a machine" %}</a>
+</div>
+{% endblock %}
