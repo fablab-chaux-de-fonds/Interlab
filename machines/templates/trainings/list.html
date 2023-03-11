@@ -1,26 +1,6 @@
 {% load i18n static interlab_tags %}
 
 {% block content %}
-
-<form hx-push-url="true" hx-target="body" class='row-full'>
-
-    <div class="form form-check-inline form-check-btn text-red my-1">
-        <i class="bi bi-tag-fill"></i> {% trans "Category" %} :
-        {% for pk, choice in form.machine_category.field.widget.choices %}
-        <input hx-get="/trainings/" hx-include='[name="machine_category"]'
-            id="{{form.machine_category.name}}_{{ forloop.counter0 }}" name="{{form.machine_category.name}}" type="checkbox"
-            value="{{pk}}" class="btn-check" {% if pk in request.GET|get_list:form.machine_category.name %} checked="checked"
-            {% endif %} autocomplete="off" />
-        <label for="{{form.machine_category.name}}_{{ forloop.counter0 }}"
-            class="btn btn-outline-primary badge rounded-pill">{{ choice }}</label>
-
-        {% endfor %}
-    </div>
-
-</form>
-
-<hr>
-
 <div class="row">
     {% for obj in trainings %}
         {%include 'trainings/card.html'%}
