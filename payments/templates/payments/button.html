@@ -1,9 +1,4 @@
 <form action="/payments/create-checkout-session/{{ instance.subscription_category.id }}/" method="POST">
     {% csrf_token %}
-
-    <div class="row text-center align-items-center my-5">
-        <div class="col">
-            <button class="btn btn-primary" type="submit">{{ instance }}</button>
-        </div>
-    </div>
+    <button class="btn btn{%if instance.outlined %}-outline{% endif %}-primary btn-lg" type="submit">{{ instance }}</button>
 </form> 

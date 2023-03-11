@@ -62,3 +62,17 @@ h2 {
 .fs-title {
   @include font-size(6rem);
 }
+
+.list-unstyled li {
+  list-style-type: none;
+  padding-left: 25px;
+  padding-bottom: 16px;
+}
+
+.list-unstyled li svg {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  margin-left: -25px;
+  transform: translate(0, -3px);
+}
