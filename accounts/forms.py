@@ -22,6 +22,7 @@ from organizations.backends import invitation_backend
 
 from django_registration.forms import RegistrationForm
 from .models import SubscriptionCategory, Subscription, Profile, CustomUser
+from .validators import validate_special_characters
 
 from machines.models import Training, TrainingValidation
 
@@ -111,10 +112,10 @@ class CustomOrganizationUserAddForm(OrganizationUserAddForm):
 
         return email
 
-class CustomRegistrationForm(RegistrationForm):
+class CustomRegistrationForm(RegistrationForm, forms.Form):
     "This form is used for registration - Base class form Django"
-    first_name = forms.CharField(max_length=50, label=_('First name')) # Required
-    last_name = forms.CharField(max_length=50, label=_('Last name')) # Required
+    first_name = forms.CharField(max_length=50, label=_('First name'), validators=[validate_special_characters]) # Required
+    last_name = forms.CharField(max_length=50, label=_('Last name'), validators=[validate_special_characters]) # Required
     newsletter = forms.BooleanField(required=False, label=_('I subscribe to the newsletter'), help_text=_('about once a month'))
     class Meta(RegistrationForm.Meta):
             model = get_user_model()

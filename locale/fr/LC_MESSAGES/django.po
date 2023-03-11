@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-11 16:53+0000\n"
+"POT-Creation-Date: 2023-03-11 20:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,34 +71,38 @@ msgstr ""
 "150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
 "\", \".\", \"+\", \"-\" et \"_\"."
 
-#: accounts/forms.py:140
+#: accounts/forms.py:129
+msgid "Special characters are not allowed."
+msgstr "Les caractères spéciaux ne sont pas autorisés."
+
+#: accounts/forms.py:146
 msgid "No Subscription"
 msgstr "Pas d'abonnement"
 
-#: accounts/forms.py:155
+#: accounts/forms.py:161
 msgid "Remove subscription for user {}"
 msgstr ""
 
-#: accounts/forms.py:177
+#: accounts/forms.py:183
 #, python-format
 msgid "Subcription updated to %(subcription_category)s for user %(user)s"
 msgstr ""
 "Abonnement %(subcription_category)s mise à jour pour l'utilisateur %(user)s"
 
-#: accounts/forms.py:192
+#: accounts/forms.py:198
 #, fuzzy
 msgid "Subscription duration updated for user {}"
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
-#: accounts/forms.py:222
+#: accounts/forms.py:228
 msgid "Welcome to Fablab !"
 msgstr "Bienvenue au FabLab !"
 
-#: accounts/forms.py:223 fabcal/forms.py:283 fabcal/forms.py:294
+#: accounts/forms.py:229 fabcal/forms.py:283 fabcal/forms.py:294
 msgid "A new training was planned"
 msgstr "Une nouvelle formation a été planifiée"
 
-#: accounts/forms.py:244
+#: accounts/forms.py:250
 #, python-format
 msgid ""
 "Training %(training)s has been successfully deleted for %(first_name)s "
@@ -106,15 +110,15 @@ msgid ""
 msgstr ""
 "La fomation %(training)s a été supprimée pour %(first_name)s %(last_name)s"
 
-#: accounts/forms.py:252
+#: accounts/forms.py:258
 msgid "Sorry, we cancel your training validation"
 msgstr "Désolé, nous avec supplimé votre formation"
 
-#: accounts/forms.py:253
+#: accounts/forms.py:259
 msgid "Training deleted"
 msgstr "Formation supprimée"
 
-#: accounts/forms.py:267
+#: accounts/forms.py:273
 #, python-format
 msgid ""
 "Training %(training)s has been successfully valided for %(first_name)s "
@@ -123,11 +127,11 @@ msgstr ""
 "La fomation %(training)s a été validée avec succès pour %(first_name)s "
 "%(last_name)s"
 
-#: accounts/forms.py:276
+#: accounts/forms.py:282
 msgid "Start to use the machine !"
 msgstr "Commence à utiliser la machine !"
 
-#: accounts/forms.py:277
+#: accounts/forms.py:283
 msgid "Training validated"
 msgstr "Formation validée"
 
@@ -1613,7 +1617,7 @@ msgstr "Interlab"
 msgid "Subscription Button"
 msgstr "Bouton d'abonnement"
 
-#: payments/models.py:19
+#: payments/models.py:20
 msgid "Checkout"
 msgstr "Payer"
 
@@ -1662,12 +1666,13 @@ msgstr ""
 "préférentiels."
 
 #: payments/views.py:185
+#, python-format
 msgid ""
 "Your subscription has been updated successfully until %(date)s<br>You can "
 "continue to use the fablab with premium prices"
 msgstr ""
-"Votre abonnement a été mis à jour avec succès jusqu'au %(date)s<br>Vous pouvez "
-"continuer à utiliser le fablab avec des prix demi-tarifs"
+"Votre abonnement a été mis à jour avec succès jusqu'au %(date)s<br>Vous "
+"pouvez continuer à utiliser le fablab avec des prix demi-tarifs"
 
 #: payments/views.py:191
 msgid "Your subsription has been updated successfully"
