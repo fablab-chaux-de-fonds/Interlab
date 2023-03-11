@@ -1666,12 +1666,12 @@ msgstr ""
 "préférentiels."
 
 #: payments/views.py:185
-#, fuzzy, python-format
-#| msgid "Your subscription has been updated successfully until "
 msgid ""
 "Your subscription has been updated successfully until %(date)s<br>You can "
 "continue to use the fablab with premium prices"
-msgstr "Votre abonnement a été mis à jour avec succès"
+msgstr ""
+"Votre abonnement a été mis à jour avec succès jusqu'au %(date)s<br>Vous pouvez "
+"continuer à utiliser le fablab avec des prix demi-tarifs"
 
 #: payments/views.py:191
 msgid "Your subsription has been updated successfully"

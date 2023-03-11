@@ -3,8 +3,8 @@
 
 {% block content %}
 <p> Hello {{profile.user.first_name}}, </p> 
-{{email_body}}
-<div class="btn btn-primary text-center">
+<p>{{email_body}}</p>
+<div class="btn btn-primary text-center m-2">
     <a href="https://{{ DOMAIN }}/machines/">{% trans "Book a machine" %}</a>
 </div>
 {% endblock content %} 
