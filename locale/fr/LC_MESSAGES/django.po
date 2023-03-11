@@ -1283,7 +1283,7 @@ msgstr "Liste des formations"
 
 #: machines/cms_plugins.py:27
 msgid "Machine list"
-msgstr "Lise des machines"
+msgstr "Liste des machines"
 
 #: machines/models.py:15
 msgid "Photo"
