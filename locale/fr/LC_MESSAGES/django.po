@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-11 15:17+0000\n"
+"POT-Creation-Date: 2023-03-11 16:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -174,16 +174,7 @@ msgstr "Nous vous avons créé un nouvel abonnement valable jusqu'au"
 msgid "Update my subscription"
 msgstr "Renouveler mon abonnement"
 
-#: accounts/templates/accounts/email/subscription_updated.html:6
-msgid "Your subscription has been updated successfully until "
-msgstr "Votre abonnement a été mis à jour avec succès"
-
-#: accounts/templates/accounts/email/subscription_updated.html:7
-#: payments/templates/payments/subscription_update_success.html:9
-msgid "You can continue to use the fablab with premium prices"
-msgstr "Vous pouvez continuer à utiliser le fablab en bénéficiant de tarifs préférentiels."
-
-#: accounts/templates/accounts/email/subscription_updated.html:9
+#: accounts/templates/accounts/email/subscription_updated.html:8
 #: payments/templates/payments/subscription_update_success.html:10
 msgid "Book a machine"
 msgstr "Réserver une machine"
@@ -1652,8 +1643,8 @@ msgid ""
 "If you have trouble renewing your subscription, please contact the Fablab la "
 "Chaux-de-Fonds"
 msgstr ""
-"Si vous avez des difficultés à renouveler votre abonnement, veuillez contacter le Fablab la "
-"Chaux-de-Fonds"
+"Si vous avez des difficultés à renouveler votre abonnement, veuillez "
+"contacter le Fablab la Chaux-de-Fonds"
 
 #: payments/templates/payments/subscription_update_success.html:7
 msgid "Your subscription has been updated successfully"
@@ -1664,7 +1655,21 @@ msgid "We have sent you an email to confirme the subscription update."
 msgstr ""
 "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
 
-#: payments/views.py:180
+#: payments/templates/payments/subscription_update_success.html:9
+msgid "You can continue to use the fablab with premium prices"
+msgstr ""
+"Vous pouvez continuer à utiliser le fablab en bénéficiant de tarifs "
+"préférentiels."
+
+#: payments/views.py:185
+msgid ""
+"Your subscription has been updated successfully until %(date)s<br>You can "
+"continue to use the fablab with premium prices"
+msgstr ""
+"Votre abonnement a été mis à jour avec succès jusqu'au %(date)s<br>Vous pouvez "
+"continuer à utiliser le fablab avec des prix demi-tarifs"
+
+#: payments/views.py:191
 msgid "Your subsription has been updated successfully"
 msgstr "Votre abonnement a été mis à jour avec succès"
 
