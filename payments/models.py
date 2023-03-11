@@ -6,6 +6,7 @@ from accounts.models import SubscriptionCategory
 class CheckoutButtonPluginModel(CMSPlugin):
     subscription_category = models.ForeignKey(SubscriptionCategory, on_delete=models.CASCADE, null=True)
     text = models.CharField(max_length=64, null=True, default=None, blank=True)
+    outlined = models.BooleanField()
     
     def __unicode__(self):
         return u"{}".format(self)
