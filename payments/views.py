@@ -1,6 +1,8 @@
 import stripe
 import datetime
 
+from babel.dates import format_datetime, get_timezone
+
 from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,11 +12,13 @@ from django.http.response import JsonResponse
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
+
 
 from .forms import CreateCheckoutSessionForm
 from .helpers import SubscriptionDurationHelper
@@ -172,8 +176,15 @@ def fulfill_order(session, request):
 
     context = {
         'profile': profile,
-        'DOMAIN': Site.objects.first().domain
+        'DOMAIN': Site.objects.first().domain,
+        'date': format_datetime(helper.end, "d MMMM y", locale=settings.LANGUAGE_CODE),
     }
+
+    context.update({
+        'email_body': \
+            mark_safe(_('Your subscription has been updated successfully until %(date)s<br>You can continue to use the fablab with premium prices') % context)
+        }
+    )
 
     html_message = render_to_string('accounts/email/subscription_updated.html', context)
     send_mail(
