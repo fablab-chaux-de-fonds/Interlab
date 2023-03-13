@@ -165,11 +165,19 @@ def fulfill_order(session, request):
     profile = Profile.objects.get(pk=metadata['profile_id'])
     subscription_category = SubscriptionCategory.objects.get(pk=metadata['subscription_category_id'])
     helper = SubscriptionDurationHelper(subscription_category, profile.subscription)
+    access_number = subscription_category.default_access_number
+    
+    # Keep accessnumber when category remain the same.
+    if profile.subscription is not None \
+        and profile.subscription.subscription_category is not None \
+        and profile.subscription.subscription_category.id == subscription_category.id:
+        access_number = profile.subscription.access_number
+
     subscription = Subscription.objects.create(
         start = helper.start,
         end = helper.end,
         subscription_category = subscription_category,
-        access_number = profile.subscription.access_number if profile.subscription is not None else subscription_category.default_access_number
+        access_number = access_number
     )
     profile.subscription = subscription
     profile.save()
