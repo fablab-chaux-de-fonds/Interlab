@@ -117,6 +117,9 @@ class StripeCheckoutSession:
         return redirect(checkout_session.url, code=303)
 
 class CreateCheckoutSessionView(LoginRequiredMixin, ProfileRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
         # Must have to confirm expected subscription category
         if 'category_id' not in kwargs:
