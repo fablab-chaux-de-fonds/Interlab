@@ -1287,7 +1287,7 @@ msgstr "Liste des formations"
 
 #: machines/cms_plugins.py:27
 msgid "Machine list"
-msgstr "Lise des machines"
+msgstr "Liste des machines"
 
 #: machines/models.py:15
 msgid "Photo"
@@ -1514,8 +1514,12 @@ msgid "Sorry, no slot available for this machine."
 msgstr "Désolé, pas de créneau disponible pour cette machine"
 
 #: machines/templates/trainings/info.html:45
-msgid "the training + 1 voucher of 1h machine to practice"
-msgstr "la formation + 1 bon de 1h machine pour pratiquer"
+msgid ""
+"The price includes the training and a 1 hour machine voucher to start your "
+"project"
+msgstr ""
+"Le prix inclut la formation ainsi qu'un bon machine de 1h pour démarrer votre "
+"projet"
 
 #: machines/templates/trainings/list.html:8
 msgid "Category"
