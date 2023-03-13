@@ -155,7 +155,6 @@ class AbstractSlotView(View):
             'start_time': format_datetime(context['object'].start, "H:mm", locale=language_code),
             'end_date': format_datetime(context['object'].end, "EEEE d MMMM y", locale=language_code),
             'end_time': format_datetime(context['object'].end, "H:mm", locale=language_code),
-            'first_name': self.request.user.first_name
         })
 
         if context['object'].is_single_day:
@@ -312,7 +311,12 @@ class EventDetailView(AbstractSlotView, DetailView):
     model = EventSlot
 
 class RegisterBaseView(LoginRequiredMixin, SingleObjectMixin, AbstractSlotView, FormView):
-    pass
+    def get_context_data(self, **kwargs):
+        context = super(RegisterBaseView, self).get_context_data(**kwargs)
+        context.update({
+            'first_name': self.request.user.first_name
+        })
+        return context
 
 class EventRegisterBaseView(RegisterBaseView):
     template_name = 'fabcal/eventslot_(un)registration_form.html'
