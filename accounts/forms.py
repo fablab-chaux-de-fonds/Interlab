@@ -1,4 +1,5 @@
 import smtplib
+import whois
 from datetime import datetime
 from crispy_forms.helper import FormHelper
 
@@ -123,6 +124,15 @@ class CustomRegistrationForm(RegistrationForm, forms.Form):
                 'username' : _('150 characters maximum. Only letters, numbers and the characters "@", ".", "+", "-" and "_".')
             }
             fields = ['first_name','last_name','username','email','password1','password2', 'newsletter']
+
+    def clean_email(self):
+        try:
+            whois.whois(self.cleaned_data['email'].split('@')[1])
+        except whois.parser.PywhoisError as e:
+            raise forms.ValidationError(_('This domain is not valid')) from e
+
+        return self.cleaned_data['email']
+        
 
 class CustomUserRegistrationForm(CustomRegistrationForm):
     "This form is used when the user in invited with django-organization"
