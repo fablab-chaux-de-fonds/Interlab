@@ -29,6 +29,10 @@ class AbstractSlot(models.Model):
         else:
             return False
 
+    @property
+    def is_single_day(self):
+        return self.start.date() == self.end.date()
+
 
 class AbstractRegistration(models.Model):
     registration_limit = models.IntegerField(blank=True, null=True)
@@ -40,10 +44,6 @@ class AbstractRegistration(models.Model):
             return self.registration_limit - self.registrations.count()
         else:
             return None
-
-    @property
-    def is_single_day(self):
-        return self.start.date() == self.end.date()
     class Meta:
         abstract = True
 class OpeningSlot(AbstractSlot):

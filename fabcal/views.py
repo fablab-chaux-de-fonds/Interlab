@@ -1,5 +1,6 @@
 from copy import deepcopy
 import dateparser
+import os
 
 from babel.dates import format_datetime
 
@@ -27,36 +28,27 @@ from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 from interlab.views import CustomFormView
 
 def get_start_end(self, context):
+    # TODO implement in AbstractMachineView
     if self.request.method =='GET':
         if self.crud_state == 'created':
             context['start'] = datetime.fromtimestamp(int(self.kwargs['start'])/1000)
             context['end'] = datetime.fromtimestamp(int(self.kwargs['end'])/1000)
         elif self.crud_state == 'updated':
-            if self.type == 'opening':
-                slot = OpeningSlot.objects.get(pk=self.kwargs['pk'])
-            elif self.type == 'event':
-                slot = EventSlot.objects.get(pk=self.kwargs['pk'])
-            elif self.type == 'training':
-                slot = TrainingSlot.objects.get(pk=self.kwargs['pk'])
-            context['start'] = slot.start
-            context['end'] = slot.end
+            context['start'] = self.object.start
+            context['end'] = self.object.end
     elif self.request.method =='POST':
-        try:
-            context['start'] = super(type(context['form']), context['form']).clean_start()
-        except ValidationError:
-            context['start'] = context['form'].initial['start']
-
-        try:
-            context['end'] = super(type(context['form']), context['form']).clean_end()
-        except ValidationError:
-            context['end'] = context['form'].initial['end']
+        for field in ['start', 'end']:
+            if context['form'].errors.get(field) is None:
+                context[field] = context['form'].cleaned_data[field]
+            else:
+                context[field] = getattr(context['object'], field)
 
     return context
 
 class AbstractMachineView(FormView):
     def form_valid(self, form):
 
-        if form.cleaned_data['opening'] != None:
+        if form.cleaned_data['opening'] is not None:
             self.opening_slot = form.update_or_create_opening_slot(self)
 
             if self.crud_state == 'created':
@@ -145,19 +137,19 @@ class AbstractMachineView(FormView):
         
         return super().form_valid(form)
 
-class AbstractSlotView(View): 
+class AbstractSlotView(View):
     def get_context_data(self, **kwargs):
+        context = super(AbstractSlotView, self).get_context_data(**kwargs) # TODO is it necessary ?
+        context = get_start_end(self, context)
         language_code = settings.LANGUAGE_CODE
-        context = super().get_context_data(**kwargs)
-
         context.update({
-            'start_date': format_datetime(context['object'].start, "EEEE d MMMM y", locale=language_code),
-            'start_time': format_datetime(context['object'].start, "H:mm", locale=language_code),
-            'end_date': format_datetime(context['object'].end, "EEEE d MMMM y", locale=language_code),
-            'end_time': format_datetime(context['object'].end, "H:mm", locale=language_code),
+            'start_date': format_datetime(context['start'], "EEEE d MMMM y", locale=language_code),
+            'start_time': format_datetime(context['start'], "H:mm", locale=language_code),
+            'end_date': format_datetime(context['end'], "EEEE d MMMM y", locale=language_code),
+            'end_time': format_datetime(context['end'], "H:mm", locale=language_code),
         })
 
-        if context['object'].is_single_day:
+        if self.object.is_single_day:
             message_format = _("%(start_date)s <br> %(start_time)s - %(end_time)s")
         else:
             message_format = _("From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s ")
@@ -174,10 +166,16 @@ class AbstractSlotView(View):
 
     def send_email(self):
         html_message = render_to_string(
-            'fabcal/email/(un)registration_confirmation.html',
+            'fabcal/email/confirmation.html',
              self.get_context_data()
              )
-        subject = _('Confirmation of your unregistration') if 'unregister' in self.request.path else _('Confirmation of your registration')
+
+        if 'reservation' in self.request.path:
+            subject = _('Confirmation of your machine reservation')
+        elif 'unregister' in self.request.path:
+            subject = _('Confirmation of your unregistration')
+        else:
+            _('Confirmation of your registration')
 
         send_mail(
             from_email = None,
@@ -188,16 +186,22 @@ class AbstractSlotView(View):
         )
 
     def get_success_message(self):
-        if 'unregister' in self.request.path: 
+        if 'reservation' in self.request.path:
+            context = self.get_context_data()
+            message = mark_safe(_('You successfully booked the machine %(machine)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s') % context)
+            return messages.success(self.request, message)
+        elif 'unregister' in self.request.path:
             return messages.success(self.request, _("Oh no! We sent you an email to confirme your unregistration"))
-        else: 
+        else:
             return messages.success(self.request, _("Well done! We sent you an email to confirme your registration"))
 
     def form_valid(self, form):
-        if 'unregister' in self.request.path:
-            self.get_object().registrations.remove(self.request.user)
+        if 'reservation' in self.request.path:
+            pass
+        elif 'unregister' in self.request.path:
+            self.object.registrations.remove(self.request.user)
         else:
-            self.get_object().registrations.add(self.request.user)
+            self.object.registrations.add(self.request.user)
         self.send_email()
         self.get_success_message()
         return super().form_valid(form)
@@ -310,7 +314,7 @@ class EventDeleteView(AbstractSlotView, DeleteView):
 class EventDetailView(AbstractSlotView, DetailView):
     model = EventSlot
 
-class RegisterBaseView(LoginRequiredMixin, SingleObjectMixin, AbstractSlotView, FormView):
+class RegisterBaseView(LoginRequiredMixin, SingleObjectMixin, AbstractSlotView, CustomFormView):
     def get_context_data(self, **kwargs):
         context = super(RegisterBaseView, self).get_context_data(**kwargs)
         context.update({
@@ -327,10 +331,9 @@ class EventRegisterBaseView(RegisterBaseView):
         return reverse_lazy("fabcal:event-detail", kwargs={'pk': self.kwargs['pk']})
 
     def get_context_data(self, **kwargs):
-        self.object = self.get_object()
         context = super(EventRegisterBaseView, self).get_context_data(**kwargs)
         context.update({
-            'href': f"{self.request._current_scheme_host}/fabcal/event/{context['object'].pk}",
+            'href': f"{self.request._current_scheme_host}/fabcal/event/{context['object'].pk}", #TODO refactor with reverse function
             'title': context['object'].event.title,
         })
         return context
@@ -421,12 +424,11 @@ class TrainingRegisterBaseView(RegisterBaseView):
     template_name = 'fabcal/trainingslot_(un)registration_form.html'
     form_class = RegisterTrainingForm
     model = TrainingSlot
-    
+
     def get_success_url(self):
         return reverse_lazy("machines:training-detail", kwargs={'pk': self.object.training_id})
 
     def get_context_data(self, **kwargs):
-        self.object = self.get_object()
         context = super().get_context_data(**kwargs)
         context.update({
             'href': f"{self.request._current_scheme_host}{self.get_success_url()}",
@@ -452,9 +454,11 @@ class TrainingUnregisterView(TrainingRegisterBaseView):
 
         return context
 
-class MachineReservationBaseView(LoginRequiredMixin, FormView):
+class MachineReservationBaseView(RegisterBaseView):
     template_name = 'fabcal/machine/reservation_form.html'
     form_class = MachineReservationForm
+    model = MachineSlot
+    crud_state = 'updated'
 
     def dispatch(self, request, *args, **kwargs):
 
@@ -483,39 +487,21 @@ class MachineReservationBaseView(LoginRequiredMixin, FormView):
             messages.error(request, _('Sorry, you cannot reserve this machine yet. You have to take the training first before you can use it.'))
             return redirect('/trainings/?machine_category=' + str(self.machine_slot.machine.category.pk))
 
-        return super(MachineReservationBaseView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
-        kwargs = super(MachineReservationBaseView, self).get_form_kwargs()
+        kwargs = super().get_form_kwargs()
         kwargs['machine_slot'] = self.machine_slot
         kwargs["next_machine_slot"] = self.next_machine_slot
         kwargs["previous_machine_slot"] = self.previous_machine_slot
         return kwargs
 
-    def get_initial(self):
-        try:
-            initial = {
-                'start_time': self.request._post['start_time'],
-                'end_time': self.request._post['end_time'],
-            }
-            if self.machine_slot.machine.category.name == '3D':
-               initial['end_date']= dateparser.parse(self.request._post['end_date']).strftime('%Y-%m-%d')
-
-        except:
-            initial = {
-                'start_time': self.machine_slot.start.strftime('%H:%M'),
-                'end_time': self.machine_slot.end.strftime('%H:%M'),
-            }
-            if self.machine_slot.machine.category.name == '3D':
-               initial['end_date']= self.machine_slot.end.strftime('%Y-%m-%d')
-
-        return initial
-
     def get_context_data(self, **kwargs):
         context = super(MachineReservationBaseView, self).get_context_data(**kwargs)
-        context["machine_slot"] = self.machine_slot
-        context["next_machine_slot"] = self.next_machine_slot
-
+        context.update({
+            'next_machine_slot' : self.next_machine_slot,
+        })
+        
         if self.machine_slot.machine.category.name == '3D':
             context["next_machine_slot"] = MachineSlot.objects.filter(
                 start__gt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=False
@@ -523,7 +509,30 @@ class MachineReservationBaseView(LoginRequiredMixin, FormView):
             context['max_start_time'] = self.machine_slot.end - timedelta(minutes=settings.FABCAL_MINIMUM_RESERVATION_TIME)
         return context
 
-class CreateMachineReservationView(MachineReservationBaseView): 
+class CreateMachineReservationView(MachineReservationBaseView):
+
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.object = self.get_object()
+    
+    def get_context_data(self, **kwargs):
+        context = super(MachineReservationBaseView, self).get_context_data()
+
+        if context['form'].is_valid():
+            context.update({
+                'machine': self.object.machine.title,
+                'duration': int(context['form'].cleaned_data['duration'].seconds/60),
+                'profile_url': self.request._current_scheme_host + reverse('profile'),
+                'mail_url': 'mailto://' + os.environ.get('EMAIL_HOST_USER')
+            })
+            context.update({
+                'email_body': \
+                    mark_safe(_('You successfully booked the machine %(machine)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s') % context),
+                'cancellation_policy': \
+                    mark_safe(_('Please note that you may cancel this reservation up to 24 hours prior to the start of the slot without charge via your <a href="%(profile_url)s">account page on our website</a>. However, if you wish to cancel your reservation after this period, please <a href="%(mail_url)s">inform us by email</a>. In this case, we are sorry to inform you that we will be obliged to charge you for the machine hours, as the reserved machine could not be used by another person at that time. Thank you for your understanding.') % context)
+            })
+        return context
+    
     
     def get_success_url(self, **kwargs):
         return reverse('machines:machines-show', kwargs = {'pk': self.machine_slot.machine.pk})
@@ -554,7 +563,7 @@ class CreateMachineReservationView(MachineReservationBaseView):
                     slot.save()
 
             for slot in MachineSlot.objects.filter(
-                start__gt=form.cleaned_data['start'], 
+                start__gt=form.cleaned_data['start'],
                 end__lt=form.cleaned_data['end'],
                 machine=self.machine_slot.machine).all():
                 # delete slot
@@ -565,14 +574,6 @@ class CreateMachineReservationView(MachineReservationBaseView):
         form.machine_slot.start = form.cleaned_data['start']
         form.machine_slot.end = form.cleaned_data['end']
         form.machine_slot.save()
-
-        # send mail and message
-        self.context = {
-            'machine_slot': self.machine_slot,
-            'request': self.request
-        }
-        form.send_mail(self)
-        form.message(self)
 
         return super().form_valid(form)
 

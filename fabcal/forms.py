@@ -1,5 +1,5 @@
-import dateparser
 import datetime
+import dateparser
 from babel.dates import format_datetime, get_timezone
 
 from django import forms
@@ -7,7 +7,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
-from django.template.defaultfilters import date as _date
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe 
 from django.utils.translation import gettext_lazy as _
@@ -51,9 +50,14 @@ class AbstractSlotForm(forms.Form):
 
     def clean_start(self):
         if 'date' in self.data:
+            # for Trainings and Openings
             start_date = self.data['date']
-        else:
+        elif 'start_date' in self.data:
+            # for Events
             start_date = self.data['start_date']
+        else:
+            # for Machines
+            start_date = format_datetime(self.cleaned_data['start'], "EEEE d MMMM y", locale=settings.LANGUAGE_CODE)
 
         self.cleaned_data['start'] = datetime.datetime.combine(
             dateparser.parse(start_date), 
@@ -74,9 +78,14 @@ class AbstractSlotForm(forms.Form):
 
     def clean_end(self):
         if 'date' in self.data:
+            # for Trainings and Openings
             end_date = self.data['date']
-        else:
+        elif 'end_date' in self.data:
+            # for Events
             end_date = self.data['end_date']
+        else:
+            # for Machines
+            end_date = format_datetime(self.cleaned_data['end'], "EEEE d MMMM y", locale=settings.LANGUAGE_CODE)
 
         self.cleaned_data['end'] = datetime.datetime.combine(
             dateparser.parse(end_date), 
@@ -302,14 +311,8 @@ class RegisterEventForm(forms.Form):
 class RegisterTrainingForm(forms.Form):
     pass
 
-
-class MachineReservationForm(forms.Form):
-    start_time = forms.TimeField()
-    end_time = forms.TimeField()
+class MachineReservationForm(AbstractSlotForm):
     end_date = forms.CharField(required=False)
-    
-    start = forms.DateTimeField(required=False)
-    end = forms.DateTimeField(required=False)
 
     def __init__(self, machine_slot, next_machine_slot, previous_machine_slot, *args, **kwargs):
         super(MachineReservationForm, self).__init__(*args, **kwargs)
@@ -318,21 +321,18 @@ class MachineReservationForm(forms.Form):
         self.previous_machine_slot = previous_machine_slot
 
     def clean(self):
+        super(MachineReservationForm, self).clean()
 
         if self.cleaned_data.get("start") and self.cleaned_data.get("end"):
-
-            if self.cleaned_data.get("start") >= self.cleaned_data.get("end"):
-                raise ValidationError(
-                    _("Start time after end time.")
-                )
-
-            if self.cleaned_data['end']-self.cleaned_data['start'] < datetime.timedelta(minutes=settings.FABCAL_MINIMUM_RESERVATION_TIME):
+            
+            self.cleaned_data['duration'] = self.cleaned_data['end']-self.cleaned_data['start']
+            if self.cleaned_data['duration'] < datetime.timedelta(minutes=settings.FABCAL_MINIMUM_RESERVATION_TIME):
                 raise ValidationError(
                         _("Please reserve minimum %(time)s minutes !"),
                         params={'time': settings.FABCAL_MINIMUM_RESERVATION_TIME}
                     )
 
-            if (self.cleaned_data['end']-self.cleaned_data['start']).seconds/60% settings.FABCAL_RESERVATION_INCREMENT_TIME != 0:
+            if (self.cleaned_data['duration']).seconds/60 % settings.FABCAL_RESERVATION_INCREMENT_TIME != 0:
                 raise ValidationError(
                         _("Please reserve in %(time)s minute increments !"),
                         params={'time': settings.FABCAL_MINIMUM_RESERVATION_TIME}
@@ -350,7 +350,6 @@ class MachineReservationForm(forms.Form):
                             _("The machine is already booked from %(time)s !"),
                             params={'time': self.next_machine_slot.start.strftime('%H:%M')}
                         )
-
 
     def clean_start(self):
         self.cleaned_data['start'] = datetime.datetime.combine(
@@ -392,24 +391,3 @@ class MachineReservationForm(forms.Form):
                     )
         
         return self.cleaned_data['end']
-
-    def send_mail(self, view):
-        html_message = render_to_string('fabcal/email/machine_reservation_confirmation.html', view.context)
-    
-        send_mail(
-            from_email=None,
-            subject=_('Confirmation of your machine reservation'),
-            message = _("Confirmation of your machine reservation"),
-            recipient_list = [view.request.user.email],
-            html_message = html_message
-        )
-
-    def message(self, view):
-        context = {
-            'machine': self.machine_slot.machine.title,
-            'date': format_datetime(self.machine_slot.start, "EEEE d MMMM", locale=settings.LANGUAGE_CODE), 
-            'start': format_datetime(self.machine_slot.start, "H:mm", locale=settings.LANGUAGE_CODE),
-            'end': format_datetime(self.machine_slot.end, "H:mm", locale=settings.LANGUAGE_CODE),
-            'duration': self.machine_slot.get_duration,
-        }
-        return messages.success(view.request, _("You successfully booked the machine %(machine)s during %(duration)s minutes on %(date)s from %(start)s to %(end)s") % context)

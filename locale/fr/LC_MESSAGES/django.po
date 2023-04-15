@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-11 20:09+0000\n"
+"POT-Creation-Date: 2023-04-15 16:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: accounts/forms.py:36 accounts/templates/accounts/nav.html:44
+#: accounts/forms.py:37 accounts/templates/accounts/nav.html:44
 msgid "email"
 msgstr "e-mail"
 
-#: accounts/forms.py:52 accounts/templates/registration/login.html:10
+#: accounts/forms.py:53 accounts/templates/registration/login.html:10
 msgid "Email / Username"
 msgstr "E-mail / Nom d'utilisateur"
 
-#: accounts/forms.py:74
+#: accounts/forms.py:75
 msgid ""
 "You have not yet validated your e-mail. Please click on the activation link "
 "that we sent you by email when you created your account."
@@ -35,35 +35,35 @@ msgstr ""
 "d'activation que nous vous avons envoyé par e-mail lorsque vous avez créé "
 "votre compte."
 
-#: accounts/forms.py:90
+#: accounts/forms.py:91
 msgid "There is already an organization member with this email address!"
 msgstr "Il y a déjà un membre de l'organisation avec cette adresse e-mail !"
 
-#: accounts/forms.py:94
+#: accounts/forms.py:95
 msgid "This email address has been used multiple times."
 msgstr "Cette adresse mail a été utilisée plusieurs fois."
 
-#: accounts/forms.py:109
+#: accounts/forms.py:110
 msgid "Recipient address rejected: Domain not found"
 msgstr "Adresse du destinataire rejetée : Domaine non trouvé"
 
-#: accounts/forms.py:116
+#: accounts/forms.py:117
 msgid "First name"
 msgstr "Prénom"
 
-#: accounts/forms.py:117
+#: accounts/forms.py:118
 msgid "Last name"
 msgstr "Nom"
 
-#: accounts/forms.py:118
+#: accounts/forms.py:119
 msgid "I subscribe to the newsletter"
 msgstr "Je m'abonne à la newsletter"
 
-#: accounts/forms.py:118
+#: accounts/forms.py:119
 msgid "about once a month"
 msgstr "environ une par mois"
 
-#: accounts/forms.py:122
+#: accounts/forms.py:123
 msgid ""
 "150 characters maximum. Only letters, numbers and the characters \"@\", \"."
 "\", \"+\", \"-\" and \"_\"."
@@ -71,38 +71,34 @@ msgstr ""
 "150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
 "\", \".\", \"+\", \"-\" et \"_\"."
 
-#: accounts/forms.py:129
-msgid "Special characters are not allowed."
-msgstr "Les caractères spéciaux ne sont pas autorisés."
-
-#: accounts/forms.py:146
+#: accounts/forms.py:141
 msgid "No Subscription"
 msgstr "Pas d'abonnement"
 
-#: accounts/forms.py:161
+#: accounts/forms.py:156
 msgid "Remove subscription for user {}"
 msgstr ""
 
-#: accounts/forms.py:183
+#: accounts/forms.py:178
 #, python-format
 msgid "Subcription updated to %(subcription_category)s for user %(user)s"
 msgstr ""
 "Abonnement %(subcription_category)s mise à jour pour l'utilisateur %(user)s"
 
-#: accounts/forms.py:198
+#: accounts/forms.py:193
 #, fuzzy
 msgid "Subscription duration updated for user {}"
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
-#: accounts/forms.py:228
+#: accounts/forms.py:223
 msgid "Welcome to Fablab !"
 msgstr "Bienvenue au FabLab !"
 
-#: accounts/forms.py:229 fabcal/forms.py:283 fabcal/forms.py:294
+#: accounts/forms.py:224 fabcal/forms.py:288 fabcal/forms.py:299
 msgid "A new training was planned"
 msgstr "Une nouvelle formation a été planifiée"
 
-#: accounts/forms.py:250
+#: accounts/forms.py:245
 #, python-format
 msgid ""
 "Training %(training)s has been successfully deleted for %(first_name)s "
@@ -110,15 +106,15 @@ msgid ""
 msgstr ""
 "La fomation %(training)s a été supprimée pour %(first_name)s %(last_name)s"
 
-#: accounts/forms.py:258
+#: accounts/forms.py:253
 msgid "Sorry, we cancel your training validation"
 msgstr "Désolé, nous avec supplimé votre formation"
 
-#: accounts/forms.py:259
+#: accounts/forms.py:254
 msgid "Training deleted"
 msgstr "Formation supprimée"
 
-#: accounts/forms.py:273
+#: accounts/forms.py:268
 #, python-format
 msgid ""
 "Training %(training)s has been successfully valided for %(first_name)s "
@@ -127,11 +123,11 @@ msgstr ""
 "La fomation %(training)s a été validée avec succès pour %(first_name)s "
 "%(last_name)s"
 
-#: accounts/forms.py:282
+#: accounts/forms.py:277
 msgid "Start to use the machine !"
 msgstr "Commence à utiliser la machine !"
 
-#: accounts/forms.py:283
+#: accounts/forms.py:278
 msgid "Training validated"
 msgstr "Formation validée"
 
@@ -230,7 +226,7 @@ msgstr "abonnement"
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: accounts/templates/accounts/profile.html:23 fabcal/forms.py:242
+#: accounts/templates/accounts/profile.html:23 fabcal/forms.py:247
 #: fabcal/templates/fabcal/trainingslot_(un)registration_form.html:10
 #: machines/models.py:66
 msgid "Training"
@@ -264,7 +260,7 @@ msgid "sold out"
 msgstr "complet"
 
 #: accounts/templates/accounts/profile.html:54 fabcal/forms.py:32
-#: fabcal/forms.py:178 openings/models.py:35
+#: fabcal/forms.py:183 openings/models.py:35
 msgid "Opening"
 msgstr "Ouverture"
 
@@ -278,7 +274,7 @@ msgstr "Pas de réservations pour le moment"
 msgid "Reservation"
 msgstr "Réservation"
 
-#: accounts/templates/accounts/profile.html:92 fabcal/forms.py:187
+#: accounts/templates/accounts/profile.html:92 fabcal/forms.py:192
 #: openings/models.py:46
 msgid "Event"
 msgstr "Évènement"
@@ -307,7 +303,7 @@ msgstr "Abonnement"
 #: accounts/templates/accounts/superuser-profile-edit.html:26
 #: fabcal/templates/fabcal/event_create_or_update_form.html:39
 #: fabcal/templates/fabcal/machine/reservation_form.html:23
-#: fabcal/templates/fabcal/machine/reservation_form.html:37
+#: fabcal/templates/fabcal/machine/reservation_form.html:36
 #: fabcal/templates/fabcal/opening_create_or_update_form.html:38
 #: fabcal/templates/fabcal/trainig_create_or_update_form.html:56
 msgid "Start"
@@ -315,8 +311,8 @@ msgstr "Début"
 
 #: accounts/templates/accounts/superuser-profile-edit.html:30
 #: fabcal/templates/fabcal/event_create_or_update_form.html:52
-#: fabcal/templates/fabcal/machine/reservation_form.html:41
-#: fabcal/templates/fabcal/machine/reservation_form.html:60
+#: fabcal/templates/fabcal/machine/reservation_form.html:40
+#: fabcal/templates/fabcal/machine/reservation_form.html:58
 #: fabcal/templates/fabcal/opening_create_or_update_form.html:42
 #: fabcal/templates/fabcal/trainig_create_or_update_form.html:60
 msgid "End"
@@ -650,6 +646,10 @@ msgstr ""
 "d'utilisation, la charte du FabLab et les statuts de l'Association FabLab La "
 "Chaux-de-Fonds</a>"
 
+#: accounts/validators.py:8
+msgid "Special characters are not allowed."
+msgstr "Les caractères spéciaux ne sont pas autorisés."
+
 #: accounts/views.py:138
 msgid ""
 "Your newsletter registration has been updated successfully with the email "
@@ -706,11 +706,11 @@ msgstr "Pas d'ouverture"
 msgid "Machines"
 msgstr "Machines"
 
-#: fabcal/forms.py:103 fabcal/forms.py:326
+#: fabcal/forms.py:108 fabcal/forms.py:325
 msgid "Start time after end time."
 msgstr "Heure du début après heure de fin"
 
-#: fabcal/forms.py:130
+#: fabcal/forms.py:135
 #, python-format
 msgid ""
 "Your openings has been successfully %(crud_state)s on %(start_date)s from "
@@ -723,7 +723,7 @@ msgstr ""
 "%(opening_title)s/%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-"
 "down-fill\"></i> Ajouter à mon calendrier</a>"
 
-#: fabcal/forms.py:153
+#: fabcal/forms.py:158
 #, python-format
 msgid ""
 "Could not update slot, %(first_name)s %(last_name)s books the slot: "
@@ -732,40 +732,40 @@ msgstr ""
 "Le créneau ne peut être mis à jour,  %(first_name)s %(last_name)s a déjà "
 "réserver le créneau: %(machine)s de %(start)s a %(end)s"
 
-#: fabcal/forms.py:179
+#: fabcal/forms.py:184
 msgid "Select an opening"
 msgstr "Selectionnez une ouverture"
 
-#: fabcal/forms.py:180
+#: fabcal/forms.py:185
 msgid "Please select an opening."
 msgstr "Veuillez sélectionner une ouverture."
 
-#: fabcal/forms.py:188
+#: fabcal/forms.py:193
 msgid "Select an event"
 msgstr "Selectionnez un évènement"
 
-#: fabcal/forms.py:189
+#: fabcal/forms.py:194
 msgid "Please select an event."
 msgstr "Veuillez sélectionner un événement."
 
-#: fabcal/forms.py:193 fabcal/templates/fabcal/event_info.html:15
+#: fabcal/forms.py:198 fabcal/templates/fabcal/event_info.html:15
 #: machines/models.py:14 machines/templates/trainings/info.html:11
 msgid "Price"
 msgstr "Tarifs"
 
-#: fabcal/forms.py:194
+#: fabcal/forms.py:199
 msgid "On registration"
 msgstr "Sur inscription"
 
-#: fabcal/forms.py:195 fabcal/forms.py:247
+#: fabcal/forms.py:200 fabcal/forms.py:252
 msgid "Registration limit"
 msgstr "Limite d'inscriptions"
 
-#: fabcal/forms.py:195
+#: fabcal/forms.py:200
 msgid "leave blank if no limit"
 msgstr "Laisser vide si pas de limite"
 
-#: fabcal/forms.py:236
+#: fabcal/forms.py:241
 #, python-format
 msgid ""
 "Your event has been successfully %(crud_state)s on %(start_date)s from "
@@ -778,15 +778,15 @@ msgstr ""
 "%(event_title)s/%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-down-"
 "fill\"></i> Ajouter à mon calendrier</a>"
 
-#: fabcal/forms.py:243
+#: fabcal/forms.py:248
 msgid "Select a training"
 msgstr "Selectionnez une formation"
 
-#: fabcal/forms.py:244
+#: fabcal/forms.py:249
 msgid "Please select a training."
 msgstr "Veuillez sélectionner une formation."
 
-#: fabcal/forms.py:274
+#: fabcal/forms.py:279
 #, python-format
 msgid ""
 "Your training has been successfully %(crud_state)s on %(start_date)s from "
@@ -799,7 +799,7 @@ msgstr ""
 "%(training_title)s/%(start)s/%(end)s\"><i class=\"bi bi-file-earmark-arrow-"
 "down-fill\"></i> Ajouter à mon calendrier</a>"
 
-#: fabcal/forms.py:286
+#: fabcal/forms.py:291
 msgid "A training was updated"
 msgstr "Une formation a été mise à jour"
 
@@ -823,28 +823,15 @@ msgstr "La machine est déjà réservée jusqu'à %(time)s"
 msgid "The machine is already booked from %(time)s !"
 msgstr "La machine est déjà réservée depuis %(time)s"
 
-#: fabcal/forms.py:363
+#: fabcal/forms.py:362
 #, python-format
 msgid "You cannot start earlier than %(start_time)s"
 msgstr "Vous ne pouvez pas commencer avant %(start_time)s"
 
-#: fabcal/forms.py:378 fabcal/forms.py:390
+#: fabcal/forms.py:377 fabcal/forms.py:389
 #, python-format
 msgid "You cannot end later than %(start_time)s"
 msgstr "Vous ne pouvez pas finir après %(start_time)s"
-
-#: fabcal/forms.py:401 fabcal/forms.py:402
-msgid "Confirmation of your machine reservation"
-msgstr "Confirmation de votre réservation machine"
-
-#: fabcal/forms.py:415
-#, python-format
-msgid ""
-"You successfully booked the machine %(machine)s during %(duration)s minutes "
-"on %(date)s from %(start)s to %(end)s"
-msgstr ""
-"Vous avez réservé avec succès la machine %(machine)s durant %(duration)s "
-"minutes le %(date)s de %(start)s à %(end)s"
 
 #: fabcal/models.py:52
 msgid "Opening Slot"
@@ -878,28 +865,9 @@ msgstr "Céneau machine"
 msgid "Machine Slots"
 msgstr "Créneaux machine"
 
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:7
-msgid "We confirme that you are reserve the machine "
-msgstr "Nous vous confirmons que vous avez réserver la machine "
-
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:9
-msgid " on "
-msgstr " le "
-
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:11
-#: machines/templates/trainings/show_next_trainings.html:9
-msgid " from "
-msgstr " de "
-
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:13
-msgid " to "
-msgstr " à "
-
-#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:18
-#: fabcal/templates/fabcal/trainingslot_(un)registration_form.html:14
-#: fabcal/views.py:172
-msgid "The payment will be made on site"
-msgstr "Le paiement se fera sur place"
+#: fabcal/templates/fabcal/email/confirmation.html:14
+msgid "Cancellation policy"
+msgstr "Conditions d'annulation"
 
 #: fabcal/templates/fabcal/email/training_create_alert.html:6
 msgid "We have planned a new training"
@@ -944,7 +912,7 @@ msgstr "Plus d'informations"
 
 #: fabcal/templates/fabcal/event_create_or_update_form.html:43
 #: fabcal/templates/fabcal/event_create_or_update_form.html:55
-#: fabcal/templates/fabcal/machine/reservation_form.html:68
+#: fabcal/templates/fabcal/machine/reservation_form.html:66
 #: fabcal/templates/fabcal/opening_create_or_update_form.html:32
 #: fabcal/templates/fabcal/trainig_create_or_update_form.html:50
 msgid "Date"
@@ -952,8 +920,8 @@ msgstr "Date"
 
 #: fabcal/templates/fabcal/event_create_or_update_form.html:48
 #: fabcal/templates/fabcal/event_create_or_update_form.html:59
-#: fabcal/templates/fabcal/machine/reservation_form.html:52
-#: fabcal/templates/fabcal/machine/reservation_form.html:72
+#: fabcal/templates/fabcal/machine/reservation_form.html:50
+#: fabcal/templates/fabcal/machine/reservation_form.html:70
 msgid "Time"
 msgstr "Heure"
 
@@ -1025,33 +993,33 @@ msgstr "Oui, j'en suis sûr"
 msgid "Choose your schedule !"
 msgstr "Choisissez votre horaire"
 
-#: fabcal/templates/fabcal/machine/reservation_form.html:51
+#: fabcal/templates/fabcal/machine/reservation_form.html:49
 msgid "You can start between "
 msgstr "Vous pouvez commencer entre"
 
-#: fabcal/templates/fabcal/machine/reservation_form.html:51
+#: fabcal/templates/fabcal/machine/reservation_form.html:49
 msgid " and "
 msgstr " et "
 
-#: fabcal/templates/fabcal/machine/reservation_form.html:63
+#: fabcal/templates/fabcal/machine/reservation_form.html:61
 msgid "The 3D print in free until:"
 msgstr "L'imprimante 3D est libre jusqu'à"
 
-#: fabcal/templates/fabcal/machine/reservation_form.html:66
+#: fabcal/templates/fabcal/machine/reservation_form.html:64
 msgid "There are no reservations for the next few days. Feel free to use it !"
 msgstr ""
 "Il n'y a pas de réserveration les prochains jours, sentez-vous libre de "
 "l'utiliser !"
 
-#: fabcal/templates/fabcal/machine/reservation_form.html:91
+#: fabcal/templates/fabcal/machine/reservation_form.html:89
 msgid "Benefit from half price prices<br> for 15 CHF / month"
 msgstr "Bénéficiez des prix demi-tarifs<br> pour 15 CHF / mois"
 
-#: fabcal/templates/fabcal/machine/reservation_form.html:92
+#: fabcal/templates/fabcal/machine/reservation_form.html:90
 msgid "I take advantage of it"
 msgstr "J'en profite"
 
-#: fabcal/templates/fabcal/machine/reservation_form.html:96
+#: fabcal/templates/fabcal/machine/reservation_form.html:94
 msgid "Reserve"
 msgstr "Réserver"
 
@@ -1063,6 +1031,11 @@ msgid ""
 msgstr ""
 "Êtes-vous sûr de vouloir supprimer le créneau du %(date)s de %(start)s à "
 "%(end)s"
+
+#: fabcal/templates/fabcal/trainingslot_(un)registration_form.html:14
+#: fabcal/views.py:163
+msgid "The payment will be made on site"
+msgstr "Le paiement se fera sur place"
 
 #: fabcal/templates/fabcal/trainingslot_confirm_delete.html:11
 #, python-format
@@ -1081,53 +1054,66 @@ msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
 msgid "Closed"
 msgstr "Fermé"
 
-#: fabcal/views.py:162
+#: fabcal/views.py:153
 #, python-format
 msgid "%(start_date)s <br> %(start_time)s - %(end_time)s"
 msgstr "%(start_date)s <br> %(start_time)s - %(end_time)s"
 
-#: fabcal/views.py:164
+#: fabcal/views.py:155
 #, python-format
 msgid ""
 "From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s "
 msgstr ""
 "Du %(start_date)s à %(start_time)s <br> au %(end_date)s à %(end_time)s "
 
-#: fabcal/views.py:170
+#: fabcal/views.py:161
 msgid "We hope to see you back soon !"
 msgstr "Nous espérons vous revoir bientôt !"
 
-#: fabcal/views.py:181
+#: fabcal/views.py:174
+msgid "Confirmation of your machine reservation"
+msgstr "Confirmation de votre réservation machine"
+
+#: fabcal/views.py:176
 msgid "Confirmation of your unregistration"
 msgstr "Confirmation de votre desinscription"
 
-#: fabcal/views.py:181
+#: fabcal/views.py:178
 msgid "Confirmation of your registration"
 msgstr "Confirmation de votre inscription"
 
-#: fabcal/views.py:193
+#: fabcal/views.py:191 fabcal/views.py:531
+#, python-format
+msgid ""
+"You successfully booked the machine %(machine)s during %(duration)s minutes "
+"on %(start_date)s from %(start_time)s to %(end_time)s"
+msgstr ""
+"Vous avez réservé avec succès la machine %(machine)s durant %(duration)s "
+"minutes le %(start_date)s de %(start_time)s à %(end_time)s"
+
+#: fabcal/views.py:194
 msgid "Oh no! We sent you an email to confirme your unregistration"
 msgstr ""
 "Oh non ! Nous vous avons envoyé un e-mail pour confirmer votre desinscription"
 
-#: fabcal/views.py:195
+#: fabcal/views.py:196
 msgid "Well done! We sent you an email to confirme your registration"
 msgstr ""
 "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
 
-#: fabcal/views.py:214
+#: fabcal/views.py:218
 msgid "Create opening"
 msgstr "Créer l'ouverture"
 
-#: fabcal/views.py:216
+#: fabcal/views.py:220
 msgid "Update opening"
 msgstr "Mettre à jour l'ouverture"
 
-#: fabcal/views.py:258
+#: fabcal/views.py:262
 msgid "This opening slot cannot be deleted."
 msgstr "Ce créneau d'ouverture ne peut pas être supprimé."
 
-#: fabcal/views.py:262
+#: fabcal/views.py:266
 #, python-format
 msgid ""
 "Your opening on %(date)s from %(start)s to %(end)s has been successfully "
@@ -1135,19 +1121,19 @@ msgid ""
 msgstr ""
 "Votre ouverture du %(date)s de %(start)s à %(end)s a bien été supprimée"
 
-#: fabcal/views.py:273
+#: fabcal/views.py:277
 msgid "Create event"
 msgstr "Créer l'évènement"
 
-#: fabcal/views.py:273
+#: fabcal/views.py:277
 msgid "Update event"
 msgstr "Mettre à jour l'évènement"
 
-#: fabcal/views.py:305
+#: fabcal/views.py:309
 msgid "Your event has been successfully deleted"
 msgstr "Votre évènement a été supprimé avec succès"
 
-#: fabcal/views.py:339
+#: fabcal/views.py:347
 #, python-format
 msgid ""
 "We confirm that you are registered for the event <a href=\"%(href)s\">"
@@ -1158,7 +1144,7 @@ msgstr ""
 "\">%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s à "
 "%(end_time)s."
 
-#: fabcal/views.py:341
+#: fabcal/views.py:349
 #, python-format
 msgid ""
 "We confirm that you are registered for the event <a href=\"%(href)s\">"
@@ -1169,7 +1155,7 @@ msgstr ""
 "\">%(title)s</a> qui aura lieu du %(start_date)s à %(start_time)s au "
 "%(end_date)s à %(end_time)s."
 
-#: fabcal/views.py:352
+#: fabcal/views.py:360
 #, python-format
 msgid ""
 "We confirme that you are unregister for the event <a href=\"%(href)s\">"
@@ -1180,7 +1166,7 @@ msgstr ""
 "%(href)s>%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s à "
 "%(end_time)s."
 
-#: fabcal/views.py:354
+#: fabcal/views.py:362
 #, python-format
 msgid ""
 "We confirme that you are unregister for the event <a href=\"%(href)s\">"
@@ -1191,19 +1177,19 @@ msgstr ""
 "\"%(href)s\">%(title)s</a> qui aura lieu du %(start_date)s à %(start_time)s "
 "au %(end_date)s à %(end_time)s."
 
-#: fabcal/views.py:368
+#: fabcal/views.py:376
 msgid "Create training"
 msgstr "Créer la formation"
 
-#: fabcal/views.py:370
+#: fabcal/views.py:378
 msgid "Update training"
 msgstr "Mettre à jour la formation"
 
-#: fabcal/views.py:410
+#: fabcal/views.py:418
 msgid "Your training has been successfully deleted"
 msgstr "Votre formation a été supprimée avec succès"
 
-#: fabcal/views.py:437
+#: fabcal/views.py:444
 #, python-format
 msgid ""
 "We confirm that you are registered for the training <a href=\"%(href)s\">"
@@ -1214,7 +1200,7 @@ msgstr ""
 "\"%(href)s\">%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s "
 "à %(end_time)s."
 
-#: fabcal/views.py:446
+#: fabcal/views.py:453
 #, python-format
 msgid ""
 "We confirm that you are unregistered for the training <a href=\"%(href)s\">"
@@ -1225,7 +1211,7 @@ msgstr ""
 "\"%(href)s\">%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s "
 "à %(end_time)s."
 
-#: fabcal/views.py:479
+#: fabcal/views.py:488
 msgid ""
 "Sorry, you cannot reserve this machine yet. You have to take the training "
 "first before you can use it."
@@ -1233,7 +1219,27 @@ msgstr ""
 "Désolé, vous ne pouvez pas encore réserver cette machine. Vous devez d'abord "
 "suivre la formation avant de pouvoir l'utiliser."
 
-#: fabcal/views.py:666
+#: fabcal/views.py:533
+#, python-format
+msgid ""
+"Please note that you may cancel this reservation up to 24 hours prior to the "
+"start of the slot without charge via your <a href=\"%(profile_url)s"
+"\">account page on our website</a>. However, if you wish to cancel your "
+"reservation after this period, please <a href=\"%(mail_url)s\">inform us by "
+"email</a>. In this case, we are sorry to inform you that we will be obliged "
+"to charge you for the machine hours, as the reserved machine could not be "
+"used by another person at that time. Thank you for your understanding."
+msgstr ""
+"Veuillez noter que vous pouvez annuler cette réservation jusqu'à 24 heures "
+"avant le début du créneau sans frais via la <a href=\"%(profile_url)s\">page "
+"de votre compte sur notre site internet</a>. En revanche, si vous souhaitez "
+"annuler votre réservation après cette période, veuillez nous en <a href="
+"\"%(mail_url)s\">informer par mail</a>. Dans ce cas, nous sommes désolés de "
+"vous informer que nous serons dans l'obligation de vous facturer les heures "
+"machine, car la machine réservée n'aura pas pu être utilisée par une autre "
+"personne à ce moment-là. Nous vous remercions de votre compréhension."
+
+#: fabcal/views.py:672
 msgid "You reservation has been canceled !"
 msgstr "Pas de réservation possible"
 
@@ -1449,6 +1455,10 @@ msgstr "Spécification"
 msgid "Specifications"
 msgstr "Spécifications"
 
+#: machines/templates/machines/list.html:5
+msgid "Filter"
+msgstr "Filtrer"
+
 #: machines/templates/machines/list.html:49
 msgid "Sorry, no machine available in this category"
 msgstr "Désolé, pas de machine disponible dans cette catégorie"
@@ -1518,14 +1528,10 @@ msgid ""
 "The price includes the training and a 1 hour machine voucher to start your "
 "project"
 msgstr ""
-"Le prix inclut la formation ainsi qu'un bon machine de 1h pour démarrer votre "
-"projet"
+"Le prix inclut la formation ainsi qu'un bon machine de 1h pour démarrer "
+"votre projet"
 
 #: machines/templates/trainings/list.html:8
-msgid "Category"
-msgstr "Catégorie"
-
-#: machines/templates/trainings/list.html:28
 msgid "Sadly, no training founded."
 msgstr "Malheureusement, aucune formation trouvée."
 
@@ -1536,6 +1542,10 @@ msgstr "Malheureusement, aucune machine n'est disponible pour le moment."
 #: machines/templates/trainings/show_next_trainings.html:3
 msgid "Next Trainings"
 msgstr "Prochaines formations"
+
+#: machines/templates/trainings/show_next_trainings.html:9
+msgid " from "
+msgstr " de "
 
 #: machines/templates/trainings/show_next_trainings.html:42
 msgid "Not available ?"
@@ -1669,7 +1679,7 @@ msgstr ""
 "Vous pouvez continuer à utiliser le fablab en bénéficiant de tarifs "
 "préférentiels."
 
-#: payments/views.py:185
+#: payments/views.py:196
 #, python-format
 msgid ""
 "Your subscription has been updated successfully until %(date)s<br>You can "
@@ -1678,7 +1688,7 @@ msgstr ""
 "Votre abonnement a été mis à jour avec succès jusqu'au %(date)s<br>Vous "
 "pouvez continuer à utiliser le fablab avec des prix demi-tarifs"
 
-#: payments/views.py:191
+#: payments/views.py:202
 msgid "Your subsription has been updated successfully"
 msgstr "Votre abonnement a été mis à jour avec succès"
 

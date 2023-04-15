@@ -9,4 +9,9 @@
 <p>
     {{email_footer}}
 </p>
+{% if cancellation_policy %}
+<hr>
+<p>{% trans "Cancellation policy" %}:</br>
+{{cancellation_policy}}<p>
+{% endif %}
 {% endblock content %}
