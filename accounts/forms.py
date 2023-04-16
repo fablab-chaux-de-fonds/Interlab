@@ -1,5 +1,4 @@
 import smtplib
-import whois
 from datetime import datetime
 from crispy_forms.helper import FormHelper
 
@@ -15,8 +14,6 @@ from django.forms import ModelForm
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 from django.utils.safestring import mark_safe
-
-from phonenumber_field.formfields import PhoneNumberField
 
 from organizations.forms import OrganizationUserAddForm
 from organizations.backends import invitation_backend

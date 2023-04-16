@@ -1,5 +1,5 @@
 import re
-import whois
+import dns.resolver
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
@@ -10,9 +10,7 @@ def validate_special_characters(value):
 
 def validate_domain(value):
     try:
-        if whois.whois(value.split('@')[1]).domain_name is None:
-            raise ValidationError(_('This domain is not valid'))
-
-    except whois.parser.PywhoisError as exception:
+        dns.resolver.resolve(value.split('@')[1], 'MX')
+    except dns.resolver.NXDOMAIN as exception:
         raise ValidationError(_('This domain is not valid')) from exception
         

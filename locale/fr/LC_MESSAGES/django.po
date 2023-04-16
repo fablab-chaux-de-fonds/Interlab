@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-11 16:13+0000\n"
+"POT-Creation-Date: 2023-04-16 13:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,23 +47,15 @@ msgstr "Cette adresse mail a été utilisée plusieurs fois."
 msgid "Recipient address rejected: Domain not found"
 msgstr "Adresse du destinataire rejetée : Domaine non trouvé"
 
-#: accounts/forms.py:118
-msgid "First name"
-msgstr "Prénom"
-
-#: accounts/forms.py:119
-msgid "Last name"
-msgstr "Nom"
-
-#: accounts/forms.py:120
+#: accounts/forms.py:123
 msgid "I subscribe to the newsletter"
 msgstr "Je m'abonne à la newsletter"
 
-#: accounts/forms.py:120
+#: accounts/forms.py:123
 msgid "about once a month"
 msgstr "environ une par mois"
 
-#: accounts/forms.py:124
+#: accounts/forms.py:128
 msgid ""
 "150 characters maximum. Only letters, numbers and the characters \"@\", \"."
 "\", \"+\", \"-\" and \"_\"."
@@ -71,38 +63,34 @@ msgstr ""
 "150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
 "\", \".\", \"+\", \"-\" et \"_\"."
 
-#: accounts/forms.py:132
-msgid "This domain is not valid"
-msgstr "Ce domaine n'est pas valide"
-
-#: accounts/forms.py:148
+#: accounts/forms.py:147
 msgid "No Subscription"
 msgstr "Pas d'abonnement"
 
-#: accounts/forms.py:163
+#: accounts/forms.py:162
 msgid "Remove subscription for user {}"
 msgstr ""
 
-#: accounts/forms.py:185
+#: accounts/forms.py:184
 #, python-format
 msgid "Subcription updated to %(subcription_category)s for user %(user)s"
 msgstr ""
 "Abonnement %(subcription_category)s mise à jour pour l'utilisateur %(user)s"
 
-#: accounts/forms.py:200
+#: accounts/forms.py:199
 #, fuzzy
 msgid "Subscription duration updated for user {}"
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
-#: accounts/forms.py:230
+#: accounts/forms.py:229
 msgid "Welcome to Fablab !"
 msgstr "Bienvenue au FabLab !"
 
-#: accounts/forms.py:231 fabcal/forms.py:283 fabcal/forms.py:294
+#: accounts/forms.py:230 fabcal/forms.py:283 fabcal/forms.py:294
 msgid "A new training was planned"
 msgstr "Une nouvelle formation a été planifiée"
 
-#: accounts/forms.py:252
+#: accounts/forms.py:251
 #, python-format
 msgid ""
 "Training %(training)s has been successfully deleted for %(first_name)s "
@@ -110,15 +98,15 @@ msgid ""
 msgstr ""
 "La fomation %(training)s a été supprimée pour %(first_name)s %(last_name)s"
 
-#: accounts/forms.py:260
+#: accounts/forms.py:259
 msgid "Sorry, we cancel your training validation"
 msgstr "Désolé, nous avec supplimé votre formation"
 
-#: accounts/forms.py:261
+#: accounts/forms.py:260
 msgid "Training deleted"
 msgstr "Formation supprimée"
 
-#: accounts/forms.py:275
+#: accounts/forms.py:274
 #, python-format
 msgid ""
 "Training %(training)s has been successfully valided for %(first_name)s "
@@ -127,11 +115,11 @@ msgstr ""
 "La fomation %(training)s a été validée avec succès pour %(first_name)s "
 "%(last_name)s"
 
-#: accounts/forms.py:284
+#: accounts/forms.py:283
 msgid "Start to use the machine !"
 msgstr "Commence à utiliser la machine !"
 
-#: accounts/forms.py:285
+#: accounts/forms.py:284
 msgid "Training validated"
 msgstr "Formation validée"
 
@@ -650,9 +638,13 @@ msgstr ""
 "d'utilisation, la charte du FabLab et les statuts de l'Association FabLab La "
 "Chaux-de-Fonds</a>"
 
-#: accounts/validators.py:8
+#: accounts/validators.py:9
 msgid "Special characters are not allowed."
 msgstr "Les caractères spéciaux ne sont pas autorisés."
+
+#: accounts/validators.py:15
+msgid "This domain is not valid"
+msgstr "Ce domaine n'est pas valide"
 
 #: accounts/views.py:138
 msgid ""
