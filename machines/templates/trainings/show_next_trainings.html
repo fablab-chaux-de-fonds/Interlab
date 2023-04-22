@@ -52,7 +52,7 @@
     </div>
     <div class="col-4 mt-auto">
         {% if user.is_authenticated %}
-        <form action="./show" method="post">
+        <form action="." method="post">
             {% csrf_token %}
             {% if notification %}
             <button type="submit" class="btn btn-outline-primary float-end">
