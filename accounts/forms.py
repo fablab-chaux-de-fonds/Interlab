@@ -15,20 +15,21 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 from django.utils.safestring import mark_safe
 
-from phonenumber_field.formfields import PhoneNumberField
-
 from organizations.forms import OrganizationUserAddForm
 from organizations.backends import invitation_backend
 
 from django_registration.forms import RegistrationForm
 from .models import SubscriptionCategory, Subscription, Profile, CustomUser
-from .validators import validate_special_characters
+from .validators import validate_special_characters, validate_domain
 
 from machines.models import Training, TrainingValidation
 
 class EditUserForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         super(EditUserForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].validators.append(validate_special_characters)
+        self.fields['last_name'].validators.append(validate_special_characters)
+        self.fields['email'].validators.append(validate_domain)
         del self.fields['password']
 
     class Meta:
@@ -113,21 +114,26 @@ class CustomOrganizationUserAddForm(OrganizationUserAddForm):
         return email
 
 class CustomRegistrationForm(RegistrationForm, forms.Form):
-    "This form is used for registration - Base class form Django"
-    first_name = forms.CharField(max_length=50, label=_('First name'), validators=[validate_special_characters]) # Required
-    last_name = forms.CharField(max_length=50, label=_('Last name'), validators=[validate_special_characters]) # Required
+    def __init__(self, *args, **kwargs):
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].validators.append(validate_special_characters)
+        self.fields['last_name'].validators.append(validate_special_characters)
+        self.fields['email'].validators.append(validate_domain)
+
     newsletter = forms.BooleanField(required=False, label=_('I subscribe to the newsletter'), help_text=_('about once a month'))
+
     class Meta(RegistrationForm.Meta):
-            model = get_user_model()
-            help_texts  = {
-                'username' : _('150 characters maximum. Only letters, numbers and the characters "@", ".", "+", "-" and "_".')
-            }
-            fields = ['first_name','last_name','username','email','password1','password2', 'newsletter']
+        model = get_user_model()
+        help_texts  = {
+            'username' : _('150 characters maximum. Only letters, numbers and the characters "@", ".", "+", "-" and "_".')
+        }
+        fields = ['first_name','last_name','username','email','password1','password2', 'newsletter']
+        
 
 class CustomUserRegistrationForm(CustomRegistrationForm):
     "This form is used when the user in invited with django-organization"
-    email = forms.EmailField(widget=forms.TextInput(
-        attrs={'class': 'disabled', 'readonly': 'readonly'}))
+    email = forms.EmailField(
+        widget=forms.TextInput(attrs={'class': 'disabled', 'readonly': 'readonly'}))
 
 class SuperuserProfileEditForm(forms.Form):
 

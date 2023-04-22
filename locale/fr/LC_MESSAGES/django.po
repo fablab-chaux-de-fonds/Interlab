@@ -34,7 +34,6 @@ msgstr ""
 "Vous n'avez pas encore validé votre e-mail. Veuillez cliquer sur le lien "
 "d'activation que nous vous avons envoyé par e-mail lorsque vous avez créé "
 "votre compte."
-
 #: accounts/forms.py:91
 msgid "There is already an organization member with this email address!"
 msgstr "Il y a déjà un membre de l'organisation avec cette adresse e-mail !"
@@ -70,6 +69,7 @@ msgid ""
 msgstr ""
 "150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
 "\", \".\", \"+\", \"-\" et \"_\"."
+
 
 #: accounts/forms.py:141
 msgid "No Subscription"
@@ -649,6 +649,10 @@ msgstr ""
 #: accounts/validators.py:8
 msgid "Special characters are not allowed."
 msgstr "Les caractères spéciaux ne sont pas autorisés."
+
+#: accounts/validators.py:15
+msgid "This domain is not valid"
+msgstr "Ce domaine n'est pas valide"
 
 #: accounts/views.py:138
 msgid ""
@@ -1475,7 +1479,7 @@ msgstr "Spécifications"
 
 #: machines/templates/machines/list.html:5
 msgid "Filter"
-msgstr ""
+msgstr "Filtres"
 
 #: machines/templates/machines/list.html:49
 msgid "Sorry, no machine available in this category"
