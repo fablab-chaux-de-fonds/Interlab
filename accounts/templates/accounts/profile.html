@@ -107,7 +107,7 @@
                             <i class="bi bi-trash3 fs-1"></i>
                         </a>
                         <a class="btn btn-link align-middle" href="{% url 'fabcal:training-update' slot.pk %}">
-                            <i class="bi bi-arrow-right-square text-blue fs-1"></i>
+                            <i class="bi bi-pencil-square text-blue fs-1"></i>
                         </a>
                     </div>
                     {% else %}
@@ -124,7 +124,7 @@
                             <i class="bi bi-trash3 fs-1"></i>
                         </a>
                         <a class="btn btn-link align-middle" href="{% url 'fabcal:update-opening' slot.pk %}">
-                            <i class="bi bi-arrow-right-square text-blue fs-1"></i>
+                            <i class="bi bi-pencil-square text-blue fs-1"></i>
                         </a>
                     </div>
                 {% elif slot|get_type == 'MachineSlot' %}
@@ -134,12 +134,12 @@
                             <i class="bi bi-trash3 fs-1"></i>
                         </a>
                         <a class="btn btn-link align-middle" href="{% url 'fabcal:machine-reservation-update' slot.pk %}">
-                            <i class="bi bi-arrow-right-square text-blue fs-1"></i>
+                            <i class="bi bi-pencil-square text-blue fs-1"></i>
                         </a>
                     </div>
                 {% elif slot|get_type == 'EventSlot' %}
                     <a href="{% url 'fabcal:event-detail' slot.pk %}">
-                        <i class="bi bi-arrow-right-square text-blue fs-1"></i>
+                        <i class="bi bi-pencil-square text-blue fs-1"></i>
                     </a>
                 {%endif%}
             </div>
