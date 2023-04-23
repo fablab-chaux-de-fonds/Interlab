@@ -84,4 +84,24 @@
         </div>
     </div>
 </a>
+<hr class="text-red">
+<a class="px-0" href="{% url 'fabcal:machine-reservation-future' %}">
+    <div class="row">
+        <div class="col-12 py-0">
+            <div class="row fs-1">
+                <div class="col-10 py-0">
+                    {% trans "Reservations" %}</h2>
+                </div>
+                <div class="col-2 text-end py-0">
+                    <h1><i class="bi bi-arrow-right-square"></i></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 pt-0">
+                    <p>{% trans "Future and past reservations"%}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
 {% endif %}
