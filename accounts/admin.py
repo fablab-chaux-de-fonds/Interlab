@@ -5,8 +5,9 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import *
 
 @admin.register(Profile)
-class AccountsAdmin(admin.ModelAdmin):
+class ProfileAdmin(admin.ModelAdmin):
     list_display = ['user', 'subscription']
+    search_fields = ['user__first_name', 'user__last_name', 'user__email']
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
@@ -18,4 +19,4 @@ class SubscriptionCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(CustomUser)
 class CustomUserAdmin(BaseUserAdmin):
-    pass 
+    pass
