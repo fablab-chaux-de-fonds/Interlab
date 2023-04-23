@@ -660,6 +660,10 @@ msgstr ""
 msgid "Special characters are not allowed."
 msgstr "Les caractères spéciaux ne sont pas autorisés."
 
+#: accounts/validators.py:15
+msgid "This domain is not valid"
+msgstr "Ce domaine n'est pas valide"
+
 #: accounts/views.py:138
 msgid ""
 "Your newsletter registration has been updated successfully with the email "
@@ -907,9 +911,33 @@ msgstr " à "
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:18
 #: fabcal/templates/fabcal/trainingslot_(un)registration_form.html:14
-#: fabcal/views.py:172
+#: fabcal/views.py:171
 msgid "The payment will be made on site"
 msgstr "Le paiement se fera sur place"
+
+#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:22
+msgid "Cancellation policy"
+msgstr "Conditions d'annulation"
+
+#: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:23
+#, python-format
+msgid ""
+"Please note that you may cancel this reservation up to 24 hours prior to the "
+"start of the slot without charge via your <a href=\"%(profile_url)s"
+"\">account page on our website</a>. However, if you wish to cancel your "
+"reservation after this period, please <a href=\"%(mail_url)s\">inform us by "
+"email</a>. In this case, we are sorry to inform you that we will be obliged "
+"to charge you for the machine hours, as the reserved machine could not be "
+"used by another person at that time. Thank you for your understanding."
+msgstr ""
+"Veuillez noter que vous pouvez annuler cette réservation jusqu'à 24 heures "
+"avant le début du créneau sans frais via la <a href=\"%(profile_url)s\">page "
+"de votre compte sur notre site internet</a>. En revanche, si vous souhaitez "
+"annuler votre réservation après cette période, veuillez nous en <a href="
+"\"%(mail_url)s\">informer par mail</a>. Dans ce cas, nous sommes désolés de "
+"vous informer que nous serons dans l'obligation de vous facturer les heures "
+"machine, car la machine réservée n'aura pas pu être utilisée par une autre "
+"personne à ce moment-là. Nous vous remercions de votre compréhension."
 
 #: fabcal/templates/fabcal/email/training_create_alert.html:6
 msgid "We have planned a new training"
@@ -1117,53 +1145,53 @@ msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
 msgid "Closed"
 msgstr "Fermé"
 
-#: fabcal/views.py:162
+#: fabcal/views.py:161
 #, python-format
 msgid "%(start_date)s <br> %(start_time)s - %(end_time)s"
 msgstr "%(start_date)s <br> %(start_time)s - %(end_time)s"
 
-#: fabcal/views.py:164
+#: fabcal/views.py:163
 #, python-format
 msgid ""
 "From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s "
 msgstr ""
 "Du %(start_date)s à %(start_time)s <br> au %(end_date)s à %(end_time)s "
 
-#: fabcal/views.py:170
+#: fabcal/views.py:169
 msgid "We hope to see you back soon !"
 msgstr "Nous espérons vous revoir bientôt !"
 
-#: fabcal/views.py:181
+#: fabcal/views.py:180
 msgid "Confirmation of your unregistration"
 msgstr "Confirmation de votre desinscription"
 
-#: fabcal/views.py:181
+#: fabcal/views.py:180
 msgid "Confirmation of your registration"
 msgstr "Confirmation de votre inscription"
 
-#: fabcal/views.py:193
+#: fabcal/views.py:192
 msgid "Oh no! We sent you an email to confirme your unregistration"
 msgstr ""
 "Oh non ! Nous vous avons envoyé un e-mail pour confirmer votre desinscription"
 
-#: fabcal/views.py:195
+#: fabcal/views.py:194
 msgid "Well done! We sent you an email to confirme your registration"
 msgstr ""
 "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
 
-#: fabcal/views.py:214
+#: fabcal/views.py:213
 msgid "Create opening"
 msgstr "Créer l'ouverture"
 
-#: fabcal/views.py:216
+#: fabcal/views.py:215
 msgid "Update opening"
 msgstr "Mettre à jour l'ouverture"
 
-#: fabcal/views.py:258
+#: fabcal/views.py:257
 msgid "This opening slot cannot be deleted."
 msgstr "Ce créneau d'ouverture ne peut pas être supprimé."
 
-#: fabcal/views.py:262
+#: fabcal/views.py:261
 #, python-format
 msgid ""
 "Your opening on %(date)s from %(start)s to %(end)s has been successfully "
@@ -1171,15 +1199,15 @@ msgid ""
 msgstr ""
 "Votre ouverture du %(date)s de %(start)s à %(end)s a bien été supprimée"
 
-#: fabcal/views.py:273
+#: fabcal/views.py:272
 msgid "Create event"
 msgstr "Créer l'évènement"
 
-#: fabcal/views.py:273
+#: fabcal/views.py:272
 msgid "Update event"
 msgstr "Mettre à jour l'évènement"
 
-#: fabcal/views.py:305
+#: fabcal/views.py:304
 msgid "Your event has been successfully deleted"
 msgstr "Votre évènement a été supprimé avec succès"
 
@@ -1478,7 +1506,7 @@ msgstr "Spécifications"
 
 #: machines/templates/machines/list.html:5
 msgid "Filter"
-msgstr ""
+msgstr "Filtres"
 
 #: machines/templates/machines/list.html:49
 msgid "Sorry, no machine available in this category"

@@ -39,6 +39,7 @@ html5lib
 packaging
 Pillow
 psycopg2-binary
+dnspython
 pytz
 six
 bcrypt
