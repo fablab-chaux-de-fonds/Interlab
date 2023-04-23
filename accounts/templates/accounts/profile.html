@@ -27,8 +27,7 @@
                 <p>
                     {% if slot.available_registration > 0  %}
                     <small class"fs-6">
-                        {% blocktrans with available_registration=slot.available_registration %}still
-                        {{available_registration}} places available !{% endblocktrans %}
+                        {% blocktrans with available_registration=slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}
                     </small>
                     {% if slot.registrations != None %}
                 <h5>{% trans "Registration" %}</h5>
@@ -106,7 +105,7 @@
                     {% if request.user|has_group:"superuser"%}
                     {% if slot.registrations.all %}
                     <button type="button" class="btn btn-link align-middle link-secondary" data-bs-toggle="tooltip"
-                        data-bs-placement="top" title="You have reservations!">
+                        data-bs-placement="top" title="{% trans 'You have reservations!' %}">
                         <i class="bi bi-trash3 fs-1"></i>
                     </button>
                     {% else %}
@@ -122,7 +121,7 @@
                     {% if not slot.is_editable %}
                     <button type="button" class="btn btn-link align-middle link-secondary" data-bs-toggle="tooltip"
                         data-bs-placement="top"
-                        title="It is not possible to cancel the reservation 24h before the begining of the training. Please contact us.">
+                        title="{% trans 'It is not possible to cancel the reservation 24h before the begining of the training. Please contact us.' %}">
                         <i class="bi bi-trash3 fs-1"></i>
                     </button>
                     {% else %}
@@ -138,7 +137,7 @@
                     {% if slot.get_reservation_list %}
                     <button type="button" class="btn btn-link align-middle link-secondary" data-bs-toggle="tooltip"
                         data-bs-placement="top"
-                        title="You have reservations!">
+                        title="{% trans 'You have reservations!' %}">
                         <i class="bi bi-trash3 fs-1"></i>
                     </button>
                     {% else %}
@@ -156,7 +155,7 @@
                     {% if not slot.is_editable %}
                     <button type="button" class="btn btn-link align-middle link-secondary" data-bs-toggle="tooltip"
                         data-bs-placement="top"
-                        title="It is not possible to cancel the reservation 24h before the begining of the slot.">
+                        title="{% trans 'It is not possible to cancel the reservation 24h before the begining of the slot. Please contact us.' %}">
                         <i class="bi bi-trash3 fs-1"></i>
                     </button>
                     {% else %}
