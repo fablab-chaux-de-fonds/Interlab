@@ -1,0 +1,26 @@
+{% extends "email/base_email.html" %}
+{% load i18n %}
+
+{% block content %}
+<p> Hello {{request.user.first_name}}, </p> 
+<p>
+    {% trans "We confirme that you are reserve the machine " %}
+    {{machine_slot.machine.title}}
+    {% trans " on " %}
+    {{machine_slot.start|date:'l j F'}}
+    {% trans " from " %}
+    {{machine_slot.start|date:'H:i'}}
+    {% trans " to " %}
+    {{machine_slot.end|date:'H:i'}}.
+</p>
+
+<p>
+    {% trans "The payment will be done on the spot by card or in cash" %}
+</p>
+
+<hr>
+<p>{% trans "Cancellation policy" %}:</br>
+{% blocktrans with profile_url='fablab-chaux-de-fonds.ch/accounts/profile/' mail_url='mailto:info@fablab-chaux-de-fonds.ch' %}Please note that you may cancel this reservation up to 24 hours prior to the start of the slot without charge via your <a href="{{profile_url}}">account page on our website</a>. However, if you wish to cancel your reservation after this period, please <a href="{{mail_url}}">inform us by email</a>. In this case, we are sorry to inform you that we will be obliged to charge you for the machine hours, as the reserved machine could not be used by another person at that time. Thank you for your understanding.{% endblocktrans %}
+</p>
+
+{% endblock content %}

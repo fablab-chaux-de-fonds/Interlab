@@ -39,7 +39,7 @@ def training_show(request, pk):
 
     context = {
         'training': training,
-        'training_slots': TrainingSlot.objects.filter(training__pk = pk, start__gte=datetime.datetime.now()),
+        'training_slots': TrainingSlot.objects.filter(training__pk = pk, start__gte=datetime.datetime.now()).order_by('start'),
         'machines': training.machines_list,
         'tools': ToolTraining.objects.filter(training__pk=pk).order_by('sort'),
         'notification': notification,

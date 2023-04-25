@@ -160,7 +160,7 @@ class AbstractSlotView(View):
         if 'unregister' in self.request.path:
             context["email_footer"] = _('We hope to see you back soon !')
         else:
-            context["email_footer"] = _('The payment will be made on site')
+            context["email_footer"] = _('The payment will be done on the spot by card or in cash')
 
         return context
 
