@@ -19,11 +19,12 @@ from django.utils.translation import ugettext as _
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView, DeleteView
+from django.views.generic.edit import FormView, DeleteView, CreateView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
 from .forms import OpeningForm, EventForm, TrainingForm, RegisterTrainingForm, MachineReservationForm, RegisterEventForm
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
+from .mixins import SuperuserRequiredMixin
 
 from interlab.views import CustomFormView
 
@@ -221,8 +222,10 @@ class OpeningBaseView(CustomFormView, AbstractMachineView):
         context = get_start_end(self, context)
         return context
 
-class CreateOpeningView(OpeningBaseView):
-    crud_state = 'created'
+class OpeningSlotCreateView(SuperuserRequiredMixin, CreateView, CustomFormView):
+    model = OpeningSlot
+    form = OpeningForm
+    fields = ['opening']
 
 class UpdateOpeningView(OpeningBaseView):
     crud_state = 'updated'
