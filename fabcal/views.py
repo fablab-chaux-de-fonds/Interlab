@@ -1,5 +1,4 @@
 from copy import deepcopy
-import dateparser
 import os
 
 from babel.dates import format_datetime
@@ -20,9 +19,10 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, DeleteView, CreateView
+from django.views.generic.edit import ModelFormMixin
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
-from .forms import OpeningForm, EventForm, TrainingForm, RegisterTrainingForm, MachineReservationForm, RegisterEventForm
+from .forms import OpeningSlotForm, EventForm, TrainingForm, RegisterTrainingForm, MachineReservationForm, RegisterEventForm
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 from .mixins import SuperuserRequiredMixin
 
@@ -31,10 +31,7 @@ from interlab.views import CustomFormView
 def get_start_end(self, context):
     # TODO implement in AbstractMachineView
     if self.request.method =='GET':
-        if self.crud_state == 'created':
-            context['start'] = datetime.fromtimestamp(int(self.kwargs['start'])/1000)
-            context['end'] = datetime.fromtimestamp(int(self.kwargs['end'])/1000)
-        elif self.crud_state == 'updated':
+        if self.crud_state == 'updated':
             context['start'] = self.object.start
             context['end'] = self.object.end
     elif self.request.method =='POST':
@@ -209,7 +206,7 @@ class AbstractSlotView(View):
  
 class OpeningBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/opening_create_or_update_form.html'
-    form_class = OpeningForm
+    form_class = OpeningSlotForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -222,10 +219,40 @@ class OpeningBaseView(CustomFormView, AbstractMachineView):
         context = get_start_end(self, context)
         return context
 
-class OpeningSlotCreateView(SuperuserRequiredMixin, CreateView, CustomFormView):
+class OpeningSlotCreateView(SuperuserRequiredMixin, CustomFormView, CreateView):
     model = OpeningSlot
-    form = OpeningForm
-    fields = ['opening']
+    form_class = OpeningSlotForm
+    success_url = '/schedule/'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        
+        params = {}
+        for i in ['start', 'end']:
+            params[i] = datetime.fromtimestamp(int(self.request.GET.get(i))/1000)
+
+        initial['date'] = params['start'].strftime('%Y-%m-%d')
+        initial['start_time'] = params['start'].strftime('%H:%M')
+        initial['end_time'] = params['end'].strftime('%H:%M')
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_btn'] = _('Create opening')
+        return context
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.user = self.request.user
+        instance.start = datetime.combine(
+            form.cleaned_data['date'],
+            form.cleaned_data['start_time']
+        )
+        instance.end = datetime.combine(
+            form.cleaned_data['date'],
+            form.cleaned_data['end_time']
+        )
+        return super().form_valid(form)
 
 class UpdateOpeningView(OpeningBaseView):
     crud_state = 'updated'

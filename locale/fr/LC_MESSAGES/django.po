@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -78,7 +77,6 @@ msgstr ""
 "Abonnement %(subcription_category)s mise à jour pour l'utilisateur %(user)s"
 
 #: accounts/forms.py:199
-#, fuzzy
 msgid "Subscription duration updated for user {}"
 msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
 
@@ -882,10 +880,6 @@ msgstr "Céneau machine"
 msgid "Machine Slots"
 msgstr "Créneaux machine"
 
-#: fabcal/templates/fabcal/email/confirmation.html:14
-msgid "Cancellation policy"
-msgstr "Conditions d'annulation"
-
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:9
 msgid " on "
 msgstr " le "
@@ -1279,26 +1273,6 @@ msgstr ""
 "Désolé, vous ne pouvez pas encore réserver cette machine. Vous devez d'abord "
 "suivre la formation avant de pouvoir l'utiliser."
 
-#: fabcal/views.py:533
-#, python-format
-msgid ""
-"Please note that you may cancel this reservation up to 24 hours prior to the "
-"start of the slot without charge via your <a href=\"%(profile_url)s"
-"\">account page on our website</a>. However, if you wish to cancel your "
-"reservation after this period, please <a href=\"%(mail_url)s\">inform us by "
-"email</a>. In this case, we are sorry to inform you that we will be obliged "
-"to charge you for the machine hours, as the reserved machine could not be "
-"used by another person at that time. Thank you for your understanding."
-msgstr ""
-"Veuillez noter que vous pouvez annuler cette réservation jusqu'à 24 heures "
-"avant le début du créneau sans frais via la <a href=\"%(profile_url)s\">page "
-"de votre compte sur notre site internet</a>. En revanche, si vous souhaitez "
-"annuler votre réservation après cette période, veuillez nous en <a href="
-"\"%(mail_url)s\">informer par mail</a>. Dans ce cas, nous sommes désolés de "
-"vous informer que nous serons dans l'obligation de vous facturer les heures "
-"machine, car la machine réservée n'aura pas pu être utilisée par une autre "
-"personne à ce moment-là. Nous vous remercions de votre compréhension."
-
 #: fabcal/views.py:672
 msgid "You reservation has been canceled !"
 msgstr "Pas de réservation possible"
@@ -1602,10 +1576,6 @@ msgstr "Malheureusement, aucune machine n'est disponible pour le moment."
 #: machines/templates/trainings/show_next_trainings.html:3
 msgid "Next Trainings"
 msgstr "Prochaines formations"
-
-#: machines/templates/trainings/show_next_trainings.html:9
-msgid " from "
-msgstr " de "
 
 #: machines/templates/trainings/show_next_trainings.html:42
 msgid "Not available ?"
