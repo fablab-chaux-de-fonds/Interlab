@@ -1,11 +1,13 @@
+from interlab import test_utils
+
 import datetime
 
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import Group
 from accounts.models import CustomUser
-from .forms import OpeningSlotForm
 from openings.models import Opening
+from fabcal.forms import OpeningSlotForm
 from fabcal.models import OpeningSlot
 
 # Create your tests here.

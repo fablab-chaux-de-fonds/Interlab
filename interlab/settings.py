@@ -214,13 +214,12 @@ INSTALLED_APPS = [
     'django_registration',
     'crispy_forms',
     'crispy_bootstrap5',
-    'interlab',
+    'fabcal.apps.FabcalConfig',
     'debug_toolbar',
     'organizations',
     'newsletter.apps.NewsletterConfig',
     'machines',
     'mathfilters',
-    'fabcal',
     'openings',
     'colorfield',
     'django_filters',
@@ -231,7 +230,8 @@ INSTALLED_APPS = [
     'django_htmx',
     'analytical',
     'phonenumber_field',
-    'payments.apps.PaymentsConfig'
+    'payments.apps.PaymentsConfig',
+    'interlab',
 ]
 
 LANGUAGES = (
@@ -282,13 +282,11 @@ CMS_PLACEHOLDER_CONF = {}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-if 'test' in sys.argv:
+if 'test' in sys.argv or 'test_coverage' in sys.argv or os.environ.get('DJANGO_SETTINGS_MODULE', '') == 'interlab.settings':
     DATABASES = {
         'default' : {
             'ENGINE': 'django.db.backends.sqlite3',
-            'TEST': {
-                'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
-            }
+            'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
         }
     }
 else:

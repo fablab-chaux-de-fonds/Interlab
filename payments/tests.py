@@ -4,7 +4,7 @@ from datetime import timedelta, date
 from django.test import TestCase
 from accounts.models import Profile, CustomUser, Subscription, SubscriptionCategory
 from django.contrib.auth.models import User
-from .views import fulfill_order
+from payments.views import fulfill_order
 
 class SubscriptionRenewBase(TestCase):
     def __init__(self, methodName, start: date, end: date, with_subscription: bool):
