@@ -9,7 +9,8 @@ from django.utils.translation import gettext_lazy as _
 from openings.models import Opening, Event
 from machines.models import Training, Machine
 
-# Create your models here.
+from .validators import validate_conflicting_openings, validate_time_range
+
 class AbstractSlot(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     start = models.DateTimeField()
@@ -54,6 +55,10 @@ class OpeningSlot(AbstractSlot):
 
     def __str__(self):
         return str(self.pk) +' :' + self.opening.title
+
+    def clean(self):
+        validate_conflicting_openings(self.start, self.end, instance=self)
+        validate_time_range(self.start, self.end)
 
     @property
     def get_day_of_the_week(self):
