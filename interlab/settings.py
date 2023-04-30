@@ -282,14 +282,7 @@ CMS_PLACEHOLDER_CONF = {}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-if 'test' in sys.argv or 'test_coverage' in sys.argv or os.environ.get('DJANGO_SETTINGS_MODULE', '') == 'interlab.settings':
-    DATABASES = {
-        'default' : {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
-        }
-    }
-else:
+if os.environ['HOME'] == '/root': #check if in container
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -298,6 +291,13 @@ else:
             'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
             'HOST': os.environ.get('POSTGRES_HOST'),
             'PORT': os.environ.get('POSTGRES_PORT')
+        }
+    }
+else:
+        DATABASES = {
+        'default' : {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
         }
     }
 

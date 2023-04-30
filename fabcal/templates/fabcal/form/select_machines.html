@@ -1,15 +1,15 @@
 <div class="mb-3">
     <div class="form form-check-inline form-check-btn my-1">
-        <label for="{{ form.machine.id_for_label }}">{{ form.machine.label_tag }}</label>
+        <label for="{{ form.machines.id_for_label }}">{{ form.machines.label_tag }}</label>
         <br>
-        {% for field in form.machine %}
-        <input  id="{{field.id_for_label}}" name="{{form.machine.name}}" type="checkbox"
+        {% for field in form.machines %}
+        <input  id="{{field.id_for_label}}" name="{{form.machines.name}}" type="checkbox"
             value="{{field.data.value.instance.pk}}" class="btn-check" autocomplete="off"
-            {% if field.data.value.instance.pk in form.initial.machine or view.crud_state == "created" %} checked="checked" {% endif %}
+            {% if field.data.value.instance.pk in form.initial.machine or request.resolver_match.url_name == 'openingslot-create' %} checked="checked" {% endif %}
             />
         <label for="{{field.id_for_label}}"
             class="btn btn-outline-secondary rounded-pill m-2"> {{ field.data.value.instance.title }}</label>
         {% endfor %}
     </div>
-    {{ form.machine.errors }}
+    {{ form.machines.errors }}
 </div>
