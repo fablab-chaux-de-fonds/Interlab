@@ -99,11 +99,24 @@ class TestOpeningSlotCreateView(TestCase):
     def test_overlaps(self):
         OpeningSlot.objects.all().delete()
         
+        # Create a first opening
         self.client.login(username='testsuperuser', password='testpass')
         response = self.client.post(self.url, self.form_data)
         self.assertEqual(response.status_code, 302)
 
+        # Test exact overlap with a second opening
         response = self.client.post(self.url, self.form_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
+
+        # Test second opening start before, and end during an existing opening
+        form_data = {
+            'opening': self.openlab.id,
+            'date': '1 mai 2023',
+            'start_time': '09:00',
+            'end_time': '11:00',
+        }
+        response = self.client.post(self.url, form_data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
 
