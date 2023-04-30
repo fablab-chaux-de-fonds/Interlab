@@ -94,8 +94,18 @@ class TestOpeningSlotCreateView(TestCase):
         }
         form = OpeningSlotForm(data=form_data)
         self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors['__all__'], ['Heure du début après heure de fin'])
         self.assertEqual(form.errors.as_data()['__all__'][0].code, 'invalid_time_range')
+
+    def test_overlaps(self):
+        OpeningSlot.objects.all().delete()
+        
+        self.client.login(username='testsuperuser', password='testpass')
+        response = self.client.post(self.url, self.form_data)
+        self.assertEqual(response.status_code, 302)
+
+        response = self.client.post(self.url, self.form_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
 
     def test_view_valid(self):
         self.client.login(username='testsuperuser', password='testpass')

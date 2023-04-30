@@ -16,6 +16,7 @@ from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 from openings.models import Opening, Event
 from machines.models import Training, TrainingNotification, Machine
 from .custom_fields import CustomDateField
+from .validators import validate_conflicting_openings, validate_time_range
 
 class AbstractSlotForm(forms.Form):
     use_required_attribute=False
@@ -210,11 +211,12 @@ class OpeningSlotForm(ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+        date = cleaned_data.get('date')
         start_time = cleaned_data.get('start_time')
         end_time = cleaned_data.get('end_time')
 
-        if start_time and end_time and start_time >= end_time:
-            raise ValidationError(_("Start time after end time."), code='invalid_time_range')
+        validate_conflicting_openings(date, start_time, end_time, instance=self.instance)
+        validate_time_range(date, start_time, end_time)
 
         return cleaned_data
 
