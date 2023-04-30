@@ -76,6 +76,18 @@ class TestOpeningSlotCreateView(TestCase):
         # Check if the instance is of the correct class
         self.assertIsInstance(form.save(commit=False), OpeningSlot)
 
+    def test_start_time_before_end_time(self):
+        form_data = {
+            'opening': self.openlab.id,
+            'date': '2023-05-01',
+            'start_time': '10:00',
+            'end_time': '09:00',  # Invalid end time
+            'comment': 'my comment'
+        }
+        form = OpeningSlotForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['__all__'], ['Start time must be before end time'])
+        self.assertEqual(form.errors.as_data()['__all__'][0].code, 'invalid_time_range')
 
     def test_view_valid(self):
         self.client.login(username='testsuperuser', password='testpass')

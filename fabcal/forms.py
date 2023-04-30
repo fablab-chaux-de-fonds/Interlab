@@ -199,6 +199,16 @@ class OpeningSlotForm(ModelForm):
         model = OpeningSlot
         fields = ('opening', 'date', 'start_time', 'end_time', 'comment')
 
+    def clean(self):
+        cleaned_data = super().clean()
+        start_time = cleaned_data.get('start_time')
+        end_time = cleaned_data.get('end_time')
+
+        if start_time and end_time and start_time >= end_time:
+            raise ValidationError(_("Start time must be before end time"), code='invalid_time_range')
+
+        return cleaned_data
+
 class EventForm(AbstractSlotForm):
     event = forms.ModelChoiceField(
         queryset= Event.objects.filter(is_active=True),
