@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
+from django.forms import ModelForm
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe 
 from django.utils.translation import gettext_lazy as _
@@ -14,6 +15,7 @@ from django.utils.translation import gettext_lazy as _
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 from openings.models import Opening, Event
 from machines.models import Training, TrainingNotification, Machine
+from .custom_fields import CustomDateField
 
 class AbstractSlotForm(forms.Form):
     use_required_attribute=False
@@ -181,15 +183,22 @@ class AbstractSlotForm(forms.Form):
     def delete_machine_slot(self, view, pk):
         MachineSlot.objects.filter(opening_slot=view.opening_slot, machine_id = pk).delete()
 
-class OpeningForm(AbstractSlotForm):
+class OpeningSlotForm(ModelForm):
     opening = forms.ModelChoiceField(
         queryset=Opening.objects.all(),
         label=_('Opening'),
         empty_label=_('Select an opening'),
         error_messages={'required': _('Please select an opening.')}
         )
-    date = forms.CharField()
-        
+    date = CustomDateField()
+    start_time = forms.TimeField()
+    end_time = forms.TimeField()
+    comment = forms.CharField(label=_('Comment'),  required=False)
+
+    class Meta:
+        model = OpeningSlot
+        fields = ('opening', 'date', 'start_time', 'end_time', 'comment')
+
 class EventForm(AbstractSlotForm):
     event = forms.ModelChoiceField(
         queryset= Event.objects.filter(is_active=True),

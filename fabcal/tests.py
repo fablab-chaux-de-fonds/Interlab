@@ -1,13 +1,18 @@
+import datetime
+
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import Group
 from accounts.models import CustomUser
+from .forms import OpeningSlotForm
+from openings.models import Opening
+from fabcal.models import OpeningSlot
 
 # Create your tests here.
 class TestOpeningSlotCreateView(TestCase):
     def setUp(self):
         self.client = Client()
-        self.url = reverse('fabcal:openingslot-create', args=['1681315200000', '1681322400000'])
+        self.url = reverse('fabcal:openingslot-create') + '?start=1682784000000&end=1682791200000'
         self.user = CustomUser.objects.create_user(
             username='testuser',
             password='testpass',
@@ -18,8 +23,22 @@ class TestOpeningSlotCreateView(TestCase):
             password='testpass',
             email='superuser@fake.django'
             )
-        self.group = Group.objects.create(name='superuser')
+        self.group = Group.objects.get_or_create(name='superuser')[0]
         self.superuser.groups.add(self.group)
+        self.openlab = Opening.objects.create(
+            title='OpenLab', 
+            is_open_to_reservation=True, 
+            is_open_to_questions=True,
+            is_reservation_mandatory=False,
+            is_public=True
+            )
+        self.form_data = {
+            'opening': self.openlab.id,
+            'date': '1 mai 2023',
+            'start_time': '10:00',
+            'end_time': '12:00',
+            'comment': 'my comment'
+        }
 
     def test_authenticated_user_can_access(self):
         self.client.login(username='testuser', password='testpass')
@@ -47,6 +66,26 @@ class TestOpeningSlotCreateView(TestCase):
         # Assert view-specific content
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
+
+    def test_form_valid(self):
+        form = OpeningSlotForm(data=self.form_data)
+        self.assertTrue(form.is_valid())
+
+        # Check if the instance is of the correct class
+        self.assertIsInstance(form.save(commit=False), OpeningSlot)
+
+
+    def test_view_valid(self):
+        self.client.login(username='testsuperuser', password='testpass')
+
+        response = self.client.post(self.url, self.form_data)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/schedule/', response.url)
+        obj = OpeningSlot.objects.latest('id')
+        self.assertEqual(obj.start, datetime.datetime(2023, 5, 1, 10, 0))
+        self.assertEqual(obj.end, datetime.datetime(2023, 5, 1, 12, 0))
+        self.assertEqual(obj.comment, 'my comment')
+        self.assertEqual(obj.user, self.superuser)
 
     def tearDown(self):
         self.client.logout()

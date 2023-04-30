@@ -14,6 +14,9 @@ import distutils.util
 import os  # isort:skip
 import sys
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 gettext = lambda s: s
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
