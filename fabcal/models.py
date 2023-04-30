@@ -61,7 +61,7 @@ class OpeningSlot(AbstractSlot):
     
     @property
     def get_machine_list(self):
-        return {i.machine for i in self.machineslot_set.all()}
+        return [i.machine for i in self.machineslot_set.all()]
     
     @property
     def get_reservation_list(self):

@@ -190,6 +190,15 @@ class OpeningSlotForm(ModelForm):
         empty_label=_('Select an opening'),
         error_messages={'required': _('Please select an opening.')}
         )
+
+    machines = forms.ModelMultipleChoiceField(
+        queryset = Machine.objects.filter(reservable=True),
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'checked' : ''}
+        ),
+        label=_('Machines'),
+        required=False
+    )
     date = CustomDateField()
     start_time = forms.TimeField()
     end_time = forms.TimeField()
@@ -197,7 +206,7 @@ class OpeningSlotForm(ModelForm):
 
     class Meta:
         model = OpeningSlot
-        fields = ('opening', 'date', 'start_time', 'end_time', 'comment')
+        fields = ('opening', 'machines', 'date', 'start_time', 'end_time', 'comment')
 
     def clean(self):
         cleaned_data = super().clean()
@@ -205,7 +214,7 @@ class OpeningSlotForm(ModelForm):
         end_time = cleaned_data.get('end_time')
 
         if start_time and end_time and start_time >= end_time:
-            raise ValidationError(_("Start time must be before end time"), code='invalid_time_range')
+            raise ValidationError(_("Start time after end time."), code='invalid_time_range')
 
         return cleaned_data
 

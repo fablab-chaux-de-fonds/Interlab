@@ -9,6 +9,7 @@ from accounts.models import CustomUser
 from openings.models import Opening
 from fabcal.forms import OpeningSlotForm
 from fabcal.models import OpeningSlot
+from machines.models import Machine
 
 # Create your tests here.
 class TestOpeningSlotCreateView(TestCase):
@@ -34,8 +35,15 @@ class TestOpeningSlotCreateView(TestCase):
             is_reservation_mandatory=False,
             is_public=True
             )
+        self.trotec = Machine.objects.create(
+            title = 'Trotec'
+        )
+        self.prusa = Machine.objects.create(
+            title = 'Prusa'
+        )
         self.form_data = {
             'opening': self.openlab.id,
+            'machines': [self.trotec.id],
             'date': '1 mai 2023',
             'start_time': '10:00',
             'end_time': '12:00',
@@ -86,7 +94,7 @@ class TestOpeningSlotCreateView(TestCase):
         }
         form = OpeningSlotForm(data=form_data)
         self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors['__all__'], ['Start time must be before end time'])
+        self.assertEqual(form.errors['__all__'], ['Heure du début après heure de fin'])
         self.assertEqual(form.errors.as_data()['__all__'][0].code, 'invalid_time_range')
 
     def test_view_valid(self):
@@ -95,11 +103,14 @@ class TestOpeningSlotCreateView(TestCase):
         response = self.client.post(self.url, self.form_data)
         self.assertEqual(response.status_code, 302)
         self.assertIn('/schedule/', response.url)
+        
         obj = OpeningSlot.objects.latest('id')
         self.assertEqual(obj.start, datetime.datetime(2023, 5, 1, 10, 0))
         self.assertEqual(obj.end, datetime.datetime(2023, 5, 1, 12, 0))
         self.assertEqual(obj.comment, 'my comment')
         self.assertEqual(obj.user, self.superuser)
+
+        self.assertEqual(obj.get_machine_list, [self.trotec])
 
     def tearDown(self):
         self.client.logout()
