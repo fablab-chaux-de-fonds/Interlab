@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-01 14:45+0000\n"
+"POT-Creation-Date: 2023-05-01 19:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1117,7 +1117,7 @@ msgid ""
 "The time slot ({start_time} - {end_time}) conflicts with the following "
 "openings: <br> {openings}"
 msgstr ""
-"L'horraire du créneau ({start_time} - {end_time}) est en conflit avec "
+"L'horaire du créneau ({start_time} - {end_time}) est en conflit avec "
 "l'ouverture suivante: <br> {openings}"
 
 #: fabcal/views.py:151
@@ -1289,7 +1289,7 @@ msgstr ""
 msgid "You reservation has been canceled !"
 msgstr "Pas de réservation possible"
 
-#: interlab/settings.py:236 interlab/settings.py:255
+#: interlab/settings.py:239 interlab/settings.py:258
 msgid "fr"
 msgstr "fr"
 
