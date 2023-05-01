@@ -41,14 +41,6 @@ class TestOpeningSlotCreateView(TestCase):
         self.prusa = Machine.objects.create(
             title = 'Prusa'
         )
-        self.form_data = {
-            'opening': self.openlab.id,
-            'machines': [self.trotec.id],
-            'date': '1 mai 2023',
-            'start_time': '10:00',
-            'end_time': '12:00',
-            'comment': 'my comment'
-        }
 
     def test_authenticated_user_can_access(self):
         self.client.login(username='testuser', password='testpass')
@@ -78,7 +70,15 @@ class TestOpeningSlotCreateView(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_form_valid(self):
-        form = OpeningSlotForm(data=self.form_data)
+        form_data = {
+            'opening': self.openlab.id,
+            'machines': [self.trotec.id],
+            'date': '1 mai 2023',
+            'start_time': '10:00',
+            'end_time': '12:00',
+            'comment': 'my comment'
+        }
+        form = OpeningSlotForm(form_data)
         self.assertTrue(form.is_valid())
 
         # Check if the instance is of the correct class
@@ -100,12 +100,27 @@ class TestOpeningSlotCreateView(TestCase):
         OpeningSlot.objects.all().delete()
         
         # Create a first opening
+        form_data = {
+            'opening': self.openlab.id,
+            'machines': [self.trotec.id],
+            'date': '1 mai 2023',
+            'start_time': '10:00',
+            'end_time': '12:00'
+        }
+        
         self.client.login(username='testsuperuser', password='testpass')
-        response = self.client.post(self.url, self.form_data)
+        response = self.client.post(self.url, form_data)
         self.assertEqual(response.status_code, 302)
 
         # Test exact overlap with a second opening
-        response = self.client.post(self.url, self.form_data)
+        form_data = {
+            'opening': self.openlab.id,
+            'machines': [self.trotec.id],
+            'date': '1 mai 2023',
+            'start_time': '10:00',
+            'end_time': '12:00',
+        }
+        response = self.client.post(self.url, form_data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
 
@@ -122,8 +137,15 @@ class TestOpeningSlotCreateView(TestCase):
 
     def test_view_valid(self):
         self.client.login(username='testsuperuser', password='testpass')
+        form_data = {
+            'opening': self.openlab.id,
+            'machines': [self.trotec.id],
+            'date': '1 mai 2023',
+            'start_time': '10:00',
+            'end_time': '12:00',
+        }
 
-        response = self.client.post(self.url, self.form_data)
+        response = self.client.post(self.url, form_data)
         self.assertEqual(response.status_code, 302)
         self.assertIn('/schedule/', response.url)
         
