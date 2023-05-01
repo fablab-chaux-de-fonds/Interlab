@@ -143,6 +143,7 @@ class TestOpeningSlotCreateView(TestCase):
             'date': '1 mai 2023',
             'start_time': '10:00',
             'end_time': '12:00',
+            'comment': 'my comment'
         }
 
         response = self.client.post(self.url, form_data)
