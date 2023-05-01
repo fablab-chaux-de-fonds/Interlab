@@ -14,9 +14,9 @@ import distutils.util
 import os  # isort:skip
 import sys
 
+# Required for local sqlite migrations
 from dotenv import load_dotenv
 load_dotenv()
-
 
 gettext = lambda s: s
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -282,7 +282,17 @@ CMS_PLACEHOLDER_CONF = {}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-if os.environ['HOME'] == '/root': #check if in container
+
+if any('test' in item for item in sys.argv) or os.environ['PWD'] != '/code':
+    # Test if run test or on local computer
+    DATABASES = {
+        'default' : {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
+        }
+    }
+    print('sqlite3')
+else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -293,13 +303,7 @@ if os.environ['HOME'] == '/root': #check if in container
             'PORT': os.environ.get('POSTGRES_PORT')
         }
     }
-else:
-        DATABASES = {
-        'default' : {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
-        }
-    }
+    print('postgres')
 
 DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL')
 EMAIL_HOST=os.environ.get('EMAIL_HOST')

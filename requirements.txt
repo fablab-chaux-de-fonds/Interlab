@@ -48,4 +48,3 @@ coverage
 coverage-badge
 Babel
 django-htmx
-python-dotenv
