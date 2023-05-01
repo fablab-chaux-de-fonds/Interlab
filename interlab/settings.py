@@ -283,7 +283,7 @@ CMS_PLACEHOLDER_CONF = {}
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-if any('test' in item for item in sys.argv) or os.environ['PWD'] != '/code':
+if any('test' in item for item in sys.argv) or 'PWD' in os.environ:
     # Test if run test or on local computer
     DATABASES = {
         'default' : {
@@ -291,7 +291,6 @@ if any('test' in item for item in sys.argv) or os.environ['PWD'] != '/code':
             'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
         }
     }
-    print('sqlite3')
 else:
     DATABASES = {
         'default': {
@@ -303,7 +302,6 @@ else:
             'PORT': os.environ.get('POSTGRES_PORT')
         }
     }
-    print('postgres')
 
 DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL')
 EMAIL_HOST=os.environ.get('EMAIL_HOST')
