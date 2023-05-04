@@ -42,7 +42,7 @@ class TestOpeningSlotCreateView(TestCase):
             title = 'Prusa'
         )
 
-    def test_authenticated_user_can_access(self):
+    def test_user_cannot_access(self):
         self.client.login(username='testuser', password='testpass')
 
         # Test if user is not in superuser group
