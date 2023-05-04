@@ -26,7 +26,8 @@ def validate_conflicting_openings(start, end, instance=None):
                 end_time=end.strftime('%H:%M'),
                 openings='<br>'.join(conflicting_times),
             )),
-            code='conflicting_openings'
+            code='conflicting_openings',
+            params={'conflicting_openings': conflicting_openings}
         )
 
 def validate_time_range(start, end):

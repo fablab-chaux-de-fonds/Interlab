@@ -113,18 +113,11 @@ class TestOpeningSlotCreateView(TestCase):
         self.assertEqual(response.status_code, 302)
 
         # Test exact overlap with a second opening
-        form_data = {
-            'opening': self.openlab.id,
-            'machines': [self.trotec.id],
-            'date': '1 mai 2023',
-            'start_time': '10:00',
-            'end_time': '12:00',
-        }
         response = self.client.post(self.url, form_data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
 
-        # Test second opening start before, and end during an existing opening
+        # Test opening start before, and end during an existing opening
         form_data = {
             'opening': self.openlab.id,
             'date': '1 mai 2023',
@@ -134,6 +127,21 @@ class TestOpeningSlotCreateView(TestCase):
         response = self.client.post(self.url, form_data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
+        self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(9))
+        self.assertEqual(response.context_data['form'].data['end_time'], datetime.time(10))
+
+        # Test opening start during an existing opening, and end after
+        form_data = {
+            'opening': self.openlab.id,
+            'date': '1 mai 2023',
+            'start_time': '11:00',
+            'end_time': '13:00',
+        }
+        response = self.client.post(self.url, form_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
+        self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(12))
+        self.assertEqual(response.context_data['form'].data['end_time'], datetime.time(13))
 
     def test_view_valid(self):
         self.client.login(username='testsuperuser', password='testpass')

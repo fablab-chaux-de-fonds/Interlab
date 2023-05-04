@@ -4,12 +4,13 @@ import os
 from babel.dates import format_datetime
 
 from datetime import datetime, timedelta
+from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import loader
 from django.template.loader import render_to_string
@@ -18,8 +19,7 @@ from django.utils.translation import ugettext as _
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView, DeleteView, CreateView
-from django.views.generic.edit import ModelFormMixin
+from django.views.generic.edit import FormView, DeleteView, CreateView, ModelFormMixin
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
 from .forms import OpeningSlotForm, EventForm, TrainingForm, RegisterTrainingForm, MachineReservationForm, RegisterEventForm
@@ -240,6 +240,55 @@ class OpeningSlotCreateView(SuperuserRequiredMixin, CustomFormView, CreateView):
         context = super().get_context_data(**kwargs)
         context['submit_btn'] = _('Create opening')
         return context
+
+    def form_invalid(self, form):
+        errors = form.errors.get('__all__')
+        
+        # If the error is not present, call the super method
+        if not errors:
+            return super().form_invalid(form)
+
+        else:
+            updated_data = QueryDict(mutable=True)
+            updated_data.update(form.data)
+
+            for error in errors.data:
+
+                error_code = 'conflicting_openings'
+                if error.code == error_code:        
+                    conflicting_openings = error.params.get('conflicting_openings')
+
+                    # Calculate the new start and end time based on the existing opening
+                    for conflicting_opening in conflicting_openings:
+
+                        # Determine the start time of the new opening based on the conflicting opening
+                        # If the new opening starts before the conflicting opening, use the start time of the new opening
+                        # Otherwise, use the end time of the conflicting opening
+                        if form.cleaned_data['start_time'] < conflicting_opening.start.time():
+                            start_time = form.cleaned_data['start_time']
+                        else:
+                            start_time = conflicting_opening.end.time()
+
+                        # Determine the end time of the new opening based on the conflicting opening
+                        # If the new opening ends after the conflicting opening, use the end time of the new opening
+                        # Otherwise, use the start time of the conflicting opening
+                        if form.cleaned_data['end_time'] > conflicting_opening.end.time():
+                            end_time = form.cleaned_data['end_time']
+                        else:
+                            end_time = conflicting_opening.start.time()
+
+
+                    # Set the form data to the new start and end time
+                    updated_data['start_time'] = forms.TimeField().prepare_value(start_time)
+                    updated_data['end_time'] = forms.TimeField().prepare_value(end_time)
+
+                    # Call form.add_error to add the error to the start_time field
+                    form.add_error('start_time', error)
+
+        form = OpeningSlotForm(data=updated_data)
+
+        # Return the invalid form
+        return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
         instance = form.save(commit=False)
