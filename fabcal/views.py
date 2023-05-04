@@ -241,50 +241,43 @@ class OpeningSlotCreateView(SuperuserRequiredMixin, CustomFormView, CreateView):
         context['submit_btn'] = _('Create opening')
         return context
 
-    def form_invalid(self, form):
-        errors = form.errors.get('__all__')
-        
-        # If the error is not present, call the super method
-        if not errors:
-            return super().form_invalid(form)
+    def form_invalid(self, form):       
+        updated_data = QueryDict(mutable=True)
+        updated_data.update(form.data)
 
-        else:
-            updated_data = QueryDict(mutable=True)
-            updated_data.update(form.data)
+        for error in form.errors.get('__all__').data:
 
-            for error in errors.data:
+            if error.code == 'conflicting_openings':        
+                conflicting_openings = error.params.get('conflicting_openings')
 
-                error_code = 'conflicting_openings'
-                if error.code == error_code:        
-                    conflicting_openings = error.params.get('conflicting_openings')
+                # Calculate the new start and end time based on the existing opening
+                for conflicting_opening in conflicting_openings:
 
-                    # Calculate the new start and end time based on the existing opening
-                    for conflicting_opening in conflicting_openings:
+                    # Determine the start time of the new opening based on the conflicting opening
+                    # If the new opening starts before the conflicting opening, use the start time of the new opening
+                    # Otherwise, use the end time of the conflicting opening
+                    if form.cleaned_data['start_time'] < conflicting_opening.start.time():
+                        start_time = form.cleaned_data['start_time']
+                    else:
+                        start_time = conflicting_opening.end.time()
 
-                        # Determine the start time of the new opening based on the conflicting opening
-                        # If the new opening starts before the conflicting opening, use the start time of the new opening
-                        # Otherwise, use the end time of the conflicting opening
-                        if form.cleaned_data['start_time'] < conflicting_opening.start.time():
-                            start_time = form.cleaned_data['start_time']
-                        else:
-                            start_time = conflicting_opening.end.time()
-
-                        # Determine the end time of the new opening based on the conflicting opening
-                        # If the new opening ends after the conflicting opening, use the end time of the new opening
-                        # Otherwise, use the start time of the conflicting opening
-                        if form.cleaned_data['end_time'] > conflicting_opening.end.time():
-                            end_time = form.cleaned_data['end_time']
-                        else:
-                            end_time = conflicting_opening.start.time()
+                    # Determine the end time of the new opening based on the conflicting opening
+                    # If the new opening ends after the conflicting opening, use the end time of the new opening
+                    # Otherwise, use the start time of the conflicting opening
+                    if form.cleaned_data['end_time'] > conflicting_opening.end.time():
+                        end_time = form.cleaned_data['end_time']
+                    else:
+                        end_time = conflicting_opening.start.time()
 
 
-                    # Set the form data to the new start and end time
-                    updated_data['start_time'] = forms.TimeField().prepare_value(start_time)
-                    updated_data['end_time'] = forms.TimeField().prepare_value(end_time)
+                # Set the form data to the new start and end time
+                updated_data['start_time'] = forms.TimeField().prepare_value(start_time)
+                updated_data['end_time'] = forms.TimeField().prepare_value(end_time)
 
-                    # Call form.add_error to add the error to the start_time field
-                    form.add_error('start_time', error)
+                # Call form.add_error to add the error to the start_time field
+                form.add_error('start_time', error)
 
+        # Update form data
         form = OpeningSlotForm(data=updated_data)
 
         # Return the invalid form
