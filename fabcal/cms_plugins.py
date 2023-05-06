@@ -20,7 +20,7 @@ class WeeklyPluginPublisher(CMSPluginBase):
         context.update({'instance': instance})
 
         now = datetime.datetime.now()
-        next_week_slots = OpeningSlot.objects.filter(end__gt=now, start__lt= now + datetime.timedelta(days=7)).order_by('start')
+        next_week_slots = OpeningSlot.objects.filter(end__gt=now, start__lt= now + datetime.timedelta(days=6)).order_by('start')
         weekdays = [(now + datetime.timedelta(days=x)).strftime('%A') for x in range(7)]
 
         slots = {}
