@@ -5,7 +5,7 @@
         <div class="card-body">
             <h3 class="card-title"> {{event_slot.event.title}}</h3>
             <p class="card-text"> {{event_slot.event.lead}} </p>
-            {% include 'fabcal/event_info_datetime.html'%}
+            {% include 'fabcal/event_info_datetime.html' with format_info_datetime=event_slot.format_info_datetime%}
             <div class="text-center">
                 <a href="{% url 'fabcal:event-detail' event_slot.pk %}" type="button" class="btn btn-outline-primary">
                     <i class="bi bi-info-circle pe-2"></i> {% trans "More informations" %}
