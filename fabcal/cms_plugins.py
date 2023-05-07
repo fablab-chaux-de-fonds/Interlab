@@ -1,8 +1,13 @@
 import json
 import datetime
 
+from babel.dates import format_datetime
+
+
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
+from django.conf import settings
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
 from .models import WeeklyPluginModel, OpeningSlot, EventSlot, TrainingSlot, CalendarOpeningsPluginModel, EventsListPluginModel, Opening
@@ -110,7 +115,24 @@ class EventListPluginPublisher(CMSPluginBase):
     render_template = "fabcal/events_list.html"
 
     def render(self, context, instance, placeholder):
+        language_code = settings.LANGUAGE_CODE
         context = {
             'event_slots': list(EventSlot.objects.filter(end__gt = date.today()).order_by('start'))
         }
+
+        for index, event in enumerate(context['event_slots']):
+            # TODO Refactoring wigh fabcal -> data in model
+
+            context['event_slots'][index].start_date = format_datetime(event.start, "EEEE d MMMM y", locale=language_code)
+            context['event_slots'][index].start_time = format_datetime(event.start, "H:mm", locale=language_code)
+            context['event_slots'][index].end_date = format_datetime(event.end, "EEEE d MMMM y", locale=language_code)
+            context['event_slots'][index].end_time = format_datetime(event.end, "H:mm", locale=language_code)
+
+            if event.is_single_day:
+                message_format = _("%(start_date)s <br> %(start_time)s - %(end_time)s")
+            else:
+                message_format = _("From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s ")
+
+            context['event_slots'][index].format_info_datetime = mark_safe(message_format % context['event_slots'][index].__dict__)
+
         return context
