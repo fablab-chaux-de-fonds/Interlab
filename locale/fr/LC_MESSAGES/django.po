@@ -34,7 +34,7 @@ msgstr ""
 "d'activation que nous vous avons envoyé par e-mail lorsque vous avez créé "
 "votre compte."
 
-#: accounts/forms.py:92
+#: accounts/forms.py:91
 msgid "There is already an organization member with this email address!"
 msgstr "Il y a déjà un membre de l'organisation avec cette adresse e-mail !"
 
@@ -62,7 +62,7 @@ msgstr ""
 "150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
 "\", \".\", \"+\", \"-\" et \"_\"."
 
-#: accounts/forms.py:147
+#: accounts/forms.py:141
 msgid "No Subscription"
 msgstr "Pas d'abonnement"
 
@@ -211,6 +211,16 @@ msgstr "validation de formations"
 #: accounts/templates/accounts/nav.html:81
 msgid "subscription"
 msgstr "abonnement"
+
+#: accounts/templates/accounts/nav.html:93
+#, fuzzy
+#| msgid "Reservation"
+msgid "Reservations"
+msgstr "Réservation"
+
+#: accounts/templates/accounts/nav.html:101
+msgid "Future and past reservations"
+msgstr ""
 
 #: accounts/templates/accounts/password-change.html:10
 msgid "Update"
@@ -1085,6 +1095,32 @@ msgstr "J'en profite"
 msgid "Reserve"
 msgstr "Réserver"
 
+#: fabcal/templates/fabcal/machineslot_list.html:13
+msgid "Future reservations"
+msgstr "Réservations futures"
+
+#: fabcal/templates/fabcal/machineslot_list.html:27
+msgid "Past reservations"
+msgstr "Réservations passées"
+
+#: fabcal/templates/fabcal/machineslot_list.html:39
+#: interlab/templates/menu-mobile.html:13
+#: interlab/templates/navbar-header.html:12
+msgid "Schedule"
+msgstr "Horaire"
+
+#: fabcal/templates/fabcal/machineslot_list.html:42 machines/models.py:196
+msgid "Machine"
+msgstr "Machine"
+
+#: fabcal/templates/fabcal/machineslot_list.html:45
+msgid "Name"
+msgstr "Nom"
+
+#: fabcal/templates/fabcal/machineslot_list.html:58
+msgid "No reservations"
+msgstr "Pas de réservation"
+
 #: fabcal/templates/fabcal/openingslot_confirm_delete.html:10
 #, python-format
 msgid ""
@@ -1318,11 +1354,6 @@ msgstr "Oups ! Erreur de serveur"
 msgid "Whoops, no !"
 msgstr "Oups, non !"
 
-#: interlab/templates/menu-mobile.html:13
-#: interlab/templates/navbar-header.html:12
-msgid "Schedule"
-msgstr "Horaire"
-
 #: interlab/templates/menu-mobile.html:29
 #: interlab/templates/navbar-header.html:32
 msgid "Login"
@@ -1472,10 +1503,6 @@ msgstr "Ateliers"
 #: machines/models.py:162
 msgid "Premium Price"
 msgstr "Tarif membre"
-
-#: machines/models.py:196
-msgid "Machine"
-msgstr "Machine"
 
 #: machines/models.py:203
 msgid "Machine tool"

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="row">
+    {% if request.resolver_match.url_name == 'machine-reservation-future' %}
+    <div class="col-2 d-flex align-items-center justify-content-end">
+        <a class="btn btn-link" href={% url "fabcal:machine-reservation-past"%}>
+            <h1><i class="bi bi-arrow-left-square"></i></h1>
+        </a>
+    </div>
+    <div class="col-8 d-flex align-items-center justify-content-center">
+        <h1>{% trans "Future reservations" %}</h1>
+    </div>
+    <div class="col-2 d-flex align-items-center justify-content-start">
+        <a class="btn btn-link disabled">
+            <h1><i class="bi bi-arrow-right-square"></i></h1>
+        </a>
+    </div>
+    {% elif request.resolver_match.url_name == 'machine-reservation-past' %}
+    <div class="col-2 d-flex align-items-center justify-content-end">
+        <a class="btn btn-link disabled" href={% url "fabcal:machine-reservation-past"%}>
+            <h1><i class="bi bi-arrow-left-square"></i></h1>
+        </a>
+    </div>
+    <div class="col-8 d-flex align-items-center justify-content-center">
+        <h1>{% trans "Past reservations" %}</h1>
+    </div>
+    <div class="col-2 d-flex align-items-center justify-content-start">
+        <a class="btn btn-link" href={% url "fabcal:machine-reservation-future"%}>
+            <h1><i class="bi bi-arrow-right-square"></i></h1>
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col">
+        <h4>{% trans "Schedule" %}</h4>
+    </div>
+    <div class="col">
+        <h4>{% trans "Machine" %}</h4>
+    </div>
+    <div class="col">
+        <h4>{% trans "Name" %}</h4>
+    </div>
+</div>
+<hr>
+{% for object in object_list %}
+<div class="row">
+    <div class="col">{{object.start}}<br>{{object.end}}</div>
+    <div class="col">{{object.machine.title}}</div>
+    <div class="col">{{object.user.first_name}} {{object.user.last_name}}</div>
+</div>
+<hr>
+
+{% empty %}
+{% trans "No reservations" %}
+
+{% endfor %}
+
+{% include 'pagination.html' %}
+
+{% endblock %}

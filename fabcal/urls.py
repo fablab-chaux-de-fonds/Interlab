@@ -22,4 +22,6 @@ urlpatterns = [
     path('machine/reservation/<int:pk>/', views.CreateMachineReservationView.as_view(), name='machine-reservation'),
     path('machine/reservation/<int:pk>/update/', views.UpdateMachineReservationView.as_view(), name='machine-reservation-update'),
     path('machine/reservation/<int:pk>/delete/', views.DeleteMachineReservationView.as_view(), name='machine-reservation-delete'),
+    path('machine/reservation/future/', views.MachineFutureReservationListView.as_view(), name='machine-reservation-future'),
+    path('machine/reservation/past/', views.MachinePastReservationListView.as_view(), name='machine-reservation-past')
 ]

@@ -9,7 +9,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.core.mail import send_mail
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, PermissionDenied
 from django.http import HttpResponse, QueryDict
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import loader
@@ -18,7 +18,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView, DeleteView, CreateView, ModelFormMixin
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
@@ -735,6 +735,27 @@ class UpdateMachineReservationView(MachineReservationBaseView):
             form.machine_slot.save()         
 
         return super().form_valid(form)
+
+class MachineReservationListView(LoginRequiredMixin, ListView):
+    Model = MachineSlot
+    paginate_by = 100
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.groups.filter(name='superuser').exists():
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
+class MachinePastReservationListView(MachineReservationListView):
+    def get_queryset(self):
+        now = datetime.now().date()
+        return MachineSlot.objects.filter(user__isnull=False, end__lt=now).order_by('-start')
+
+class MachineFutureReservationListView(MachineReservationListView):
+
+    def get_queryset(self):
+        now = datetime.now().date()
+        return MachineSlot.objects.filter(user__isnull=False, end__gte=now).order_by('start')
+
 
 class DeleteMachineReservationView(TemplateView):
     template_name = 'fabcal/machine/delete_form.html'
