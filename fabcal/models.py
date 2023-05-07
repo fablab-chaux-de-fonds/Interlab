@@ -1,5 +1,6 @@
 import datetime
 
+from babel.dates import format_datetime
 from cms.models import CMSPlugin
 
 from django.conf import settings
@@ -34,6 +35,24 @@ class AbstractSlot(models.Model):
     def is_single_day(self):
         return self.start.date() == self.end.date()
 
+    def get_formatted_datetime(self, datetime_value, time_format):
+        return format_datetime(datetime_value, time_format, locale=settings.LANGUAGE_CODE)
+
+    @property
+    def formatted_start_date(self):
+        return self.get_formatted_datetime(self.start, "EEEE d MMMM y")
+
+    @property
+    def formatted_start_time(self):
+        return self.get_formatted_datetime(self.start, "H:mm")
+
+    @property
+    def formatted_end_date(self):
+        return self.get_formatted_datetime(self.end, "EEEE d MMMM y")
+
+    @property
+    def formatted_end_time(self):
+        return self.get_formatted_datetime(self.end, "H:mm")
 
 class AbstractRegistration(models.Model):
     registration_limit = models.IntegerField(blank=True, null=True)

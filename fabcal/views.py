@@ -8,6 +8,7 @@ from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin 
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.http import HttpResponse, QueryDict
@@ -219,10 +220,13 @@ class OpeningBaseView(CustomFormView, AbstractMachineView):
         context = get_start_end(self, context)
         return context
 
-class OpeningSlotCreateView(SuperuserRequiredMixin, CustomFormView, CreateView):
+class OpeningSlotCreateView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormView, CreateView):
     model = OpeningSlot
     form_class = OpeningSlotForm
     success_url = '/schedule/'
+    success_message = _("Your opening has been successfully created on %(date)s from %(start_time)s to %(end_time)s </br> "
+                        "<a href=\"/fabcal/download-ics-file/%(opening_title)s/%(start)s/%(end)s\"> "
+                        "<i class=\"bi bi-file-earmark-arrow-down-fill\"> </i> Add to my calendar</a>")
 
     def get_initial(self):
         initial = super().get_initial()
@@ -307,6 +311,16 @@ class OpeningSlotCreateView(SuperuserRequiredMixin, CustomFormView, CreateView):
             )
 
         return super().form_valid(form)
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % dict(
+                    date=self.object.formatted_start_date,
+                    start_time=self.object.formatted_start_time,
+                    end_time=self.object.formatted_end_time,
+                    opening_title=self.object.opening.title,
+                    start=self.object.start,
+                    end=self.object.end
+                )
 
 class UpdateOpeningView(OpeningBaseView):
     crud_state = 'updated'

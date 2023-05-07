@@ -1,10 +1,13 @@
 from interlab import test_utils
 
 import datetime
+import re
 
+from django.contrib.auth.models import Group
+from django.contrib.messages import get_messages
 from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib.auth.models import Group
+from django.utils.translation import activate
 from accounts.models import CustomUser
 from openings.models import Opening
 from fabcal.forms import OpeningSlotForm
@@ -165,6 +168,30 @@ class TestOpeningSlotCreateView(TestCase):
         self.assertEqual(obj.user, self.superuser)
 
         self.assertEqual(obj.get_machine_list, [self.trotec])
+
+    def test_get_success_message(self):
+        activate('fr')
+        self.client.login(username='testsuperuser', password='testpass')
+        form_data = {
+            'opening': self.openlab.id,
+            'date': '1 mai 2023',
+            'start_time': '10:00',
+            'end_time': '12:00',
+        }
+        response = self.client.post(self.url, form_data, follow=True)
+        storage = get_messages(response.wsgi_request)
+        messages = [message.message for message in storage]
+
+        expected_message = """
+            Votre ouverture a été créée avec succès le 
+            lundi 1 mai 2023 de 10:00 à 12:00
+            </br>
+            <a href="/fabcal/download-ics-file/OpenLab/2023-05-01 10:00:00/2023-05-01 12:00:00">
+            <i class="bi bi-file-earmark-arrow-down-fill"> </i> Ajouter à mon calendrier</a>
+        """
+        expected_message = re.sub(r'\s{2,}', ' ', expected_message.replace('\n', '')).strip()
+
+        self.assertEqual(messages, [expected_message])
 
     def tearDown(self):
         self.client.logout()
