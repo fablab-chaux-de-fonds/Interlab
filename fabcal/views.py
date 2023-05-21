@@ -20,7 +20,7 @@ from django.utils.translation import ugettext as _
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView
-from django.views.generic.edit import FormView, DeleteView, CreateView, ModelFormMixin
+from django.views.generic.edit import FormView, DeleteView, CreateView, UpdateView, ModelFormMixin
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
 from .forms import OpeningSlotForm, EventForm, TrainingForm, RegisterTrainingForm, MachineReservationForm, RegisterEventForm
@@ -321,6 +321,10 @@ class OpeningSlotCreateView(SuperuserRequiredMixin, SuccessMessageMixin, CustomF
                     start=self.object.start,
                     end=self.object.end
                 )
+
+class OpeningSlotUpdateView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormView, UpdateView):
+    model = OpeningSlot
+    form_class = OpeningSlotForm
 
 class UpdateOpeningView(OpeningBaseView):
     crud_state = 'updated'

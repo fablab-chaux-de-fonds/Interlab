@@ -1,20 +1,77 @@
-from interlab import test_utils
-
 import datetime
 import re
 
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, AnonymousUser
 from django.contrib.messages import get_messages
-from django.test import TestCase, Client
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseForbidden, HttpResponse
+from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse
 from django.utils.translation import activate
+from django.views import View
+
 from accounts.models import CustomUser
 from openings.models import Opening
 from fabcal.forms import OpeningSlotForm
 from fabcal.models import OpeningSlot
 from machines.models import Machine
 
-# Create your tests here.
+from .views import OpeningSlotCreateView, OpeningSlotUpdateView
+from .mixins import SuperuserRequiredMixin
+
+class TestView(SuperuserRequiredMixin, View):
+    def get(self, request):
+        self.request = request
+        return HttpResponse('Success')
+
+class SuperuserRequiredMixinTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.login_url = reverse('login')  # Replace 'login' with the actual URL name
+
+    def test_superuser_required(self):
+        # Create a superuser and add them to the 'superuser' group
+        superuser = CustomUser.objects.create_superuser(username='admin', password='adminpassword')
+        superuser_group = Group.objects.create(name='superuser')
+        superuser.groups.add(superuser_group)
+
+        # Create a request and set the user attribute to the superuser
+        request = self.factory.get('/')
+        request.user = superuser
+
+        # Create an instance of the view and check if test_func returns True
+        view = TestView()
+        view.setup(request)
+        self.assertTrue(view.test_func())
+
+    def test_non_superuser_denied(self):
+        # Create a non-superuser and add them to the 'normal' group
+        user = CustomUser.objects.create_user(username='user', password='userpassword')
+        normal_group = Group.objects.create(name='normal')
+        user.groups.add(normal_group)
+
+        # Create a request and set the user attribute to the non-superuser
+        request = self.factory.get('/')
+        request.user = user
+
+        # Create an instance of the view and check if test_func returns False
+        view = TestView.as_view()
+        with self.assertRaises(PermissionDenied):
+            view(request)
+
+    def test_unauthenticated_redirect(self):
+        # Create a request with an unauthenticated user
+        request = self.factory.get('/')
+        request.user = AnonymousUser()
+
+        # Create an instance of the view and call handle_no_permission
+        view = TestView.as_view()
+        response = view(request)
+
+        # Check that the response is a redirect to the login page with the next parameter
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/accounts/login/', response.url)
+
 class TestOpeningSlotCreateView(TestCase):
     def setUp(self):
         self.client = Client()
@@ -45,32 +102,8 @@ class TestOpeningSlotCreateView(TestCase):
             title = 'Prusa'
         )
 
-    def test_user_cannot_access(self):
-        self.client.login(username='testuser', password='testpass')
-
-        # Test if user is not in superuser group
-        self.assertFalse(self.user.groups.filter(name='superuser').exists())
-
-        # Assert view-specific content
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 403)
-
-    def test_login_required(self):
-        self.client.logout()
-        response = self.client.get(self.url)
-
-        # Assert view-specific content
-        self.assertEqual(response.status_code, 302)
-        self.assertIn('/accounts/login/', response.url)
-
-    def test_superuser_in_superuser_group(self):
-        self.client.login(username='testsuperuser', password='testpass')
-        # Test if user is in group
-        self.assertTrue(self.superuser.groups.filter(name='superuser').exists())
-
-        # Assert view-specific content
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
+    def test_SuperuserRequiredMixin(self):
+        self.assertTrue(issubclass(OpeningSlotCreateView, SuperuserRequiredMixin))
 
     def test_form_valid(self):
         form_data = {
@@ -198,3 +231,11 @@ class TestOpeningSlotCreateView(TestCase):
         self.user.delete()
         self.superuser.delete()
         self.group.delete()
+
+class OpeningSlotUpdateViewTest(TestCase):
+    def setUp(self):
+        self.user = CustomUser.objects.create_user(username='testuser', password='testpassword')
+        self.update_url = reverse('fabcal:openingslot-update', kwargs={'pk': 1})  # Replace 1 with a valid OpeningSlot pk
+
+    def test_SuperuserRequiredMixin(self):
+        self.assertTrue(issubclass(OpeningSlotUpdateView, SuperuserRequiredMixin))

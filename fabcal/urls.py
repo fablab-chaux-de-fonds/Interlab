@@ -5,6 +5,7 @@ app_name = 'fabcal'
 
 urlpatterns = [
     path('openingslot/create/', views.OpeningSlotCreateView.as_view(), name='openingslot-create'),
+    path('openingslot/update/<int:pk>/', views.OpeningSlotUpdateView.as_view(), name='openingslot-update'),
     path('update-opening/<int:pk>/', views.UpdateOpeningView.as_view(), name='update-opening'),
     path('opening/<int:pk>/delete', views.OpeningSlotDeleteView.as_view(), name='opening-delete'),
     path('download-ics-file/<str:summary>/<str:start>/<str:end>/', views.downloadIcsFileView.as_view(), name='download-ics-file'),
