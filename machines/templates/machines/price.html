@@ -1,0 +1,22 @@
+{% load i18n training_extras %}
+
+<div class="text-center text-md-start">
+    {% if  machine.full_price == 0 %}
+        {% trans "The use of the machine is free and conscious price" %}
+    {% else %}
+        {% if request.user.profile.is_subscription_valid %}
+            <h4>{{machine.premium_price|price_format}} / 30 min </h4>
+        {% else %}
+        <h4>{{machine.full_price|price_format}} / 30 min </h4>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <small> {% trans "Benefit from half price prices<br> for 15 CHF / month" %}<br></small>
+            </div>
+
+            <div class="col-12 col-md-6 text-md-center">
+                <a class="btn btn-outline-primary my-2" href="/comment-ca-marche/#abonnement-demi-tarif">
+                    {% trans "I take advantage of it" %}</a>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>

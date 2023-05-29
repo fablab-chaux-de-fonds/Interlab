@@ -17,7 +17,7 @@ class TrainingFaqAdmin(admin.ModelAdmin):
 
 @admin.register(Machine)
 class MachineAdmin(admin.ModelAdmin):
-    list_display = ['title', 'desc', 'full_price', 'premium_price', 'category', 'photo']
+    list_display = ['title', 'category', 'full_price', 'premium_price']
 
 @admin.register(Card)
 class CardAdmin(admin.ModelAdmin):
