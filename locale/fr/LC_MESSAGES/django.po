@@ -222,7 +222,7 @@ msgstr "Réservation"
 
 #: accounts/templates/accounts/nav.html:101
 msgid "Future and past reservations"
-msgstr ""
+msgstr "Réservations futures et passées"
 
 #: accounts/templates/accounts/password-change.html:10
 msgid "Update"
@@ -308,11 +308,11 @@ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ?"
 
 #: accounts/templates/accounts/profile_edit.html:7
 msgid "Edit my profile"
-msgstr "Modifier mon Profil"
+msgstr "Modifier mon profil"
 
 #: accounts/templates/accounts/profile_edit.html:20
 msgid "Public profile"
-msgstr "Profile public"
+msgstr "Profil public"
 
 #: accounts/templates/accounts/profile_edit.html:35
 #: accounts/templates/registration/password_change_done.html:4
