@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-23 12:45+0000\n"
+"POT-Creation-Date: 2023-07-25 16:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,7 +35,7 @@ msgstr ""
 "d'activation que nous vous avons envoyé par e-mail lorsque vous avez créé "
 "votre compte."
 
-#: accounts/forms.py:91
+#: accounts/forms.py:92
 msgid "There is already an organization member with this email address!"
 msgstr "Il y a déjà un membre de l'organisation avec cette adresse e-mail !"
 
@@ -63,7 +63,7 @@ msgstr ""
 "150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
 "\", \".\", \"+\", \"-\" et \"_\"."
 
-#: accounts/forms.py:141
+#: accounts/forms.py:147
 msgid "No Subscription"
 msgstr "Pas d'abonnement"
 
@@ -140,14 +140,12 @@ msgid "Public contact"
 msgstr "Contact"
 
 #: accounts/tasks.py:24 accounts/tasks.py:25
-#: accounts/templates/accounts/email/subscription_reminder.html:6
-msgid "Your subscription will expire in 7 days"
-msgstr "Votre abonnement sera expiré dans 7 jours"
+msgid "Your subscription expires in one week"
+msgstr "Votre abonnement expire dans une semaine"
 
 #: accounts/tasks.py:39 accounts/tasks.py:40
-#: accounts/templates/accounts/email/subscription_expire.html:6
-msgid "Your subscription expire today"
-msgstr "Votre abonnement est expiré aujourd'hui"
+msgid "Renew your subscription now"
+msgstr "Renouvelez votre abonnement dès maintenant"
 
 #: accounts/templates/accounts/email/create_training_validation.html:7
 msgid "We have validated your training"
@@ -161,15 +159,87 @@ msgstr "Désolé, nous vous avons annulé la formation"
 msgid "We have created you a new subscription valid until"
 msgstr "Nous vous avons créé un nouvel abonnement valable jusqu'au"
 
+#: accounts/templates/accounts/email/subscription_expire.html:5
+msgid "It's now or never!"
+msgstr "C’est maintenant ou jamais !"
+
 #: accounts/templates/accounts/email/subscription_expire.html:8
-#: accounts/templates/accounts/email/subscription_reminder.html:8
+msgid ""
+"We remind you that your FabLab subscription expires tomorrow. To continue "
+"benefiting from preferential prices and support the FabLab, remember to "
+"renew your subscription!"
+msgstr ""
+"Nous vous rappelons que votre abonnement au FabLab expire demain. Pour "
+"continuer à bénéficier de prix préférentiels et soutenir le lieu, pensez à "
+"renouveler votre abonnement !"
+
+#: accounts/templates/accounts/email/subscription_expire.html:12
+#: accounts/templates/accounts/email/subscription_reminder.html:15
 msgid "Update my subscription"
 msgstr "Renouveler mon abonnement"
 
+#: accounts/templates/accounts/email/subscription_expire.html:16
+#: accounts/templates/accounts/email/subscription_reminder.html:19
+msgid "Thank you for your support and see you soon,"
+msgstr "Merci pour votre soutien et à bientôt,"
+
+#: accounts/templates/accounts/email/subscription_expire.html:19
+#: accounts/templates/accounts/email/subscription_reminder.html:22
+#: accounts/templates/accounts/email/subscription_updated.html:22
+msgid "The FabLab La Chaux-de-Fonds team"
+msgstr "L'équipe du FabLab La Chaux-de-Fonds"
+
+#: accounts/templates/accounts/email/subscription_reminder.html:5
+msgid "The future of your subscription is in your hands!"
+msgstr "L’avenir de votre abonnement est entre vos mains !"
+
+#: accounts/templates/accounts/email/subscription_reminder.html:8
+msgid ""
+"We hope you've had the opportunity to make lots of creative projects, learn "
+"new things and meet new people at the FabLab this year."
+msgstr ""
+"Nous espérons que vous avez eu l'occasion de réaliser de nombreux projets "
+"créatifs, d'apprendre de nouvelles choses et de rencontrer de nouvelles "
+"personnes au FabLab cette année."
+
+#: accounts/templates/accounts/email/subscription_reminder.html:11
+#, python-format
+msgid ""
+"Please note that your FabLab subscription expires on %(date)s! To continue "
+"benefiting from preferential prices and to support the FabLab, remember to "
+"renew your subscription!"
+msgstr ""
+"Nous vous informons que votre abonnement au FabLab arrive à expiration le "
+"%(date)s ! Pour continuer à bénéficier de prix préférentiels et soutenir le "
+"lieu, pensez à renouveler votre abonnement !"
+
+#: accounts/templates/accounts/email/subscription_updated.html:5
+msgid "The adventure continues!"
+msgstr "L'aventure continue !"
+
 #: accounts/templates/accounts/email/subscription_updated.html:8
+msgid ""
+"Thanks to your support, you'll continue to benefit from preferential prices "
+"to bring your ideas to life, and ensure the long-term future of the site."
+msgstr ""
+"Grâce à votre soutien, vous continuerez de bénéficier de prix préférentiels "
+"pour donner vie à vos idées, et vous assurer la pérennité du lieu."
+
+#: accounts/templates/accounts/email/subscription_updated.html:12
 #: payments/templates/payments/subscription_update_success.html:10
 msgid "Book a machine"
 msgstr "Réserver une machine"
+
+#: accounts/templates/accounts/email/subscription_updated.html:16
+msgid ""
+"We look forward to seeing you at the FabLab for more creative adventures!"
+msgstr ""
+"Nous sommes impatients de vous retrouver au FabLab pour de nouvelles "
+"aventures créatives !"
+
+#: accounts/templates/accounts/email/subscription_updated.html:19
+msgid "See you soon,"
+msgstr "A bientôt,"
 
 #: accounts/templates/accounts/nav.html:11
 msgid "My subscription"
@@ -702,21 +772,33 @@ msgstr " a été retiré de l'équipe avec succès."
 msgid "Invalid subscription duration from %(start)s to %(end)s"
 msgstr "Durée d'abonnement non valide de %(start)s à %(end)s"
 
-#: fabcal/cms_plugins.py:15 fabcal/cms_plugins.py:37 fabcal/cms_plugins.py:108
+#: fabcal/cms_plugins.py:20 fabcal/cms_plugins.py:42 fabcal/cms_plugins.py:113
 msgid "Fabcal"
 msgstr "Fabcal"
 
-#: fabcal/cms_plugins.py:16
+#: fabcal/cms_plugins.py:21
 msgid "Weekly view"
 msgstr "Horaire hebdomadaire"
 
-#: fabcal/cms_plugins.py:38
+#: fabcal/cms_plugins.py:43
 msgid "Calendar openings view"
 msgstr "Calendrier - ouverture"
 
-#: fabcal/cms_plugins.py:109
+#: fabcal/cms_plugins.py:114
 msgid "Event list"
 msgstr "Liste d'évènement"
+
+#: fabcal/cms_plugins.py:132 fabcal/views.py:161
+#, python-format
+msgid "%(start_date)s <br> %(start_time)s - %(end_time)s"
+msgstr "%(start_date)s <br> %(start_time)s - %(end_time)s"
+
+#: fabcal/cms_plugins.py:134 fabcal/views.py:163
+#, python-format
+msgid ""
+"From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s "
+msgstr ""
+"Du %(start_date)s à %(start_time)s <br> au %(end_date)s à %(end_time)s "
 
 #: fabcal/forms.py:25
 msgid "Comment"
@@ -1094,15 +1176,7 @@ msgstr ""
 "Il n'y a pas de réserveration les prochains jours, sentez-vous libre de "
 "l'utiliser !"
 
-#: fabcal/templates/fabcal/machine/reservation_form.html:91
-msgid "Benefit from half price prices<br> for 15 CHF / month"
-msgstr "Bénéficiez des prix demi-tarifs<br> pour 15 CHF / mois"
-
-#: fabcal/templates/fabcal/machine/reservation_form.html:92
-msgid "I take advantage of it"
-msgstr "J'en profite"
-
-#: fabcal/templates/fabcal/machine/reservation_form.html:96
+#: fabcal/templates/fabcal/machine/reservation_form.html:86
 msgid "Reserve"
 msgstr "Réserver"
 
@@ -1158,18 +1232,6 @@ msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
 msgid "Closed"
 msgstr "Fermé"
 
-#: fabcal/views.py:161
-#, python-format
-msgid "%(start_date)s <br> %(start_time)s - %(end_time)s"
-msgstr "%(start_date)s <br> %(start_time)s - %(end_time)s"
-
-#: fabcal/views.py:163
-#, python-format
-msgid ""
-"From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s "
-msgstr ""
-"Du %(start_date)s à %(start_time)s <br> au %(end_date)s à %(end_time)s "
-
 #: fabcal/views.py:169
 msgid "We hope to see you back soon !"
 msgstr "Nous espérons vous revoir bientôt !"
@@ -1224,7 +1286,7 @@ msgstr "Mettre à jour l'évènement"
 msgid "Your event has been successfully deleted"
 msgstr "Votre évènement a été supprimé avec succès"
 
-#: fabcal/views.py:344
+#: fabcal/views.py:343
 #, python-format
 msgid ""
 "We confirm that you are registered for the event <a href=\"%(href)s\">"
@@ -1235,7 +1297,7 @@ msgstr ""
 "\">%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s à "
 "%(end_time)s."
 
-#: fabcal/views.py:346
+#: fabcal/views.py:345
 #, python-format
 msgid ""
 "We confirm that you are registered for the event <a href=\"%(href)s\">"
@@ -1246,7 +1308,7 @@ msgstr ""
 "\">%(title)s</a> qui aura lieu du %(start_date)s à %(start_time)s au "
 "%(end_date)s à %(end_time)s."
 
-#: fabcal/views.py:357
+#: fabcal/views.py:356
 #, python-format
 msgid ""
 "We confirme that you are unregister for the event <a href=\"%(href)s\">"
@@ -1257,7 +1319,7 @@ msgstr ""
 "%(href)s>%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s à "
 "%(end_time)s."
 
-#: fabcal/views.py:359
+#: fabcal/views.py:358
 #, python-format
 msgid ""
 "We confirme that you are unregister for the event <a href=\"%(href)s\">"
@@ -1268,19 +1330,19 @@ msgstr ""
 "\"%(href)s\">%(title)s</a> qui aura lieu du %(start_date)s à %(start_time)s "
 "au %(end_date)s à %(end_time)s."
 
-#: fabcal/views.py:373
+#: fabcal/views.py:372
 msgid "Create training"
 msgstr "Créer la formation"
 
-#: fabcal/views.py:375
+#: fabcal/views.py:374
 msgid "Update training"
 msgstr "Mettre à jour la formation"
 
-#: fabcal/views.py:415
+#: fabcal/views.py:414
 msgid "Your training has been successfully deleted"
 msgstr "Votre formation a été supprimée avec succès"
 
-#: fabcal/views.py:442
+#: fabcal/views.py:441
 #, python-format
 msgid ""
 "We confirm that you are registered for the training <a href=\"%(href)s\">"
@@ -1291,7 +1353,7 @@ msgstr ""
 "\"%(href)s\">%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s "
 "à %(end_time)s."
 
-#: fabcal/views.py:451
+#: fabcal/views.py:450
 #, python-format
 msgid ""
 "We confirm that you are unregistered for the training <a href=\"%(href)s\">"
@@ -1302,7 +1364,7 @@ msgstr ""
 "\"%(href)s\">%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s "
 "à %(end_time)s."
 
-#: fabcal/views.py:484
+#: fabcal/views.py:483
 msgid ""
 "Sorry, you cannot reserve this machine yet. You have to take the training "
 "first before you can use it."
@@ -1310,7 +1372,7 @@ msgstr ""
 "Désolé, vous ne pouvez pas encore réserver cette machine. Vous devez d'abord "
 "suivre la formation avant de pouvoir l'utiliser."
 
-#: fabcal/views.py:692
+#: fabcal/views.py:691
 msgid "You reservation has been canceled !"
 msgstr "Pas de réservation possible"
 
@@ -1476,7 +1538,7 @@ msgid "Material"
 msgstr "Matière"
 
 #: machines/models.py:136 machines/templates/machines/list.html:24
-#: machines/templates/machines/show.html:56
+#: machines/templates/machines/show.html:59
 msgid "Materials"
 msgstr "Matières"
 
@@ -1485,7 +1547,7 @@ msgid "Workshop"
 msgstr "Atelier"
 
 #: machines/models.py:141 machines/templates/machines/list.html:10
-#: machines/templates/machines/show.html:50
+#: machines/templates/machines/show.html:53
 msgid "Workshops"
 msgstr "Ateliers"
 
@@ -1525,6 +1587,18 @@ msgstr "Filtres"
 msgid "Sorry, no machine available in this category"
 msgstr "Désolé, pas de machine disponible dans cette catégorie"
 
+#: machines/templates/machines/price.html:5
+msgid "The use of the machine is free and conscious price"
+msgstr ""
+
+#: machines/templates/machines/price.html:13
+msgid "Benefit from half price prices<br> for 15 CHF / month"
+msgstr "Bénéficiez des prix demi-tarifs<br> pour 15 CHF / mois"
+
+#: machines/templates/machines/price.html:18
+msgid "I take advantage of it"
+msgstr "J'en profite"
+
 #: machines/templates/machines/show.html:15
 msgid "Book now"
 msgstr "Réserver maintenant !"
@@ -1538,29 +1612,29 @@ msgstr ""
 "écrire un email pour demander une ouverture"
 
 #: machines/templates/machines/show.html:22
-#: machines/templates/machines/show.html:99
+#: machines/templates/machines/show.html:106
 msgid "No reservation possible"
 msgstr "Pas de réservation possible"
 
 #: machines/templates/machines/show.html:23
-#: machines/templates/machines/show.html:100
+#: machines/templates/machines/show.html:107
 msgid "This tool is available when the Fablab is open"
 msgstr "Cet outil est disponible lorsque le Fablab est ouvert."
 
-#: machines/templates/machines/show.html:43
+#: machines/templates/machines/show.html:46
 msgid "Categories"
 msgstr "Catégories"
 
-#: machines/templates/machines/show.html:64
+#: machines/templates/machines/show.html:67
 msgid "Frequently asked questions"
 msgstr "Foire aux questions"
 
-#: machines/templates/machines/show.html:71
+#: machines/templates/machines/show.html:74
 #: machines/templates/trainings/show.html:65
 msgid "Support and tools"
 msgstr "Aide et outils"
 
-#: machines/templates/machines/show.html:80
+#: machines/templates/machines/show.html:83
 msgid "Technical specifications"
 msgstr "Spécifications techniques"
 
@@ -1747,8 +1821,10 @@ msgstr ""
 "pouvez continuer à utiliser le fablab avec des prix demi-tarifs"
 
 #: payments/views.py:202
-msgid "Your subsription has been updated successfully"
-msgstr "Votre abonnement a été mis à jour avec succès"
+#, fuzzy
+#| msgid "You don't update your subscription"
+msgid "Thank you for your subscription!"
+msgstr "Vous n'avez pas mis à jour votre abonnement"
 
 #: share/models.py:8
 msgid "Image"
@@ -1794,3 +1870,4 @@ msgstr ""
 #: share/views.py:51
 msgid "Thanks ! Post was updated successfully."
 msgstr "Merci ! Votre poste a été mis à jour avec succès."
+

@@ -199,8 +199,8 @@ def fulfill_order(session, request):
 
     html_message = render_to_string('accounts/email/subscription_updated.html', context)
     send_mail(
-        subject=_("Your subsription has been updated successfully"),
-        message="Your subsription has been updated successfully",
+        subject=_("Thank you for your subscription!"),
+        message="Thank you for your subscription!",
         from_email = None,
         recipient_list=[customer_email],
         html_message=html_message
