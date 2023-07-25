@@ -64,8 +64,8 @@
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a id="nextFileLink" class="nav" href="d_509fd8af0f7a1b49_tests_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.2.6">coverage.py v7.2.6</a>,
-            created at 2023-05-29 16:49 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.2.7">coverage.py v7.2.7</a>,
+            created at 2023-07-25 18:44 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"/>
@@ -103,8 +103,8 @@
     <p class="run"><span class="n"><a id="t21" href="#t21">21</a></span><span class="t">        <span class="nam">html_message</span> <span class="op">=</span> <span class="nam">render_to_string</span><span class="op">(</span><span class="str">'accounts/email/subscription_reminder.html'</span><span class="op">,</span> <span class="nam">context</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t22" href="#t22">22</a></span><span class="t">        <span class="nam">send_mail</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t23" href="#t23">23</a></span><span class="t">            <span class="nam">from_email</span><span class="op">=</span><span class="key">None</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t24" href="#t24">24</a></span><span class="t">            <span class="nam">subject</span> <span class="op">=</span> <span class="nam">_</span><span class="op">(</span><span class="str">'Your subscription will expire in 7 days'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t">            <span class="nam">message</span> <span class="op">=</span> <span class="nam">_</span><span class="op">(</span><span class="str">"Your subscription will expire in 7 days"</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t24" href="#t24">24</a></span><span class="t">            <span class="nam">subject</span> <span class="op">=</span> <span class="nam">_</span><span class="op">(</span><span class="str">'Your subscription expires in one week'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t">            <span class="nam">message</span> <span class="op">=</span> <span class="nam">_</span><span class="op">(</span><span class="str">"Your subscription expires in one week"</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t">            <span class="nam">recipient_list</span> <span class="op">=</span> <span class="op">[</span><span class="nam">profile</span><span class="op">.</span><span class="nam">user</span><span class="op">.</span><span class="nam">email</span><span class="op">]</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t">            <span class="nam">html_message</span><span class="op">=</span><span class="nam">html_message</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -118,8 +118,8 @@
     <p class="run"><span class="n"><a id="t36" href="#t36">36</a></span><span class="t">        <span class="nam">html_message</span> <span class="op">=</span> <span class="nam">render_to_string</span><span class="op">(</span><span class="str">'accounts/email/subscription_expire.html'</span><span class="op">,</span> <span class="nam">context</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t37" href="#t37">37</a></span><span class="t">        <span class="nam">send_mail</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t38" href="#t38">38</a></span><span class="t">            <span class="nam">from_email</span> <span class="op">=</span> <span class="key">None</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t39" href="#t39">39</a></span><span class="t">            <span class="nam">subject</span> <span class="op">=</span> <span class="nam">_</span><span class="op">(</span><span class="str">'Your subscription expire today'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t40" href="#t40">40</a></span><span class="t">            <span class="nam">message</span> <span class="op">=</span> <span class="nam">_</span><span class="op">(</span><span class="str">"Your subscription expire today"</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t39" href="#t39">39</a></span><span class="t">            <span class="nam">subject</span> <span class="op">=</span> <span class="nam">_</span><span class="op">(</span><span class="str">'Renew your subscription now'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t40" href="#t40">40</a></span><span class="t">            <span class="nam">message</span> <span class="op">=</span> <span class="nam">_</span><span class="op">(</span><span class="str">"Renew your subscription now"</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t41" href="#t41">41</a></span><span class="t">            <span class="nam">recipient_list</span> <span class="op">=</span> <span class="op">[</span><span class="nam">profile</span><span class="op">.</span><span class="nam">user</span><span class="op">.</span><span class="nam">email</span><span class="op">]</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t42" href="#t42">42</a></span><span class="t">            <span class="nam">html_message</span> <span class="op">=</span> <span class="nam">html_message</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t43" href="#t43">43</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -132,8 +132,8 @@
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a id="nextFileLink" class="nav" href="d_509fd8af0f7a1b49_tests_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.2.6">coverage.py v7.2.6</a>,
-            created at 2023-05-29 16:49 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.2.7">coverage.py v7.2.7</a>,
+            created at 2023-07-25 18:44 +0000
         </p>
     </div>
 </footer>
