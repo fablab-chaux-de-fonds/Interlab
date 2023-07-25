@@ -36,8 +36,8 @@ def send_expire_subscription_email():
         html_message = render_to_string('accounts/email/subscription_expire.html', context)
         send_mail(
             from_email = None,
-            subject = _('Your subscription expire today'),
-            message = _("Your subscription expire today"),
+            subject = _('Renew your subscription now'),
+            message = _("Renew your subscription now"),
             recipient_list = [profile.user.email],
             html_message = html_message
         )

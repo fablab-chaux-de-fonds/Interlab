@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-25 12:45+0200\n"
+"POT-Creation-Date: 2023-07-25 16:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -144,9 +144,8 @@ msgid "Your subscription expires in one week"
 msgstr "Votre abonnement expire dans une semaine"
 
 #: accounts/tasks.py:39 accounts/tasks.py:40
-#: accounts/templates/accounts/email/subscription_expire.html:6
-msgid "Your subscription expire today"
-msgstr "Votre abonnement est expiré aujourd'hui"
+msgid "Renew your subscription now"
+msgstr "Renouvelez votre abonnement dès maintenant"
 
 #: accounts/templates/accounts/email/create_training_validation.html:7
 msgid "We have validated your training"
@@ -160,10 +159,34 @@ msgstr "Désolé, nous vous avons annulé la formation"
 msgid "We have created you a new subscription valid until"
 msgstr "Nous vous avons créé un nouvel abonnement valable jusqu'au"
 
+#: accounts/templates/accounts/email/subscription_expire.html:5
+msgid "It's now or never!"
+msgstr "C’est maintenant ou jamais !"
+
 #: accounts/templates/accounts/email/subscription_expire.html:8
-#: accounts/templates/accounts/email/subscription_reminder.html:13
+msgid ""
+"We remind you that your FabLab subscription expires tomorrow. To continue "
+"benefiting from preferential prices and support the FabLab, remember to "
+"renew your subscription!"
+msgstr ""
+"Nous vous rappelons que votre abonnement au FabLab expire demain. "
+"Pour continuer à bénéficier de prix préférentiels et soutenir le lieu, "
+"pensez à renouveler votre abonnement !"
+
+#: accounts/templates/accounts/email/subscription_expire.html:12
+#: accounts/templates/accounts/email/subscription_reminder.html:15
 msgid "Update my subscription"
 msgstr "Renouveler mon abonnement"
+
+#: accounts/templates/accounts/email/subscription_expire.html:16
+#: accounts/templates/accounts/email/subscription_reminder.html:19
+msgid "Thank you for your support and see you soon,"
+msgstr "Merci pour votre soutien et à bientôt,"
+
+#: accounts/templates/accounts/email/subscription_expire.html:19
+#: accounts/templates/accounts/email/subscription_reminder.html:22
+msgid "The FabLab La Chaux-de-Fonds team"
+msgstr "L'équipe du FabLab La Chaux-de-Fonds"
 
 #: accounts/templates/accounts/email/subscription_reminder.html:5
 msgid "The future of your subscription is in your hands!"
@@ -178,24 +201,16 @@ msgstr ""
 "créatifs, d'apprendre de nouvelles choses et de rencontrer de nouvelles "
 "personnes au FabLab cette année."
 
-#: accounts/templates/accounts/email/subscription_reminder.html:10
+#: accounts/templates/accounts/email/subscription_reminder.html:11
 #, python-format
 msgid ""
 "Please note that your FabLab subscription expires on %(date)s! To continue "
 "benefiting from preferential prices and to support the FabLab, remember to "
 "renew your subscription!"
 msgstr ""
-"Nous vous informons que votre abonnement au FabLab arrive à expiration le %(date)s ! "
-"Pour continuer à bénéficier de prix préférentiels et soutenir le lieu, "
-"pensez à renouveler votre abonnement !"
-
-#: accounts/templates/accounts/email/subscription_reminder.html:16
-msgid "Thank you for your support and see you soon,"
-msgstr "Merci pour votre soutien et à bientôt,"
-
-#: accounts/templates/accounts/email/subscription_reminder.html:19
-msgid "The FabLab La Chaux-de-Fonds team"
-msgstr "L'équipe du FabLab La Chaux-de-Fonds"
+"Nous vous informons que votre abonnement au FabLab arrive à expiration le "
+"%(date)s ! Pour continuer à bénéficier de prix préférentiels et soutenir le "
+"lieu, pensez à renouveler votre abonnement !"
 
 #: accounts/templates/accounts/email/subscription_updated.html:8
 #: payments/templates/payments/subscription_update_success.html:10
@@ -1829,6 +1844,9 @@ msgstr ""
 #: share/views.py:51
 msgid "Thanks ! Post was updated successfully."
 msgstr "Merci ! Votre poste a été mis à jour avec succès."
+
+#~ msgid "Your subscription expire today"
+#~ msgstr "Votre abonnement est expiré aujourd'hui"
 
 #~ msgid "Your subscription will expire in 7 days"
 #~ msgstr "Votre abonnement sera expiré dans 7 jours"
