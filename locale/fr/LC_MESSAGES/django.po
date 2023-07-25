@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-25 16:37+0200\n"
+"POT-Creation-Date: 2023-07-25 16:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -169,9 +169,9 @@ msgid ""
 "benefiting from preferential prices and support the FabLab, remember to "
 "renew your subscription!"
 msgstr ""
-"Nous vous rappelons que votre abonnement au FabLab expire demain. "
-"Pour continuer à bénéficier de prix préférentiels et soutenir le lieu, "
-"pensez à renouveler votre abonnement !"
+"Nous vous rappelons que votre abonnement au FabLab expire demain. Pour "
+"continuer à bénéficier de prix préférentiels et soutenir le lieu, pensez à "
+"renouveler votre abonnement !"
 
 #: accounts/templates/accounts/email/subscription_expire.html:12
 #: accounts/templates/accounts/email/subscription_reminder.html:15
@@ -185,6 +185,7 @@ msgstr "Merci pour votre soutien et à bientôt,"
 
 #: accounts/templates/accounts/email/subscription_expire.html:19
 #: accounts/templates/accounts/email/subscription_reminder.html:22
+#: accounts/templates/accounts/email/subscription_updated.html:22
 msgid "The FabLab La Chaux-de-Fonds team"
 msgstr "L'équipe du FabLab La Chaux-de-Fonds"
 
@@ -212,10 +213,33 @@ msgstr ""
 "%(date)s ! Pour continuer à bénéficier de prix préférentiels et soutenir le "
 "lieu, pensez à renouveler votre abonnement !"
 
+#: accounts/templates/accounts/email/subscription_updated.html:5
+msgid "The adventure continues!"
+msgstr "L'aventure continue !"
+
 #: accounts/templates/accounts/email/subscription_updated.html:8
+msgid ""
+"Thanks to your support, you'll continue to benefit from preferential prices "
+"to bring your ideas to life, and ensure the long-term future of the site."
+msgstr ""
+"Grâce à votre soutien, vous continuerez de bénéficier de prix préférentiels "
+"pour donner vie à vos idées, et vous assurer la pérennité du lieu."
+
+#: accounts/templates/accounts/email/subscription_updated.html:12
 #: payments/templates/payments/subscription_update_success.html:10
 msgid "Book a machine"
 msgstr "Réserver une machine"
+
+#: accounts/templates/accounts/email/subscription_updated.html:16
+msgid ""
+"We look forward to seeing you at the FabLab for more creative adventures!"
+msgstr ""
+"Nous sommes impatients de vous retrouver au FabLab pour de nouvelles "
+"aventures créatives !"
+
+#: accounts/templates/accounts/email/subscription_updated.html:19
+msgid "See you soon,"
+msgstr "A bientôt,"
 
 #: accounts/templates/accounts/nav.html:11
 msgid "My subscription"
@@ -1797,8 +1821,10 @@ msgstr ""
 "pouvez continuer à utiliser le fablab avec des prix demi-tarifs"
 
 #: payments/views.py:202
-msgid "Your subsription has been updated successfully"
-msgstr "Votre abonnement a été mis à jour avec succès"
+#, fuzzy
+#| msgid "You don't update your subscription"
+msgid "Thank you for your subscription!"
+msgstr "Vous n'avez pas mis à jour votre abonnement"
 
 #: share/models.py:8
 msgid "Image"
@@ -1845,8 +1871,3 @@ msgstr ""
 msgid "Thanks ! Post was updated successfully."
 msgstr "Merci ! Votre poste a été mis à jour avec succès."
 
-#~ msgid "Your subscription expire today"
-#~ msgstr "Votre abonnement est expiré aujourd'hui"
-
-#~ msgid "Your subscription will expire in 7 days"
-#~ msgstr "Votre abonnement sera expiré dans 7 jours"
