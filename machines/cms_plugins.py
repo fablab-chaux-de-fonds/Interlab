@@ -26,6 +26,7 @@ class MachinesListPluginPublisher(CMSPluginBase):
     module = _("Machines")
     name = _("Machine list")
     render_template = "machines/list.html"
+    cache = False
 
     def render(self, context, instance, placeholder):
         machine_filter = MachineFilter(context['request'].GET, queryset=Machine.objects.all().order_by('title'))
