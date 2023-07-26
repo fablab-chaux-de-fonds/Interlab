@@ -121,8 +121,8 @@ class AbstractSlotForm(forms.Form):
             'start_time': format_datetime(self.cleaned_data['start'], "H:mm", locale=settings.LANGUAGE_CODE), 
             'end_time': format_datetime(self.cleaned_data['end'], "H:mm", locale=settings.LANGUAGE_CODE),
             'opening_title': self.cleaned_data['opening'].title,
-            'start': self.cleaned_data['start'].isoformat(),
-            'end': self.cleaned_data['end'].isoformat()
+            'start': self.cleaned_data['start'].strftime("%Y%m%dT%H%M%SZ"),
+            'end': self.cleaned_data['end'].strftime("%Y%m%dT%H%M%SZ")
         }
         
         messages.success(
@@ -227,8 +227,8 @@ class EventForm(AbstractSlotForm):
             'start_time': format_datetime(self.cleaned_data['start'], "H:mm", locale=settings.LANGUAGE_CODE), 
             'end_time': format_datetime(self.cleaned_data['end'], "H:mm", locale=settings.LANGUAGE_CODE),
             'event_title': self.cleaned_data['event'].title,
-            'start': self.cleaned_data['start'].isoformat(),
-            'end': self.cleaned_data['end'].isoformat()
+            'start': self.cleaned_data['start'].strftime("%Y%m%dT%H%M%SZ"),
+            'end': self.cleaned_data['end'].strftime("%Y%m%dT%H%M%SZ")
         }
         
         messages.success(
@@ -265,8 +265,8 @@ class TrainingForm(AbstractSlotForm):
             'start_time': format_datetime(self.cleaned_data['start'], "H:mm", locale=settings.LANGUAGE_CODE), 
             'end_time': format_datetime(self.cleaned_data['end'], "H:mm", locale=settings.LANGUAGE_CODE),
             'training_title': self.cleaned_data['training'].title,
-            'start': self.cleaned_data['start'].isoformat(),
-            'end': self.cleaned_data['end'].isoformat()
+            'start': self.cleaned_data['start'].strftime("%Y%m%dT%H%M%SZ"),
+            'end': self.cleaned_data['end'].strftime("%Y%m%dT%H%M%SZ")
         }
         
         messages.success(
