@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-25 16:59+0200\n"
+"POT-Creation-Date: 2023-08-01 12:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -306,7 +306,7 @@ msgstr "Formation"
 
 #: accounts/templates/accounts/profile.html:30
 #: fabcal/templates/fabcal/event_info.html:32
-#: machines/templates/trainings/show_next_trainings.html:13
+#: machines/templates/trainings/show_next_trainings.html:15
 #, python-format
 msgid "still %(available_registration)s places available !"
 msgstr "encore %(available_registration)s places disponibles !"
@@ -327,7 +327,7 @@ msgstr "Pas de réservations pour le moment"
 
 #: accounts/templates/accounts/profile.html:47
 #: fabcal/templates/fabcal/event_info.html:34
-#: machines/templates/trainings/show_next_trainings.html:16
+#: machines/templates/trainings/show_next_trainings.html:18
 msgid "sold out"
 msgstr "complet"
 
@@ -467,7 +467,7 @@ msgstr ""
 #: accounts/templates/django_registration/already_activated.html:14
 #: accounts/templates/registration/login.html:21
 #: accounts/templates/registration/password_reset_complete.html:18
-#: machines/templates/trainings/show_next_trainings.html:69
+#: machines/templates/trainings/show_next_trainings.html:71
 msgid "Log in"
 msgstr "Se connecter"
 
@@ -810,7 +810,7 @@ msgstr "Pas d'ouverture"
 
 #: fabcal/forms.py:42 interlab/templates/menu-mobile.html:58
 #: interlab/templates/navbar-header.html:20 machines/cms_plugins.py:13
-#: machines/cms_plugins.py:26 machines/models.py:197
+#: machines/cms_plugins.py:27 machines/models.py:197
 #: machines/templates/trainings/show.html:38
 msgid "Machines"
 msgstr "Machines"
@@ -955,35 +955,35 @@ msgstr ""
 "Vous avez réservé avec succès la machine %(machine)s durant %(duration)s "
 "minutes le %(date)s de %(start)s à %(end)s"
 
-#: fabcal/models.py:52
+#: fabcal/models.py:54
 msgid "Opening Slot"
 msgstr "Créneau d'ouverture"
 
-#: fabcal/models.py:53
+#: fabcal/models.py:55
 msgid "Opening Slots"
 msgstr "Créneaux d'ouverture"
 
-#: fabcal/models.py:92
+#: fabcal/models.py:94
 msgid "Event Slot"
 msgstr "Créneau d'évènement"
 
-#: fabcal/models.py:93
+#: fabcal/models.py:95
 msgid "Event Slots"
 msgstr "Créneaux d'évènements"
 
-#: fabcal/models.py:101
+#: fabcal/models.py:103
 msgid "Training Slot"
 msgstr "Créneau de formation"
 
-#: fabcal/models.py:102
+#: fabcal/models.py:104
 msgid "Training Slots"
 msgstr "Créneaux de formation"
 
-#: fabcal/models.py:109
+#: fabcal/models.py:111
 msgid "Machine Slot"
 msgstr "Céneau machine"
 
-#: fabcal/models.py:110
+#: fabcal/models.py:112
 msgid "Machine Slots"
 msgstr "Créneaux machine"
 
@@ -996,7 +996,7 @@ msgid " on "
 msgstr " le "
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:11
-#: machines/templates/trainings/show_next_trainings.html:9
+#: machines/templates/trainings/show_next_trainings.html:11
 msgid " from "
 msgstr " de "
 
@@ -1055,7 +1055,7 @@ msgstr "de"
 #: fabcal/templates/fabcal/email/training_create_alert.html:13
 #: fabcal/templates/fabcal/email/training_update_alert.html:18
 #: machines/templates/machines/show_next_slots.html:22
-#: machines/templates/trainings/show_next_trainings.html:10
+#: machines/templates/trainings/show_next_trainings.html:12
 msgid "to"
 msgstr " à "
 
@@ -1108,7 +1108,7 @@ msgstr "Date et horaire"
 
 #: fabcal/templates/fabcal/event_registration_button.html:8
 #: fabcal/templates/fabcal/event_registration_button.html:10
-#: machines/templates/trainings/show_next_trainings.html:22
+#: machines/templates/trainings/show_next_trainings.html:24
 msgid "Unregister"
 msgstr "Se désinscrire"
 
@@ -1119,8 +1119,8 @@ msgstr ""
 
 #: fabcal/templates/fabcal/event_registration_button.html:14
 #: fabcal/templates/fabcal/event_registration_button.html:16
-#: machines/templates/trainings/show_next_trainings.html:24
-#: machines/templates/trainings/show_next_trainings.html:27
+#: machines/templates/trainings/show_next_trainings.html:26
+#: machines/templates/trainings/show_next_trainings.html:29
 msgid "Register"
 msgstr "S'inscrire"
 
@@ -1419,7 +1419,7 @@ msgstr "Évènements"
 msgid "training list"
 msgstr "Liste des formations"
 
-#: machines/cms_plugins.py:27
+#: machines/cms_plugins.py:28
 msgid "Machine list"
 msgstr "Liste des machines"
 
@@ -1659,13 +1659,13 @@ msgstr ""
 msgid "Sorry, no slot available for this machine."
 msgstr "Désolé, pas de créneau disponible pour cette machine"
 
-#: machines/templates/trainings/info.html:45
+#: machines/templates/trainings/info.html:51
 msgid ""
-"The price includes the training and a 1 hour machine voucher to start your "
-"project"
+"The price includes the training and a 1 hour machine voucher valid during 2 "
+"month after the training to start your project"
 msgstr ""
-"Le prix inclut la formation ainsi qu'un bon machine de 1h pour démarrer "
-"votre projet"
+"Le prix inclut la formation ainsi qu'un bon machine de 1h valide durant 2 "
+"mois après la formation pour démarrer votre projet"
 
 #: machines/templates/trainings/list.html:8
 msgid "Sadly, no training founded."
@@ -1675,31 +1675,31 @@ msgstr "Malheureusement, aucune formation trouvée."
 msgid "Sadly, no machine currently available."
 msgstr "Malheureusement, aucune machine n'est disponible pour le moment."
 
-#: machines/templates/trainings/show_next_trainings.html:3
+#: machines/templates/trainings/show_next_trainings.html:4
 msgid "Next Trainings"
 msgstr "Prochaines formations"
 
-#: machines/templates/trainings/show_next_trainings.html:42
+#: machines/templates/trainings/show_next_trainings.html:44
 msgid "Not available ?"
 msgstr "Pas disponible ?"
 
-#: machines/templates/trainings/show_next_trainings.html:44
+#: machines/templates/trainings/show_next_trainings.html:46
 msgid "Unfortunately, no training planned."
 msgstr "Malheureusement, aucune formation n'est prévue."
 
-#: machines/templates/trainings/show_next_trainings.html:48
+#: machines/templates/trainings/show_next_trainings.html:50
 msgid "We can alert you when a new training is planned."
 msgstr "Nous pouvons vous avertir lorsqu'une nouvelle formation est prévue."
 
-#: machines/templates/trainings/show_next_trainings.html:50
+#: machines/templates/trainings/show_next_trainings.html:52
 msgid "We will contact you as soon as possible."
 msgstr "Nous vous contacterons dès que possible."
 
-#: machines/templates/trainings/show_next_trainings.html:59
+#: machines/templates/trainings/show_next_trainings.html:61
 msgid "Stop alert me"
 msgstr "Arrêtez de me notifier"
 
-#: machines/templates/trainings/show_next_trainings.html:63
+#: machines/templates/trainings/show_next_trainings.html:65
 msgid "Alert me"
 msgstr "Notifiez-moi"
 
@@ -1870,4 +1870,3 @@ msgstr ""
 #: share/views.py:51
 msgid "Thanks ! Post was updated successfully."
 msgstr "Merci ! Votre poste a été mis à jour avec succès."
-
