@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-25 16:59+0200\n"
+"POT-Creation-Date: 2023-08-01 11:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -810,7 +810,7 @@ msgstr "Pas d'ouverture"
 
 #: fabcal/forms.py:42 interlab/templates/menu-mobile.html:58
 #: interlab/templates/navbar-header.html:20 machines/cms_plugins.py:13
-#: machines/cms_plugins.py:26 machines/models.py:197
+#: machines/cms_plugins.py:27 machines/models.py:197
 #: machines/templates/trainings/show.html:38
 msgid "Machines"
 msgstr "Machines"
@@ -1419,7 +1419,7 @@ msgstr "Évènements"
 msgid "training list"
 msgstr "Liste des formations"
 
-#: machines/cms_plugins.py:27
+#: machines/cms_plugins.py:28
 msgid "Machine list"
 msgstr "Liste des machines"
 
@@ -1801,15 +1801,14 @@ msgid "Your subscription has been updated successfully"
 msgstr "Votre abonnement a été mis à jour avec succès"
 
 #: payments/templates/payments/subscription_update_success.html:8
-msgid "We have sent you an email to confirme the subscription update."
-msgstr ""
-"Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
+msgid "Thank you for your support! We've sent you a confirmation e-mail"
+msgstr " Merci pour votre soutien ! Nous vous avons envoyé un e-mail de confirmation"
 
 #: payments/templates/payments/subscription_update_success.html:9
-msgid "You can continue to use the fablab with premium prices"
+msgid "You can now continue to use the FabLab at preferential rates"
 msgstr ""
-"Vous pouvez continuer à utiliser le fablab en bénéficiant de tarifs "
-"préférentiels."
+"Vous pouvez dès à présent continuer à utiliser le FabLab en bénéficiant "
+"des tarifs préférentiels."
 
 #: payments/views.py:196
 #, python-format
@@ -1871,3 +1870,7 @@ msgstr ""
 msgid "Thanks ! Post was updated successfully."
 msgstr "Merci ! Votre poste a été mis à jour avec succès."
 
+#~ msgid "We have sent you an email to confirme the subscription update."
+#~ msgstr ""
+#~ "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre "
+#~ "inscription"
