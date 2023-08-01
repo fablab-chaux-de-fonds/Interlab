@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-25 16:59+0200\n"
+"POT-Creation-Date: 2023-08-01 11:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -810,7 +810,7 @@ msgstr "Pas d'ouverture"
 
 #: fabcal/forms.py:42 interlab/templates/menu-mobile.html:58
 #: interlab/templates/navbar-header.html:20 machines/cms_plugins.py:13
-#: machines/cms_plugins.py:26 machines/models.py:197
+#: machines/cms_plugins.py:27 machines/models.py:197
 #: machines/templates/trainings/show.html:38
 msgid "Machines"
 msgstr "Machines"
@@ -839,7 +839,7 @@ msgid ""
 "%(machine)s from %(start)s to %(end)s"
 msgstr ""
 "Le créneau ne peut être mis à jour,  %(first_name)s %(last_name)s a déjà "
-"réserver le créneau: %(machine)s de %(start)s a %(end)s"
+"réservé le créneau: %(machine)s de %(start)s a %(end)s"
 
 #: fabcal/forms.py:179
 msgid "Select an opening"
@@ -943,8 +943,8 @@ msgid "You cannot end later than %(start_time)s"
 msgstr "Vous ne pouvez pas finir après %(start_time)s"
 
 #: fabcal/forms.py:401 fabcal/forms.py:402
-msgid "Confirmation of your machine reservation"
-msgstr "Confirmation de votre réservation machine"
+msgid "Confirmation: %(machine-title)s reserved"
+msgstr "Confirmation: %(machine-title)s réservée"
 
 #: fabcal/forms.py:415
 #, python-format
@@ -989,7 +989,7 @@ msgstr "Créneaux machine"
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:7
 msgid "We confirme that you are reserve the machine "
-msgstr "Nous vous confirmons que vous avez réserver la machine "
+msgstr "Nous vous confirmons que vous avez réservé la machine "
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:9
 msgid " on "
@@ -1419,7 +1419,7 @@ msgstr "Évènements"
 msgid "training list"
 msgstr "Liste des formations"
 
-#: machines/cms_plugins.py:27
+#: machines/cms_plugins.py:28
 msgid "Machine list"
 msgstr "Liste des machines"
 
@@ -1870,4 +1870,3 @@ msgstr ""
 #: share/views.py:51
 msgid "Thanks ! Post was updated successfully."
 msgstr "Merci ! Votre poste a été mis à jour avec succès."
-
