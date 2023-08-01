@@ -839,7 +839,7 @@ msgid ""
 "%(machine)s from %(start)s to %(end)s"
 msgstr ""
 "Le créneau ne peut être mis à jour,  %(first_name)s %(last_name)s a déjà "
-"réserver le créneau: %(machine)s de %(start)s a %(end)s"
+"réservé le créneau: %(machine)s de %(start)s a %(end)s"
 
 #: fabcal/forms.py:179
 msgid "Select an opening"
@@ -943,8 +943,8 @@ msgid "You cannot end later than %(start_time)s"
 msgstr "Vous ne pouvez pas finir après %(start_time)s"
 
 #: fabcal/forms.py:401 fabcal/forms.py:402
-msgid "Confirmation of your machine reservation"
-msgstr "Confirmation de votre réservation machine"
+msgid "Confirmation: %(machine-title)s reserved"
+msgstr "Confirmation: %(machine-title)s réservée"
 
 #: fabcal/forms.py:415
 #, python-format
@@ -989,7 +989,7 @@ msgstr "Créneaux machine"
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:7
 msgid "We confirme that you are reserve the machine "
-msgstr "Nous vous confirmons que vous avez réserver la machine "
+msgstr "Nous vous confirmons que vous avez réservé la machine "
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:9
 msgid " on "
