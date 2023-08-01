@@ -398,8 +398,8 @@ class MachineReservationForm(forms.Form):
     
         send_mail(
             from_email=None,
-            subject=_('Confirmation of your machine reservation'),
-            message = _("Confirmation of your machine reservation"),
+            subject=_('Confirmation: %(machine-title)s reserved') % {'machine-title': view.context['machine_slot'].machine.title},
+            message = _('Confirmation: %(machine-title)s reserved') % {'machine-title': view.context['machine_slot'].machine.title},
             recipient_list = [view.request.user.email],
             html_message = html_message
         )

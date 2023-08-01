@@ -15,6 +15,8 @@ class AbstractSlot(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
     comment = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     class Meta:
         abstract = True
 

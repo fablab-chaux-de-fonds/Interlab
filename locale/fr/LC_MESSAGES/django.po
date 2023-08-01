@@ -839,7 +839,7 @@ msgid ""
 "%(machine)s from %(start)s to %(end)s"
 msgstr ""
 "Le créneau ne peut être mis à jour,  %(first_name)s %(last_name)s a déjà "
-"réserver le créneau: %(machine)s de %(start)s a %(end)s"
+"réservé le créneau: %(machine)s de %(start)s a %(end)s"
 
 #: fabcal/forms.py:179
 msgid "Select an opening"
@@ -943,8 +943,8 @@ msgid "You cannot end later than %(start_time)s"
 msgstr "Vous ne pouvez pas finir après %(start_time)s"
 
 #: fabcal/forms.py:401 fabcal/forms.py:402
-msgid "Confirmation of your machine reservation"
-msgstr "Confirmation de votre réservation machine"
+msgid "Confirmation: %(machine-title)s reserved"
+msgstr "Confirmation: %(machine-title)s réservée"
 
 #: fabcal/forms.py:415
 #, python-format
@@ -989,7 +989,7 @@ msgstr "Créneaux machine"
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:7
 msgid "We confirme that you are reserve the machine "
-msgstr "Nous vous confirmons que vous avez réserver la machine "
+msgstr "Nous vous confirmons que vous avez réservé la machine "
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:9
 msgid " on "
@@ -1589,7 +1589,7 @@ msgstr "Désolé, pas de machine disponible dans cette catégorie"
 
 #: machines/templates/machines/price.html:5
 msgid "The use of the machine is free and conscious price"
-msgstr ""
+msgstr "L'utilisation de la machine est à prix libre et conscient"
 
 #: machines/templates/machines/price.html:13
 msgid "Benefit from half price prices<br> for 15 CHF / month"
@@ -1869,8 +1869,3 @@ msgstr ""
 #: share/views.py:51
 msgid "Thanks ! Post was updated successfully."
 msgstr "Merci ! Votre poste a été mis à jour avec succès."
-
-#~ msgid "We have sent you an email to confirme the subscription update."
-#~ msgstr ""
-#~ "Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre "
-#~ "inscription"
