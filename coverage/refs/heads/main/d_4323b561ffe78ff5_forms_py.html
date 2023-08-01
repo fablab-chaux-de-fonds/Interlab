@@ -65,7 +65,7 @@
             <a id="nextFileLink" class="nav" href="d_44c834862e9f0b1c_0001_initial_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.2.7">coverage.py v7.2.7</a>,
-            created at 2023-08-01 10:29 +0000
+            created at 2023-08-01 10:40 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"/>
@@ -480,8 +480,8 @@
     <p class="pln"><span class="n"><a id="t398" href="#t398">398</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t399" href="#t399">399</a></span><span class="t">        <span class="nam">send_mail</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t400" href="#t400">400</a></span><span class="t">            <span class="nam">from_email</span><span class="op">=</span><span class="key">None</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t401" href="#t401">401</a></span><span class="t">            <span class="nam">subject</span><span class="op">=</span><span class="nam">_</span><span class="op">(</span><span class="str">'Confirmation of your machine reservation'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t402" href="#t402">402</a></span><span class="t">            <span class="nam">message</span> <span class="op">=</span> <span class="nam">_</span><span class="op">(</span><span class="str">"Confirmation of your machine reservation"</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t401" href="#t401">401</a></span><span class="t">            <span class="nam">subject</span><span class="op">=</span><span class="nam">_</span><span class="op">(</span><span class="str">'Confirmation: %(machine-title)s reserved'</span><span class="op">)</span> <span class="op">%</span> <span class="op">{</span><span class="str">'machine-title'</span><span class="op">:</span> <span class="nam">view</span><span class="op">.</span><span class="nam">context</span><span class="op">[</span><span class="str">'machine_slot'</span><span class="op">]</span><span class="op">.</span><span class="nam">machine</span><span class="op">.</span><span class="nam">title</span><span class="op">}</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t402" href="#t402">402</a></span><span class="t">            <span class="nam">message</span> <span class="op">=</span> <span class="nam">_</span><span class="op">(</span><span class="str">'Confirmation: %(machine-title)s reserved'</span><span class="op">)</span> <span class="op">%</span> <span class="op">{</span><span class="str">'machine-title'</span><span class="op">:</span> <span class="nam">view</span><span class="op">.</span><span class="nam">context</span><span class="op">[</span><span class="str">'machine_slot'</span><span class="op">]</span><span class="op">.</span><span class="nam">machine</span><span class="op">.</span><span class="nam">title</span><span class="op">}</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t403" href="#t403">403</a></span><span class="t">            <span class="nam">recipient_list</span> <span class="op">=</span> <span class="op">[</span><span class="nam">view</span><span class="op">.</span><span class="nam">request</span><span class="op">.</span><span class="nam">user</span><span class="op">.</span><span class="nam">email</span><span class="op">]</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t404" href="#t404">404</a></span><span class="t">            <span class="nam">html_message</span> <span class="op">=</span> <span class="nam">html_message</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t405" href="#t405">405</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -504,7 +504,7 @@
             <a id="nextFileLink" class="nav" href="d_44c834862e9f0b1c_0001_initial_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.2.7">coverage.py v7.2.7</a>,
-            created at 2023-08-01 10:29 +0000
+            created at 2023-08-01 10:40 +0000
         </p>
     </div>
 </footer>
