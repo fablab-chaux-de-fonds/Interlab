@@ -3,32 +3,57 @@
 {% for post in object_list %}
     <div class="col-6 col-md-4 col-lg-3 grid-item">
 
-    <div class="row">
-        <div class="col">
-            {% if post.url %}<a href="{{post.url}}" class="text-blue">{% endif %}
-            <p class="mb-0">
-                {{post.title}}
-                {% if post.url %}<i class="bi bi-box-arrow-up-right"></i>{% endif %}
-            </p> 
-            {% if post.url %}</a>{% endif %}
-        </div>
-        {% if request.user|has_group:"superuser" %}
-        <div class="col-4 text-end">
-            {% if request.user.profile == post.profile %}
-                <a class="btn btn-link p-0" href="{% url 'post_delete' post.pk%}"><i class="bi bi-trash3"></i></a>
-                <a class="btn btn-link p-0 text-blue" href="{% url 'post_update' post.pk%}"><i class="bi bi-pencil-square"></i></a>
-            {% endif %}
-        </div>
-        {% endif %}
-    </div>
-    {% if post.url %}<a href="{{post.url}}">{% endif %}
+    <button type="button" data-bs-toggle="modal" data-bs-target="#post-{{post.pk}}">
         <img class="card-img rounded" src="{{post.img.url}}" alt="{{post.title}}">
-    {% if post.url %}</a>{% endif %}
+    </button>
+
+
+    {% comment %} <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+    </button> {% endcomment %}
+    
+    <!-- Modal -->
+    <div class="modal fade" id="post-{{post.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="container-fluid ps-0">
+                    <div class="row">
+                        <div class="col-12 col-md-8 pt-0 pe-0 text-center">
+                            <img class="img-fluid" src="{{post.img.url}}" alt="{{post.title}}">
+                        </div>
+                        <div class="col-12 col-md-4 p-4 ">
+                            <div class="text-end">
+                                {% if request.user.profile == post.profile %}
+                                    <a class="btn btn-link p-0" href="{% url 'post_delete' post.pk%}"><i class="bi bi-trash3"></i></a>
+                                    <a class="btn btn-link p-0 text-blue" href="{% url 'post_update' post.pk%}"><i class="bi bi-pencil-square"></i></a>
+                                {% endif %}
+                            </div>
+                            <h3>{{post.title}}</h3>
+                            <p>{{post.profile.user.first_name}} {{post.profile.user.last_name}}</p>
+                            {% if post.url %}
+                                <a href="{{post.url}}" class="text-blue">
+                                    <i class="bi bi-box-arrow-up-right"></i> {% trans "More info" %}
+                                </a>
+                            {% endif %}
+
+                            {% if post.profile.public_contact_plateform %}
+                                <a class="text-blue" href="{{post.profile.public_contact}}">
+                                    <i class="bi bi-{{post.profile.public_contact_plateform}}"></i>
+                                </a>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
 
     <div class="text-end">
-        {% if post.profile.public_contact_plateform %}
-        <i class="bi bi-{{post.profile.public_contact_plateform}}"></i> {{post.profile.public_contact}}
-        {% endif %}
+
     </div>
 </div>
 
