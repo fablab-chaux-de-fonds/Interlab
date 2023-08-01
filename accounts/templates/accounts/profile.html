@@ -63,7 +63,7 @@
                 <a class="text-blue" href="{% url 'superuser-profile-edit' reservation.user.pk %}">
                     <div class="row">
                         <div class="col-2">
-                            {%include 'accounts/avatar.html'%}
+                            {%include 'accounts/avatar.html' with user=reservation.user%}
                         </div>
                         <div class="col-10 my-auto">
                             {{reservation.start|date:"H:i"}} - {{reservation.end|date:"H:i"}}:
