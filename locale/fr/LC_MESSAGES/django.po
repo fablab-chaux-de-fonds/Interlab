@@ -1801,15 +1801,14 @@ msgid "Your subscription has been updated successfully"
 msgstr "Votre abonnement a été mis à jour avec succès"
 
 #: payments/templates/payments/subscription_update_success.html:8
-msgid "We have sent you an email to confirme the subscription update."
-msgstr ""
-"Bien joué ! Nous vous avons envoyé un e-mail pour confirmer votre inscription"
+msgid "Thank you for your support! We've sent you a confirmation e-mail"
+msgstr " Merci pour votre soutien ! Nous vous avons envoyé un e-mail de confirmation"
 
 #: payments/templates/payments/subscription_update_success.html:9
-msgid "You can continue to use the fablab with premium prices"
+msgid "You can now continue to use the FabLab at preferential rates"
 msgstr ""
-"Vous pouvez continuer à utiliser le fablab en bénéficiant de tarifs "
-"préférentiels."
+"Vous pouvez dès à présent continuer à utiliser le FabLab en bénéficiant "
+"des tarifs préférentiels."
 
 #: payments/views.py:196
 #, python-format
