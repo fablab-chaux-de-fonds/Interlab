@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-01 11:52+0200\n"
+"POT-Creation-Date: 2023-08-01 12:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,25 +72,25 @@ msgid "Remove subscription for user {}"
 msgstr ""
 
 #: accounts/forms.py:184
+msgid "Subcription created to %(subcription_category)s for user %(user)s"
+msgstr ""
+"Abonnement %(subcription_category)s créé pour l'utilisateur %(user)s"
+
+#: accounts/forms.py:203
 #, python-format
 msgid "Subcription updated to %(subcription_category)s for user %(user)s"
 msgstr ""
 "Abonnement %(subcription_category)s mise à jour pour l'utilisateur %(user)s"
 
-#: accounts/forms.py:199
-#, fuzzy
-msgid "Subscription duration updated for user {}"
-msgstr "Abonnement %(subcription_category)s mise à jour pour l'utilisateur "
-
-#: accounts/forms.py:229
+#: accounts/forms.py:237
 msgid "Welcome to Fablab !"
 msgstr "Bienvenue au FabLab !"
 
-#: accounts/forms.py:230 fabcal/forms.py:283 fabcal/forms.py:294
+#: accounts/forms.py:238 fabcal/forms.py:283 fabcal/forms.py:294
 msgid "A new training was planned"
 msgstr "Une nouvelle formation a été planifiée"
 
-#: accounts/forms.py:251
+#: accounts/forms.py:259
 #, python-format
 msgid ""
 "Training %(training)s has been successfully deleted for %(first_name)s "
@@ -98,15 +98,15 @@ msgid ""
 msgstr ""
 "La fomation %(training)s a été supprimée pour %(first_name)s %(last_name)s"
 
-#: accounts/forms.py:259
+#: accounts/forms.py:267
 msgid "Sorry, we cancel your training validation"
 msgstr "Désolé, nous avec supplimé votre formation"
 
-#: accounts/forms.py:260
+#: accounts/forms.py:268
 msgid "Training deleted"
 msgstr "Formation supprimée"
 
-#: accounts/forms.py:274
+#: accounts/forms.py:282
 #, python-format
 msgid ""
 "Training %(training)s has been successfully valided for %(first_name)s "
@@ -115,11 +115,11 @@ msgstr ""
 "La fomation %(training)s a été validée avec succès pour %(first_name)s "
 "%(last_name)s"
 
-#: accounts/forms.py:283
+#: accounts/forms.py:291
 msgid "Start to use the machine !"
 msgstr "Commence à utiliser la machine !"
 
-#: accounts/forms.py:284
+#: accounts/forms.py:292
 msgid "Training validated"
 msgstr "Formation validée"
 
@@ -943,6 +943,7 @@ msgid "You cannot end later than %(start_time)s"
 msgstr "Vous ne pouvez pas finir après %(start_time)s"
 
 #: fabcal/forms.py:401 fabcal/forms.py:402
+#, python-format
 msgid "Confirmation: %(machine-title)s reserved"
 msgstr "Confirmation: %(machine-title)s réservée"
 
@@ -955,35 +956,35 @@ msgstr ""
 "Vous avez réservé avec succès la machine %(machine)s durant %(duration)s "
 "minutes le %(date)s de %(start)s à %(end)s"
 
-#: fabcal/models.py:52
+#: fabcal/models.py:54
 msgid "Opening Slot"
 msgstr "Créneau d'ouverture"
 
-#: fabcal/models.py:53
+#: fabcal/models.py:55
 msgid "Opening Slots"
 msgstr "Créneaux d'ouverture"
 
-#: fabcal/models.py:92
+#: fabcal/models.py:94
 msgid "Event Slot"
 msgstr "Créneau d'évènement"
 
-#: fabcal/models.py:93
+#: fabcal/models.py:95
 msgid "Event Slots"
 msgstr "Créneaux d'évènements"
 
-#: fabcal/models.py:101
+#: fabcal/models.py:103
 msgid "Training Slot"
 msgstr "Créneau de formation"
 
-#: fabcal/models.py:102
+#: fabcal/models.py:104
 msgid "Training Slots"
 msgstr "Créneaux de formation"
 
-#: fabcal/models.py:109
+#: fabcal/models.py:111
 msgid "Machine Slot"
 msgstr "Céneau machine"
 
-#: fabcal/models.py:110
+#: fabcal/models.py:112
 msgid "Machine Slots"
 msgstr "Créneaux machine"
 
@@ -1802,13 +1803,14 @@ msgstr "Votre abonnement a été mis à jour avec succès"
 
 #: payments/templates/payments/subscription_update_success.html:8
 msgid "Thank you for your support! We've sent you a confirmation e-mail"
-msgstr " Merci pour votre soutien ! Nous vous avons envoyé un e-mail de confirmation"
+msgstr ""
+" Merci pour votre soutien ! Nous vous avons envoyé un e-mail de confirmation"
 
 #: payments/templates/payments/subscription_update_success.html:9
 msgid "You can now continue to use the FabLab at preferential rates"
 msgstr ""
-"Vous pouvez dès à présent continuer à utiliser le FabLab en bénéficiant "
-"des tarifs préférentiels."
+"Vous pouvez dès à présent continuer à utiliser le FabLab en bénéficiant des "
+"tarifs préférentiels."
 
 #: payments/views.py:196
 #, python-format
