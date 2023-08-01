@@ -1589,7 +1589,7 @@ msgstr "Désolé, pas de machine disponible dans cette catégorie"
 
 #: machines/templates/machines/price.html:5
 msgid "The use of the machine is free and conscious price"
-msgstr ""
+msgstr "L'utilisation de la machine est à prix libre et conscient"
 
 #: machines/templates/machines/price.html:13
 msgid "Benefit from half price prices<br> for 15 CHF / month"
