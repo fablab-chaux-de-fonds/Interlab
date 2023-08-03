@@ -21,8 +21,8 @@ class SubscriptionCategoryAdmin(admin.ModelAdmin):
 class SuperUserStatusAdmin(admin.ModelAdmin):
     list_display = ['status']
 
-@admin.register(SuperUserPorfile)
-class SuperUserPorfileAdmin(admin.ModelAdmin):
+@admin.register(SuperUserProfile)
+class SuperUserProfileAdmin(admin.ModelAdmin):
     list_display = ['user']
 
 @admin.register(CustomUser)

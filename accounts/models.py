@@ -73,7 +73,8 @@ class SuperUserStatus(models.Model):
 
     def __str__(self):
         return self.status
-class SuperUserPorfile(models.Model):
+
+class SuperUserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     about_me = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("About me"))
     status = models.ManyToManyField(SuperUserStatus, verbose_name=_("technics"), blank=True, null=True)

@@ -3,7 +3,8 @@ from cms.plugin_pool import plugin_pool
 
 from django.utils.translation import gettext as _
 
-from .models import SuperUserListPluginModel, SuperUserPorfile
+from .models import SuperUserListPluginModel, SuperUserProfile
+from .filters import SuperUserFilter
 
 @plugin_pool.register_plugin  # register the plugin
 class SuperUserListPluginModel(CMSPluginBase):
