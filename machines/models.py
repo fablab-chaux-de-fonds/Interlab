@@ -22,6 +22,7 @@ class ItemForRent(AbstractOpening):
 class AbstractMachinesFilter(models.Model):
     name = models.CharField(max_length=255)
     sort = models.PositiveSmallIntegerField(default=1)
+    superuser_skill = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
