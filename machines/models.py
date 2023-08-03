@@ -220,6 +220,13 @@ class Specification(models.Model):
         verbose_name = _("Specification")
         verbose_name_plural = _("Specifications")
 
+class Software(models.Model):
+    title = models.CharField(max_length=255)
+    machines = models.ManyToManyField(Machine ,null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
 class TrainingsListPluginModel(CMSPlugin):
     pass
 
