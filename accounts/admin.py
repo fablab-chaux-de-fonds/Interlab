@@ -17,6 +17,14 @@ class SubscriptionAdmin(admin.ModelAdmin):
 class SubscriptionCategoryAdmin(admin.ModelAdmin):
     list_display = ['title', 'price', 'default_access_number', 'duration', 'star_flag', 'sort']
 
+@admin.register(SuperUserStatus)
+class SuperUserStatusAdmin(admin.ModelAdmin):
+    list_display = ['status']
+
+@admin.register(SuperUserProfile)
+class SuperUserProfileAdmin(admin.ModelAdmin):
+    list_display = ['user']
+
 @admin.register(CustomUser)
 class CustomUserAdmin(BaseUserAdmin):
     pass
