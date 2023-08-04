@@ -78,11 +78,11 @@ class SuperUserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to="profile")
     about_me = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("About me"))
-    status = models.ManyToManyField(SuperUserStatus, verbose_name=_("status"), blank=True, null=True)
-    trainer = models.ManyToManyField("machines.Training", verbose_name=_("trainer"), blank=True, null=True)
-    technique = models.ManyToManyField("machines.Workshop", verbose_name=_("technique"), blank=True, null=True)
-    software = models.ManyToManyField("machines.Software", verbose_name=_("software"), blank=True, null=True)
-    machine_category =  models.ManyToManyField("machines.MachineCategory", verbose_name=_("machine category"), blank=True, null=True)
+    status = models.ManyToManyField(SuperUserStatus, verbose_name=_("Status"), blank=True, null=True)
+    trainer = models.ManyToManyField("machines.Training", verbose_name=_("Trainer"), blank=True, null=True)
+    technique = models.ManyToManyField("machines.Workshop", verbose_name=_("Technique"), blank=True, null=True)
+    software = models.ManyToManyField("machines.Software", verbose_name=_("Software"), blank=True, null=True)
+    machine_category =  models.ManyToManyField("machines.MachineCategory", verbose_name=_("Machine category"), blank=True, null=True)
 
     def __str__(self):
         return str(self.user)
