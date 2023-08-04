@@ -14,19 +14,7 @@
         {% endfor %}
     </div>
 
-    <div class="form form-check-inline form-check-btn text-green my-1">
-        <i class="bi bi-house-fill"></i> {% trans "Technique" %} :
-        {% for pk, choice in form.technique.field.widget.choices %}
-        <input hx-get="/team/" hx-include='[name="technique"], [name="machine_category"], [name="trainer"]'
-            id="{{form.technique.name}}_{{ forloop.counter0 }}" name="{{form.technique.name}}" type="checkbox"
-            value="{{pk}}" class="btn-check" {% if pk in request.GET|get_list:form.technique.name %} checked="checked"
-            {% endif %} autocomplete="off" />
-        <label for="{{form.technique.name}}_{{ forloop.counter0 }}"
-            class="btn btn-outline-success badge rounded-pill">{{ choice }}</label>
-        {% endfor %}
-    </div>
-
-    <br>
+    </br>
 
     <div class="form form-check-inline form-check-btn my-1">
         <i class="bi bi-tools"></i> {% trans "Machine" %} :
@@ -38,6 +26,20 @@
             autocomplete="off" />
         <label for="{{form.machine_category.name}}_{{ forloop.counter0 }}"
             class="btn btn-outline-secondary badge rounded-pill">{{ choice }}</label>
+        {% endfor %}
+    </div>
+
+    </br>
+
+    <div class="form form-check-inline form-check-btn text-green my-1">
+        <i class="bi bi-house-fill"></i> {% trans "Technique" %} :
+        {% for pk, choice in form.technique.field.widget.choices %}
+        <input hx-get="/team/" hx-include='[name="technique"], [name="machine_category"], [name="trainer"]'
+            id="{{form.technique.name}}_{{ forloop.counter0 }}" name="{{form.technique.name}}" type="checkbox"
+            value="{{pk}}" class="btn-check" {% if pk in request.GET|get_list:form.technique.name %} checked="checked"
+            {% endif %} autocomplete="off" />
+        <label for="{{form.technique.name}}_{{ forloop.counter0 }}"
+            class="btn btn-outline-success badge rounded-pill">{{ choice }}</label>
         {% endfor %}
     </div>
 </form>
@@ -62,42 +64,31 @@
             <div class="modal-content">
                 <div class="modal-body pt-0">
                     <div class="row">
-                        <div class="col-12 col-md-4 p-0">
+                        <div class="col-12 col-md-4 text-center">
                             <img src="{{superuser.photo.url}}" alt="superuser.profile.user.first_name"
                                 class="img-fluid">
+                            {% if superuser.user.profile.public_contact %}
+                                <a class="btn btn-sm btn-outline-secondary mt-2" href="{{superuser.user.profile.public_contact}}">
+                                    <i class="bi bi-{{superuser.user.profile.public_contact_plateform}}"></i> {% trans "contact" %}
+                                </a>
+                            {% endif %}
                         </div>
                         <div class="col-12 col-md-8 my-auto">
-                            <a class="text-blue" href="{{superuser.user.profile.public_contact}}">
-                                <h3>
-                                    <i class="bi bi-{{superuser.user.profile.public_contact_plateform}}"></i>
-                                    {{superuser.user.first_name}}
-                                </h3>
-                            </a>
-                            <p>{{superuser.about_me}}</p>
+                            <h3> 
+                                {{superuser.user.first_name}}
+                            </h3>
+                            {% if superuser.about_me %}
+                                <p>{{superuser.about_me}}</p>
+                            {% endif %}
                             {% if superuser.trainer.all %}
                             <div class="row">
                                 <div class="col-2 py-0 text-center">
-                                    <i class="bi bi-mortarboard-fill text-green"></i>
+                                    <i class="bi bi-mortarboard-fill text-red"></i>
                                 </div>
                                 <div class="col-10 py-0">
                                     {% for trainer in superuser.trainer.all %}
-                                    <div class="badge text-bg-success-light rounded-pill">
+                                    <div class="badge text-bg-danger-light rounded-pill">
                                         {{trainer}}
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                                {% endif %}
-                            </div>
-
-                            <div class="row">
-                                {% if superuser.technique.all %}
-                                <div class="col-2 py-0 text-center">
-                                    <i class="bi bi-house-fill"></i>
-                                </div>
-                                <div class="col-10 py-0">
-                                    {% for technique in superuser.technique.all %}
-                                    <div class="badge text-bg-info-light rounded-pill">
-                                        {{technique}}
                                     </div>
                                     {% endfor %}
                                 </div>
@@ -107,11 +98,11 @@
                             <div class="row">
                                 {% if superuser.machines.all %}
                                 <div class="col-2 py-0 text-center">
-                                    <i class="bi bi-tools text-red"></i>
+                                    <i class="bi bi-tools text"></i>
                                 </div>
                                 <div class="col-10 py-0">
                                     {% for machine in superuser.machines.all %}
-                                    <div class="badge text-bg-danger-light rounded-pill">
+                                    <div class="badge text-bg-info-light rounded-pill">
                                         {{machine}}
                                     </div>
                                     {% endfor %}
@@ -120,13 +111,28 @@
                             </div>
 
                             <div class="row">
-                                {% if superuser.softwares.all %}
+                                {% if superuser.technique.all %}
                                 <div class="col-2 py-0 text-center">
-                                    <i class="bi bi-code-slash text-green"></i>
+                                    <i class="bi bi-house-fill text-green"></i>
                                 </div>
                                 <div class="col-10 py-0">
-                                    {% for software in superuser.softwares.all %}
+                                    {% for technique in superuser.technique.all %}
                                     <div class="badge text-bg-success-light rounded-pill">
+                                        {{technique}}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="row">
+                                {% if superuser.software.all %}
+                                <div class="col-2 py-0 text-center">
+                                    <i class="bi bi-code-slash text-red"></i>
+                                </div>
+                                <div class="col-10 py-0">
+                                    {% for software in superuser.software.all %}
+                                    <div class="badge text-bg-danger-light rounded-pill">
                                         {{software}}
                                     </div>
                                     {% endfor %}
