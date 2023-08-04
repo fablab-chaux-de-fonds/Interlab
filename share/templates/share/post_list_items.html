@@ -34,13 +34,13 @@
                             <p>{{post.profile.user.first_name}} {{post.profile.user.last_name}}</p>
                             {% if post.url %}
                                 <a href="{{post.url}}" class="text-blue">
-                                    <i class="bi bi-box-arrow-up-right"></i> {% trans "More info" %}
+                                    <i class="bi bi-box-arrow-up-right"></i> {% trans "More informations" %}
                                 </a>
                             {% endif %}
-
+                            </br>
                             {% if post.profile.public_contact_plateform %}
                                 <a class="text-blue" href="{{post.profile.public_contact}}">
-                                    <i class="bi bi-{{post.profile.public_contact_plateform}}"></i>
+                                    <i class="bi bi-{{post.profile.public_contact_plateform}}"></i> {% trans "Contact" %}
                                 </a>
                             {% endif %}
 

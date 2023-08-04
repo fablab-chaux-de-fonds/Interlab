@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-01 17:36+0200\n"
+"POT-Creation-Date: 2023-08-04 11:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -298,65 +298,45 @@ msgstr "Réservations futures et passées"
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: accounts/templates/accounts/profile.html:23 fabcal/forms.py:242
+#: accounts/templates/accounts/profile.html:25 fabcal/forms.py:242
 #: fabcal/templates/fabcal/trainingslot_(un)registration_form.html:10
 #: machines/models.py:66
 msgid "Training"
 msgstr "Formation"
 
-#: accounts/templates/accounts/profile.html:30
+#: accounts/templates/accounts/profile.html:32
 #: fabcal/templates/fabcal/event_info.html:35
 #: machines/templates/trainings/show_next_trainings.html:18
 #, python-format
 msgid "still %(available_registration)s places available !"
 msgstr "encore %(available_registration)s places disponibles !"
 
-#: accounts/templates/accounts/profile.html:33
+#: accounts/templates/accounts/profile.html:35
 #: fabcal/templates/fabcal/event_info.html:27
 #: fabcal/templates/fabcal/event_registration_list.html:7
 msgid "Registration"
 msgstr "Inscription"
 
-#: accounts/templates/accounts/profile.html:41
+#: accounts/templates/accounts/profile.html:43
 msgid "Validate trainings"
 msgstr "Valider les formations"
 
-#: accounts/templates/accounts/profile.html:44
+#: accounts/templates/accounts/profile.html:46
 msgid "No registrations for the moment"
 msgstr "Pas de réservations pour le moment"
 
-#: accounts/templates/accounts/profile.html:47
+#: accounts/templates/accounts/profile.html:48
 #: fabcal/templates/fabcal/event_info.html:38
 #: machines/templates/trainings/show_next_trainings.html:22
 msgid "sold out"
 msgstr "complet"
 
-#: accounts/templates/accounts/profile.html:54 fabcal/forms.py:32
-#: fabcal/forms.py:178 openings/models.py:35
-msgid "Opening"
-msgstr "Ouverture"
-
-#: accounts/templates/accounts/profile.html:77
-msgid "No reservations for the moment"
-msgstr "Pas de réservations pour le moment"
-
-#: accounts/templates/accounts/profile.html:82
-#: interlab/templates/menu-mobile.html:18
-#: interlab/templates/navbar-header.html:17
-msgid "Reservation"
-msgstr "Réservation"
-
-#: accounts/templates/accounts/profile.html:93 fabcal/forms.py:187
-#: openings/models.py:46
-msgid "Event"
-msgstr "Évènement"
-
-#: accounts/templates/accounts/profile.html:108
-#: accounts/templates/accounts/profile.html:140
+#: accounts/templates/accounts/profile.html:58
+#: accounts/templates/accounts/profile.html:104
 msgid "You have reservations!"
 msgstr "Tu as des réservations!"
 
-#: accounts/templates/accounts/profile.html:124
+#: accounts/templates/accounts/profile.html:74
 msgid ""
 "It is not possible to cancel the reservation 24h before the begining of the "
 "training. Please contact us."
@@ -364,7 +344,27 @@ msgstr ""
 "Il n'est pas possible d'annuler la réservation 24h avant le début de la "
 "formation. Veuillez nous contacter."
 
-#: accounts/templates/accounts/profile.html:158
+#: accounts/templates/accounts/profile.html:92 fabcal/forms.py:32
+#: fabcal/forms.py:178 openings/models.py:35
+msgid "Opening"
+msgstr "Ouverture"
+
+#: accounts/templates/accounts/profile.html:133
+msgid "No reservations for the moment"
+msgstr "Pas de réservations pour le moment"
+
+#: accounts/templates/accounts/profile.html:138
+#: interlab/templates/menu-mobile.html:18
+#: interlab/templates/navbar-header.html:17
+msgid "Reservation"
+msgstr "Réservation"
+
+#: accounts/templates/accounts/profile.html:151 fabcal/forms.py:187
+#: openings/models.py:46
+msgid "Event"
+msgstr "Évènement"
+
+#: accounts/templates/accounts/profile.html:164
 msgid ""
 "It is not possible to cancel the reservation 24h before the begining of the "
 "slot. Please contact us."
@@ -1073,6 +1073,7 @@ msgid "The new training slot will be"
 msgstr "Le nouveau créneau de formation sera"
 
 #: fabcal/templates/fabcal/event_card.html:11
+#: share/templates/share/post_list_items.html:38
 msgid "More informations"
 msgstr "Plus d'informations"
 
@@ -1860,6 +1861,10 @@ msgstr "Partagez vos créations"
 #: share/templates/share/post_list.html:10
 msgid "Add a new post"
 msgstr "Ajouter un poste"
+
+#: share/templates/share/post_list_items.html:44
+msgid "Contact"
+msgstr "Contact"
 
 #: share/views.py:33
 msgid "Thanks ! Post was created successfully."
