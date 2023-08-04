@@ -1,3 +1,47 @@
+{% load i18n static interlab_tags cms_tags %}
+
+<form hx-push-url="true" hx-target="body" class='row-full'>
+
+    <div class="form form-check-inline form-check-btn text-red my-1">
+        <i class="bi bi-mortarboard-fill"></i> {% trans "Trainer" %} :
+        {% for pk, choice in form.trainer.field.widget.choices %}
+        <input hx-get="/team/" hx-include='[name="technique"], [name="machine_category"], [name="trainer"]'
+            id="{{form.trainer.name}}_{{ forloop.counter0 }}" name="{{form.trainer.name}}" type="checkbox"
+            value="{{pk}}" class="btn-check" {% if pk in request.GET|get_list:form.trainer.name %} checked="checked"
+            {% endif %} autocomplete="off" />
+        <label for="{{form.trainer.name}}_{{ forloop.counter0 }}"
+            class="btn btn-outline-danger badge rounded-pill">{{ choice }}</label>
+        {% endfor %}
+    </div>
+
+    <div class="form form-check-inline form-check-btn text-green my-1">
+        <i class="bi bi-house-fill"></i> {% trans "Technique" %} :
+        {% for pk, choice in form.technique.field.widget.choices %}
+        <input hx-get="/team/" hx-include='[name="technique"], [name="machine_category"], [name="trainer"]'
+            id="{{form.technique.name}}_{{ forloop.counter0 }}" name="{{form.technique.name}}" type="checkbox"
+            value="{{pk}}" class="btn-check" {% if pk in request.GET|get_list:form.technique.name %} checked="checked"
+            {% endif %} autocomplete="off" />
+        <label for="{{form.technique.name}}_{{ forloop.counter0 }}"
+            class="btn btn-outline-success badge rounded-pill">{{ choice }}</label>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <div class="form form-check-inline form-check-btn my-1">
+        <i class="bi bi-tools"></i> {% trans "Machine" %} :
+        {% for pk, choice in form.machine_category.field.widget.choices %}
+        <input hx-get="/team/" hx-include='[name="technique"], [name="machine_category"], [name="trainer"]'
+            id="{{form.machine_category.name}}_{{ forloop.counter0 }}" name="{{form.machine_category.name}}"
+            type="checkbox" value="{{pk}}" class="btn-check"
+            {% if pk in request.GET|get_list:form.machine_category.name %} checked="checked" {% endif %}
+            autocomplete="off" />
+        <label for="{{form.machine_category.name}}_{{ forloop.counter0 }}"
+            class="btn btn-outline-secondary badge rounded-pill">{{ choice }}</label>
+        {% endfor %}
+    </div>
+</form>
+
 <div class="row">
     {% for superuser in obj %}
     <div type="button" class="col-12 col-sm-4 col-lg-3 text-center" data-bs-toggle="modal"
@@ -46,12 +90,12 @@
                             </div>
 
                             <div class="row">
-                                {% if superuser.techniques.all %}
+                                {% if superuser.technique.all %}
                                 <div class="col-2 py-0 text-center">
                                     <i class="bi bi-house-fill"></i>
                                 </div>
                                 <div class="col-10 py-0">
-                                    {% for technique in superuser.techniques.all %}
+                                    {% for technique in superuser.technique.all %}
                                     <div class="badge text-bg-info-light rounded-pill">
                                         {{technique}}
                                     </div>

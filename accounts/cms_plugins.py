@@ -12,8 +12,10 @@ class SuperUserListPluginModel(CMSPluginBase):
     module = _("Accounts")
     name = _("Super user list")
     render_template = "accounts/superuser-list.html"
+    cache = False
 
     def render(self, context, instance, placeholder):
-        context = super(SuperUserListPluginModel, self).render(context, instance, placeholder)
-        context['obj'] = SuperUserPorfile.objects.all()
+        super_user_profile_filter = SuperUserFilter(context['request'].GET, queryset=SuperUserProfile.objects.all())
+        context['form'] = super_user_profile_filter.form
+        context['obj']= super_user_profile_filter.qs
         return context
