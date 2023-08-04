@@ -15,7 +15,7 @@ class SuperUserListPluginModel(CMSPluginBase):
     cache = False
 
     def render(self, context, instance, placeholder):
-        super_user_profile_filter = SuperUserFilter(context['request'].GET, queryset=SuperUserProfile.objects.all())
+        super_user_profile_filter = SuperUserFilter(context['request'].GET, queryset=SuperUserProfile.objects.all().order_by("user__first_name"))
         context['form'] = super_user_profile_filter.form
         context['obj']= super_user_profile_filter.qs
         return context
