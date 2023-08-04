@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-04 10:36+0200\n"
+"POT-Creation-Date: 2023-08-04 11:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1110,6 +1110,7 @@ msgid "The new training slot will be"
 msgstr "Le nouveau créneau de formation sera"
 
 #: fabcal/templates/fabcal/event_card.html:11
+#: share/templates/share/post_list_items.html:38
 msgid "More informations"
 msgstr "Plus d'informations"
 
@@ -1884,9 +1885,9 @@ msgstr "Partagez vos créations"
 msgid "Add a new post"
 msgstr "Ajouter un poste"
 
-#: share/templates/share/post_list_items.html:38
-msgid "More info"
-msgstr "Plus d'informations"
+#: share/templates/share/post_list_items.html:44
+msgid "Contact"
+msgstr "Contact"
 
 #: share/views.py:33
 msgid "Thanks ! Post was created successfully."
