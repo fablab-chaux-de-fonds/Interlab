@@ -1,5 +1,7 @@
 {% load i18n static interlab_tags cms_tags %}
 
+<h3>{% trans "Filter" %}</h3>
+
 <form hx-push-url="true" hx-target="body" class='row-full'>
 
     <div class="form form-check-inline form-check-btn text-red my-1">
@@ -44,11 +46,13 @@
     </div>
 </form>
 
+<hr>
+
 <div class="row">
     {% for superuser in obj %}
     <div type="button" class="col-12 col-sm-4 col-lg-3 text-center" data-bs-toggle="modal"
         data-bs-target="#superuser-{{superuser.pk}}">
-        <img src="{{superuser.photo.url}}" alt="superuser.profile.user.first_name" class="img-fluid p-2">
+        <img src="{{superuser.photo.url}}" alt="superuser.profile.user.first_name" class="img-fluid rounded-circle p-2">
         <h3>{{superuser.user.first_name}}</h3>
         {% for status in superuser.status.all %}
         <div class="badge text-bg-success-light rounded-pill">
