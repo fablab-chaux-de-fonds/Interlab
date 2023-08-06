@@ -24,7 +24,7 @@ class TestView(SuperuserRequiredMixin, View):
         self.request = request
         return HttpResponse('Success')
 
-class SuperuserRequiredMixinTest(TestCase):
+class SuperuserRequiredMixinTestCase(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.login_url = reverse('login')  # Replace 'login' with the actual URL name
@@ -72,7 +72,7 @@ class SuperuserRequiredMixinTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn('/accounts/login/', response.url)
 
-class TestOpeningSlotCreateView(TestCase):
+class OpeningSlotCreateViewTestCase(TestCase):
     def setUp(self):
         self.client = Client()
         self.url = reverse('fabcal:openingslot-create') + '?start=1682784000000&end=1682791200000'
@@ -232,7 +232,7 @@ class TestOpeningSlotCreateView(TestCase):
         self.superuser.delete()
         self.group.delete()
 
-class OpeningSlotUpdateViewTest(TestCase):
+class OpeningSlotUpdateViewTestCase(TestCase):
     def setUp(self):
         self.user = CustomUser.objects.create_user(username='testuser', password='testpassword')
         self.update_url = reverse('fabcal:openingslot-update', kwargs={'pk': 1})  # Replace 1 with a valid OpeningSlot pk
