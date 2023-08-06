@@ -220,30 +220,26 @@ class OpeningBaseView(CustomFormView, AbstractMachineView):
         context = get_start_end(self, context)
         return context
 
-class OpeningSlotCreateView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormView, CreateView):
-    model = OpeningSlot
-    form_class = OpeningSlotForm
-    success_url = '/schedule/'
-    success_message = _("Your opening has been successfully created on %(date)s from %(start_time)s to %(end_time)s </br> "
-                        "<a href=\"/fabcal/download-ics-file/%(opening_title)s/%(start)s/%(end)s\"> "
-                        "<i class=\"bi bi-file-earmark-arrow-down-fill\"> </i> Add to my calendar</a>")
+class OpeningSlotView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormView):
+    success_message = _("Your opening has been successfully %(action)s on %(date)s from %(start_time)s to %(end_time)s </br> "
+                 "<a href=\"/fabcal/download-ics-file/%(opening_title)s/%(start)s/%(end)s\"> "
+                 "<i class=\"bi bi-file-earmark-arrow-down-fill\"> </i> Add to my calendar</a>")
 
-    def get_initial(self):
-        initial = super().get_initial()
-        
-        params = {}
-        for i in ['start', 'end']:
-            params[i] = datetime.fromtimestamp(int(self.request.GET.get(i))/1000)
+    def get_success_message(self, cleaned_data):
+        if issubclass(self.__class__, CreateView):
+            action = _('created')
+        elif issubclass(self.__class__, UpdateView):
+            action = _('updated')
 
-        initial['date'] = params['start'].strftime('%Y-%m-%d')
-        initial['start_time'] = params['start'].strftime('%H:%M')
-        initial['end_time'] = params['end'].strftime('%H:%M')
-        return initial
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['submit_btn'] = _('Create opening')
-        return context
+        return self.success_message % dict(
+                    action=action,
+                    date=self.object.formatted_start_date,
+                    start_time=self.object.formatted_start_time,
+                    end_time=self.object.formatted_end_time,
+                    opening_title=self.object.opening.title,
+                    start=self.object.start,
+                    end=self.object.end
+                )
 
     def form_invalid(self, form):       
         updated_data = QueryDict(mutable=True)
@@ -286,7 +282,7 @@ class OpeningSlotCreateView(SuperuserRequiredMixin, SuccessMessageMixin, CustomF
 
         # Return the invalid form
         return self.render_to_response(self.get_context_data(form=form))
-
+    
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.user = self.request.user
@@ -312,19 +308,43 @@ class OpeningSlotCreateView(SuperuserRequiredMixin, SuccessMessageMixin, CustomF
 
         return super().form_valid(form)
 
-    def get_success_message(self, cleaned_data):
-        return self.success_message % dict(
-                    date=self.object.formatted_start_date,
-                    start_time=self.object.formatted_start_time,
-                    end_time=self.object.formatted_end_time,
-                    opening_title=self.object.opening.title,
-                    start=self.object.start,
-                    end=self.object.end
-                )
-
-class OpeningSlotUpdateView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormView, UpdateView):
+class OpeningSlotCreateView(OpeningSlotView, CreateView):
     model = OpeningSlot
     form_class = OpeningSlotForm
+    success_url = '/schedule/'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        
+        params = {}
+        for i in ['start', 'end']:
+            params[i] = datetime.fromtimestamp(int(self.request.GET.get(i))/1000)
+
+        initial['date'] = params['start'].strftime('%Y-%m-%d')
+        initial['start_time'] = params['start'].strftime('%H:%M')
+        initial['end_time'] = params['end'].strftime('%H:%M')
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_btn'] = _('Create opening')
+        return context
+
+class OpeningSlotUpdateView(OpeningSlotView, UpdateView):
+    model = OpeningSlot
+    form_class = OpeningSlotForm
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['date'] = self.object.start.strftime('%Y-%m-%d')
+        initial['start_time'] = self.object.start.strftime('%H:%M')
+        initial['end_time'] = self.object.end.strftime('%H:%M')
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_btn'] = _('Update opening')
+        return context
 
 class UpdateOpeningView(OpeningBaseView):
     crud_state = 'updated'
