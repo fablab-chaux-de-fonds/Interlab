@@ -75,7 +75,8 @@ class SuperuserRequiredMixinTestCase(TestCase):
 class OpeningSlotViewTestCase(TestCase):
     def setUp(self):
         self.client = Client()
-        
+        self.create_url = reverse('fabcal:openingslot-create') + '?start=1682784000000&end=1682791200000'
+
         self.superuser = CustomUser.objects.create_user(
             username='testsuperuser',
             password='testpass',
@@ -102,7 +103,6 @@ class OpeningSlotViewTestCase(TestCase):
 class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
     def setUp(self):
         super().setUp()
-        self.url = reverse('fabcal:openingslot-create') + '?start=1682784000000&end=1682791200000'
 
     def test_SuperuserRequiredMixin(self):
         self.assertTrue(issubclass(OpeningSlotCreateView, SuperuserRequiredMixin))
@@ -136,7 +136,8 @@ class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
 
     def test_overlaps(self):
         OpeningSlot.objects.all().delete()
-        
+        self.client.login(username='testsuperuser', password='testpass')
+
         # Create a first opening
         form_data = {
             'opening': self.openlab.id,
@@ -146,12 +147,11 @@ class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
             'end_time': '12:00'
         }
         
-        self.client.login(username='testsuperuser', password='testpass')
-        response = self.client.post(self.url, form_data)
+        response = self.client.post(self.create_url, form_data)
         self.assertEqual(response.status_code, 302)
 
         # Test exact overlap with a second opening
-        response = self.client.post(self.url, form_data)
+        response = self.client.post(self.create_url, form_data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
 
@@ -162,7 +162,7 @@ class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
             'start_time': '09:00',
             'end_time': '11:00',
         }
-        response = self.client.post(self.url, form_data)
+        response = self.client.post(self.create_url, form_data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
         self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(9))
@@ -175,7 +175,7 @@ class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
             'start_time': '11:00',
             'end_time': '13:00',
         }
-        response = self.client.post(self.url, form_data)
+        response = self.client.post(self.create_url, form_data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
         self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(12))
@@ -192,7 +192,7 @@ class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
             'comment': 'my comment'
         }
 
-        response = self.client.post(self.url, form_data)
+        response = self.client.post(self.create_url, form_data)
         self.assertEqual(response.status_code, 302)
         self.assertIn('/schedule/', response.url)
         
@@ -213,7 +213,7 @@ class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
             'start_time': '10:00',
             'end_time': '12:00',
         }
-        response = self.client.post(self.url, form_data, follow=True)
+        response = self.client.post(self.create_url, form_data, follow=True)
         storage = get_messages(response.wsgi_request)
         messages = [message.message for message in storage]
 
