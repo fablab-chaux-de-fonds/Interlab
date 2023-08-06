@@ -2,9 +2,23 @@
 {% load i18n %}
 
 {% block content %}
-<p> Hello {{profile.user.first_name}}, </p> 
-<p>{{email_body}}</p>
-<div class="btn btn-primary text-center m-2">
+<h3 class=" text-center text-red"><b>{% trans "The adventure continues!" %}</b></h1>
+<p> Hello {{profile.user.first_name}},</p>
+<p>
+    {% trans "Thanks to your support, you'll continue to benefit from preferential prices to bring your ideas to life, and ensure the long-term future of the site."%}
+</p>
+<p>
+<div class="btn btn-primary text-center">
     <a href="https://{{ DOMAIN }}/machines/">{% trans "Book a machine" %}</a>
 </div>
+</p>
+<p>
+    {% trans "We look forward to seeing you at the FabLab for more creative adventures!" %}
+</p>
+<p>
+    {% trans "See you soon," %}
+</p>
+<p>
+    {% trans "The FabLab La Chaux-de-Fonds team" %}
+</p>
 {% endblock content %} 

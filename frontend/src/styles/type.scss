@@ -47,16 +47,17 @@ h2 {
   content: " ";
   display: block;
   height: 90%;
-  width: 100%;
+  width: 105%;
   margin-left: -3px;
   margin-right: -3px;
   position: absolute;
   background: $custom-green-light;
   transform: rotate(-2deg);
-  top: -1px;
+  top: 2px;
   left: -1px;
   border-radius: 20% 25% 20% 24%;
   padding: 10px 3px 3px 10px;
+  z-index: -1;
 }
 
 .fs-title {
