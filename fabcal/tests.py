@@ -72,15 +72,10 @@ class SuperuserRequiredMixinTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn('/accounts/login/', response.url)
 
-class OpeningSlotCreateViewTestCase(TestCase):
+class OpeningSlotViewTestCase(TestCase):
     def setUp(self):
         self.client = Client()
-        self.url = reverse('fabcal:openingslot-create') + '?start=1682784000000&end=1682791200000'
-        self.user = CustomUser.objects.create_user(
-            username='testuser',
-            password='testpass',
-            email='user@fake.django'
-            )
+        
         self.superuser = CustomUser.objects.create_user(
             username='testsuperuser',
             password='testpass',
@@ -88,6 +83,7 @@ class OpeningSlotCreateViewTestCase(TestCase):
             )
         self.group = Group.objects.get_or_create(name='superuser')[0]
         self.superuser.groups.add(self.group)
+
         self.openlab = Opening.objects.create(
             title='OpenLab', 
             is_open_to_reservation=True, 
@@ -95,12 +91,18 @@ class OpeningSlotCreateViewTestCase(TestCase):
             is_reservation_mandatory=False,
             is_public=True
             )
+        
         self.trotec = Machine.objects.create(
             title = 'Trotec'
         )
         self.prusa = Machine.objects.create(
             title = 'Prusa'
         )
+
+class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.url = reverse('fabcal:openingslot-create') + '?start=1682784000000&end=1682791200000'
 
     def test_SuperuserRequiredMixin(self):
         self.assertTrue(issubclass(OpeningSlotCreateView, SuperuserRequiredMixin))
@@ -228,14 +230,13 @@ class OpeningSlotCreateViewTestCase(TestCase):
 
     def tearDown(self):
         self.client.logout()
-        self.user.delete()
         self.superuser.delete()
         self.group.delete()
 
-class OpeningSlotUpdateViewTestCase(TestCase):
+class OpeningSlotUpdateViewTestCase(OpeningSlotViewTestCase):
     def setUp(self):
-        self.user = CustomUser.objects.create_user(username='testuser', password='testpassword')
-        self.update_url = reverse('fabcal:openingslot-update', kwargs={'pk': 1})  # Replace 1 with a valid OpeningSlot pk
+        super().setUp()
+        self.update_url = reverse('fabcal:openingslot-update', kwargs={'pk': 1})
 
     def test_SuperuserRequiredMixin(self):
         self.assertTrue(issubclass(OpeningSlotUpdateView, SuperuserRequiredMixin))
