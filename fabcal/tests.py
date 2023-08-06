@@ -100,6 +100,21 @@ class OpeningSlotViewTestCase(TestCase):
             title = 'Prusa'
         )
 
+    def create_opening_slot(self, opening=None, machines=None, **kwargs):
+        self.client.login(username='testsuperuser', password='testpass')
+
+        default_data = {
+            'opening': opening or self.openlab.id,
+            'machines': machines or [self.trotec.id],
+            'date': '1 mai 2023',
+            'start_time': '10:00',
+            'end_time': '12:00',
+            'comment': 'my comment',
+        }
+
+        form_data = {**default_data, **kwargs}
+        return self.client.post(self.create_url, form_data)
+
 class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
     def setUp(self):
         super().setUp()
@@ -139,61 +154,30 @@ class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
         self.client.login(username='testsuperuser', password='testpass')
 
         # Create a first opening
-        form_data = {
-            'opening': self.openlab.id,
-            'machines': [self.trotec.id],
-            'date': '1 mai 2023',
-            'start_time': '10:00',
-            'end_time': '12:00'
-        }
-        
-        response = self.client.post(self.create_url, form_data)
+        response = self.create_opening_slot()
         self.assertEqual(response.status_code, 302)
 
         # Test exact overlap with a second opening
-        response = self.client.post(self.create_url, form_data)
+        response = self.create_opening_slot()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
 
         # Test opening start before, and end during an existing opening
-        form_data = {
-            'opening': self.openlab.id,
-            'date': '1 mai 2023',
-            'start_time': '09:00',
-            'end_time': '11:00',
-        }
-        response = self.client.post(self.create_url, form_data)
-        self.assertEqual(response.status_code, 200)
+        response = self.create_opening_slot(start_time='09:00', end_time='11:00',)
         self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
         self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(9))
         self.assertEqual(response.context_data['form'].data['end_time'], datetime.time(10))
 
         # Test opening start during an existing opening, and end after
-        form_data = {
-            'opening': self.openlab.id,
-            'date': '1 mai 2023',
-            'start_time': '11:00',
-            'end_time': '13:00',
-        }
-        response = self.client.post(self.create_url, form_data)
-        self.assertEqual(response.status_code, 200)
+        response = self.create_opening_slot(start_time='11:00', end_time='13:00',)
         self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
         self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(12))
         self.assertEqual(response.context_data['form'].data['end_time'], datetime.time(13))
 
     def test_view_valid(self):
-        self.client.login(username='testsuperuser', password='testpass')
-        form_data = {
-            'opening': self.openlab.id,
-            'machines': [self.trotec.id],
-            'date': '1 mai 2023',
-            'start_time': '10:00',
-            'end_time': '12:00',
-            'comment': 'my comment'
-        }
-
-        response = self.client.post(self.create_url, form_data)
+        response = self.create_opening_slot()
         self.assertEqual(response.status_code, 302)
+
         self.assertIn('/schedule/', response.url)
         
         obj = OpeningSlot.objects.latest('id')
@@ -201,19 +185,14 @@ class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
         self.assertEqual(obj.end, datetime.datetime(2023, 5, 1, 12, 0))
         self.assertEqual(obj.comment, 'my comment')
         self.assertEqual(obj.user, self.superuser)
-
         self.assertEqual(obj.get_machine_list, [self.trotec])
+        self.assertEqual(obj.opening, self.openlab)
 
     def test_get_success_message(self):
-        activate('fr')
-        self.client.login(username='testsuperuser', password='testpass')
-        form_data = {
-            'opening': self.openlab.id,
-            'date': '1 mai 2023',
-            'start_time': '10:00',
-            'end_time': '12:00',
-        }
-        response = self.client.post(self.create_url, form_data, follow=True)
+        # activate('fr')
+        response = self.create_opening_slot()
+        self.assertEqual(response.status_code, 302)
+
         storage = get_messages(response.wsgi_request)
         messages = [message.message for message in storage]
 
