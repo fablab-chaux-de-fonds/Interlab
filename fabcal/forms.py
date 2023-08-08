@@ -204,6 +204,10 @@ class OpeningSlotForm(ModelForm):
     end_time = forms.TimeField()
     comment = forms.CharField(label=_('Comment'),  required=False)
 
+    def __init__(self, request=None,  *args, **kwargs):
+        super(OpeningSlotForm, self).__init__(*args, **kwargs)
+        self.request = request
+
     class Meta:
         model = OpeningSlot
         fields = ('opening', 'machines', 'date', 'start_time', 'end_time', 'comment')
@@ -220,6 +224,29 @@ class OpeningSlotForm(ModelForm):
 
         return cleaned_data
 
+    def save(self):
+        self.instance.user = self.request.user
+        self.instance.start = datetime.datetime.combine(
+            self.cleaned_data['date'],
+            self.cleaned_data['start_time']
+        )
+        self.instance.end = datetime.datetime.combine(
+            self.cleaned_data['date'],
+            self.cleaned_data['end_time']
+        )
+
+        # Save the parent object first
+        self.instance.save()
+
+        for machine in self.cleaned_data['machines']:
+            MachineSlot.objects.create(              
+                machine=machine,
+                opening_slot=self.instance,
+                start=self.instance.start,
+                end=self.instance.end
+            )
+
+        return self.instance
 class EventForm(AbstractSlotForm):
     event = forms.ModelChoiceField(
         queryset= Event.objects.filter(is_active=True),

@@ -282,36 +282,18 @@ class OpeningSlotView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormVie
 
         # Return the invalid form
         return self.render_to_response(self.get_context_data(form=form))
-    
-    def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.user = self.request.user
-        instance.start = datetime.combine(
-            form.cleaned_data['date'],
-            form.cleaned_data['start_time']
-        )
-        instance.end = datetime.combine(
-            form.cleaned_data['date'],
-            form.cleaned_data['end_time']
-        )
-
-        # Save the parent object first
-        instance.save()
-
-        for machine in form.cleaned_data['machines']:
-            MachineSlot.objects.create(              
-                machine=machine,
-                opening_slot=instance,
-                start=instance.start,
-                end=instance.end
-            )
-
-        return super().form_valid(form)
 
 class OpeningSlotCreateView(OpeningSlotView, CreateView):
     model = OpeningSlot
     form_class = OpeningSlotForm
     success_url = '/schedule/'
+
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+            
+        # Pass the request object to the form's constructor
+        return form_class(self.request, **self.get_form_kwargs())
 
     def get_initial(self):
         initial = super().get_initial()

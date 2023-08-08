@@ -75,6 +75,7 @@ class SuperuserRequiredMixinTestCase(TestCase):
 class OpeningSlotViewTestCase(TestCase):
     def setUp(self):
         self.client = Client()
+        self.factory = RequestFactory()
         self.create_url = reverse('fabcal:openingslot-create') + '?start=1682784000000&end=1682791200000'
 
         self.superuser = CustomUser.objects.create_user(
@@ -100,19 +101,19 @@ class OpeningSlotViewTestCase(TestCase):
             title = 'Prusa'
         )
 
-    def create_opening_slot(self, opening=None, machines=None, **kwargs):
-        self.client.login(username='testsuperuser', password='testpass')
-
-        default_data = {
+    def get_default_form_data(self, opening=None, machines=None, date=None, start_time=None, end_time=None, **kwargs):
+        return {
             'opening': opening or self.openlab.id,
             'machines': machines or [self.trotec.id],
-            'date': '1 mai 2023',
-            'start_time': '10:00',
-            'end_time': '12:00',
+            'date': date or '1 mai 2023',
+            'start_time': start_time or '10:00',
+            'end_time': end_time or '12:00',
             'comment': 'my comment',
         }
 
-        form_data = {**default_data, **kwargs}
+    def create_opening_slot(self, **kwargs):
+        self.client.login(username='testsuperuser', password='testpass')
+        form_data = self.get_default_form_data(**kwargs)
         return self.client.post(self.create_url, form_data)
 
 class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
@@ -122,20 +123,28 @@ class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
     def test_SuperuserRequiredMixin(self):
         self.assertTrue(issubclass(OpeningSlotCreateView, SuperuserRequiredMixin))
 
-    def test_form_valid(self):
-        form_data = {
-            'opening': self.openlab.id,
-            'machines': [self.trotec.id],
-            'date': '1 mai 2023',
-            'start_time': '10:00',
-            'end_time': '12:00',
-            'comment': 'my comment'
-        }
-        form = OpeningSlotForm(form_data)
+    def test_save_method(self):
+        request = self.factory.post(self.create_url, self.get_default_form_data())
+        request.user = self.superuser
+        view = OpeningSlotCreateView()
+        view.setup(request)
+        form = view.get_form()
         self.assertTrue(form.is_valid())
 
-        # Check if the instance is of the correct class
-        self.assertIsInstance(form.save(commit=False), OpeningSlot)
+        form.save()
+        
+        # Assertions for the instance attributes
+        self.assertEqual(form.instance.user, self.superuser)
+        self.assertEqual(form.instance.start, datetime.datetime.combine(datetime.date(2023, 5, 1), datetime.time(10, 0)))
+        self.assertEqual(form.instance.end, datetime.datetime.combine(datetime.date(2023, 5, 1), datetime.time(12, 0)))
+
+        # Assertions for related MachineSlot objects
+        machine_slots = MachineSlot.objects.filter(opening_slot=form.instance)
+        self.assertEqual(machine_slots.count(), 1)
+
+        for machine_slot in machine_slots:
+            self.assertEqual(machine_slot.machine_id, 1)
+
 
     def test_start_time_before_end_time(self):
         form_data = {
