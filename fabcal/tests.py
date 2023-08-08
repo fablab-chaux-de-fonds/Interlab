@@ -13,7 +13,7 @@ from django.views import View
 from accounts.models import CustomUser
 from openings.models import Opening
 from fabcal.forms import OpeningSlotForm
-from fabcal.models import OpeningSlot
+from fabcal.models import OpeningSlot, MachineSlot
 from machines.models import Machine
 
 from .views import OpeningSlotCreateView, OpeningSlotUpdateView
@@ -160,7 +160,6 @@ class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
 
     def test_overlaps(self):
         OpeningSlot.objects.all().delete()
-        self.client.login(username='testsuperuser', password='testpass')
 
         # Create a first opening
         response = self.create_opening_slot()
@@ -228,3 +227,81 @@ class OpeningSlotUpdateViewTestCase(OpeningSlotViewTestCase):
 
     def test_SuperuserRequiredMixin(self):
         self.assertTrue(issubclass(OpeningSlotUpdateView, SuperuserRequiredMixin))
+
+    def test_get_initial_and_messages(self):
+        OpeningSlot.objects.all().delete()
+
+        # Create a first opening
+        response = self.create_opening_slot()
+        self.assertEqual(response.status_code, 302)
+
+        # test initial value befor uptdating the opening slot
+        response = self.client.get(self.update_url)
+        form_data = response.context_data['form'].initial
+
+        self.assertEqual(form_data['comment'], 'my comment')
+        self.assertEqual(form_data['opening'], 1)
+        self.assertEqual(form_data['date'], '2023-05-01')
+        self.assertEqual(form_data['start_time'], '10:00')
+        self.assertEqual(form_data['end_time'], '12:00')
+
+        # test message after confirm updating the opening slot
+        self.client.login(username='testsuperuser', password='testpass')
+        response = self.client.post(self.update_url, form_data)
+        storage = get_messages(response.wsgi_request)
+        messages = [message.message for message in storage]
+
+        expected_message = """
+            Votre ouverture a été mise à jour avec succès le 
+            lundi 1 mai 2023 de 10:00 à 12:00
+            </br>
+            <a href="/fabcal/download-ics-file/OpenLab/2023-05-01 10:00:00/2023-05-01 12:00:00">
+            <i class="bi bi-file-earmark-arrow-down-fill"> </i> Ajouter à mon calendrier</a>
+        """
+        expected_message = re.sub(r'\s{2,}', ' ', expected_message.replace('\n', '')).strip()
+
+        self.assertEqual(messages, [expected_message])
+
+    def test_overlap(self):
+        OpeningSlot.objects.all().delete()
+        self.client.login(username='testsuperuser', password='testpass')
+        
+        # Create a first opening
+        response = self.create_opening_slot()
+        self.assertEqual(response.status_code, 302)
+
+        # Create a seconde opening after
+        response = self.create_opening_slot(start_time='13:00', end_time='14:00')
+        self.assertEqual(response.status_code, 302)
+
+        # Create a seconde opening before
+        response = self.create_opening_slot(start_time='08:00', end_time='09:00')
+        self.assertEqual(response.status_code, 302)
+
+        # Extend first opening with valid time
+        response = self.client.get(self.update_url)
+        form_data = response.context_data['form'].initial
+        form_data['end_time'] = '13:00' # instead of 12:00
+
+        response = self.client.post(self.update_url, form_data)
+        self.assertEqual(response.status_code, 200)
+
+        # Extend first opening with invalid time
+        response = self.client.get(self.update_url)
+        form_data = response.context_data['form'].initial
+        form_data['end_time'] = '14:00' # instead of 13:00
+
+        response = self.client.post(self.update_url, form_data)
+        self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
+        self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(10))
+        self.assertEqual(response.context_data['form'].data['end_time'], datetime.time(13))
+
+        # Extend first opening with invalid time
+        response = self.client.get(self.update_url)
+        form_data = response.context_data['form'].initial
+        form_data['start_time'] = '08:30' # instead of 09:00
+
+        response = self.client.post(self.update_url, form_data)
+        self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
+        self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(9))
+        self.assertEqual(response.context_data['form'].data['end_time'], datetime.time(12))

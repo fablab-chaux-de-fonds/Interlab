@@ -241,6 +241,13 @@ class OpeningSlotView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormVie
                     end=self.object.end
                 )
 
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+            
+        # Pass the request object to the form's constructor
+        return form_class(self.request, **self.get_form_kwargs())
+
     def form_invalid(self, form):       
         updated_data = QueryDict(mutable=True)
         updated_data.update(form.data)
@@ -287,13 +294,6 @@ class OpeningSlotCreateView(OpeningSlotView, CreateView):
     model = OpeningSlot
     form_class = OpeningSlotForm
     success_url = '/schedule/'
-
-    def get_form(self, form_class=None):
-        if form_class is None:
-            form_class = self.get_form_class()
-            
-        # Pass the request object to the form's constructor
-        return form_class(self.request, **self.get_form_kwargs())
 
     def get_initial(self):
         initial = super().get_initial()
