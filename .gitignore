@@ -150,3 +150,7 @@ build
 # Pylint
 .pylintrc
 stripe.exe
+
+# Test
+test-results.xml
+tests.sqlite3
