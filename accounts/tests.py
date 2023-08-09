@@ -1,3 +1,5 @@
+from interlab import test_utils
+
 from datetime import datetime
 from django.core import mail
 from django.test import TestCase
