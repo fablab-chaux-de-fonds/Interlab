@@ -23,22 +23,22 @@ class OpeningSlotViewTestCase(TestCase):
             title = 'Trotec'
         )
 
-    def test_remove_openingslot_if_on_reservation(self):
         # Create an opening slot without reservations within the next 24 hours
-        start = datetime.datetime.now() + datetime.timedelta(hours=1)
-        end = start + datetime.timedelta(hours=2)
+        self.start = datetime.datetime.now() + datetime.timedelta(days=1, minutes=1)
+        self.end = self.start + datetime.timedelta(hours=2)
 
-        opening_slot = OpeningSlot.objects.create(
+        self.opening_slot = OpeningSlot.objects.create(
             opening=self.openlab,
-            start=start,
-            end=end
+            start=self.start,
+            end=self.end
         )
 
+    def test_remove_openingslot_if_on_reservation(self):
         MachineSlot.objects.create(
-            opening_slot=opening_slot,
+            opening_slot=self.opening_slot,
             machine=self.trotec,
-            start=start,
-            end=end
+            start=self.start,
+            end=self.end
         )
 
         # Call the function to remove opening slots without reservations
@@ -48,22 +48,13 @@ class OpeningSlotViewTestCase(TestCase):
         self.assertEqual(OpeningSlot.objects.count(), 0)
 
     def test_remove_openingslot_with_user(self):
-        # Create an opening slot without reservations within the next 24 hours
-        start = datetime.datetime.now() + datetime.timedelta(hours=1)
-        end = start + datetime.timedelta(hours=2)
-        opening_slot = OpeningSlot.objects.create(
-            opening=self.openlab,
-            start=start,
-            end=end
-        )
-
         # Create a user and associate it with a MachineSlot
         user = CustomUser.objects.create_user(username='testuser', password='testpass')
         MachineSlot.objects.create(
-            opening_slot=opening_slot,
+            opening_slot=self.opening_slot,
             machine=self.trotec,
-            start=start,
-            end=end,
+            start=self.start,
+            end=self.end,
             user=user
         )
 
