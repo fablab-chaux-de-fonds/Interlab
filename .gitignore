@@ -153,4 +153,4 @@ stripe.exe
 
 # Test
 test-results.xml
-tests.sqlite3
+tests.sqlite3*
