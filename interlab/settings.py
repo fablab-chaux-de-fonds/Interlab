@@ -14,6 +14,9 @@ import distutils.util
 import os  # isort:skip
 import sys
 
+# Required for local sqlite migrations
+from dotenv import load_dotenv
+load_dotenv()
 
 gettext = lambda s: s
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -211,13 +214,12 @@ INSTALLED_APPS = [
     'django_registration',
     'crispy_forms',
     'crispy_bootstrap5',
-    'interlab',
+    'fabcal.apps.FabcalConfig',
     'debug_toolbar',
     'organizations',
     'newsletter.apps.NewsletterConfig',
     'machines',
     'mathfilters',
-    'fabcal',
     'openings',
     'colorfield',
     'django_filters',
@@ -228,7 +230,8 @@ INSTALLED_APPS = [
     'django_htmx',
     'analytical',
     'phonenumber_field',
-    'payments.apps.PaymentsConfig'
+    'payments.apps.PaymentsConfig',
+    'interlab',
 ]
 
 LANGUAGES = (
@@ -279,13 +282,13 @@ CMS_PLACEHOLDER_CONF = {}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-if 'test' in sys.argv:
+
+if any('test' in item for item in sys.argv) or 'PWD' in os.environ:
+    # Test if run test or on local computer
     DATABASES = {
         'default' : {
             'ENGINE': 'django.db.backends.sqlite3',
-            'TEST': {
-                'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
-            }
+            'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
         }
     }
 else:

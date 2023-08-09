@@ -1,0 +1,14 @@
+{% extends "email/base_email.html" %}
+{% load i18n %}
+
+{% block content %}
+<p> Hello {{object.user.first_name}}, </p> 
+<p>
+    {% blocktrans with start=object.start|date:"H:i" end=object.end|date:"H:i" %}Tomorrow's opening slot between {{start}} and {{end}} is maintained because you have the following reservations: {% endblocktrans %}
+</p>
+<ul>
+{%for item in object.get_reservation_list%}
+    <li>{{item.start|date:"H:i"}} {{item.end|date:"H:i"}}: {{item.machine}} - {{item.user.first_name}} {{item.user.last_name}}</li>
+{% endfor %}
+</ul>
+{% endblock content %}
