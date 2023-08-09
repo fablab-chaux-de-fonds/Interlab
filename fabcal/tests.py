@@ -18,8 +18,7 @@ class OpeningSlotViewTestCase(TestCase):
         self.superuser = CustomUser.objects.create_user(
             username='testsuperuser',
             password='testpass',
-            #email='superuser@fake.django'
-            email='raphael@monnard.email'
+            email='superuser@fake.django'
             )
         self.group = Group.objects.get_or_create(name='superuser')[0]
         self.superuser.groups.add(self.group)
