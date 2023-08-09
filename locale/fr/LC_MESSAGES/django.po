@@ -1040,7 +1040,7 @@ msgstr "Pas de réservation - ton créneau d'ouverture a été supprimé"
 
 #: fabcal/tasks.py:36 fabcal/tasks.py:37 fabcal/tests.py:97
 msgid "You have reservation - your opening slot is confirmed"
-msgstr "Vous avez des réservations - votre créneau d'ouverture est confirmé"
+msgstr "Vous avez des réservations - ton créneau d'ouverture est confirmé"
 
 #: fabcal/templates/fabcal/email/machine_reservation_confirmation.html:7
 msgid "We confirme that you are reserve the machine "
