@@ -78,8 +78,18 @@
             </div>
         </div>
     </div>
+
     <hr>
-    {% include 'machines/price.html' with machine=machine_slot.machine %}
+    <div class="text-center">
+        {% if request.user.profile.is_subscription_valid %}
+            <h4>{{object.machine.premium_price|price_format}} / 30 min </h4>
+        {% else %}
+            <h4>{{object.machine.full_price|price_format}} / 30 min </h4>
+        
+            <small> {% trans "Benefit from half price prices<br> for 15 CHF / month" %}<br></small>
+            <a class="btn btn-outline-primary my-2" href="/comment-ca-marche/#abonnement-demi-tarif"> {% trans "I take advantage of it" %}</a>        
+        {% endif %}
+    </div>
     <hr>
     {% include 'forms/base_submit_button.html' with submit_btn=_('Reserve')%}
 </form>

@@ -1,6 +1,6 @@
 {% load i18n training_extras %}
 
-<div class="row">
+<div class="row mb-4">
 
     <div class="col-6 col-sm-4">
         <div class="row">
@@ -9,7 +9,7 @@
             </div>
             <div class="col-8 ">
                 <h4>{% trans "Price" %}</h4>
-                <p>{{training.full_price|price_format}}</p>
+                <p>{{training.full_price|price_format}} {% if training.includ_free_machine_voucher %}*{% endif %}</p>
             </div>
         </div>
     </div>
@@ -41,14 +41,6 @@
             </div>
         </div>
     </div>
+
+    <p>{% if training.includ_free_machine_voucher %}* {% trans "The price includes the training and a 1 hour machine voucher to start your project" %}{% endif %}</p>
 </div>
-{% if training.includ_free_machine_voucher %}
-<div class="row border border-primary border-2 rounded">
-    <div class="col-2 col-sm-1">
-        <h4><i class="bi bi-arrow-repeat"></i></h4>
-    </div>
-    <div class="col-10 col-sm-11">
-        {% trans "The price includes the training and a 1 hour machine voucher valid during 2 month after the training to start your project" %}
-    </div>
-</div>
-{% endif %}

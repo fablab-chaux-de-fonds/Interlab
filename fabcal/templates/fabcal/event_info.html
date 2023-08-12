@@ -29,11 +29,7 @@
                 <p>{% trans 'Registration mandatory' %}<br>
                     {% if object.available_registration > 0  %}
                     <small class"fs-6">
-                        {% if request.user in object.registrations.all %}
-                            {% trans "You are already registered !" %}
-                        {% else %}
-                            {% blocktrans with available_registration=object.available_registration %}still {{available_registration}} places available !{% endblocktrans %}</small>
-                        {% endif %}
+                        {% blocktrans with available_registration=object.available_registration %}still {{available_registration}} places available !{% endblocktrans %}</small>
                     {% elif object.available_registration == 0 %}
                     <small class="text-red">{% trans "sold out" %}</small>
                     {% endif %}

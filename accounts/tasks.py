@@ -21,8 +21,8 @@ def send_reminder_subscription_email():
         html_message = render_to_string('accounts/email/subscription_reminder.html', context)
         send_mail(
             from_email=None,
-            subject = _('Your subscription expires in one week'),
-            message = _("Your subscription expires in one week"),
+            subject = _('Your subscription will expire in 7 days'),
+            message = _("Your subscription will expire in 7 days"),
             recipient_list = [profile.user.email],
             html_message=html_message
         )
@@ -36,8 +36,8 @@ def send_expire_subscription_email():
         html_message = render_to_string('accounts/email/subscription_expire.html', context)
         send_mail(
             from_email = None,
-            subject = _('Renew your subscription now'),
-            message = _("Renew your subscription now"),
+            subject = _('Your subscription expire today'),
+            message = _("Your subscription expire today"),
             recipient_list = [profile.user.email],
             html_message = html_message
         )

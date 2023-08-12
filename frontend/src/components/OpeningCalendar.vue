@@ -300,14 +300,11 @@
       },
 
       formatEventTime(date) {
-        if(typeof date !== "undefined"){
-          date = date.replace(' ', 'T') //convert to ISO-8601-like format
-          return new Date(date).toLocaleTimeString('en-US', {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false
-          });
-        }
+        return new Date(date).toLocaleTimeString('en-US', {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false
+        });
       },
 
       getEvents({

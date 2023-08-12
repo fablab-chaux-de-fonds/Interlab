@@ -181,7 +181,7 @@ class SuperuserProfileEditForm(forms.Form):
         # Notify super-user of operation result
         messages.success(
             view.request, 
-            mark_safe(_("Subcription created to %(subcription_category)s for user %(user)s") % {
+            mark_safe(_("Subcription updated to %(subcription_category)s for user %(user)s") % {
                 'subcription_category': user_profile.subscription.subscription_category.title if user_profile.subscription is not None else '',
                 'user': str(user_profile.user)
             })
@@ -196,15 +196,7 @@ class SuperuserProfileEditForm(forms.Form):
         user_profile.subscription.start = self.start
         user_profile.subscription.end = self.end
         user_profile.subscription.save()
-
-        # Notify super-user of operation result
-        messages.success(
-            view.request, 
-            mark_safe(_("Subcription updated to %(subcription_category)s for user %(user)s") % {
-                'subcription_category': user_profile.subscription.subscription_category.title if user_profile.subscription is not None else '',
-                'user': str(user_profile.user)
-            })
-        )
+        messages.success(view.request, mark_safe(_('Subscription duration updated for user {}'.format(user_profile.user))))
 
     def update_or_create_subscription(self, view):
         (user_profile, is_new_profile) = Profile.objects.get_or_create(user=view.user)

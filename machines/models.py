@@ -22,7 +22,6 @@ class ItemForRent(AbstractOpening):
 class AbstractMachinesFilter(models.Model):
     name = models.CharField(max_length=255)
     sort = models.PositiveSmallIntegerField(default=1)
-    superuser_skill = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -33,8 +32,8 @@ class MachineCategory(AbstractMachinesFilter):
     """For Training validation"""
     
     class Meta:
-        verbose_name = _("Machine category")
-        verbose_name_plural = _("Machine categories")
+        verbose_name = _("Machine Category")
+        verbose_name_plural = _("Machine Categories")
 
 class Training(ItemForRent):
     BEGINNER = 'BEG'
@@ -220,13 +219,6 @@ class Specification(models.Model):
     class Meta:
         verbose_name = _("Specification")
         verbose_name_plural = _("Specifications")
-
-class Software(models.Model):
-    title = models.CharField(max_length=255)
-    machines = models.ManyToManyField(Machine ,null=True, blank=True)
-
-    def __str__(self):
-        return self.title
 
 class TrainingsListPluginModel(CMSPlugin):
     pass
