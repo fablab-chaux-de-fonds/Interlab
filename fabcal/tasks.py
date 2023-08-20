@@ -8,8 +8,15 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import OpeningSlot, MachineSlot
 
+def get_context_base():
+    return(
+        {
+            'DOMAIN': Site.objects.first().domain
+        }
+    )
+
 def remove_openingslot_if_on_reservation():
-    site = Site.objects.get(pk=1)
+    context = get_context_base()
     one_day_after = datetime.now() + timedelta(days=1)
 
     openings_slots = OpeningSlot.objects.filter(
@@ -19,9 +26,10 @@ def remove_openingslot_if_on_reservation():
     )
 
     for object in openings_slots:
+        context['object'] = object
         if object.can_be_deleted:
             object.delete()
-            html_message = render_to_string('fabcal/email/openingslot_auto_delete.html', {'object': object, 'domain': site.domain})
+            html_message = render_to_string('fabcal/email/openingslot_auto_delete.html', context)
             send_mail(
                 from_email = None,
                 subject = _('No reservation - your opening slot has been deleted'),
@@ -30,7 +38,7 @@ def remove_openingslot_if_on_reservation():
                 html_message = html_message
             )
         else:
-            html_message = render_to_string('fabcal/email/openingslot_confirm.html', {'object': object, 'domain': site.domain})
+            html_message = render_to_string('fabcal/email/openingslot_confirm.html', context)
             send_mail(
                 from_email = None,
                 subject = _('You have reservation - your opening slot is confirmed'),
@@ -38,3 +46,5 @@ def remove_openingslot_if_on_reservation():
                 recipient_list = [object.user.email],
                 html_message = html_message
             )
+    
+    return(list(openings_slots))
