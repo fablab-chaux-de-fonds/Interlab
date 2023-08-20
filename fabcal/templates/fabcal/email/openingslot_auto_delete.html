@@ -4,7 +4,7 @@
 {% block content %}
 <p> Hello {{object.user.first_name}}, </p> 
 <p>
-    {% blocktrans with start=object.start|date:"H:i" end=object.end|date:"H:i" %}Unfortunately, there are no reservations for tomorrow's opening from {{start}} to {{end}} . The slot has been removed from the fablab calendar.{% endblocktrans %}
+    {% blocktrans with start=object.start|date:"H:i" end=object.end|date:"H:i" %}Unfortunately, there are no reservations for tomorrow's opening from {{start}} to {{end}}. The slot has been removed from the fablab calendar.{% endblocktrans %}
 </p>
 
 <div class="btn btn-primary text-center">
