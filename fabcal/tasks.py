@@ -26,9 +26,9 @@ def remove_openingslot_if_on_reservation():
     )
 
     for object in openings_slots:
+        context['object'] = object
         if object.can_be_deleted:
             object.delete()
-            context['object'] = object
             html_message = render_to_string('fabcal/email/openingslot_auto_delete.html', context)
             send_mail(
                 from_email = None,
