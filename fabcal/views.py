@@ -204,21 +204,6 @@ class AbstractSlotView(View):
         self.send_email()
         self.get_success_message()
         return super().form_valid(form)
- 
-class OpeningBaseView(CustomFormView, AbstractMachineView):
-    template_name = 'fabcal/opening_create_or_update_form.html'
-    form_class = OpeningSlotForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        if self.crud_state == 'created':
-            context['submit_btn'] = _('Create opening')
-        elif self.crud_state == 'updated':
-            context['submit_btn'] = _('Update opening')
-
-        context = get_start_end(self, context)
-        return context
 
 class OpeningSlotView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormView):
     success_message = _("Your opening has been successfully %(action)s on %(date)s from %(start_time)s to %(end_time)s </br> "
@@ -327,20 +312,6 @@ class OpeningSlotUpdateView(OpeningSlotView, UpdateView):
         context = super().get_context_data(**kwargs)
         context['submit_btn'] = _('Update opening')
         return context
-
-class UpdateOpeningView(OpeningBaseView):
-    crud_state = 'updated'
-    type = 'opening'
-
-    def get_initial(self):
-        opening_slot = OpeningSlot.objects.get(pk=self.kwargs['pk'])
-        initial = opening_slot.__dict__
-        initial['opening'] = opening_slot.opening
-        
-        machine_slot = MachineSlot.objects.filter(opening_slot = opening_slot)
-        machine = {i.machine.pk for i in machine_slot}
-        initial['machine'] = machine
-        return initial
 
 class OpeningSlotDeleteView(DeleteView):
     model = OpeningSlot
