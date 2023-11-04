@@ -197,7 +197,6 @@ class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
         self.assertEqual(obj.opening, self.openlab)
 
     def test_get_success_message(self):
-        # activate('fr')
         response = self.create_opening_slot()
         self.assertEqual(response.status_code, 302)
 
