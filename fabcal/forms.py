@@ -260,10 +260,74 @@ class OpeningSlotUpdateForm(OpeningSlotForm):
     def save(self):
         self.instance = super().save()
 
-        for machine_slot in self.instance.machineslot_set.all():
-            machine_slot.start=self.instance.start
-            machine_slot.end=self.instance.end
-            machine_slot.save()
+        # -------------------
+        # Update machine slot
+
+        for machine in self.cleaned_data['machines']:
+
+            # Get the machine slots to update.
+            qs = MachineSlot.objects.filter(
+                opening_slot=self.instance,
+                machine__in=self.cleaned_data['machines']
+            ).order_by('start')
+
+            # Update the start slots.
+            if self.instance.start < self.initial['start']:
+                # Extend start opening before.
+                obj = qs.first()
+                if obj.user:
+                    # Create a new slot to not modify user reservation.
+                    MachineSlot.objects.create(
+                        opening_slot=self.instance,
+                        machine=machine,
+                        start=self.instance.start,
+                        end=self.initial['start']
+                    )
+                else:
+                    # Extend slot.
+                    obj.start = self.instance.start
+                    obj.save()
+
+            # Shorten or remove start slots.
+            if self.instance.start > self.initial['start']:
+                for obj in qs:
+                    if obj.start < self.instance.start:
+                        if obj.end > self.instance.start:
+                            # Shorten start slot.
+                            obj.start = self.instance.start
+                            obj.save()
+                        else:
+                            # Remove start slot.
+                            obj.delete()
+
+            # Update the end slots.
+            if self.instance.end < self.initial['end']:
+                # Shorten or remove end slots.
+                for obj in qs:
+                    if obj.end > self.instance.end:
+                        if obj.start < self.instance.end:
+                            # Shorten end slot.
+                            obj.end = self.instance.end
+                            obj.save()
+                        else:
+                            # Remove end slot.
+                            obj.delete()
+
+            if self.instance.end > self.initial['end']:
+                # Extend end opening after.
+                obj = qs.last()
+                if obj.user:
+                    # Create a new slot to not modify user reservation.
+                    MachineSlot.objects.create(
+                        opening_slot=self.instance,
+                        machine=machine,
+                        start=self.initial['end'],
+                        end=self.instance.end
+                    )
+                else:
+                    # Extend slot.
+                    obj.end = self.instance.end
+                    obj.save()
 
         return self.instance
 

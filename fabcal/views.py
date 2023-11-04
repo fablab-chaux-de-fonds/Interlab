@@ -303,9 +303,13 @@ class OpeningSlotUpdateView(OpeningSlotView, UpdateView):
 
     def get_initial(self):
         initial = super().get_initial()
+        initial['start'] = self.object.start
+        initial['end'] = self.object.end
+
         initial['date'] = self.object.start.strftime('%Y-%m-%d')
         initial['start_time'] = self.object.start.strftime('%H:%M')
         initial['end_time'] = self.object.end.strftime('%H:%M')
+        initial['machines'] = [i.pk for i in self.object.get_machine_list]
         return initial
 
     def get_context_data(self, **kwargs):
