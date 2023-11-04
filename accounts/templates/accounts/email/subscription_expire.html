@@ -2,20 +2,9 @@
 {% load i18n %}
 
 {% block content %}
-<h3 class=" text-center text-red"><b>{% trans "It's now or never!" %}</b></h1>
-<p> Hello {{profile.user.first_name}},</p>
-<p>
-    {% trans "We remind you that your FabLab subscription expires tomorrow. To continue benefiting from preferential prices and support the FabLab, remember to renew your subscription!"%}
-</p>
-<p>
+<p> Hello {{profile.user.first_name}}, </p> 
+<p>{%trans "Your subscription expire today" %}</p>
 <div class="btn btn-primary text-center">
     <a href="https://{{ DOMAIN }}{% url 'subscription-update'  %}">{% trans "Update my subscription" %}</a>
 </div>
-</p>
-<p>
-    {% trans "Thank you for your support and see you soon," %}
-</p>
-<p>
-    {% trans "The FabLab La Chaux-de-Fonds team" %}
-</p>
 {% endblock content %} 

@@ -5,13 +5,12 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
-import machines
-
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
 
     def __str__(self):
         return self.first_name + ' ' +  self.last_name + ' <' + self.email + '>'
+
 class SubscriptionCategory(models.Model):
     title = models.CharField(max_length=255)
     price = models.IntegerField() # Swiss Franc
@@ -67,26 +66,3 @@ class Profile(models.Model):
             return date.today() >= self.subscription.start and date.today() <= self.subscription.end
         else:
             return False
-
-class SuperUserStatus(models.Model):
-    status = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.status
-
-class SuperUserProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to="profile")
-    about_me = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("About me"))
-    status = models.ManyToManyField(SuperUserStatus, verbose_name=_("Status"), blank=True, null=True)
-    trainer = models.ManyToManyField("machines.Training", verbose_name=_("Trainer"), blank=True, null=True)
-    technique = models.ManyToManyField("machines.Workshop", verbose_name=_("Technique"), blank=True, null=True)
-    software = models.ManyToManyField("machines.Software", verbose_name=_("Software"), blank=True, null=True)
-    machine_category =  models.ManyToManyField("machines.MachineCategory", verbose_name=_("Machine category"), blank=True, null=True)
-
-    def __str__(self):
-        return str(self.user)
-
-from cms.models import CMSPlugin
-class SuperUserListPluginModel(CMSPlugin):
-    pass

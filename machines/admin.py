@@ -17,7 +17,7 @@ class TrainingFaqAdmin(admin.ModelAdmin):
 
 @admin.register(Machine)
 class MachineAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'full_price', 'premium_price']
+    list_display = ['title', 'desc', 'full_price', 'premium_price', 'category', 'photo']
 
 @admin.register(Card)
 class CardAdmin(admin.ModelAdmin):
@@ -59,3 +59,7 @@ class SpecificationAdmin(AbstractMachinesFilterAdmin):
 @admin.register(Software)
 class SoftwareAdmin(admin.ModelAdmin):
     list_display = ['title']
+
+@admin.register(TrainingNotification)
+class TrainingNotificationAdmin(admin.ModelAdmin):
+    list_display = ['training', 'profile', 'created_date']

@@ -1,3 +1,16 @@
+.body-form-full-page {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.form-full-page {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+}
+
 .img-form-logo {
   max-width: $img-lg;
   font-size: $img-lg;
