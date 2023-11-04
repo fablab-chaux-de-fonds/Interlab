@@ -23,7 +23,7 @@ from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView, DeleteView, CreateView, UpdateView, ModelFormMixin
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
-from .forms import OpeningSlotForm, EventForm, TrainingForm, RegisterTrainingForm, MachineReservationForm, RegisterEventForm
+from .forms import OpeningSlotCreateForm, OpeningSlotUpdateForm, EventForm, TrainingForm, RegisterTrainingForm, MachineReservationForm, RegisterEventForm
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 from .mixins import SuperuserRequiredMixin
 
@@ -206,6 +206,9 @@ class AbstractSlotView(View):
         return super().form_valid(form)
 
 class OpeningSlotView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormView):
+    model = OpeningSlot
+    success_url = '/schedule/'
+
     success_message = _("Your opening has been successfully %(action)s on %(date)s from %(start_time)s to %(end_time)s </br> "
                  "<a href=\"/fabcal/download-ics-file/%(opening_title)s/%(start)s/%(end)s\"> "
                  "<i class=\"bi bi-file-earmark-arrow-down-fill\"> </i> Add to my calendar</a>")
@@ -276,9 +279,7 @@ class OpeningSlotView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormVie
         return self.render_to_response(self.get_context_data(form=form))
 
 class OpeningSlotCreateView(OpeningSlotView, CreateView):
-    model = OpeningSlot
-    form_class = OpeningSlotForm
-    success_url = '/schedule/'
+    form_class = OpeningSlotCreateForm
 
     def get_initial(self):
         initial = super().get_initial()
@@ -298,8 +299,7 @@ class OpeningSlotCreateView(OpeningSlotView, CreateView):
         return context
 
 class OpeningSlotUpdateView(OpeningSlotView, UpdateView):
-    model = OpeningSlot
-    form_class = OpeningSlotForm
+    form_class = OpeningSlotUpdateForm
 
     def get_initial(self):
         initial = super().get_initial()

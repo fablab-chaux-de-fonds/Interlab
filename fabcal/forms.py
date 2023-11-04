@@ -238,6 +238,13 @@ class OpeningSlotForm(ModelForm):
         # Save the parent object first
         self.instance.save()
 
+        return self.instance
+
+class OpeningSlotCreateForm(OpeningSlotForm):
+
+    def save(self):
+        self.instance = super().save()
+
         for machine in self.cleaned_data['machines']:
             MachineSlot.objects.create(              
                 machine=machine,
@@ -247,6 +254,19 @@ class OpeningSlotForm(ModelForm):
             )
 
         return self.instance
+
+class OpeningSlotUpdateForm(OpeningSlotForm):
+
+    def save(self):
+        self.instance = super().save()
+
+        for machine_slot in self.instance.machineslot_set.all():
+            machine_slot.start=self.instance.start
+            machine_slot.end=self.instance.end
+            machine_slot.save()
+
+        return self.instance
+
 class EventForm(AbstractSlotForm):
     event = forms.ModelChoiceField(
         queryset= Event.objects.filter(is_active=True),

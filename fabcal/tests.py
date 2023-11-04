@@ -304,3 +304,23 @@ class OpeningSlotUpdateViewTestCase(OpeningSlotViewTestCase):
         self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_openings')
         self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(9))
         self.assertEqual(response.context_data['form'].data['end_time'], datetime.time(12))
+
+    def test_machines_slot_extend(self):
+        OpeningSlot.objects.all().delete()
+        self.client.login(username='testsuperuser', password='testpass')
+        
+        # Create a opening
+        response = self.create_opening_slot()
+        self.assertEqual(response.status_code, 302)
+
+        # Extend opening with valid time
+        response = self.client.get(self.update_url)
+        form_data = response.context_data['form'].initial
+        form_data['end_time'] = '13:00' # instead of 12:00
+
+        response = self.client.post(self.update_url, form_data)
+        self.assertEqual(response.status_code, 302)
+
+        # Assert machine slot extend if no reservation
+        machine_slot = MachineSlot.objects.first()
+        self.assertEqual(MachineSlot.objects.first().end, datetime.datetime(2023, 5, 1, 13, 0))
