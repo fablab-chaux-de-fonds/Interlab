@@ -55,3 +55,11 @@ class WorkshopAdmin(AbstractMachinesFilterAdmin):
 @admin.register(Specification)
 class SpecificationAdmin(AbstractMachinesFilterAdmin):
     list_display = ['key', 'value', 'machine', 'sort']
+
+@admin.register(Software)
+class SoftwareAdmin(admin.ModelAdmin):
+    list_display = ['title']
+
+@admin.register(TrainingNotification)
+class TrainingNotificationAdmin(admin.ModelAdmin):
+    list_display = ['training', 'profile', 'created_date']
