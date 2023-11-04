@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-04 11:26+0200\n"
+"POT-Creation-Date: 2023-08-09 10:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -154,11 +154,11 @@ msgstr "À propos"
 msgid "Status"
 msgstr "Statut"
 
-#: accounts/models.py:82 accounts/templates/accounts/superuser-list.html:6
+#: accounts/models.py:82 accounts/templates/accounts/superuser-list.html:8
 msgid "Trainer"
 msgstr "Formateur"
 
-#: accounts/models.py:83 accounts/templates/accounts/superuser-list.html:18
+#: accounts/models.py:83 accounts/templates/accounts/superuser-list.html:37
 msgid "Technique"
 msgstr "Technique"
 
@@ -420,10 +420,19 @@ msgstr "Profil public"
 msgid "Change password"
 msgstr "Changer mon mot de passe"
 
-#: accounts/templates/accounts/superuser-list.html:32
+#: accounts/templates/accounts/superuser-list.html:3
+#: machines/templates/machines/list.html:5
+msgid "Filter"
+msgstr "Filtres"
+
+#: accounts/templates/accounts/superuser-list.html:22
 #: fabcal/templates/fabcal/machineslot_list.html:42 machines/models.py:197
 msgid "Machine"
 msgstr "Machine"
+
+#: accounts/templates/accounts/superuser-list.html:76
+msgid "contact"
+msgstr "contact"
 
 #: accounts/templates/accounts/superuser-profile-edit.html:14
 msgid "Subscription"
@@ -1076,6 +1085,28 @@ msgstr ""
 "une autre personne à ce moment-là. Nous vous remercions de votre "
 "compréhension."
 
+#: fabcal/templates/fabcal/email/openingslot_auto_delete.html:7
+#, python-format
+msgid ""
+"Unfortunately, there are no reservations for tomorrow's opening from "
+"%(start)s to %(end)s . The slot has been removed from the fablab calendar."
+msgstr ""
+"Malheureusement, il n'y a pas de réservations pour l'ouverture de demain de "
+"%(start)s à %(end)s . Le créneau a été supprimé du calendrier du fablab."
+
+#: fabcal/templates/fabcal/email/openingslot_auto_delete.html:11
+msgid "Add another opening"
+msgstr "Ajouter une autre ouverture"
+
+#: fabcal/templates/fabcal/email/openingslot_confirm.html:7
+#, python-format
+msgid ""
+"Tomorrow's opening slot between %(start)s and %(end)s is maintained because "
+"you have the following reservations: "
+msgstr ""
+"Le créneau d'ouverture de demain entre %(start)s et %(end)s est maintenu car "
+"vous avez les réservations suivantes : "
+
 #: fabcal/templates/fabcal/email/training_create_alert.html:6
 msgid "We have planned a new training"
 msgstr "Nous avons planifié une nouvelle formation"
@@ -1640,10 +1671,6 @@ msgstr "Spécification"
 #: machines/models.py:222
 msgid "Specifications"
 msgstr "Spécifications"
-
-#: machines/templates/machines/list.html:5
-msgid "Filter"
-msgstr "Filtres"
 
 #: machines/templates/machines/list.html:49
 msgid "Sorry, no machine available in this category"

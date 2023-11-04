@@ -59,3 +59,7 @@ class SpecificationAdmin(AbstractMachinesFilterAdmin):
 @admin.register(Software)
 class SoftwareAdmin(admin.ModelAdmin):
     list_display = ['title']
+
+@admin.register(TrainingNotification)
+class TrainingNotificationAdmin(admin.ModelAdmin):
+    list_display = ['training', 'profile', 'created_date']
