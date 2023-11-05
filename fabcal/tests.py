@@ -305,7 +305,7 @@ class OpeningSlotUpdateViewTestCase(OpeningSlotViewTestCase):
         self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(9))
         self.assertEqual(response.context_data['form'].data['end_time'], datetime.time(12))
 
-    def test_machines_slot_extend(self):
+    def test_opening_slot_extend(self):
         OpeningSlot.objects.all().delete()
         self.client.login(username='testsuperuser', password='testpass')
         
@@ -352,3 +352,56 @@ class OpeningSlotUpdateViewTestCase(OpeningSlotViewTestCase):
         self.assertEqual(qs.last().start, datetime.datetime(2023, 5, 1, 13, 0))
         self.assertEqual(qs.last().end, datetime.datetime(2023, 5, 1, 14, 0))
         self.assertEqual(qs.last().user, None)
+
+    def test_opening_slot_shorten(self):
+        OpeningSlot.objects.all().delete()
+        self.client.login(username='testsuperuser', password='testpass')
+        
+        # Create a opening
+        response = self.create_opening_slot()
+        self.assertEqual(response.status_code, 302)
+
+        # Shorten opening with valid time
+        response = self.client.get(self.update_url)
+        form_data = response.context_data['form'].initial
+        form_data['start_time'] = '10:30' # instead of 10:00
+        form_data['end_time'] = '11:30' # instead of 12:00
+
+        response = self.client.post(self.update_url, form_data)
+        self.assertEqual(response.status_code, 302)
+
+        # Assert machine slot shorten if no reservation
+        machine_slot = MachineSlot.objects.first()
+        self.assertEqual(MachineSlot.objects.first().start, datetime.datetime(2023, 5, 1, 10, 30))
+        self.assertEqual(MachineSlot.objects.first().end, datetime.datetime(2023, 5, 1, 11, 30))
+
+        # Add reservation
+        user = CustomUser.objects.create_user(username='user', password='userpassword')
+        machine_slot.user = user
+        machine_slot.save()
+
+        # Shorter opening with valid time
+        response = self.client.get(self.update_url)
+        form_data = response.context_data['form'].initial
+        form_data['start_time'] = '11:00' # instead of 9:00
+        form_data['end_time'] = '11:30' # instead of 13:00
+
+        response = self.client.post(self.update_url, form_data)
+
+        # Assert machine slot shorten if reservation
+        self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_reservation')
+        self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(10, 30))
+        self.assertEqual(response.context_data['form'].data['end_time'], datetime.time(11, 30))
+
+        # Shorter opening with valid time
+        response = self.client.get(self.update_url)
+        form_data = response.context_data['form'].initial
+        form_data['start_time'] = '10:30' # instead of 9:00
+        form_data['end_time'] = '11:00' # instead of 13:00
+
+        response = self.client.post(self.update_url, form_data)
+
+        # Assert machine slot shorten if reservation
+        self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_reservation')
+        self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(10, 30))
+        self.assertEqual(response.context_data['form'].data['end_time'], datetime.time(11, 30))

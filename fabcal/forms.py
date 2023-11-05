@@ -268,7 +268,7 @@ class OpeningSlotUpdateForm(OpeningSlotForm):
             # Get the machine slots to update.
             qs = MachineSlot.objects.filter(
                 opening_slot=self.instance,
-                machine__in=self.cleaned_data['machines']
+                machine=machine
             ).order_by('start')
 
             # Update the start slots.

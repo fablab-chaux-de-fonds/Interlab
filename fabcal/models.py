@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from openings.models import Opening, Event
 from machines.models import Training, Machine
 
-from .validators import validate_conflicting_openings, validate_time_range
+from .validators import validate_conflicting_openings, validate_time_range, validate_update_opening_slot_on_machine_slot
 
 class AbstractSlot(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
@@ -78,6 +78,7 @@ class OpeningSlot(AbstractSlot):
     def clean(self):
         validate_conflicting_openings(self.start, self.end, instance=self)
         validate_time_range(self.start, self.end)
+        validate_update_opening_slot_on_machine_slot(self)
 
     @property
     def get_day_of_the_week(self):

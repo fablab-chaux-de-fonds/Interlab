@@ -23,7 +23,7 @@ from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView, DeleteView, CreateView, UpdateView, ModelFormMixin
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
-from .forms import OpeningSlotCreateForm, OpeningSlotUpdateForm, EventForm, TrainingForm, RegisterTrainingForm, MachineReservationForm, RegisterEventForm
+from .forms import OpeningSlotForm, OpeningSlotCreateForm, OpeningSlotUpdateForm, EventForm, TrainingForm, RegisterTrainingForm, MachineReservationForm, RegisterEventForm
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 from .mixins import SuperuserRequiredMixin
 
@@ -272,8 +272,17 @@ class OpeningSlotView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormVie
                 # Call form.add_error to add the error to the start_time field
                 form.add_error('start_time', error)
 
+
+            elif error.code == 'conflicting_reservation':
+                updated_data['start_time'] = forms.TimeField().prepare_value(
+                    datetime.strptime(form.initial['start_time'], '%H:%M').time()
+                    )
+                updated_data['end_time'] = forms.TimeField().prepare_value(
+                    datetime.strptime(form.initial['end_time'], '%H:%M').time()
+                    )
+
         # Update form data
-        form = OpeningSlotForm(data=updated_data)
+        form.data = updated_data
 
         # Return the invalid form
         return self.render_to_response(self.get_context_data(form=form))

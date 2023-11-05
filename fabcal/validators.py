@@ -33,3 +33,23 @@ def validate_conflicting_openings(start, end, instance=None):
 def validate_time_range(start, end):
     if start and end and start >= end:
         raise ValidationError(_("Start time after end time."), code='invalid_time_range')
+
+def validate_update_opening_slot_on_machine_slot(opening_slot):
+    from .models import MachineSlot
+
+    # Get all machine slots related to the opening slot object.
+    machine_slots = MachineSlot.objects.filter(opening_slot=opening_slot)
+
+    # Check if any of the machine slots are outside the new opening slot.
+    for machine_slot in machine_slots:
+        if machine_slot.user and (machine_slot.start < opening_slot.start or machine_slot.end > opening_slot.end):
+            raise ValidationError(
+                mark_safe(_('{user} has already reserved the {machine} from {start_time} to {end_time}.').format(
+                    start_time=machine_slot.start.strftime('%H:%M'),
+                    end_time=machine_slot.end.strftime('%H:%M'),
+                    user=machine_slot.user.first_name + machine_slot.user.last_name,
+                    machine=machine_slot.machine.title
+                )),
+                code='conflicting_reservation',
+                params={'conflictive_reservation': machine_slot}
+            )
