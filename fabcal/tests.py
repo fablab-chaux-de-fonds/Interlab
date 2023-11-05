@@ -16,7 +16,7 @@ from fabcal.forms import OpeningSlotForm
 from fabcal.models import OpeningSlot, MachineSlot
 from machines.models import Machine
 
-from .views import OpeningSlotCreateView, OpeningSlotUpdateView
+from .views import OpeningSlotCreateView, OpeningSlotUpdateView, OpeningSlotDeleteView 
 from .mixins import SuperuserRequiredMixin
 
 class TestView(SuperuserRequiredMixin, View):
@@ -405,3 +405,50 @@ class OpeningSlotUpdateViewTestCase(OpeningSlotViewTestCase):
         self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'conflicting_reservation')
         self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(10, 30))
         self.assertEqual(response.context_data['form'].data['end_time'], datetime.time(11, 30))
+
+class OpeningSlotDeleteViewTestCase(OpeningSlotViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.delete_url = reverse('fabcal:openingslot-delete', kwargs={'pk': 1})
+
+    def test_SuperuserRequiredMixin(self):
+        self.assertTrue(issubclass(OpeningSlotDeleteView, SuperuserRequiredMixin))
+
+    def test_delete_opening_slot(self):
+        OpeningSlot.objects.all().delete()
+        self.client.login(username='testsuperuser', password='testpass')
+        
+        # Create a opening
+        response = self.create_opening_slot()
+        self.assertEqual(response.status_code, 302)
+
+        # Add reservation
+        machine_slot = MachineSlot.objects.first()
+        user = CustomUser.objects.create_user(username='user', password='userpassword')
+        machine_slot.user = user
+        machine_slot.save()
+
+        # Try to delete reservation
+        response = self.client.post(self.delete_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'Tu ne peux pas supprimer cette ouverture car il y a des réservations'
+        self.assertEqual(message, expected_message)
+        self.assertEqual(OpeningSlot.objects.all().count(), 1)
+        self.assertEqual(MachineSlot.objects.all().count(), 1)
+
+        # Remove reservation
+        machine_slot.user = None
+        machine_slot.save()
+
+        # Delete reservation
+        response = self.client.post(self.delete_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'Votre ouverture du lundi 1 mai 2023 de 10:00 à 12:00 a bien été supprimée'
+        self.assertEqual(message, expected_message)
+        self.assertEqual(OpeningSlot.objects.all().count(), 0)
+        self.assertEqual(MachineSlot.objects.all().count(), 0)
+

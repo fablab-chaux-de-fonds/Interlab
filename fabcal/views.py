@@ -326,9 +326,10 @@ class OpeningSlotUpdateView(OpeningSlotView, UpdateView):
         context['submit_btn'] = _('Update opening')
         return context
 
-class OpeningSlotDeleteView(DeleteView):
+class OpeningSlotDeleteView(SuperuserRequiredMixin, DeleteView):
     model = OpeningSlot
     success_url = '/schedule'
+    success_message = "Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -341,17 +342,14 @@ class OpeningSlotDeleteView(DeleteView):
         return context
 
     def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        context = self.get_context_data()
+        try:
+            super(OpeningSlotDeleteView, self).delete(self, request, *args, **kwargs)
+        except ValidationError as e:
+            messages.error(request, _(e.message))
+            return redirect(self.get_success_url())
 
-        if not self.object.can_be_deleted:
-            messages.error(request, _('This opening slot cannot be deleted.'))
-            return redirect(success_url)
-
-        self.object.delete()
-        messages.success(request, _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted") % context)
-        return redirect(success_url)
+        messages.success(request, _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted") % self.get_context_data())
+        return redirect(self.get_success_url())
 
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
