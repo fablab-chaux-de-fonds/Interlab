@@ -16,6 +16,7 @@ from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 from openings.models import Opening, Event
 from machines.models import Training, TrainingNotification, Machine
 from .custom_fields import CustomDateField
+from .validators import validate_delete_machine_slot
 
 class AbstractSlotForm(forms.Form):
     use_required_attribute=False
@@ -257,11 +258,28 @@ class OpeningSlotCreateForm(OpeningSlotForm):
 
 class OpeningSlotUpdateForm(OpeningSlotForm):
 
+    def clean(self):
+        machines_to_remove = set(self.initial.get('machines', [])) - set(self.cleaned_data['machines'].values_list('pk', flat=True))
+
+        for pk in machines_to_remove:
+            machine_slot = MachineSlot.objects.get(opening_slot=self.instance, machine=pk)
+            validate_delete_machine_slot(machine_slot)
+
+        return super().clean()
+
     def save(self):
         self.instance = super().save()
 
         # -------------------
-        # Update machine slot
+        # Remove machine slot
+        machines_to_remove = set(self.initial.get('machines', [])) - set(self.cleaned_data['machines'].values_list('pk', flat=True))
+
+        for pk in machines_to_remove:
+            machine_slot = MachineSlot.objects.get(opening_slot=self.instance, machine=pk)
+            machine_slot.delete()
+
+        # -------------------
+        # Update or create machine slot
 
         for machine in self.cleaned_data['machines']:
 
@@ -328,6 +346,15 @@ class OpeningSlotUpdateForm(OpeningSlotForm):
                     # Extend slot.
                     obj.end = self.instance.end
                     obj.save()
+
+            # Create a new machine slot
+            if machine.pk not in self.initial.get('machines', []):
+                MachineSlot.objects.create(
+                        opening_slot=self.instance,
+                        machine=machine,
+                        start=self.instance.start,
+                        end=self.instance.end
+                    )
 
         return self.instance
 

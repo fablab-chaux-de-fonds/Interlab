@@ -60,3 +60,10 @@ def validate_delete_opening_slot(opening_slot):
             mark_safe(_('You cannot delete your opening slot because you have reservations')),
             code='opening_slot_has_reservation'
         )
+
+def validate_delete_machine_slot(machine_slot):
+    if machine_slot.user is not None: 
+        raise ValidationError(
+            mark_safe(_('You cannot delete your machine slot because you have reservations')),
+            code='machine_slot_has_reservation'
+        )

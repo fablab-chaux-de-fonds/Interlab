@@ -406,6 +406,56 @@ class OpeningSlotUpdateViewTestCase(OpeningSlotViewTestCase):
         self.assertEqual(response.context_data['form'].data['start_time'], datetime.time(10, 30))
         self.assertEqual(response.context_data['form'].data['end_time'], datetime.time(11, 30))
 
+    def test_add_remove_machine(self):
+        OpeningSlot.objects.all().delete()
+        self.client.login(username='testsuperuser', password='testpass')
+        
+        # Create a opening
+        response = self.create_opening_slot()
+
+        # Assert only 1 Trotec machine slot
+        self.assertEqual(MachineSlot.objects.all().count(), 1)
+        self.assertEqual(MachineSlot.objects.first().machine.title, 'Trotec')
+
+        # Add a new machine to the opening
+        response = self.client.get(self.update_url)
+        form_data = response.context_data['form'].initial
+        form_data['machines'].append(Machine.objects.get(title = 'Prusa').pk)
+
+        response = self.client.post(self.update_url, form_data)
+
+        # Assert 2 machine slots
+        self.assertEqual(MachineSlot.objects.all().count(), 2)
+        self.assertEqual(MachineSlot.objects.first().machine.title, 'Trotec')
+        self.assertEqual(MachineSlot.objects.last().machine.title, 'Prusa')
+        self.assertEqual(MachineSlot.objects.last().opening_slot, OpeningSlot.objects.first())
+
+        # Add reservation to Trotec
+        machine_slot = MachineSlot.objects.first()
+        user = CustomUser.objects.create_user(username='user', password='userpassword')
+        machine_slot.user = user
+        machine_slot.save()
+
+        # Try to delete machine Trotec
+        response = self.client.get(self.update_url)
+        form_data = response.context_data['form'].initial
+        form_data['machines'].remove(Machine.objects.get(title = 'Trotec').pk)
+        response = self.client.post(self.update_url, form_data)
+
+        # Assert unable to delete because of the reservation
+        self.assertEqual(response.context_data['form'].errors.as_data()['__all__'][0].code, 'machine_slot_has_reservation')
+        self.assertEqual(MachineSlot.objects.all().count(), 2)
+
+        # Try to delete machine Prusa
+        response = self.client.get(self.update_url)
+        form_data = response.context_data['form'].initial
+        form_data['machines'].remove(Machine.objects.get(title = 'Prusa').pk)
+        response = self.client.post(self.update_url, form_data)
+
+        # Assert Prusa machine slot removed
+        self.assertEqual(MachineSlot.objects.all().count(), 1)
+        self.assertEqual(response.status_code, 302)
+
 class OpeningSlotDeleteViewTestCase(OpeningSlotViewTestCase):
     def setUp(self):
         super().setUp()
