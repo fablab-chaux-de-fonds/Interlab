@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED=1
 # Install dependencies
 WORKDIR /code
 COPY requirements.txt /code/
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - \
 	&& apt-get install -y nodejs
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
