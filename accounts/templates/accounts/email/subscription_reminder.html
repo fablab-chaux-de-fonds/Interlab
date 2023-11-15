@@ -2,9 +2,23 @@
 {% load i18n %}
 
 {% block content %}
-<p> Hello {{profile.user.first_name}}, </p> 
-<p>{%trans "Your subscription will expire in 7 days" %}</p>
+<h3 class=" text-center text-red"><b>{% trans "The future of your subscription is in your hands!" %}</b></h1>
+<p> Hello {{profile.user.first_name}},</p>
+<p>
+    {% trans "We hope you've had the opportunity to make lots of creative projects, learn new things and meet new people at the FabLab this year."%}
+</p>
+<p>
+    {% blocktrans with date=profile.subscription.end|date:"j F Y" %}Please note that your FabLab subscription expires on {{date}}! To continue benefiting from preferential prices and to support the FabLab, remember to renew your subscription!{% endblocktrans %}
+</p>
+<p>
 <div class="btn btn-primary text-center">
     <a href="https://{{ DOMAIN }}{% url 'subscription-update'  %}">{% trans "Update my subscription" %}</a>
 </div>
+</p>
+<p>
+    {% trans "Thank you for your support and see you soon," %}
+</p>
+<p>
+    {% trans "The FabLab La Chaux-de-Fonds team" %}
+</p>
 {% endblock content %} 

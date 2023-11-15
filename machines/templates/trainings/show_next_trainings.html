@@ -1,6 +1,8 @@
 {% load i18n interlab_tags %}
 
+<div class="row pt-4">
 <h3> {% trans "Next Trainings" %} </h3>
+</div>
 {% if training_slots %}
 <div class="row mb-4">
     {% for training_slot in training_slots %}
@@ -10,7 +12,11 @@
         {% trans "to" %} {{training_slot.end|date:"H:i"}} <br>
         {% if training_slot.available_registration > 0  %}
         <small class"fs-6">
-            {% blocktrans with available_registration=training_slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}
+            {% if request.user in training_slot.registrations.all %}
+                {% trans "You are already registered !" %}
+            {% else %}
+                {% blocktrans with available_registration=training_slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}
+            {% endif %}
         </small>
         {% elif training_slot.available_registration == 0 %}
         <small>{% trans "sold out" %}</small>
@@ -19,7 +25,7 @@
     <div class="col-4 text-end">
         {% if training_slot.available_registration > 0 %}
             {% if request.user in training_slot.registrations.all %}
-            <a href="{% url 'fabcal:training-unregister' training_slot.pk %}" class="btn btn-primary">{% trans "Unregister" %}</a>
+            <a href="{% url 'fabcal:training-unregister' training_slot.pk %}" class="btn btn-outline-primary">{% trans "Unregister" %}</a>
             {% else %}
             <a href="{% url 'fabcal:training-register' training_slot.pk %}" class="btn btn-primary">{% trans "Register" %}</a>
             {% endif %}
