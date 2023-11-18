@@ -2,6 +2,8 @@ from django.urls import include, path
 from . import views
 from django.contrib.auth.views import PasswordResetConfirmView
 
+app_name = 'accounts'
+
 urlpatterns =[
     path('register/', views.CustomRegistrationView.as_view(), name='django_registration_register'),
     path('login/', views.CustomLoginView.as_view(), name='login'),

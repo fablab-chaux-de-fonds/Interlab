@@ -8,7 +8,7 @@ class SuperuserRequiredMixin(UserPassesTestMixin):
     Mixin to require a user to be logged in and a superuser in a group,
     and redirect to login if not.
     """
-    login_url = reverse_lazy('login')
+    login_url = reverse_lazy('accounts:login')
 
     def test_func(self):
         user = self.request.user

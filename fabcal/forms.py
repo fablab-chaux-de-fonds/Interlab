@@ -1,6 +1,7 @@
 import datetime
 import dateparser
 from babel.dates import format_datetime, get_timezone
+from copy import deepcopy
 
 from django import forms
 from django.conf import settings
@@ -184,7 +185,32 @@ class AbstractSlotForm(forms.Form):
     def delete_machine_slot(self, view, pk):
         MachineSlot.objects.filter(opening_slot=view.opening_slot, machine_id = pk).delete()
 
-class OpeningSlotForm(ModelForm):
+class SlotForm(ModelForm):
+    date = CustomDateField(required=False)
+    start_time = forms.TimeField()
+    end_time = forms.TimeField()
+
+    def __init__(self, user=None,  *args, **kwargs):
+        super(SlotForm, self).__init__(*args, **kwargs)
+        self.user = user
+
+    def clean(self):
+        cleaned_data = super(SlotForm, self).clean()
+        date = cleaned_data.get('date') or self.instance.start.date()
+        start_time = cleaned_data.get('start_time')
+        end_time = cleaned_data.get('end_time')
+
+        # set the start and end fields of the instance
+        self.cleaned_data['start'] = datetime.datetime.combine(date, start_time)
+        self.cleaned_data['end'] = datetime.datetime.combine(date, end_time)
+
+        # Update instance before validation
+        self.instance.start = self.cleaned_data['start']
+        self.instance.end = self.cleaned_data['end']
+
+        return cleaned_data
+
+class OpeningSlotForm(SlotForm):
     opening = forms.ModelChoiceField(
         queryset=Opening.objects.all(),
         label=_('Opening'),
@@ -200,41 +226,14 @@ class OpeningSlotForm(ModelForm):
         label=_('Machines'),
         required=False
     )
-    date = CustomDateField()
-    start_time = forms.TimeField()
-    end_time = forms.TimeField()
     comment = forms.CharField(label=_('Comment'),  required=False)
-
-    def __init__(self, request=None,  *args, **kwargs):
-        super(OpeningSlotForm, self).__init__(*args, **kwargs)
-        self.request = request
 
     class Meta:
         model = OpeningSlot
         fields = ('opening', 'machines', 'date', 'start_time', 'end_time', 'comment')
 
-    def clean(self):
-        cleaned_data = super().clean()
-        date = cleaned_data.get('date')
-        start_time = cleaned_data.get('start_time')
-        end_time = cleaned_data.get('end_time')
-
-        # set the start and end fields of the instance
-        self.instance.start = datetime.datetime.combine(date, start_time)
-        self.instance.end = datetime.datetime.combine(date, end_time)
-
-        return cleaned_data
-
     def save(self):
-        self.instance.user = self.request.user
-        self.instance.start = datetime.datetime.combine(
-            self.cleaned_data['date'],
-            self.cleaned_data['start_time']
-        )
-        self.instance.end = datetime.datetime.combine(
-            self.cleaned_data['date'],
-            self.cleaned_data['end_time']
-        )
+        self.instance.user = self.user
 
         # Save the parent object first
         self.instance.save()
@@ -357,6 +356,64 @@ class OpeningSlotUpdateForm(OpeningSlotForm):
                     )
 
         return self.instance
+
+class MachineSlotUpdateForm(SlotForm):
+    end_date = forms.CharField(required=False)
+
+    class Meta:
+        model = MachineSlot
+        fields = ('start_time', 'end_time')
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if self.cleaned_data['start'] < self.instance.start:
+            raise ValidationError(
+                    _("You cannot start earlier than %(start_time)s"),
+                    params={'start_time': self.instance.start.strftime('%H:%M')},
+                    code='invalid_start_time'
+                )
+
+        return cleaned_data
+
+    def save(self):
+        initial_instance = MachineSlot.objects.get(pk=self.instance.pk)
+        if initial_instance.start < self.cleaned_data['start']:
+            # create a new empty slot at the begining
+            new_slot = deepcopy(initial_instance)
+            new_slot.id = None
+            new_slot.end = self.cleaned_data['start']
+            new_slot.save()
+        
+        if initial_instance.end > self.cleaned_data['end']:
+            # create a new empty slot at the end
+            new_slot = deepcopy(initial_instance)
+            new_slot.id = None
+            new_slot.start = self.cleaned_data['end']
+            new_slot.save()
+
+        if self.instance.machine.category.name == '3D':
+            for slot in MachineSlot.objects.filter(
+                start__gt=self.cleaned_data['start'], 
+                end__gt=self.cleaned_data['end'],
+                machine=self.instance.machine).all():
+                    # create a new empty slot at the end
+                    slot.start = self.cleaned_data['end']
+                    slot.save()
+
+            for slot in MachineSlot.objects.filter(
+                start__gt=self.cleaned_data['start'],
+                end__lt=self.cleaned_data['end'],
+                machine=self.instance.machine).all():
+                # delete slot
+                slot.delete()
+
+        # update slot for user
+        self.instance.user = self.user
+        self.instance.save()
+
+        return super().save()
+
 
 class EventForm(AbstractSlotForm):
     event = forms.ModelChoiceField(

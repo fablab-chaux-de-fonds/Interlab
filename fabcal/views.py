@@ -23,7 +23,17 @@ from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView, DeleteView, CreateView, UpdateView, ModelFormMixin
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
-from .forms import OpeningSlotForm, OpeningSlotCreateForm, OpeningSlotUpdateForm, EventForm, TrainingForm, RegisterTrainingForm, MachineReservationForm, RegisterEventForm
+from .forms import OpeningSlotForm
+from .forms import OpeningSlotCreateForm
+from .forms import OpeningSlotUpdateForm
+from .forms import MachineSlotUpdateForm 
+
+from .forms import EventForm
+from .forms import TrainingForm
+from .forms import RegisterTrainingForm
+from .forms import MachineReservationForm
+from .forms import RegisterEventForm
+
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 from .mixins import SuperuserRequiredMixin
 
@@ -233,8 +243,8 @@ class OpeningSlotView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormVie
         if form_class is None:
             form_class = self.get_form_class()
             
-        # Pass the request object to the form's constructor
-        return form_class(self.request, **self.get_form_kwargs())
+        # Pass the user object to the form's constructor
+        return form_class(self.request.user, **self.get_form_kwargs())
 
     def form_invalid(self, form):       
         updated_data = QueryDict(mutable=True)
@@ -350,6 +360,14 @@ class OpeningSlotDeleteView(SuperuserRequiredMixin, DeleteView):
 
         messages.success(request, _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted") % self.get_context_data())
         return redirect(self.get_success_url())
+
+class MachineSlotUpdateView(LoginRequiredMixin, SuccessMessageMixin, CustomFormView, UpdateView):
+    model = MachineSlot
+    form_class = MachineSlotUpdateForm
+    
+    def get_success_url(self):
+        return reverse_lazy("accounts:profile")
+    
 
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
@@ -608,7 +626,7 @@ class CreateMachineReservationView(MachineReservationBaseView):
             context.update({
                 'machine': self.object.machine.title,
                 'duration': int(context['form'].cleaned_data['duration'].seconds/60),
-                'profile_url': self.request._current_scheme_host + reverse('profile'),
+                'profile_url': self.request._current_scheme_host + reverse('accounts:profile'),
                 'mail_url': 'mailto://' + os.environ.get('EMAIL_HOST_USER')
             })
             context.update({
@@ -665,7 +683,7 @@ class CreateMachineReservationView(MachineReservationBaseView):
 
 class UpdateMachineReservationView(MachineReservationBaseView):
     def get_success_url(self, **kwargs):
-        return reverse('profile')
+        return reverse('accounts:profile')
 
     def form_valid(self, form):
 
@@ -763,7 +781,7 @@ class DeleteMachineReservationView(TemplateView):
     template_name = 'fabcal/machine/delete_form.html'
 
     def get_success_url(self, **kwargs):
-        return reverse('profile')
+        return reverse('accounts:profile')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -776,7 +794,7 @@ class DeleteMachineReservationView(TemplateView):
         obj.save()
         
         messages.success(request, _("You reservation has been canceled !"))
-        return redirect('profile') 
+        return redirect('accounts:profile') 
 
 class downloadIcsFileView(TemplateView):
     template_name = 'fabcal/fablab.ics'

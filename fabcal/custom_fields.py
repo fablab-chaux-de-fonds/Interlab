@@ -21,4 +21,4 @@ class CustomDateField(forms.DateField):
         if not value:
             return None
 
-        return dateparser.parse(value)
+        return dateparser.parse(value).date()

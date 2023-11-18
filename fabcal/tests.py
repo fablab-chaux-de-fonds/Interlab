@@ -1,6 +1,7 @@
 import datetime
 import re
 
+from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.contrib.auth.models import Group, AnonymousUser
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
@@ -11,12 +12,19 @@ from django.utils.translation import activate
 from django.views import View
 
 from accounts.models import CustomUser
+from machines.models import Machine, MachineCategory
 from openings.models import Opening
-from fabcal.forms import OpeningSlotForm
-from fabcal.models import OpeningSlot, MachineSlot
-from machines.models import Machine
 
-from .views import OpeningSlotCreateView, OpeningSlotUpdateView, OpeningSlotDeleteView 
+from .forms import OpeningSlotForm
+from .forms import MachineSlotUpdateForm
+
+from .models import OpeningSlot, MachineSlot
+
+from .views import OpeningSlotCreateView
+from .views import OpeningSlotUpdateView
+from .views import OpeningSlotDeleteView
+from .views import MachineSlotUpdateView
+
 from .mixins import SuperuserRequiredMixin
 
 class TestView(SuperuserRequiredMixin, View):
@@ -27,7 +35,7 @@ class TestView(SuperuserRequiredMixin, View):
 class SuperuserRequiredMixinTestCase(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.login_url = reverse('login')  # Replace 'login' with the actual URL name
+        self.login_url = reverse('accounts:login')
 
     def test_superuser_required(self):
         # Create a superuser and add them to the 'superuser' group
@@ -72,11 +80,17 @@ class SuperuserRequiredMixinTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn('/accounts/login/', response.url)
 
-class OpeningSlotViewTestCase(TestCase):
+class SlotViewTestCase(TestCase):
     def setUp(self):
         self.client = Client()
         self.factory = RequestFactory()
         self.create_url = reverse('fabcal:openingslot-create') + '?start=1682784000000&end=1682791200000'
+
+        self.user = CustomUser.objects.create_user(
+            username='user',
+            password='userpassword',
+            email='user@fake.django'
+            )
 
         self.superuser = CustomUser.objects.create_user(
             username='testsuperuser',
@@ -93,12 +107,22 @@ class OpeningSlotViewTestCase(TestCase):
             is_reservation_mandatory=False,
             is_public=True
             )
+
+        self.laser_category = MachineCategory.objects.create(
+            name = 'laser'
+        )
+        
+        self.printer_category = MachineCategory.objects.create(
+            name = '3D'
+        )
         
         self.trotec = Machine.objects.create(
-            title = 'Trotec'
+            title = 'Trotec',
+            category=self.laser_category
         )
         self.prusa = Machine.objects.create(
-            title = 'Prusa'
+            title = 'Prusa',
+            category=self.printer_category
         )
 
     def get_default_form_data(self, opening=None, machines=None, date=None, start_time=None, end_time=None, **kwargs):
@@ -116,7 +140,7 @@ class OpeningSlotViewTestCase(TestCase):
         form_data = self.get_default_form_data(**kwargs)
         return self.client.post(self.create_url, form_data)
 
-class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
+class OpeningSlotCreateViewTestCase(SlotViewTestCase):
     def setUp(self):
         super().setUp()
 
@@ -219,7 +243,7 @@ class OpeningSlotCreateViewTestCase(OpeningSlotViewTestCase):
         self.superuser.delete()
         self.group.delete()
 
-class OpeningSlotUpdateViewTestCase(OpeningSlotViewTestCase):
+class OpeningSlotUpdateViewTestCase(SlotViewTestCase):
     def setUp(self):
         super().setUp()
         self.update_url = reverse('fabcal:openingslot-update', kwargs={'pk': 1})
@@ -328,8 +352,7 @@ class OpeningSlotUpdateViewTestCase(OpeningSlotViewTestCase):
         self.assertEqual(MachineSlot.objects.first().end, datetime.datetime(2023, 5, 1, 13, 0))
 
         # Add reservation
-        user = CustomUser.objects.create_user(username='user', password='userpassword')
-        machine_slot.user = user
+        machine_slot.user = self.user
         machine_slot.save()
 
         # Extend opening with valid time
@@ -376,8 +399,7 @@ class OpeningSlotUpdateViewTestCase(OpeningSlotViewTestCase):
         self.assertEqual(MachineSlot.objects.first().end, datetime.datetime(2023, 5, 1, 11, 30))
 
         # Add reservation
-        user = CustomUser.objects.create_user(username='user', password='userpassword')
-        machine_slot.user = user
+        machine_slot.user = self.user
         machine_slot.save()
 
         # Shorter opening with valid time
@@ -432,8 +454,7 @@ class OpeningSlotUpdateViewTestCase(OpeningSlotViewTestCase):
 
         # Add reservation to Trotec
         machine_slot = MachineSlot.objects.first()
-        user = CustomUser.objects.create_user(username='user', password='userpassword')
-        machine_slot.user = user
+        machine_slot.user = self.user
         machine_slot.save()
 
         # Try to delete machine Trotec
@@ -456,7 +477,7 @@ class OpeningSlotUpdateViewTestCase(OpeningSlotViewTestCase):
         self.assertEqual(MachineSlot.objects.all().count(), 1)
         self.assertEqual(response.status_code, 302)
 
-class OpeningSlotDeleteViewTestCase(OpeningSlotViewTestCase):
+class OpeningSlotDeleteViewTestCase(SlotViewTestCase):
     def setUp(self):
         super().setUp()
         self.delete_url = reverse('fabcal:openingslot-delete', kwargs={'pk': 1})
@@ -474,8 +495,7 @@ class OpeningSlotDeleteViewTestCase(OpeningSlotViewTestCase):
 
         # Add reservation
         machine_slot = MachineSlot.objects.first()
-        user = CustomUser.objects.create_user(username='user', password='userpassword')
-        machine_slot.user = user
+        machine_slot.user = self.user
         machine_slot.save()
 
         # Try to delete reservation
@@ -502,3 +522,41 @@ class OpeningSlotDeleteViewTestCase(OpeningSlotViewTestCase):
         self.assertEqual(OpeningSlot.objects.all().count(), 0)
         self.assertEqual(MachineSlot.objects.all().count(), 0)
 
+class MachineSlotUpdateViewTestCase(SlotViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.update_url = reverse('fabcal:machineslot-update', kwargs={'pk': 1})
+
+    def test_SuperuserRequiredMixin(self):
+        self.assertTrue(issubclass(MachineSlotUpdateView, LoginRequiredMixin))
+
+    def test_machine_slot_form(self):
+        OpeningSlot.objects.all().delete()
+        self.client.login(username='testsuperuser', password='testpass')
+        
+        # Create a opening
+        response = self.create_opening_slot()
+        self.assertEqual(response.status_code, 302)
+
+        # Add reservation
+        form_data = {
+            'start_time': '10:30',
+            'end_time': '11:30'
+        }
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.first(), user=self.user)
+
+        self.assertTrue(form.is_valid())
+
+        machine_slot = form.save()
+        self.assertEqual(machine_slot.user, self.user)
+        self.assertEqual(MachineSlot.objects.all().count(), 3)
+
+        machine_slot_prev = MachineSlot.objects.get(pk=2)
+        self.assertEqual(machine_slot_prev.user, None)
+        self.assertEqual(machine_slot_prev.start.time(), datetime.time(10))
+        self.assertEqual(machine_slot_prev.end.time(), datetime.time(10,30))
+
+        machine_slot_next = MachineSlot.objects.get(pk=3)
+        self.assertEqual(machine_slot_next.user, None)
+        self.assertEqual(machine_slot_next.start.time(), datetime.time(11,30))
+        self.assertEqual(machine_slot_next.end.time(), datetime.time(12))
