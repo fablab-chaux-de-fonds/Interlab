@@ -4,7 +4,7 @@ debugpy
 Django<4
 django-analytical
 django-classy-tags
-django-cms
+django-cms<4
 django-colorfield
 django-cors-headers
 django-crispy-forms
