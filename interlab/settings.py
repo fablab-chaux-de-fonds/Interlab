@@ -232,6 +232,9 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'payments.apps.PaymentsConfig',
     'interlab',
+    'api.apps.APIConfig',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 LANGUAGES = (
@@ -442,3 +445,8 @@ STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET')
 STRIPE_CURRENCY = os.environ.get('STRIPE_CURRENCY')
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': 'rest_framework.authentication.TokenAuthentication',
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning'
+}

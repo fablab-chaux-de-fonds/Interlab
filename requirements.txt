@@ -4,7 +4,7 @@ debugpy
 Django<4
 django-analytical
 django-classy-tags
-django-cms
+django-cms<4
 django-colorfield
 django-cors-headers
 django-crispy-forms
@@ -34,6 +34,8 @@ djangocms-picture
 djangocms-style
 djangocms-text-ckeditor
 djangocms-video
+djangorestframework
+djangorestframework-simplejwt
 easy_thumbnails
 html5lib
 packaging
@@ -49,3 +51,4 @@ coverage-badge
 Babel
 django-htmx
 python-dotenv
+markdown
