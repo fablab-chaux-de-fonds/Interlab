@@ -34,6 +34,8 @@ djangocms-picture
 djangocms-style
 djangocms-text-ckeditor
 djangocms-video
+djangorestframework
+djangorestframework-simplejwt
 easy_thumbnails
 html5lib
 packaging
@@ -49,3 +51,4 @@ coverage-badge
 Babel
 django-htmx
 python-dotenv
+markdown
