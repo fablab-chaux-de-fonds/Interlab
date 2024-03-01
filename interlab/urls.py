@@ -19,6 +19,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    path('api/', include('api.urls')),
     path('machines/', include('machines.urls')),
     path('invitations/', include(invitation_backend().get_urls())),
     path('fabcal/', include('fabcal.urls')),

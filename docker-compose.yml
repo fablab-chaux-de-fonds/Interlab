@@ -16,6 +16,7 @@ services:
       - ./accounts:/code/accounts
       - ./build:/code/build
       - ./fabcal:/code/fabcal
+      - ./api:/code/api
       - ./frontend:/code/frontend
       - ./interlab:/code/interlab
       - ./locale:/code/locale
@@ -26,8 +27,6 @@ services:
       - ./share:/code/share
       - ./payments:/code/payments
     ports:
-      - 8000:8000
-      - 3000:3000
+      - "8000:8000"
     depends_on:
       - db
-
