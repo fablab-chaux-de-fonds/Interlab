@@ -6,6 +6,7 @@ const BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
   entry: {
+    machine_price: Path.resolve(__dirname, '../src/scripts/machine/price'),
     app: Path.resolve(__dirname, '../src/scripts/index'),
     vue: Path.resolve(__dirname, '../src/scripts/vue'),
   },
