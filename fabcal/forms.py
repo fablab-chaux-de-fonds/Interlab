@@ -1,5 +1,7 @@
 import datetime
 import dateparser
+import os
+
 from babel.dates import format_datetime, get_timezone
 from copy import deepcopy
 
@@ -10,6 +12,7 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.forms import ModelForm
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.safestring import mark_safe 
 from django.utils.translation import gettext_lazy as _
 
@@ -197,8 +200,8 @@ class SlotForm(ModelForm):
     def clean(self):
         cleaned_data = super(SlotForm, self).clean()
         date = cleaned_data.get('date') or self.instance.start.date()
-        start_time = cleaned_data.get('start_time')
-        end_time = cleaned_data.get('end_time')
+        start_time = cleaned_data.get('start_time') or self.instance.start.time()
+        end_time = cleaned_data.get('end_time') or self.instance.end.time()
 
         # set the start and end fields of the instance
         self.cleaned_data['start'] = datetime.datetime.combine(date, start_time)
@@ -364,19 +367,132 @@ class MachineSlotUpdateForm(SlotForm):
         model = MachineSlot
         fields = ('start_time', 'end_time')
 
-    def clean(self):
-        cleaned_data = super().clean()
+    def clean_start_time(self):
+        start_time = self.cleaned_data.get('start_time')
 
-        if self.cleaned_data['start'] < self.instance.start:
+        if self.cleaned_data['start_time'] < self.instance.start.time():
             raise ValidationError(
                     _("You cannot start earlier than %(start_time)s"),
-                    params={'start_time': self.instance.start.strftime('%H:%M')},
+                    params={'start_time': self.instance.start.time().strftime('%H:%M')},
                     code='invalid_start_time'
+                )
+                
+        return start_time
+
+    def clean_end_time(self):
+        end_time = self.cleaned_data.get('end_time')
+
+        if self.cleaned_data['end_time'] > self.instance.end.time():
+            raise ValidationError(
+                    _("You cannot end later than %(end_time)s"),
+                    params={'end_time': self.instance.end.time().strftime('%H:%M')},
+                    code='invalid_end_time'
+                )
+                
+        return end_time
+
+    def clean_end(self):
+        """
+        This method checks if the machine category is '3D' and ensures that the 'end' time does not exceed the start time
+        of the next slot, if it exists.
+
+        Raises:
+            ValidationError: If the 'end' time is later than the start time of the next slot, a ValidationError is raised.
+
+        Returns:
+            datetime.time: The cleaned 'end' time.
+        """
+        machine_category = self.instance.machine.category.name
+
+        if machine_category == '3D' and self.instance.get_next_slot:
+            end_time = self.cleaned_data['end']
+            next_slot_start_time = self.instance.get_next_slot.start
+
+            if end_time > next_slot_start_time:
+                raise ValidationError(
+                    _("You cannot end later than %(start_time)s"),
+                    params={'start_time': next_slot_start_time.strftime('%H:%M')}
+                )
+
+        return self.cleaned_data['end']
+
+    def clean(self):
+        """
+        A method to clean and validate the form data. 
+        
+        It checks the start and end time, calculates the duration, and validates the reservation time and duration increment.
+        It also checks for overlapping reservations in the case of a 3D print reservation. 
+        
+        Returns the cleaned data.
+        """
+        cleaned_data = super().clean()
+        start_time = self.cleaned_data.get("start")
+        end_time = self.cleaned_data.get("end")
+
+        if start_time and end_time: 
+            cleaned_data['duration'] = end_time - start_time
+
+            if cleaned_data['duration'] < datetime.timedelta(minutes=settings.FABCAL_MINIMUM_RESERVATION_TIME):
+                raise ValidationError(
+                    _("Please reserve a minimum of %(time)s minutes!"),
+                    params={'time': settings.FABCAL_MINIMUM_RESERVATION_TIME},
+                    code='invalid_minimum_duration'
+                )
+
+            if (cleaned_data['duration'].total_seconds() / 60) % settings.FABCAL_RESERVATION_INCREMENT_TIME != 0:
+                raise ValidationError(
+                    _("Please reserve in %(time)s minute increments!"),
+                    params={'time': settings.FABCAL_MINIMUM_RESERVATION_TIME},
+                    code='invalid_duration'
+                )
+
+            # in the case of 3D print reservation
+            if self.instance.get_next_slot and self.instance.get_next_slot.start < end_time:
+                raise ValidationError(
+                    _("The machine is already booked from %(time)s!"),
+                    params={'time': self.instance.get_next_slot.start.strftime('%H:%M')}
                 )
 
         return cleaned_data
 
+    def create_email_content(self):
+        """
+        Create email content for the machine reservation confirmation email.
+        This function does not take any parameters and returns a dictionary containing the email content.
+        """
+        context = {
+            'machine': self.instance.machine.title,
+            'duration': self.instance.get_duration,
+            'start_date': self.instance.formatted_start_date,
+            'start_time': self.instance.formatted_start_time,
+            'end_time': self.instance.formatted_end_time,
+            'profile_url': reverse('accounts:profile'),
+            'mail_url': 'mailto://' + os.environ.get('EMAIL_HOST_USER'),
+        }
+
+        email_body = mark_safe(_('You successfully booked the machine %(machine)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s') % context)
+
+        cancellation_policy = mark_safe(_('Please note that you may cancel this reservation up to 24 hours prior to the start of the slot without charge via your <a href="%(profile_url)s">account page on our website</a>. However, if you wish to cancel your reservation after this period, please <a href="%(mail_url)s">inform us by email</a>. In this case, we are sorry to inform you that we will be obliged to charge you for the machine hours, as the reserved machine could not be used by another person at that time. Thank you for your understanding.') % context)
+
+        html_message = render_to_string('fabcal/email/confirmation.html', {'email_body': email_body, 'cancellation_policy': cancellation_policy})
+
+        subject = _('Confirmation of your machine reservation')
+
+        # Define email content as a dictionary
+        email_content = {
+            'from_email': None,
+            'subject': subject,
+            'message': subject,  # Using the subject as the plain text message
+            'recipient_list': [self.user.email],
+            'html_message': html_message,
+        }
+
+        return email_content
+
     def save(self):
+        """
+        A method to save the changes made to the instance, including creating new slots, updating existing slots, and sending mail.
+        """
         initial_instance = MachineSlot.objects.get(pk=self.instance.pk)
         if initial_instance.start < self.cleaned_data['start']:
             # create a new empty slot at the begining
@@ -411,7 +527,11 @@ class MachineSlotUpdateForm(SlotForm):
         # update slot for user
         self.instance.user = self.user
         self.instance.save()
-
+        
+        # send mail
+        email_content = self.create_email_content()
+        send_mail(**email_content)
+        
         return super().save()
 
 
@@ -537,58 +657,12 @@ class RegisterTrainingForm(forms.Form):
     pass
 
 class MachineReservationForm(AbstractSlotForm):
-    end_date = forms.CharField(required=False)
 
     def __init__(self, machine_slot, next_machine_slot, previous_machine_slot, *args, **kwargs):
         super(MachineReservationForm, self).__init__(*args, **kwargs)
         self.machine_slot = machine_slot
         self.next_machine_slot = next_machine_slot
         self.previous_machine_slot = previous_machine_slot
-
-    def clean(self):
-        super(MachineReservationForm, self).clean()
-
-        if self.cleaned_data.get("start") and self.cleaned_data.get("end"):
-            
-            self.cleaned_data['duration'] = self.cleaned_data['end']-self.cleaned_data['start']
-            if self.cleaned_data['duration'] < datetime.timedelta(minutes=settings.FABCAL_MINIMUM_RESERVATION_TIME):
-                raise ValidationError(
-                        _("Please reserve minimum %(time)s minutes !"),
-                        params={'time': settings.FABCAL_MINIMUM_RESERVATION_TIME}
-                    )
-
-            if (self.cleaned_data['duration']).seconds/60 % settings.FABCAL_RESERVATION_INCREMENT_TIME != 0:
-                raise ValidationError(
-                        _("Please reserve in %(time)s minute increments !"),
-                        params={'time': settings.FABCAL_MINIMUM_RESERVATION_TIME}
-                    )
-            if self.previous_machine_slot:
-                if self.previous_machine_slot.end > self.cleaned_data['start']:
-                        raise ValidationError(
-                            _("The machine is already booked until %(time)s !"),
-                            params={'time': self.previous_machine_slot.end.strftime('%H:%M')}
-                    )
-
-            if self.next_machine_slot:
-                if self.next_machine_slot.start < self.cleaned_data['end']:
-                        raise ValidationError(
-                            _("The machine is already booked from %(time)s !"),
-                            params={'time': self.next_machine_slot.start.strftime('%H:%M')}
-                        )
-
-    def clean_start(self):
-        self.cleaned_data['start'] = datetime.datetime.combine(
-            self.machine_slot.start.date(), 
-            dateparser.parse(self.data['start_time']).time()
-            )
-        
-        if self.cleaned_data['start'] < self.machine_slot.opening_slot.start:
-            raise ValidationError(
-                    _("You cannot start earlier than %(start_time)s"),
-                    params={'start_time': self.machine_slot.opening_slot.start.strftime('%H:%M')}
-                )
-
-        return self.cleaned_data['start']
 
     def clean_end(self):
         if self.machine_slot.machine.category.name == '3D':
@@ -602,17 +676,5 @@ class MachineReservationForm(AbstractSlotForm):
                             _("You cannot end later than %(start_time)s"),
                             params={'start_time': self.next_machine_slot.start.strftime('%H:%M')}
                         )
-
-        else:
-            self.cleaned_data['end'] = datetime.datetime.combine( 
-                self.machine_slot.end.date(),
-                dateparser.parse(self.data['end_time']).time()
-                )
-        
-            if self.cleaned_data['end'] > self.machine_slot.opening_slot.end:
-                raise ValidationError(
-                        _("You cannot end later than %(start_time)s"),
-                        params={'start_time': self.machine_slot.opening_slot.end.strftime('%H:%M')}
-                    )
         
         return self.cleaned_data['end']

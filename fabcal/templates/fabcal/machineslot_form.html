@@ -33,11 +33,11 @@
                     {% if object.machine.category.name != '3D' %}
                         <v-row>
                             <v-col cols="6">
-                                <time-picker init-time={{start_time}} input-name="start_time" label={% trans "Start" %}>
+                                <time-picker init-time={{object.formatted_start_time}} input-name="start_time" label={% trans "Start" %}>
                                 </time-picker>
                             </v-col>
                             <v-col cols="6">
-                                <time-picker init-time={{end_time}} input-name="end_time" label={% trans "End" %}>
+                                <time-picker init-time={{object.formatted_end_time}} input-name="end_time" label={% trans "End" %}>
                                 </time-picker>
                             </v-col>
                         </v-row>
@@ -47,7 +47,7 @@
                     <v-row>
                         <v-col cols="12">
                             <p>{% trans "You can start between " %} {{object.start|date:"H:i"}} {% trans " and " %} {{max_start_time|date:"H:i"}}</p>
-                            <time-picker init-time={{start_time}} input-name="start_time" label={% trans "Time" %}>
+                            <time-picker init-time={{object.formatted_start_time}} input-name="start_time" label={% trans "Time" %}>
                             </time-picker>
                             {{ form.start.errors }}
                         </v-col>
@@ -63,11 +63,11 @@
                             {% else %}
                                 {% trans "There are no reservations for the next few days. Feel free to use it !" %}
                             {% endif %}</p>
-                            <date-picker init-date={{end_date}} input-name="end_date" label={% trans "Date" %}>
+                            <date-picker init-date={{object.formatted_end_date}} input-name="end_date" label={% trans "Date" %}>
                             </date-picker>
                             {{ form.end_date.errors}}
                             
-                            <time-picker init-time={{end_time}} input-name="end_time" label={% trans "Time" %}>
+                            <time-picker init-time={{object.formatted_end_time}} input-name="end_time" label={% trans "Time" %}>
                             </time-picker>
                             {{ form.end.errors }}
                         </v-col>

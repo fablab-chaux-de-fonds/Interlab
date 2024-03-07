@@ -5,6 +5,7 @@ from cms.models import CMSPlugin
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from openings.models import Opening, Event
@@ -142,6 +143,35 @@ class MachineSlot(AbstractSlot):
     class Meta:
         verbose_name = _("Machine Slot")
         verbose_name_plural = _("Machine Slots")
+
+    @property
+    def get_next_slot(self):
+        return MachineSlot.objects.filter(
+            Q(start__gt=self.start) &
+            Q(machine=self.machine, user__isnull=False)
+        ).order_by('start').first()
+
+    @property
+    def get_previous_slot(self):
+        return MachineSlot.objects.filter(
+            Q(start__lt=self.start) &
+            Q(machine=self.machine, user__isnull=False)
+        ).order_by('start').last()
+
+    @property
+    def get_next_free_slot(self):
+        return MachineSlot.objects.filter(
+            Q(start__gt=self.start) &
+            Q(machine=self.machine, user__isnull=True)
+        ).order_by('start').first()
+
+    @property
+    def get_previous_free_slot(self):
+        return MachineSlot.objects.filter(
+            Q(start__lt=self.start) &
+            Q(machine=self.machine, user__isnull=True)
+        ).order_by('start').last()
+
 
 class EventsListPluginModel(CMSPlugin):
     pass

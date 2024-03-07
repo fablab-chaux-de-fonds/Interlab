@@ -215,7 +215,15 @@ class AbstractSlotView(View):
         self.get_success_message()
         return super().form_valid(form)
 
-class OpeningSlotView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormView):
+class SlotView(SuccessMessageMixin, CustomFormView):
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+            
+        # Pass the user object to the form's constructor
+        return form_class(self.request.user, **self.get_form_kwargs())
+
+class OpeningSlotView(SuperuserRequiredMixin, SlotView):
     model = OpeningSlot
     success_url = '/schedule/'
 
@@ -239,12 +247,6 @@ class OpeningSlotView(SuperuserRequiredMixin, SuccessMessageMixin, CustomFormVie
                     end=self.object.end
                 )
 
-    def get_form(self, form_class=None):
-        if form_class is None:
-            form_class = self.get_form_class()
-            
-        # Pass the user object to the form's constructor
-        return form_class(self.request.user, **self.get_form_kwargs())
 
     def form_invalid(self, form):       
         updated_data = QueryDict(mutable=True)
@@ -361,13 +363,23 @@ class OpeningSlotDeleteView(SuperuserRequiredMixin, DeleteView):
         messages.success(request, _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted") % self.get_context_data())
         return redirect(self.get_success_url())
 
-class MachineSlotUpdateView(LoginRequiredMixin, SuccessMessageMixin, CustomFormView, UpdateView):
+class MachineSlotUpdateView(LoginRequiredMixin, SlotView, UpdateView):
     model = MachineSlot
     form_class = MachineSlotUpdateForm
-    
+
+    success_message = _('You successfully booked the machine %(machine)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+
     def get_success_url(self):
         return reverse_lazy("accounts:profile")
-    
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % dict(
+                    machine=self.object.machine.title,
+                    duration=self.object.get_duration,
+                    start_date=self.object.formatted_start_date,
+                    start_time=self.object.formatted_start_time,
+                    end_time=self.object.formatted_end_time,
+                )
 
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
@@ -570,21 +582,6 @@ class MachineReservationBaseView(RegisterBaseView):
             return redirect('/accounts/login?next=%s' % request.path)
 
         self.machine_slot = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
-        self.next_machine_slot = MachineSlot.objects.filter(
-                start__gt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=False
-                ).order_by('start').first()
-
-        self.previous_machine_slot = MachineSlot.objects.filter(
-                start__lt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=False
-                ).order_by('start').last()
-
-        self.next_free_machine_slot = MachineSlot.objects.filter(
-                start__gt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=True
-                ).order_by('start').first()
-
-        self.previous_free_machine_slot = MachineSlot.objects.filter(
-                start__lt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=True
-                ).order_by('start').last()
 
         # Check if user is trained
         if self.request.user.profile.pk not in self.machine_slot.machine.trained_profile_list:
