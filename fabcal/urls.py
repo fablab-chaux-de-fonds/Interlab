@@ -20,7 +20,6 @@ urlpatterns = [
     path('training/<int:pk>/register', views.TrainingRegisterView.as_view(), name='training-register'),
     path('training/<int:pk>/unregister', views.TrainingUnregisterView.as_view(), name='training-unregister'),
     path('machineslot/update/<int:pk>/', views.MachineSlotUpdateView.as_view(), name='machineslot-update'),
-    path('machine/reservation/<int:pk>/update/', views.UpdateMachineReservationView.as_view(), name='machine-reservation-update'),
     path('machine/reservation/<int:pk>/delete/', views.DeleteMachineReservationView.as_view(), name='machine-reservation-delete'),
     path('machine/reservation/future/', views.MachineFutureReservationListView.as_view(), name='machine-reservation-future'),
     path('machine/reservation/past/', views.MachinePastReservationListView.as_view(), name='machine-reservation-past')
