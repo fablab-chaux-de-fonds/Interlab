@@ -381,6 +381,31 @@ class MachineSlotUpdateView(LoginRequiredMixin, SlotView, UpdateView):
                     end_time=self.object.formatted_end_time,
                 )
 
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Check if the user's profile is in the trained profile list of a specific machine. 
+        If not, display an error message and redirect the user to the training page for that machine category.
+        """
+
+        machine_slot = self.get_object()
+
+        if (
+            self.request.user.profile.pk not in machine_slot.machine.trained_profile_list
+        ):
+            messages.error(
+                request,
+                _(
+                    "Sorry, you cannot reserve this machine yet. You have to take the training first before you can use it."
+                ),
+            )
+            return redirect(
+                "/trainings/?machine_category="
+                + str(machine_slot.machine.category.pk)
+            )
+
+        return super().dispatch(request, *args, **kwargs)
+
+
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
     form_class = EventForm
@@ -453,7 +478,7 @@ class EventRegisterBaseView(RegisterBaseView):
             'title': context['object'].event.title,
         })
         return context
-        
+
 class EventRegisterView(EventRegisterBaseView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -576,19 +601,6 @@ class MachineReservationBaseView(RegisterBaseView):
     model = MachineSlot
     crud_state = 'updated'
 
-    def dispatch(self, request, *args, **kwargs):
-
-        if not request.user.is_authenticated:
-            return redirect('/accounts/login?next=%s' % request.path)
-
-        self.machine_slot = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
-
-        # Check if user is trained
-        if self.request.user.profile.pk not in self.machine_slot.machine.trained_profile_list:
-            messages.error(request, _('Sorry, you cannot reserve this machine yet. You have to take the training first before you can use it.'))
-            return redirect('/trainings/?machine_category=' + str(self.machine_slot.machine.category.pk))
-
-        return super().dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -633,7 +645,6 @@ class CreateMachineReservationView(MachineReservationBaseView):
                     mark_safe(_('Please note that you may cancel this reservation up to 24 hours prior to the start of the slot without charge via your <a href="%(profile_url)s">account page on our website</a>. However, if you wish to cancel your reservation after this period, please <a href="%(mail_url)s">inform us by email</a>. In this case, we are sorry to inform you that we will be obliged to charge you for the machine hours, as the reserved machine could not be used by another person at that time. Thank you for your understanding.') % context)
             })
         return context
-    
     
     def get_success_url(self, **kwargs):
         return reverse('machines:machines-show', kwargs = {'pk': self.machine_slot.machine.pk})
@@ -772,7 +783,6 @@ class MachineFutureReservationListView(MachineReservationListView):
     def get_queryset(self):
         now = datetime.now().date()
         return MachineSlot.objects.filter(user__isnull=False, end__gte=now).order_by('start')
-
 
 class DeleteMachineReservationView(TemplateView):
     template_name = 'fabcal/machine/delete_form.html'

@@ -13,7 +13,7 @@ from django.views import View
 from unittest.mock import patch
 
 from accounts.models import CustomUser
-from machines.models import Machine, MachineCategory
+from machines.models import Machine, MachineCategory, Training, TrainingValidation
 from openings.models import Opening
 
 from .forms import OpeningSlotForm
@@ -98,6 +98,7 @@ class SlotViewTestCase(TestCase):
             password='testpass',
             email='superuser@fake.django'
             )
+
         self.group = Group.objects.get_or_create(name='superuser')[0]
         self.superuser.groups.add(self.group)
 
@@ -126,6 +127,12 @@ class SlotViewTestCase(TestCase):
         self.prusa = Machine.objects.create(
             title = 'Prusa',
             category=self.printer_category
+        )
+
+        self.laser_training = Training.objects.create(
+            title = 'laser',
+            machine_category = self.laser_category,
+            duration=datetime.timedelta(hours=1, minutes=30)
         )
 
     def get_default_form_data(self, opening=None, machines=None, date=None, start_time=None, end_time=None, **kwargs):
@@ -691,6 +698,12 @@ class MachineSlotUpdateViewTestCase(SlotViewTestCase):
         self.assertEqual(form.errors.as_data()['__all__'][0].message, 'Veuillez réserver des tranches de %(time)s minutes')
 
 
+    def test_dispatch_redirect_if_not_trained(self):
+        """
+        Dispatches redirect if the user is not trained.
+        """
+        response = self.client.get(self.update_url)
+        self.assertTrue(response.url, '/trainings/?machine_category=1')
     
     @patch('fabcal.forms.send_mail', autospec=True)
     def test_update_machine_slot_success_message(self, mock_send_mail):
@@ -698,6 +711,12 @@ class MachineSlotUpdateViewTestCase(SlotViewTestCase):
         Test the successful update of a machine slot and the resulting message.
         """
 
+        TrainingValidation.objects.create(
+            profile=self.user.profile,
+            training=self.laser_training
+        )
+
+        self.client.login(username='user', password='userpassword')
         # Test update machine slot message
         response = self.client.get(self.update_url)
         form_data = response.context_data['form'].initial
