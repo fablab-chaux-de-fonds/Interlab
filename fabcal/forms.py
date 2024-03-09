@@ -207,12 +207,12 @@ class SlotForm(ModelForm):
         self.cleaned_data['start'] = datetime.datetime.combine(date, start_time)
         self.cleaned_data['end'] = datetime.datetime.combine(date, end_time)
 
-        # Update instance before validation
+        # update instance before clean in model
         self.instance.start = self.cleaned_data['start']
         self.instance.end = self.cleaned_data['end']
 
         return cleaned_data
-
+    
 class OpeningSlotForm(SlotForm):
     opening = forms.ModelChoiceField(
         queryset=Opening.objects.all(),
@@ -236,9 +236,8 @@ class OpeningSlotForm(SlotForm):
         fields = ('opening', 'machines', 'date', 'start_time', 'end_time', 'comment')
 
     def save(self):
-        self.instance.user = self.user
 
-        # Save the parent object first
+        self.instance.user = self.user
         self.instance.save()
 
         return self.instance
@@ -370,7 +369,7 @@ class MachineSlotUpdateForm(SlotForm):
     def clean_start_time(self):
         start_time = self.cleaned_data.get('start_time')
 
-        if self.cleaned_data['start_time'] < self.instance.start.time():
+        if self.cleaned_data['start_time'] < self.instance.opening_slot.start.time():
             raise ValidationError(
                     _("You cannot start earlier than %(start_time)s"),
                     params={'start_time': self.instance.start.time().strftime('%H:%M')},
@@ -382,13 +381,14 @@ class MachineSlotUpdateForm(SlotForm):
     def clean_end_time(self):
         end_time = self.cleaned_data.get('end_time')
 
-        if self.cleaned_data['end_time'] > self.instance.end.time():
+        # Check if end time is later than opening slot end time
+        if self.cleaned_data['end_time'] > self.instance.opening_slot.end.time():
             raise ValidationError(
                     _("You cannot end later than %(end_time)s"),
                     params={'end_time': self.instance.end.time().strftime('%H:%M')},
                     code='invalid_end_time'
                 )
-                
+
         return end_time
 
     def clean_end(self):
@@ -404,9 +404,9 @@ class MachineSlotUpdateForm(SlotForm):
         """
         machine_category = self.instance.machine.category.name
 
-        if machine_category == '3D' and self.instance.get_next_slot:
+        if machine_category == '3D' and self.instance.next_slot:
             end_time = self.cleaned_data['end']
-            next_slot_start_time = self.instance.get_next_slot.start
+            next_slot_start_time = self.instance.next_slot.start
 
             if end_time > next_slot_start_time:
                 raise ValidationError(
@@ -426,8 +426,37 @@ class MachineSlotUpdateForm(SlotForm):
         Returns the cleaned data.
         """
         cleaned_data = super().clean()
+        initial_machine_slot = MachineSlot.objects.get(pk=self.instance.pk)
         start_time = self.cleaned_data.get("start")
         end_time = self.cleaned_data.get("end")
+
+        # Check if end datetime is sooner than the initial end datetime
+        if self.cleaned_data['start'] < self.initial.get('start', self.cleaned_data['start']):
+            # check if previous slots are free until slef.cleaned_data['start_time']
+            until = self.cleaned_data['start']
+            machine_slots_to_check = initial_machine_slot.previous_slots(until)
+
+            for machine_slot in machine_slots_to_check:
+                if machine_slot.user and machine_slot.user != self.instance.user:
+                    raise ValidationError(
+                        _("The machine is already booked until %(time)s!"),
+                        params={'time': machine_slot.start.strftime('%H:%M')},
+                        code='machine_slot_already_booked'
+                    )
+
+        # Check if end datetime is later than the initial end datetime
+        if self.cleaned_data['end'] > self.initial.get('end', self.cleaned_data['end']):
+            # check if next slots are free until slef.cleaned_data['end_time']
+            until = self.cleaned_data['end']
+            machine_slots_to_check = initial_machine_slot.next_slots(until)
+
+            for machine_slot in machine_slots_to_check:
+                if machine_slot.user and machine_slot.user != self.instance.user:
+                    raise ValidationError(
+                        _("The machine is already booked from %(time)s!"),
+                        params={'time': machine_slot.start.strftime('%H:%M')},
+                        code='machine_slot_already_booked'
+                    )
 
         if start_time and end_time: 
             cleaned_data['duration'] = end_time - start_time
@@ -444,13 +473,6 @@ class MachineSlotUpdateForm(SlotForm):
                     _("Please reserve in %(time)s minute increments!"),
                     params={'time': settings.FABCAL_MINIMUM_RESERVATION_TIME},
                     code='invalid_duration'
-                )
-
-            # in the case of 3D print reservation
-            if self.instance.get_next_slot and self.instance.get_next_slot.start < end_time:
-                raise ValidationError(
-                    _("The machine is already booked from %(time)s!"),
-                    params={'time': self.instance.get_next_slot.start.strftime('%H:%M')}
                 )
 
         return cleaned_data
@@ -493,20 +515,60 @@ class MachineSlotUpdateForm(SlotForm):
         """
         A method to save the changes made to the instance, including creating new slots, updating existing slots, and sending mail.
         """
-        initial_instance = MachineSlot.objects.get(pk=self.instance.pk)
-        if initial_instance.start < self.cleaned_data['start']:
-            # create a new empty slot at the begining
-            new_slot = deepcopy(initial_instance)
-            new_slot.id = None
-            new_slot.end = self.cleaned_data['start']
-            new_slot.save()
-        
-        if initial_instance.end > self.cleaned_data['end']:
-            # create a new empty slot at the end
-            new_slot = deepcopy(initial_instance)
-            new_slot.id = None
-            new_slot.start = self.cleaned_data['end']
-            new_slot.save()
+        initial_machine_slot = MachineSlot.objects.get(pk=self.instance.pk)
+        start = self.cleaned_data['start']
+        end = self.cleaned_data['end']
+
+        # check if a machine slot is created or updated
+        if initial_machine_slot.user is None:
+            # create case
+
+            # update slot for user
+            self.instance.user = self.user
+
+            if initial_machine_slot.start < start:
+                # create a new empty slot at the begining
+                new_slot = deepcopy(initial_machine_slot)
+                new_slot.id = None
+                new_slot.end = start
+                new_slot.save()
+            
+            if initial_machine_slot.end > end:
+                # create a new empty slot at the end
+                new_slot = deepcopy(initial_machine_slot)
+                new_slot.id = None
+                new_slot.start = end
+                new_slot.save()
+
+        else:
+            # update case
+
+            if initial_machine_slot.start > start:
+                previous_slot = initial_machine_slot.previous_slots(start).first()
+                if previous_slot.start == start:
+                    previous_slot.delete()
+                else:
+                    previous_slot.end = start
+                    previous_slot.save()
+
+            if initial_machine_slot.end < end:
+                next_slot = initial_machine_slot.next_slots(end).first()
+                if next_slot.end == end:
+                    next_slot.delete()
+                else:
+                    next_slot.start = end
+                    next_slot.save()
+
+            if initial_machine_slot.start < start:
+                previous_slot = initial_machine_slot.previous_slots(initial_machine_slot.start).first()
+                previous_slot.end = start
+                previous_slot.save()
+
+            if initial_machine_slot.end > end:
+                next_slot = initial_machine_slot.next_slots(initial_machine_slot.end).first()
+                next_slot.start = end
+                next_slot.save()
+
 
         if self.instance.machine.category.name == '3D':
             for slot in MachineSlot.objects.filter(
@@ -524,8 +586,8 @@ class MachineSlotUpdateForm(SlotForm):
                 # delete slot
                 slot.delete()
 
-        # update slot for user
-        self.instance.user = self.user
+        self.instance.start = start
+        self.instance.end = end
         self.instance.save()
         
         # send mail
@@ -533,7 +595,6 @@ class MachineSlotUpdateForm(SlotForm):
         send_mail(**email_content)
         
         return super().save()
-
 
 class EventForm(AbstractSlotForm):
     event = forms.ModelChoiceField(

@@ -144,34 +144,31 @@ class MachineSlot(AbstractSlot):
         verbose_name = _("Machine Slot")
         verbose_name_plural = _("Machine Slots")
 
-    @property
-    def get_next_slot(self):
-        return MachineSlot.objects.filter(
-            Q(start__gt=self.start) &
-            Q(machine=self.machine, user__isnull=False)
-        ).order_by('start').first()
+    def next_slots(self, until):
+        """
+        Retrieve the next available machine slot until the specified time.
 
-    @property
-    def get_previous_slot(self):
+        :param until: The end time until which the machine slots should be retrieved.
+        :return: The first available machine slot that meets the specified conditions or None if no slot is available.
+        """
         return MachineSlot.objects.filter(
-            Q(start__lt=self.start) &
-            Q(machine=self.machine, user__isnull=False)
-        ).order_by('start').last()
+            Q(end__gt=self.end) &
+            Q(start__lte=until) &
+            Q(machine=self.machine)
+        ).order_by('end')
 
-    @property
-    def get_next_free_slot(self):
-        return MachineSlot.objects.filter(
-            Q(start__gt=self.start) &
-            Q(machine=self.machine, user__isnull=True)
-        ).order_by('start').first()
+    def previous_slots(self, until):
+        """
+        Retrieve the previous available machine slot until the specified time.
 
-    @property
-    def get_previous_free_slot(self):
+        :param until: The start time until which the machine slots should be retrieved.
+        :return: The last available machine slot that meets the specified conditions or None if no slot is available.
+        """
         return MachineSlot.objects.filter(
             Q(start__lt=self.start) &
-            Q(machine=self.machine, user__isnull=True)
-        ).order_by('start').last()
-
+            Q(end__gte=until) &
+            Q(machine=self.machine)
+        ).order_by('-start')
 
 class EventsListPluginModel(CMSPlugin):
     pass

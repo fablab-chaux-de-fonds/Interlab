@@ -113,7 +113,6 @@ class SlotViewTestCase(TestCase):
         self.laser_category = MachineCategory.objects.create(
             name = 'laser'
         )
-        
         self.printer_category = MachineCategory.objects.create(
             name = '3D'
         )
@@ -544,7 +543,7 @@ class MachineSlotUpdateViewTestCase(SlotViewTestCase):
         response = self.create_opening_slot()
         self.assertEqual(response.status_code, 302)
 
-    def test_SuperuserRequiredMixin(self):
+    def test_LoginRequiredMixin(self):
         self.assertTrue(issubclass(MachineSlotUpdateView, LoginRequiredMixin))
 
     @patch('fabcal.forms.send_mail', autospec=True)
@@ -630,6 +629,103 @@ class MachineSlotUpdateViewTestCase(SlotViewTestCase):
         self.assertEqual(machine_slot_prev.start.time(), datetime.time(10,00))
         self.assertEqual(machine_slot_prev.end.time(), datetime.time(10,30))
 
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_extend_machine_slot_form(self, mock_send_mail):
+        """
+        This test tests if a slot is extended
+        """
+
+        instance = MachineSlot.objects.first()
+
+        # Add reservation
+        form_data = {
+            'start_time': '10:30',
+            'end_time': '11:00'
+        }
+        form = MachineSlotUpdateForm(data=form_data, instance=instance, user=self.user)
+        self.assertTrue(form.is_valid())
+        machine_slot = form.save()
+        self.assertEqual(MachineSlot.objects.all().count(), 3)
+
+        # slice reservation for 30 minutes
+        form_data = {
+            'start_time': '11:00',
+            'end_time': '11:30'
+        }
+
+        form_initial = {
+            'start_time': instance.start.time(),
+            'end_time': instance.end.time()
+        }
+
+        form = MachineSlotUpdateForm(data=form_data, instance=instance, initial=form_initial, user=self.user)
+        self.assertTrue(form.is_valid())
+        machine_slot = form.save()
+
+        self.assertEqual(MachineSlot.objects.all().count(), 3)
+
+        self.assertEqual(instance.start.time(), datetime.time(11,00))
+        self.assertEqual(instance.end.time(), datetime.time(11,30))
+
+        previous_machine_slots = instance.previous_slots(instance.start-datetime.timedelta(days=1))
+        self.assertEqual(previous_machine_slots.count(), 1)
+        self.assertEqual(previous_machine_slots.first().start.time(), datetime.time(10))
+        self.assertEqual(previous_machine_slots.first().end.time(), datetime.time(11))
+
+        next_machine_slots = instance.next_slots(instance.start+datetime.timedelta(days=1))
+        self.assertEqual(next_machine_slots.count(), 1)
+        self.assertEqual(next_machine_slots.first().start.time(), datetime.time(11, 30))
+        self.assertEqual(next_machine_slots.first().end.time(), datetime.time(12, 00))
+
+        # extend reservation for -1h minutes
+        form_data = {
+            'start_time': '10:00',
+            'end_time': '11:30'
+        }
+
+        form_initial = {
+            'start_time': instance.start.time(),
+            'end_time': instance.end.time()
+        }
+
+        form = MachineSlotUpdateForm(data=form_data, instance=instance, initial=form_initial, user=self.user)
+        self.assertTrue(form.is_valid())
+        machine_slot = form.save()
+
+        self.assertEqual(MachineSlot.objects.all().count(), 2)
+
+        self.assertEqual(instance.start.time(), datetime.time(10,00))
+        self.assertEqual(instance.end.time(), datetime.time(11,30))
+
+        previous_machine_slots = instance.previous_slots(instance.start-datetime.timedelta(days=1))
+        self.assertEqual(previous_machine_slots.count(), 0)
+
+        next_machine_slots = instance.next_slots(instance.start+datetime.timedelta(days=1))
+        self.assertEqual(next_machine_slots.count(), 1)
+        self.assertEqual(next_machine_slots.first().start.time(), datetime.time(11, 30))
+        self.assertEqual(next_machine_slots.first().end.time(), datetime.time(12, 00))
+
+        # extend reservation for +30 minutes
+        form_data = {
+            'start_time': '10:00',
+            'end_time': '12:00'
+        }
+
+        # to be tested if remove _time and .time()
+        form_initial = {
+            'start': instance.start,
+            'end': instance.end
+        }
+
+        form = MachineSlotUpdateForm(data=form_data, instance=instance, initial=form_initial, user=self.user)
+        self.assertTrue(form.is_valid())
+        machine_slot = form.save()
+
+        self.assertEqual(MachineSlot.objects.all().count(), 1)
+
+        self.assertEqual(instance.start.time(), datetime.time(10,00))
+        self.assertEqual(instance.end.time(), datetime.time(12,00))
+
     def test_update_machine_slot_invalid_start_time(self):
         """
         Test if the user input start time is before the slot range.
@@ -645,7 +741,6 @@ class MachineSlotUpdateViewTestCase(SlotViewTestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors.as_data()['start_time'][0].code, 'invalid_start_time')
         self.assertEqual(form.errors.as_data()['start_time'][0].message, 'Vous ne pouvez pas commencer avant %(start_time)s')
-
 
     def test_update_machine_slot_invalid_end_time(self):
         """
@@ -663,7 +758,6 @@ class MachineSlotUpdateViewTestCase(SlotViewTestCase):
         self.assertEqual(form.errors.as_data()['end_time'][0].code, 'invalid_end_time')
         self.assertEqual(form.errors.as_data()['end_time'][0].message, 'Vous ne pouvez pas finir après %(end_time)s')
 
-
     def test_update_machine_slot_invalid_minimum_duration(self):
         """
         Test if the user input reservation duration is less than 30 minutes.
@@ -679,6 +773,70 @@ class MachineSlotUpdateViewTestCase(SlotViewTestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors.as_data()['__all__'][0].code, 'invalid_minimum_duration')
         self.assertEqual(form.errors.as_data()['__all__'][0].message, 'Veuillez réserver minimum %(time)s minutes')
+
+    
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_slots_availability(self, mock_send_mail):
+        """
+        Test the slots availability by creating valid and invalid machine slots with different users and checking for errors.
+        """
+
+        # create valid machine slot with user A
+        form_data = {
+            'start_time': '10:00',
+            'end_time': '10:30'
+        }
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.last(), user=self.superuser)
+        form.is_valid()
+        form.save()
+        self.assertEqual(MachineSlot.objects.all().count(), 2)
+
+        # create valid machine slot with user A
+        form_data = {
+            'start_time': '11:30',
+            'end_time': '12:00'
+        }
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.last(), user=self.superuser)
+        form.is_valid()
+        form.save()
+        self.assertEqual(MachineSlot.objects.all().count(), 3)
+
+        # create valid machine slot with user B
+        form_data = {
+            'start_time': '10:30',
+            'end_time': '11:00'
+        }
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.last(), user=self.user)
+        form.is_valid()
+        machine_slot = form.save()
+        self.assertEqual(MachineSlot.objects.all().count(), 4)
+
+        # setup invalid datetime
+        form_initial = {
+            'start': form.cleaned_data['start'],
+            'end': form.cleaned_data['end']
+        }
+
+        # Update with invalid datetime, machine slot booked sooner
+        form_data = {
+            'start_time': '10:30',
+            'end_time': '12:00'
+        }
+        
+        form = MachineSlotUpdateForm(data=form_data, instance=machine_slot, initial=form_initial, user=self.user)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors.as_data()['__all__'][0].message, 'La machine est déjà réservée depuis %(time)s')
+        self.assertEqual(form.errors.as_data()['__all__'][0].code, 'machine_slot_already_booked')
+
+        # Update with invalid datetime, machine slot booked sooner
+        form_data = {
+            'start_time': '10:00',
+            'end_time': '11:00'
+        }
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.last(), initial=form_initial, user=self.user)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors.as_data()['__all__'][0].message, "La machine est déjà réservée jusqu'à %(time)s")
+        self.assertEqual(form.errors.as_data()['__all__'][0].code, 'machine_slot_already_booked')
 
     @patch('fabcal.forms.send_mail', autospec=True)
     def test_update_machine_slot_invalid_duration(self, mock_send_mail):
@@ -696,7 +854,6 @@ class MachineSlotUpdateViewTestCase(SlotViewTestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors.as_data()['__all__'][0].code, 'invalid_duration')
         self.assertEqual(form.errors.as_data()['__all__'][0].message, 'Veuillez réserver des tranches de %(time)s minutes')
-
 
     def test_dispatch_redirect_if_not_trained(self):
         """
@@ -730,7 +887,6 @@ class MachineSlotUpdateViewTestCase(SlotViewTestCase):
         expected_message = "Vous avez réservé avec succès la machine Trotec durant 30 minutes le lundi 1 mai 2023 de 10:30 à 11:00"
         self.assertEqual(message, expected_message)
 
-    
     def test_create_email_content(self):
         """
         Test the creation of email content for a reservation, including validation and assertions.
