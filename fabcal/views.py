@@ -223,6 +223,15 @@ class SlotView(SuccessMessageMixin, CustomFormView):
         # Pass the user object to the form's constructor
         return form_class(self.request.user, **self.get_form_kwargs())
 
+class SlotDeleteView(DeleteView):
+
+    def dispatch(self, request, *args, **kwargs):
+        slot = self.get_object()
+        # Check if the request user is not the same as the machine slot user
+        if request.user != slot.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
 class OpeningSlotView(SuperuserRequiredMixin, SlotView):
     model = OpeningSlot
     success_url = '/schedule/'
@@ -338,10 +347,9 @@ class OpeningSlotUpdateView(OpeningSlotView, UpdateView):
         context['submit_btn'] = _('Update opening')
         return context
 
-class OpeningSlotDeleteView(SuperuserRequiredMixin, DeleteView):
+class OpeningSlotDeleteView(SuperuserRequiredMixin, SlotDeleteView):
     model = OpeningSlot
     success_url = '/schedule'
-    success_message = "Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -405,6 +413,33 @@ class MachineSlotUpdateView(LoginRequiredMixin, SlotView, UpdateView):
 
         return super().dispatch(request, *args, **kwargs)
 
+class MachineSlotDeleteView(LoginRequiredMixin, SlotDeleteView):
+    model = MachineSlot
+        
+    def get_success_url(self, **kwargs):
+        return reverse('accounts:profile')
+
+    def delete(self, request, pk):
+        """
+        Deletes a machine slot, adjusts adjacent slots if they are unoccupied, and cancels the user's reservation.
+        """
+        machine_slot = self.get_object()
+        next_machine_slot = machine_slot.next_slots(machine_slot.end + timedelta(minutes=1)).first()
+        previous_machine_slot = machine_slot.previous_slots(machine_slot.start - timedelta(minutes=1)).first()
+
+        if next_machine_slot and next_machine_slot.user is None:
+            machine_slot.end = next_machine_slot.end
+            next_machine_slot.delete()
+        
+        if previous_machine_slot and previous_machine_slot.user is None:
+            machine_slot.start = previous_machine_slot.start
+            previous_machine_slot.delete()
+
+        machine_slot.user = None
+        machine_slot.save()
+        
+        messages.success(request, _("You reservation has been deleted !"))
+        return redirect('accounts:profile') 
 
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
@@ -614,25 +649,6 @@ class MachineFutureReservationListView(MachineReservationListView):
     def get_queryset(self):
         now = datetime.now().date()
         return MachineSlot.objects.filter(user__isnull=False, end__gte=now).order_by('start')
-
-class DeleteMachineReservationView(TemplateView):
-    template_name = 'fabcal/machine/delete_form.html'
-
-    def get_success_url(self, **kwargs):
-        return reverse('accounts:profile')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['machine_slot'] = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
-        return context
-
-    def post(self, request, pk):
-        obj = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
-        obj.user = None
-        obj.save()
-        
-        messages.success(request, _("You reservation has been canceled !"))
-        return redirect('accounts:profile') 
 
 class downloadIcsFileView(TemplateView):
     template_name = 'fabcal/fablab.ics'

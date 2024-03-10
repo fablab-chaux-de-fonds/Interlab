@@ -25,6 +25,7 @@ from .views import OpeningSlotCreateView
 from .views import OpeningSlotUpdateView
 from .views import OpeningSlotDeleteView
 from .views import MachineSlotUpdateView
+from .views import MachineSlotDeleteView
 
 from .mixins import SuperuserRequiredMixin
 
@@ -774,7 +775,6 @@ class MachineSlotUpdateViewTestCase(SlotViewTestCase):
         self.assertEqual(form.errors.as_data()['__all__'][0].code, 'invalid_minimum_duration')
         self.assertEqual(form.errors.as_data()['__all__'][0].message, 'Veuillez réserver minimum %(time)s minutes')
 
-    
     @patch('fabcal.forms.send_mail', autospec=True)
     def test_slots_availability(self, mock_send_mail):
         """
@@ -903,3 +903,143 @@ class MachineSlotUpdateViewTestCase(SlotViewTestCase):
         email_content = form.create_email_content()
         self.assertEqual(email_content['recipient_list'], ['user@fake.django'])
         self.assertEqual(email_content['subject'], 'Confirmation de votre réservation machine')
+
+class MachineSlotDeleteViewTestCase(SlotViewTestCase):
+    """
+    Test the deletion of a machine slot.
+    """
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def setUp(self, mock_send_mail):
+        super().setUp()
+        self.update_url = reverse('fabcal:machineslot-update', kwargs={'pk': 1})
+        self.delete_url = reverse('fabcal:machineslot-delete', kwargs={'pk': 1})
+
+        OpeningSlot.objects.all().delete()
+        
+        # Create a opening
+        response = self.create_opening_slot()
+        self.assertEqual(response.status_code, 302)
+
+        self.client.login(username='user', password='userpassword')
+
+        # Create a machine slot
+        form_data = {
+            'start_time': '10:30',
+            'end_time': '11:30'
+        }
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.first(), user=self.user)
+        form.is_valid()
+        form.save()
+
+    def test_dispatch_permission(self):
+        """
+        Function to test dispatch permission. 
+        """
+        self.client.login(username='testsuperuser', password='testpass')
+
+        response = self.client.post(self.delete_url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_LoginRequiredMixin(self):
+        """
+        Test case for the LoginRequiredMixin function.
+        """
+        self.assertTrue(issubclass(MachineSlotDeleteView, LoginRequiredMixin))
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_delete_machine_slot(self, mock_send_mail):
+        """
+        Test the deletion of a machine slot.
+        """
+
+        response = self.client.post(self.delete_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'Votre réservation a été supprimée'
+        self.assertEqual(message, expected_message)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(MachineSlot.objects.count(), 1)
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_delete_machine_slot_with_slots_booked_after(self, mock_send_mail):
+        """
+        Test for deleting a machine slot with slots booked after.
+        """
+
+        # Create a machine slot another
+        form_data = {
+            'start_time': '11:30',
+            'end_time': '12:00'
+        }
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.last(), user=self.user)
+        form.is_valid()
+        form.save()
+
+        response = self.client.post(self.delete_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'Votre réservation a été supprimée'
+        self.assertEqual(message, expected_message)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(MachineSlot.objects.count(), 2)
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_delete_machine_slot_with_slots_booked_before(self, mock_send_mail):
+        """
+        Test for deleting a machine slot with slots booked before.
+        """
+
+        # Create a machine slot another
+        form_data = {
+            'start_time': '10:00',
+            'end_time': '10:30'
+        }
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.get(pk=2), user=self.user)
+        form.is_valid()
+        form.save()
+
+        response = self.client.post(self.delete_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'Votre réservation a été supprimée'
+        self.assertEqual(message, expected_message)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(MachineSlot.objects.count(), 2)
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_delete_machine_slot_with_slots_booked_before_and_after(self, mock_send_mail):
+        """
+        Test for deleting a machine slot with slots booked before and after.
+        """
+
+        # Create a machine slot another
+        form_data = {
+            'start_time': '11:30',
+            'end_time': '12:00'
+        }
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.last(), user=self.user)
+        form.is_valid()
+        form.save()
+
+        # Create a machine slot another
+        form_data = {
+            'start_time': '10:00',
+            'end_time': '10:30'
+        }
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.get(pk=2), user=self.user)
+        form.is_valid()
+        form.save()
+
+        response = self.client.post(self.delete_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'Votre réservation a été supprimée'
+        self.assertEqual(message, expected_message)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(MachineSlot.objects.count(), 3)
+    
