@@ -26,12 +26,11 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from .forms import OpeningSlotForm
 from .forms import OpeningSlotCreateForm
 from .forms import OpeningSlotUpdateForm
-from .forms import MachineSlotUpdateForm 
+from .forms import MachineSlotUpdateForm
+from .forms import TrainingSlotCreateForm
 
 from .forms import EventForm
-from .forms import TrainingForm
 from .forms import RegisterTrainingForm
-from .forms import MachineReservationForm
 from .forms import RegisterEventForm
 
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
@@ -256,7 +255,6 @@ class OpeningSlotView(SuperuserRequiredMixin, SlotView):
                     end=self.object.end
                 )
 
-
     def form_invalid(self, form):       
         updated_data = QueryDict(mutable=True)
         updated_data.update(form.data)
@@ -441,6 +439,27 @@ class MachineSlotDeleteView(LoginRequiredMixin, SlotDeleteView):
         messages.success(request, _("You reservation has been deleted !"))
         return redirect('accounts:profile') 
 
+
+class TrainingSlotView(SuperuserRequiredMixin, SlotView):
+    model = TrainingSlot
+
+    def get_success_url(self):
+        return reverse('accounts:profile')
+
+class TrainingSlotCreateView(TrainingSlotView, CreateView):
+    form_class = TrainingSlotCreateForm
+    success_message = _('You successfully created the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % dict(
+                    training=self.object.training.title,
+                    duration=self.object.get_duration,
+                    start_date=self.object.formatted_start_date,
+                    start_time=self.object.formatted_start_time,
+                    end_time=self.object.formatted_end_time,
+                )
+
+
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
     form_class = EventForm
@@ -539,51 +558,6 @@ class EventUnregisterView(EventRegisterBaseView):
 
         return context
 
-class TrainingBaseView(CustomFormView, AbstractMachineView): 
-    template_name = 'fabcal/trainig_create_or_update_form.html'
-    form_class = TrainingForm
-    type = 'training'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        if self.crud_state == 'created':
-            context['submit_btn'] = _('Create training')
-        elif self.crud_state == 'updated':
-            context['submit_btn'] = _('Update training')
-
-        context = get_start_end(self, context)
-        return context
-
-    def form_valid(self, form):
-
-        # Create training
-        training_slot = form.update_or_create_training_slot(self)
-
-        # Alert users
-        self.context = {
-            'training_slot': training_slot,
-            'request': self.request
-        }
-        form.alert_users(self)
-
-        return super().form_valid(form)
-
-class TrainingCreateView(TrainingBaseView):
-    crud_state = 'created'
-
-class TrainingUpdateView(TrainingBaseView):
-    crud_state = 'updated'
-
-    def get_initial(self):
-        training_slot = TrainingSlot.objects.get(pk=self.kwargs['pk'])
-        initial = training_slot.__dict__
-        initial['training'] = training_slot.training
-        try:
-            initial['opening'] = training_slot.opening_slot.opening
-        except AttributeError:
-            initial['opening'] = None
-        return initial
 
 class TrainingDeleteView(AbstractSlotView, DeleteView):
     model = TrainingSlot

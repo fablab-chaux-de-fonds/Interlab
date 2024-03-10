@@ -72,6 +72,7 @@ class AbstractRegistration(models.Model):
             return None
     class Meta:
         abstract = True
+
 class OpeningSlot(AbstractSlot):
     opening = models.ForeignKey(Opening, on_delete=models.CASCADE)
     class Meta:
@@ -105,7 +106,6 @@ class OpeningSlot(AbstractSlot):
     @property
     def can_be_deleted(self):
         return not bool(self.machineslot_set.filter(user__isnull=False).exists())
-
 
 class WeeklyPluginModel(CMSPlugin):
     pass

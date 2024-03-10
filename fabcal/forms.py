@@ -192,6 +192,7 @@ class SlotForm(ModelForm):
     date = CustomDateField(required=False)
     start_time = forms.TimeField()
     end_time = forms.TimeField()
+    comment = forms.CharField(label=_('Comment'),  required=False)
 
     def __init__(self, user=None,  *args, **kwargs):
         super(SlotForm, self).__init__(*args, **kwargs)
@@ -212,7 +213,7 @@ class SlotForm(ModelForm):
         self.instance.end = self.cleaned_data['end']
 
         return cleaned_data
-    
+
 class OpeningSlotForm(SlotForm):
     opening = forms.ModelChoiceField(
         queryset=Opening.objects.all(),
@@ -229,8 +230,7 @@ class OpeningSlotForm(SlotForm):
         label=_('Machines'),
         required=False
     )
-    comment = forms.CharField(label=_('Comment'),  required=False)
-
+    
     class Meta:
         model = OpeningSlot
         fields = ('opening', 'machines', 'date', 'start_time', 'end_time', 'comment')
@@ -594,7 +594,80 @@ class MachineSlotUpdateForm(SlotForm):
         email_content = self.create_email_content()
         send_mail(**email_content)
         
-        return super().save()
+        return self.instance
+
+class TrainingSlotForm(OpeningSlotForm):
+    training = forms.ModelChoiceField(
+        queryset= Training.objects.filter(is_active=True),
+        label=_('Training'),
+        empty_label=_('Select a training'),
+        error_messages={'required': _('Please select a training.')}
+        )
+    registration_limit = forms.IntegerField(required=True, label=_('Registration limit'))
+
+    class Meta:
+        model = TrainingSlot
+        fields = ('training', 'registration_limit', 'opening', 'machines', 'date', 'start_time', 'end_time', 'comment')
+
+    def create_email_content(self):
+
+        recipient_list = [
+            training_notification.profile.user.email
+            for training_notification in TrainingNotification.objects.filter(
+                training=self.cleaned_data['training']
+            )
+        ]
+
+        # elif view.crud_state == 'updated':
+        #     subject = _('A training was updated')
+        #     recipient_list.extend([registration.email for registration in view.context['training_slot'].registrations.all()])
+        #     recipient_list = set(recipient_list)
+        #     html_message = render_to_string('fabcal/email/training_update_alert.html', view.context)
+
+        # Define email content as a dictionary
+        email_content = {
+            'from_email': None,
+            'recipient_list': recipient_list,
+        }
+
+        return email_content
+
+    def save(self):
+        opening_data = self.cleaned_data.get('opening')
+
+        if opening_data:
+            form_data = {
+                'user':self.user,
+                'opening':opening_data,
+                'machines':self.cleaned_data.get('machines'),
+                'date':self.cleaned_data.get('date'),
+                'start_time':self.cleaned_data.get('start_time'),
+                'end_time':self.cleaned_data.get('end_time'),
+                'comment':self.cleaned_data.get('comment')
+            }
+
+            form = OpeningSlotCreateForm(data=form_data)
+            form.is_valid()
+            form.save()
+
+        self.instance.user = self.user
+        self.instance.save()
+
+        # send mail
+        email_content = self.create_email_content()
+        send_mail(**email_content)
+
+        return self.instance
+
+class TrainingSlotCreateForm(TrainingSlotForm):
+    def create_email_content(self):
+        email_content = super().create_email_content()
+        context = {'training_slot': self.instance}
+        email_content['html_message'] = render_to_string('fabcal/email/training_create_alert.html', context)
+        email_content['subject'] = _('A new training was planned')
+        email_content['message'] = _("A new training was planned"),
+
+        return email_content
 
 class EventForm(AbstractSlotForm):
     event = forms.ModelChoiceField(
@@ -651,65 +724,7 @@ class EventForm(AbstractSlotForm):
             mark_safe(_('Your event has been successfully %(crud_state)s on %(start_date)s from %(start_time)s to %(end_time)s</br><a href="/fabcal/download-ics-file/%(event_title)s/%(start)s/%(end)s"><i class="bi bi-file-earmark-arrow-down-fill"></i> Add to my calendar</a>')
             % context))
 
-class TrainingForm(AbstractSlotForm):
-    training = forms.ModelChoiceField(
-        queryset= Training.objects.filter(is_active=True),
-        label=_('Training'),
-        empty_label=_('Select a training'),
-        error_messages={'required': _('Please select a training.')}
-        )
-    date = forms.CharField()
-    registration_limit = forms.IntegerField(required=True, label=_('Registration limit'))
 
-    def update_or_create_training_slot(self, view):
-        fields = [f.name for f in TrainingSlot._meta.get_fields()]
-        defaults = {key: self.cleaned_data[key] for key in self.cleaned_data if key in fields}
-        defaults['user'] = view.request.user
-
-        if hasattr(view, 'opening_slot'):
-            defaults['opening_slot'] = view.opening_slot
-
-        training_slot = TrainingSlot.objects.update_or_create(
-            pk = view.kwargs.get('pk', None),
-            defaults = defaults
-            )
-
-        context = {
-            'crud_state': "créée" if view.crud_state == "created" else "mise à jour",
-            'start_date': format_datetime(self.cleaned_data['start'], "EEEE d MMMM y", locale=settings.LANGUAGE_CODE),
-            'start_time': format_datetime(self.cleaned_data['start'], "H:mm", locale=settings.LANGUAGE_CODE), 
-            'end_time': format_datetime(self.cleaned_data['end'], "H:mm", locale=settings.LANGUAGE_CODE),
-            'training_title': self.cleaned_data['training'].title,
-            'start': self.cleaned_data['start'].strftime("%Y%m%dT%H%M%SZ"),
-            'end': self.cleaned_data['end'].strftime("%Y%m%dT%H%M%SZ")
-        }
-        
-        messages.success(
-            view.request,
-            mark_safe(_('Your training has been successfully %(crud_state)s on %(start_date)s from %(start_time)s to %(end_time)s</br><a href="/fabcal/download-ics-file/%(training_title)s/%(start)s/%(end)s"><i class="bi bi-file-earmark-arrow-down-fill"></i> Add to my calendar</a>')
-            % context))
-
-        return training_slot[0]
-
-    def alert_users(self, view): 
-        
-        recipient_list = [training_notification.profile.user.email for training_notification in TrainingNotification.objects.filter(training=view.context['training_slot'].training)]
-        if view.crud_state == 'created':
-            subject = _('A new training was planned')
-            html_message = render_to_string('fabcal/email/training_create_alert.html', view.context)
-        elif view.crud_state == 'updated':
-            subject = _('A training was updated')
-            recipient_list.extend([registration.email for registration in view.context['training_slot'].registrations.all()])
-            recipient_list = set(recipient_list)
-            html_message = render_to_string('fabcal/email/training_update_alert.html', view.context)
-    
-        send_mail(
-            from_email=None,
-            subject=subject,
-            message = _("A new training was planned"),
-            recipient_list = recipient_list,
-            html_message = html_message
-        )
 
 class RegisterEventForm(forms.Form):
     pass
