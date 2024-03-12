@@ -13,8 +13,10 @@ from django.views import View
 from unittest.mock import patch
 
 from .forms import OpeningSlotForm
+from .forms import OpeningSlotCreateForm
 from .forms import MachineSlotUpdateForm
 from .forms import TrainingSlotCreateForm
+from .forms import TrainingSlotUpdateForm
 from .mixins import SuperuserRequiredMixin
 from .models import OpeningSlot
 from .models import MachineSlot
@@ -25,6 +27,7 @@ from .views import OpeningSlotDeleteView
 from .views import MachineSlotUpdateView
 from .views import MachineSlotDeleteView
 from .views import TrainingSlotCreateView
+from .views import TrainingSlotUpdateView
 
 from accounts.models import CustomUser
 from machines.models import Machine
@@ -92,7 +95,7 @@ class SlotViewTestCase(TestCase):
     def setUp(self):
         self.client = Client()
         self.factory = RequestFactory()
-        self.create_url = reverse('fabcal:openingslot-create') + '?start=1682784000000&end=1682791200000'
+        self.create_url = reverse('fabcal:openingslot-create', kwargs=self.get_creation_url_parameter())
 
         self.user = CustomUser.objects.create_user(
             username='user',
@@ -141,6 +144,12 @@ class SlotViewTestCase(TestCase):
             duration=datetime.timedelta(hours=1, minutes=30)
         )
 
+    def get_creation_url_parameter(self):
+        return dict(
+            start=1682935200000,
+            end=1682942400000
+        )
+
     def get_default_form_data(self, opening=None, machines=None, date=None, start_time=None, end_time=None, **kwargs):
         return {
             'opening': opening or self.openlab.id,
@@ -164,17 +173,12 @@ class OpeningSlotCreateViewTestCase(SlotViewTestCase):
         self.assertTrue(issubclass(OpeningSlotCreateView, SuperuserRequiredMixin))
 
     def test_save_method(self):
-        request = self.factory.post(self.create_url, self.get_default_form_data())
-        request.user = self.superuser
-        view = OpeningSlotCreateView()
-        view.setup(request)
-        form = view.get_form()
+        form = OpeningSlotCreateForm(data=self.get_default_form_data(), user=self.user)
         self.assertTrue(form.is_valid())
-
         form.save()
         
         # Assertions for the instance attributes
-        self.assertEqual(form.instance.user, self.superuser)
+        self.assertEqual(form.instance.user, self.user)
         self.assertEqual(form.instance.start, datetime.datetime.combine(datetime.date(2023, 5, 1), datetime.time(10, 0)))
         self.assertEqual(form.instance.end, datetime.datetime.combine(datetime.date(2023, 5, 1), datetime.time(12, 0)))
 
@@ -1048,9 +1052,7 @@ class MachineSlotDeleteViewTestCase(SlotViewTestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(MachineSlot.objects.count(), 3)
 
-
-class TrainingSlotCreateViewTestCase(SlotViewTestCase):
-
+class TrainingSlotTestCase(SlotViewTestCase):
     def setUp(self):
         super().setUp()
 
@@ -1058,25 +1060,36 @@ class TrainingSlotCreateViewTestCase(SlotViewTestCase):
         self.form_data['training'] = Training.objects.first().pk
         self.form_data['registration_limit'] = 1
 
-
-    def test_SuperuserRequiredMixin(self):
-        self.assertTrue(issubclass(TrainingSlotCreateView, SuperuserRequiredMixin))
-
-    @patch('fabcal.forms.send_mail', autospec=True)
-    def test_create_training_slot_form(self, mock_send_mail):
-
-        form = TrainingSlotCreateForm(data=self.form_data, user=self.user)
-        self.assertTrue(form.is_valid())
-
         # add user for notification
         TrainingNotification.objects.create(
             profile=self.user.profile,
             training=self.laser_training
         )
 
+class TrainingSlotCreateViewTestCase(TrainingSlotTestCase):
+
+    def test_SuperuserRequiredMixin(self):
+        self.assertTrue(issubclass(TrainingSlotCreateView, SuperuserRequiredMixin))
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_create_training_slot_form(self, mock_send_mail):
+        """
+        Test the creation of a training slot form and its associated functionality.
+        """
+
+        form = TrainingSlotCreateForm(data=self.form_data, user=self.user)
+        self.assertTrue(form.is_valid())
         form.save()
+
         self.assertEqual(TrainingSlot.objects.count(), 1)
+        self.assertEqual(TrainingSlot.objects.first().start, datetime.datetime(2023, 5, 1, 10))
+        self.assertEqual(TrainingSlot.objects.first().end, datetime.datetime(2023, 5, 1, 12))
+        self.assertEqual(TrainingSlot.objects.first().user, self.user)
+        self.assertEqual(TrainingSlot.objects.first().opening_slot, OpeningSlot.objects.first())
+        
         self.assertEqual(OpeningSlot.objects.count(), 1)
+        self.assertEqual(OpeningSlot.objects.first().start, datetime.datetime(2023, 5, 1, 10))
+        self.assertEqual(OpeningSlot.objects.first().end, datetime.datetime(2023, 5, 1, 12))
 
         email_content = form.create_email_content()
         self.assertEqual(email_content['recipient_list'], ['user@fake.django'])
@@ -1084,7 +1097,10 @@ class TrainingSlotCreateViewTestCase(SlotViewTestCase):
 
     @patch('fabcal.forms.send_mail', autospec=True)
     def test_get_success_message(self, mock_send_mail):
-        create_url = reverse('fabcal:trainingslot-create')
+        """
+        Test the success message returned by the get_success_message function.
+        """
+        create_url = reverse('fabcal:trainingslot-create', kwargs=self.get_creation_url_parameter())
 
         self.client.login(username='testsuperuser', password='testpass')
 
@@ -1093,4 +1109,74 @@ class TrainingSlotCreateViewTestCase(SlotViewTestCase):
         message = [message.message for message in storage].pop()
 
         expected_message = 'You successfully created the training laser during 120 minutes on lundi 1 mai 2023 from 10:00 to 12:00'
+        self.assertEqual(message, expected_message)
+
+class TrainingSlotUpdateViewTestCase(TrainingSlotTestCase):
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def setUp(self, mock_send_mail):
+        super().setUp()
+
+        form = TrainingSlotCreateForm(data=self.form_data, user=self.user)
+        self.assertTrue(form.is_valid())
+        training_slot = form.save()
+
+        self.form_initial = {
+            'start': training_slot.start,
+            'end': training_slot.end
+        }
+
+        # setup new start and end time
+        self.form_data['start_time'] = '11:30'
+        self.form_data['end_time'] = '13:00'
+
+        self.update_url = reverse('fabcal:trainingslot-update', kwargs={'pk': 1})
+
+    def test_SuperuserRequiredMixin(self):
+        """
+        Test case for the SuperuserRequiredMixin function.
+        """
+        self.assertTrue(issubclass(TrainingSlotCreateView, SuperuserRequiredMixin))
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_update_training_slot_form(self, mock_send_mail):
+        """
+        Test the update_training_slot_form function
+        """
+
+        instance = TrainingSlot.objects.first()
+
+        form = TrainingSlotUpdateForm(
+            data=self.form_data,
+            instance=TrainingSlot.objects.first(),
+            user=self.user,
+            initial=self.form_initial,
+        )
+
+        self.assertTrue(form.is_valid())
+        form.save()
+
+        self.assertEqual(TrainingSlot.objects.count(), 1)
+        self.assertEqual(TrainingSlot.objects.first().start, datetime.datetime(2023, 5, 1, 11, 30))
+        self.assertEqual(TrainingSlot.objects.first().end, datetime.datetime(2023, 5, 1, 13))
+
+        self.assertEqual(OpeningSlot.objects.count(), 1)
+        self.assertEqual(OpeningSlot.objects.first().start, datetime.datetime(2023, 5, 1, 11, 30))
+        self.assertEqual(OpeningSlot.objects.first().end, datetime.datetime(2023, 5, 1, 13))
+
+        email_content = form.create_email_content()
+        self.assertEqual(email_content['recipient_list'], ['user@fake.django'])
+        self.assertEqual(email_content['subject'], 'Une formation a été mise à jour')
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_get_success_message(self, mock_send_mail):
+        create_url = reverse('fabcal:trainingslot-update', kwargs={'pk': 1})
+
+        self.client.login(username='testsuperuser', password='testpass')
+
+        response = self.client.post(create_url, self.form_data)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'You successfully updated the training laser during 90 minutes on lundi 1 mai 2023 from 11:30 to 13:00'
         self.assertEqual(message, expected_message)

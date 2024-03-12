@@ -28,6 +28,7 @@ from .forms import OpeningSlotCreateForm
 from .forms import OpeningSlotUpdateForm
 from .forms import MachineSlotUpdateForm
 from .forms import TrainingSlotCreateForm
+from .forms import TrainingSlotUpdateForm
 
 from .forms import EventForm
 from .forms import RegisterTrainingForm
@@ -222,6 +223,31 @@ class SlotView(SuccessMessageMixin, CustomFormView):
         # Pass the user object to the form's constructor
         return form_class(self.request.user, **self.get_form_kwargs())
 
+class CreateSlotView(SlotView):
+    def get_initial(self):
+        initial = super().get_initial()
+        
+        params = {}
+        for i in ['start', 'end']:
+            params[i] = datetime.fromtimestamp(int(self.kwargs.get(i))/1000)
+
+        initial['date'] = params['start'].strftime('%Y-%m-%d')
+        initial['start_time'] = params['start'].strftime('%H:%M')
+        initial['end_time'] = params['end'].strftime('%H:%M')
+        return initial
+
+class UpdateSlotView(SlotView):
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['start'] = self.object.start
+        initial['end'] = self.object.end
+
+        initial['date'] = self.object.start.strftime('%Y-%m-%d')
+        initial['start_time'] = self.object.start.strftime('%H:%M')
+        initial['end_time'] = self.object.end.strftime('%H:%M')
+        return initial
+
 class SlotDeleteView(DeleteView):
 
     def dispatch(self, request, *args, **kwargs):
@@ -231,7 +257,7 @@ class SlotDeleteView(DeleteView):
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
-class OpeningSlotView(SuperuserRequiredMixin, SlotView):
+class OpeningSlotView(SuperuserRequiredMixin):
     model = OpeningSlot
     success_url = '/schedule/'
 
@@ -306,44 +332,26 @@ class OpeningSlotView(SuperuserRequiredMixin, SlotView):
         # Return the invalid form
         return self.render_to_response(self.get_context_data(form=form))
 
-class OpeningSlotCreateView(OpeningSlotView, CreateView):
+class OpeningSlotCreateView(OpeningSlotView, CreateSlotView, CreateView):
     form_class = OpeningSlotCreateForm
-
-    def get_initial(self):
-        initial = super().get_initial()
-        
-        params = {}
-        for i in ['start', 'end']:
-            params[i] = datetime.fromtimestamp(int(self.request.GET.get(i))/1000)
-
-        initial['date'] = params['start'].strftime('%Y-%m-%d')
-        initial['start_time'] = params['start'].strftime('%H:%M')
-        initial['end_time'] = params['end'].strftime('%H:%M')
-        return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['submit_btn'] = _('Create opening')
         return context
 
-class OpeningSlotUpdateView(OpeningSlotView, UpdateView):
+class OpeningSlotUpdateView(OpeningSlotView, UpdateSlotView, UpdateView):
     form_class = OpeningSlotUpdateForm
-
-    def get_initial(self):
-        initial = super().get_initial()
-        initial['start'] = self.object.start
-        initial['end'] = self.object.end
-
-        initial['date'] = self.object.start.strftime('%Y-%m-%d')
-        initial['start_time'] = self.object.start.strftime('%H:%M')
-        initial['end_time'] = self.object.end.strftime('%H:%M')
-        initial['machines'] = [i.pk for i in self.object.get_machine_list]
-        return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['submit_btn'] = _('Update opening')
         return context
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['machines'] = [i.pk for i in self.object.get_machine_list]
+        return initial
 
 class OpeningSlotDeleteView(SuperuserRequiredMixin, SlotDeleteView):
     model = OpeningSlot
@@ -439,16 +447,11 @@ class MachineSlotDeleteView(LoginRequiredMixin, SlotDeleteView):
         messages.success(request, _("You reservation has been deleted !"))
         return redirect('accounts:profile') 
 
-
-class TrainingSlotView(SuperuserRequiredMixin, SlotView):
+class TrainingSlotView(SuperuserRequiredMixin):
     model = TrainingSlot
 
     def get_success_url(self):
         return reverse('accounts:profile')
-
-class TrainingSlotCreateView(TrainingSlotView, CreateView):
-    form_class = TrainingSlotCreateForm
-    success_message = _('You successfully created the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
     def get_success_message(self, cleaned_data):
         return self.success_message % dict(
@@ -459,6 +462,23 @@ class TrainingSlotCreateView(TrainingSlotView, CreateView):
                     end_time=self.object.formatted_end_time,
                 )
 
+class TrainingSlotCreateView(TrainingSlotView, CreateSlotView, CreateView):
+    form_class = TrainingSlotCreateForm
+    success_message = _('You successfully created the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+
+class TrainingSlotUpdateView(TrainingSlotView, UpdateSlotView, UpdateView):
+    form_class = TrainingSlotUpdateForm
+    success_message = _('You successfully updated the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_btn'] = _('Update training')
+        return context
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['machines'] = [i.pk for i in self.object.opening_slot.get_machine_list]
+        return initial
 
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
@@ -557,7 +577,6 @@ class EventUnregisterView(EventRegisterBaseView):
         })
 
         return context
-
 
 class TrainingDeleteView(AbstractSlotView, DeleteView):
     model = TrainingSlot

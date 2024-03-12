@@ -236,16 +236,14 @@ class OpeningSlotForm(SlotForm):
         fields = ('opening', 'machines', 'date', 'start_time', 'end_time', 'comment')
 
     def save(self):
-
         self.instance.user = self.user
-        self.instance.save()
-
         return self.instance
 
 class OpeningSlotCreateForm(OpeningSlotForm):
 
     def save(self):
         self.instance = super().save()
+        self.instance.save()
 
         for machine in self.cleaned_data['machines']:
             MachineSlot.objects.create(              
@@ -270,6 +268,7 @@ class OpeningSlotUpdateForm(OpeningSlotForm):
 
     def save(self):
         self.instance = super().save()
+        self.instance.save()
 
         # -------------------
         # Remove machine slot
@@ -632,12 +631,22 @@ class TrainingSlotForm(OpeningSlotForm):
 
         return email_content
 
-    def save(self):
+    def save(self, opening_slot_form_class, initial=None):
+        """
+        Save the opening slot form data and send mail with the created instance.
+
+        Parameters:
+            opening_slot_form_class (class): The class of the opening slot form.
+
+        Returns:
+            instance: The created instance.
+        """
+        self.instance = super().save()
+
         opening_data = self.cleaned_data.get('opening')
 
         if opening_data:
             form_data = {
-                'user':self.user,
                 'opening':opening_data,
                 'machines':self.cleaned_data.get('machines'),
                 'date':self.cleaned_data.get('date'),
@@ -646,11 +655,16 @@ class TrainingSlotForm(OpeningSlotForm):
                 'comment':self.cleaned_data.get('comment')
             }
 
-            form = OpeningSlotCreateForm(data=form_data)
-            form.is_valid()
-            form.save()
+            form = opening_slot_form_class(
+                data=form_data,
+                initial=initial,
+                instance=self.instance.opening_slot,
+            )
 
-        self.instance.user = self.user
+            form.is_valid()
+            opening_slot = form.save()
+        
+        self.instance.opening_slot = opening_slot
         self.instance.save()
 
         # send mail
@@ -665,9 +679,27 @@ class TrainingSlotCreateForm(TrainingSlotForm):
         context = {'training_slot': self.instance}
         email_content['html_message'] = render_to_string('fabcal/email/training_create_alert.html', context)
         email_content['subject'] = _('A new training was planned')
-        email_content['message'] = _("A new training was planned"),
+        email_content['message'] = _("A new training was planned")
 
         return email_content
+    
+    def save(self):
+        self.instance = super().save(OpeningSlotCreateForm)
+        return self.instance
+
+class TrainingSlotUpdateForm(TrainingSlotForm):
+    def create_email_content(self):
+        email_content = super().create_email_content()
+        context = {'training_slot': self.instance}
+        email_content['html_message'] = render_to_string('fabcal/email/training_update_alert.html', context)
+        email_content['subject'] = _('A training was updated')
+        email_content['message'] = _("A training was updated"),
+
+        return email_content
+
+    def save(self):
+        self.instance = super().save(OpeningSlotUpdateForm, initial=self.initial)
+        return self.instance
 
 class EventForm(AbstractSlotForm):
     event = forms.ModelChoiceField(
@@ -723,8 +755,6 @@ class EventForm(AbstractSlotForm):
             view.request,
             mark_safe(_('Your event has been successfully %(crud_state)s on %(start_date)s from %(start_time)s to %(end_time)s</br><a href="/fabcal/download-ics-file/%(event_title)s/%(start)s/%(end)s"><i class="bi bi-file-earmark-arrow-down-fill"></i> Add to my calendar</a>')
             % context))
-
-
 
 class RegisterEventForm(forms.Form):
     pass
