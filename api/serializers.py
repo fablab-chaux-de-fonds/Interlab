@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.models import CustomUser, Subscription
+from accounts.models import CustomUser, Subscription, Profile
 from fabcal.models import OpeningSlot, MachineSlot
 from openings.models import Opening
 
@@ -31,9 +31,14 @@ class MachineSlotSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta: 
         model = CustomUser
-        fields = ['id', 'last_login', 'first_name', 'last_name', 'date_joined']
+        fields = ['id', 'last_login', 'first_name', 'last_name', 'date_joined', 'email']
 
 class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Subscription
         fields = ['id', 'start', 'end']
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Profile
+        fields = ['user', 'subscription']
