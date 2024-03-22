@@ -5,7 +5,7 @@ from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from .permissions import IsInApiGroup
 
-from accounts.models import CustomUser, Subscription
+from accounts.models import CustomUser, Subscription, Profile
 from fabcal.models import OpeningSlot, MachineSlot
 from openings.models import Opening
 
@@ -13,6 +13,7 @@ from .serializers import OpeningSlotSerializer, MachineSlotSerializer
 from .serializers import CustomUserSerializer
 from .serializers import OpeningSerializer
 from .serializers import SubscriptionSerializer
+from .serializers import ProfileSerializer
 
 class OpeningSet(generics.ListAPIView):
     authentication_classes = [TokenAuthentication]
@@ -43,3 +44,9 @@ class SubscriptionSet(generics.ListAPIView):
     permission_classes = [IsInApiGroup]
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
+
+class ProfileSet(generics.ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsInApiGroup]
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
