@@ -1,7 +1,7 @@
 {% load i18n training_extras %}
 
 <div class="text-center text-md-start">
-    {% if  machine.full_price == 0 %}
+    {% if machine.price is None %}
         {% trans "The use of the machine is free and conscious price" %}
     {% else %}
         {% if request.user.profile.is_subscription_valid %}

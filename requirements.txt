@@ -14,6 +14,7 @@ django-extensions
 django-filer
 django-filter
 django-mathfilters
+django-polymorphic
 stripe
 django-mptt
 django-oauth-toolkit

@@ -3,6 +3,8 @@ import datetime
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext as _
+from polymorphic.models import PolymorphicModel
+from polymorphic.managers import PolymorphicManager
 from djangocms_text_ckeditor.fields import HTMLField
 from cms.models import CMSPlugin
 
@@ -10,8 +12,27 @@ from accounts.models import Profile
 from openings.models import AbstractOpening
 from url_or_relative_url_field.fields import URLOrRelativeURLField
 
-class ItemForRent(AbstractOpening):
+class PriceModel(PolymorphicModel):
+    objects = PolymorphicManager()
+
+class LinearPriceModel(PriceModel):
+    """This is the nominal way to handle machine price with a linear computation"""
     full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2, null=True, blank=False, help_text='for 30 min')
+    def __str__(self):
+        return 'Linear price {} for 30 min'.format(self.full_price)
+
+class DegressiveFdmPriceModel(PriceModel):
+    """Fused Deposed Modeling 3D printers might be a special case where price per 30 min slot became lower with high durations"""
+    hourFactor = models.FloatField(default=0.7)
+    maxDivider = models.SmallIntegerField(default=30)
+    matterFactor = models.FloatField(default=0.075)
+    supportMatterFactor = models.FloatField(default=0.2)
+    def __str__(self):
+        return 'Degressive FDM ({}, {}, {}, {})'.format(self.hourFactor, self.maxDivider, self.matterFactor, self.supportMatterFactor)
+
+class ItemForRent(AbstractOpening):
+    price = models.ForeignKey(PriceModel, on_delete=models.SET_NULL, null=True, db_column='price')
+    full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2, null=True, blank=False, help_text='for 30 min', db_column='full_price')
     photo = models.ImageField(upload_to='img', verbose_name=_('Photo'))
     header = HTMLField(verbose_name=_('Header'),blank=True,configuration='CKEDITOR_SETTINGS')
 
@@ -157,8 +178,8 @@ class Machine(ItemForRent):
 
     group = models.ForeignKey(MachineGroup, blank=True, null=True,on_delete=models.SET_NULL)
     category = models.ForeignKey(MachineCategory, blank=True, null=True, on_delete=models.SET_NULL)
-    material = models.ManyToManyField(Material,null=True, blank=True)
-    workshop = models.ManyToManyField(Workshop,null=True, blank=True)
+    material = models.ManyToManyField(Material, blank=True)
+    workshop = models.ManyToManyField(Workshop, blank=True)
     reservable = models.BooleanField(default=True)
     premium_price = models.DecimalField(verbose_name=_('Premium Price'),max_digits=6,decimal_places=2, null=True, blank=False)
 
@@ -223,7 +244,7 @@ class Specification(models.Model):
 
 class Software(models.Model):
     title = models.CharField(max_length=255)
-    machines = models.ManyToManyField(Machine ,null=True, blank=True)
+    machines = models.ManyToManyField(Machine, blank=True)
 
     def __str__(self):
         return self.title
