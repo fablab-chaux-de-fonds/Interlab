@@ -445,7 +445,7 @@ class MachineSlotDeleteView(DeleteSlotView):
         messages.success(request, _("You reservation has been deleted !"))
         return redirect('accounts:profile') 
 
-class TrainingSlotView(UserView):
+class TrainingSlotView():
     model = TrainingSlot
 
     def get_success_url(self):
@@ -497,7 +497,7 @@ class TrainingSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
             messages.error(request, e.message)
             return redirect(request.META.get('HTTP_REFERER', '/'))
 
-class TrainingSlotRegistrationView(RegisterSlotView, TrainingSlotView):
+class TrainingSlotRegistrationView(TrainingSlotView, RegisterSlotView):
     template_name = 'fabcal/trainingslot_(un)registration_form.html'
 
     def get_success_url(self):
