@@ -4,6 +4,7 @@ from babel.dates import format_datetime
 from cms.models import CMSPlugin
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
@@ -135,6 +136,11 @@ class TrainingSlot(AbstractSlot, AbstractRegistration):
     class Meta:
         verbose_name = _("Training Slot")
         verbose_name_plural = _("Training Slots")
+
+    def delete(self, *args, **kwargs):
+        if self.registrations.all().exists():
+            raise ValidationError(_("Cannot delete Training Slot with registrations."), code='training_slot_with_registrations')
+        super().delete(*args, **kwargs)
 
 class MachineSlot(AbstractSlot):
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE, blank=True, null=True)

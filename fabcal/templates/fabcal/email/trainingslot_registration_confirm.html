@@ -1,0 +1,21 @@
+{% extends "email/base_email.html" %}
+{% load i18n %}
+
+{% block content %}
+<p> Hello {{request.user.first_name}}, </p> 
+<p>
+    {% trans "We confirme that you are registered to the training " %}
+    {{object.training.title}}
+    {% trans " on " %}
+    {{object.start|date:'l j F'}}
+    {% trans " from " %}
+    {{object.start|date:'H:i'}}
+    {% trans " to " %}
+    {{object.end|date:'H:i'}}.
+</p>
+
+<p>
+    {% trans "The payment will be done on the spot by card or in cash" %}
+</p>
+
+{% endblock content %}

@@ -188,15 +188,16 @@ class AbstractSlotForm(forms.Form):
     def delete_machine_slot(self, view, pk):
         MachineSlot.objects.filter(opening_slot=view.opening_slot, machine_id = pk).delete()
 
-class SlotForm(ModelForm):
+class UserForm(ModelForm):
+    def __init__(self, user=None,  *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.user = user
+
+class SlotForm(UserForm):
     date = CustomDateField(required=False)
     start_time = forms.TimeField()
     end_time = forms.TimeField()
     comment = forms.CharField(label=_('Comment'),  required=False)
-
-    def __init__(self, user=None,  *args, **kwargs):
-        super(SlotForm, self).__init__(*args, **kwargs)
-        self.user = user
 
     def clean(self):
         cleaned_data = super(SlotForm, self).clean()
@@ -568,7 +569,6 @@ class MachineSlotUpdateForm(SlotForm):
                 next_slot.start = end
                 next_slot.save()
 
-
         if self.instance.machine.category.name == '3D':
             for slot in MachineSlot.objects.filter(
                 start__gt=self.cleaned_data['start'], 
@@ -617,13 +617,6 @@ class TrainingSlotForm(OpeningSlotForm):
             )
         ]
 
-        # elif view.crud_state == 'updated':
-        #     subject = _('A training was updated')
-        #     recipient_list.extend([registration.email for registration in view.context['training_slot'].registrations.all()])
-        #     recipient_list = set(recipient_list)
-        #     html_message = render_to_string('fabcal/email/training_update_alert.html', view.context)
-
-        # Define email content as a dictionary
         email_content = {
             'from_email': None,
             'recipient_list': recipient_list,
@@ -701,6 +694,76 @@ class TrainingSlotUpdateForm(TrainingSlotForm):
         self.instance = super().save(OpeningSlotUpdateForm, initial=self.initial)
         return self.instance
 
+class TrainingSlotRegistrationForm(UserForm):
+
+    class Meta:
+        model = TrainingSlot
+        fields = ('registrations',)
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['registrations'].required = False
+
+    def create_email_content(self):
+        email_content = {
+            'from_email': None,
+            'recipient_list': [self.user.email],
+        }
+
+        return email_content
+
+class TrainingSlotRegistrationCreateForm(TrainingSlotRegistrationForm):
+    
+    def create_email_content(self):
+        email_content = super().create_email_content()
+        context = {'training_slot': self.instance}
+        email_content['html_message'] = render_to_string('fabcal/email/trainingslot_registration_confirm.html', context)
+        email_content['subject'] = _('Training registration confirmation')
+        email_content['message'] = _("Training registration confirmation")
+
+        return email_content
+    
+    def save(self):
+        self.instance.registrations.add(self.user)
+
+        # send mail
+        email_content = self.create_email_content()
+        send_mail(**email_content)
+        
+        return self.instance
+
+class TrainingSlotRegistrationDeleteForm(TrainingSlotRegistrationForm):
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user not in self.object.registrations.all():
+            return HttpResponseForbidden("You are not allowed to access this page.")
+        return super().dispatch(request, *args, **kwargs)
+
+    def is_valid(self):
+        if self.user not in self.instance.registrations.all():
+            raise forms.ValidationError(_("You are not registered for this training slot."))
+            return False
+        return super().is_valid()
+    
+    def create_email_content(self):
+        email_content = super().create_email_content()
+        context = {'training_slot': self.instance}
+        email_content['html_message'] = render_to_string('fabcal/email/trainingslot_unregistration_confirm.html', context)
+        email_content['subject'] = _('Training unregistration confirmation')
+        email_content['message'] = _("Training unregistration confirmation")
+
+        return email_content
+    
+    def save(self):
+        self.instance.registrations.remove(self.user)
+
+        # send mail
+        email_content = self.create_email_content()
+        send_mail(**email_content)
+        
+        return self.instance
+
 class EventForm(AbstractSlotForm):
     event = forms.ModelChoiceField(
         queryset= Event.objects.filter(is_active=True),
@@ -757,9 +820,6 @@ class EventForm(AbstractSlotForm):
             % context))
 
 class RegisterEventForm(forms.Form):
-    pass
-
-class RegisterTrainingForm(forms.Form):
     pass
 
 class MachineReservationForm(AbstractSlotForm):

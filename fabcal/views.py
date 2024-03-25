@@ -1,9 +1,6 @@
-from copy import deepcopy
-import os
-
+from datetime import datetime, timedelta
 from babel.dates import format_datetime
 
-from datetime import datetime, timedelta
 from django import forms
 from django.conf import settings
 from django.contrib import messages
@@ -11,8 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError, PermissionDenied
-from django.http import HttpResponse, QueryDict
-from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponseForbidden, HttpResponse, QueryDict, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.template import loader
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
@@ -20,24 +17,24 @@ from django.utils.translation import ugettext as _
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView
-from django.views.generic.edit import FormView, DeleteView, CreateView, UpdateView, ModelFormMixin
+from django.views.generic.edit import FormView, DeleteView, CreateView, UpdateView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
-from .forms import OpeningSlotForm
+from interlab.views import CustomFormView
+
 from .forms import OpeningSlotCreateForm
 from .forms import OpeningSlotUpdateForm
 from .forms import MachineSlotUpdateForm
 from .forms import TrainingSlotCreateForm
 from .forms import TrainingSlotUpdateForm
-
+from .forms import TrainingSlotRegistrationCreateForm
+from .forms import TrainingSlotRegistrationDeleteForm
 from .forms import EventForm
-from .forms import RegisterTrainingForm
 from .forms import RegisterEventForm
 
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 from .mixins import SuperuserRequiredMixin
 
-from interlab.views import CustomFormView
 
 def get_start_end(self, context):
     # TODO implement in AbstractMachineView
@@ -215,7 +212,7 @@ class AbstractSlotView(View):
         self.get_success_message()
         return super().form_valid(form)
 
-class SlotView(SuccessMessageMixin, CustomFormView):
+class UserView(LoginRequiredMixin, SuccessMessageMixin, CustomFormView):
     def get_form(self, form_class=None):
         if form_class is None:
             form_class = self.get_form_class()
@@ -223,7 +220,7 @@ class SlotView(SuccessMessageMixin, CustomFormView):
         # Pass the user object to the form's constructor
         return form_class(self.request.user, **self.get_form_kwargs())
 
-class CreateSlotView(SlotView):
+class CreateSlotView(UserView, CreateView):
     def get_initial(self):
         initial = super().get_initial()
         
@@ -236,7 +233,7 @@ class CreateSlotView(SlotView):
         initial['end_time'] = params['end'].strftime('%H:%M')
         return initial
 
-class UpdateSlotView(SlotView):
+class UpdateSlotView(UserView, UpdateView):
 
     def get_initial(self):
         initial = super().get_initial()
@@ -248,7 +245,10 @@ class UpdateSlotView(SlotView):
         initial['end_time'] = self.object.end.strftime('%H:%M')
         return initial
 
-class SlotDeleteView(DeleteView):
+class RegisterSlotView(UserView, UpdateView):
+    pass
+
+class DeleteSlotView(LoginRequiredMixin, DeleteView):
 
     def dispatch(self, request, *args, **kwargs):
         slot = self.get_object()
@@ -256,6 +256,16 @@ class SlotDeleteView(DeleteView):
         if request.user != slot.user:
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        language_code = settings.LANGUAGE_CODE
+        context.update({ 
+            'date': format_datetime(self.object.start, "EEEE d MMMM y", locale=language_code),
+            'start': format_datetime(self.object.start, "H:mm", locale=language_code),
+            'end': format_datetime(self.object.end, "H:mm", locale=language_code),
+        })
+        return context
 
 class OpeningSlotView(SuperuserRequiredMixin):
     model = OpeningSlot
@@ -332,7 +342,7 @@ class OpeningSlotView(SuperuserRequiredMixin):
         # Return the invalid form
         return self.render_to_response(self.get_context_data(form=form))
 
-class OpeningSlotCreateView(OpeningSlotView, CreateSlotView, CreateView):
+class OpeningSlotCreateView(OpeningSlotView, CreateSlotView):
     form_class = OpeningSlotCreateForm
 
     def get_context_data(self, **kwargs):
@@ -340,7 +350,7 @@ class OpeningSlotCreateView(OpeningSlotView, CreateSlotView, CreateView):
         context['submit_btn'] = _('Create opening')
         return context
 
-class OpeningSlotUpdateView(OpeningSlotView, UpdateSlotView, UpdateView):
+class OpeningSlotUpdateView(OpeningSlotView, UpdateSlotView):
     form_class = OpeningSlotUpdateForm
 
     def get_context_data(self, **kwargs):
@@ -353,19 +363,10 @@ class OpeningSlotUpdateView(OpeningSlotView, UpdateSlotView, UpdateView):
         initial['machines'] = [i.pk for i in self.object.get_machine_list]
         return initial
 
-class OpeningSlotDeleteView(SuperuserRequiredMixin, SlotDeleteView):
+class OpeningSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
     model = OpeningSlot
     success_url = '/schedule'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        language_code = settings.LANGUAGE_CODE
-        context.update({ 
-            'date': format_datetime(self.object.start, "EEEE d MMMM y", locale=language_code),
-            'start': format_datetime(self.object.start, "H:mm", locale=language_code),
-            'end': format_datetime(self.object.end, "H:mm", locale=language_code),
-        })
-        return context
+    sucess_message = _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted")
 
     def delete(self, request, *args, **kwargs):
         try:
@@ -377,7 +378,7 @@ class OpeningSlotDeleteView(SuperuserRequiredMixin, SlotDeleteView):
         messages.success(request, _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted") % self.get_context_data())
         return redirect(self.get_success_url())
 
-class MachineSlotUpdateView(LoginRequiredMixin, SlotView, UpdateView):
+class MachineSlotUpdateView(UpdateSlotView):
     model = MachineSlot
     form_class = MachineSlotUpdateForm
 
@@ -419,11 +420,8 @@ class MachineSlotUpdateView(LoginRequiredMixin, SlotView, UpdateView):
 
         return super().dispatch(request, *args, **kwargs)
 
-class MachineSlotDeleteView(LoginRequiredMixin, SlotDeleteView):
+class MachineSlotDeleteView(DeleteSlotView):
     model = MachineSlot
-        
-    def get_success_url(self, **kwargs):
-        return reverse('accounts:profile')
 
     def delete(self, request, pk):
         """
@@ -447,7 +445,7 @@ class MachineSlotDeleteView(LoginRequiredMixin, SlotDeleteView):
         messages.success(request, _("You reservation has been deleted !"))
         return redirect('accounts:profile') 
 
-class TrainingSlotView(SuperuserRequiredMixin):
+class TrainingSlotView(UserView):
     model = TrainingSlot
 
     def get_success_url(self):
@@ -462,11 +460,11 @@ class TrainingSlotView(SuperuserRequiredMixin):
                     end_time=self.object.formatted_end_time,
                 )
 
-class TrainingSlotCreateView(TrainingSlotView, CreateSlotView, CreateView):
+class TrainingSlotCreateView(SuperuserRequiredMixin, TrainingSlotView, CreateSlotView, CreateView):
     form_class = TrainingSlotCreateForm
     success_message = _('You successfully created the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
-class TrainingSlotUpdateView(TrainingSlotView, UpdateSlotView, UpdateView):
+class TrainingSlotUpdateView(SuperuserRequiredMixin, TrainingSlotView, UpdateSlotView, UpdateView):
     form_class = TrainingSlotUpdateForm
     success_message = _('You successfully updated the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
@@ -479,6 +477,52 @@ class TrainingSlotUpdateView(TrainingSlotView, UpdateSlotView, UpdateView):
         initial = super().get_initial()
         initial['machines'] = [i.pk for i in self.object.opening_slot.get_machine_list]
         return initial
+
+class TrainingSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
+    model = TrainingSlot
+    sucess_message = _("Your training on %(date)s from %(start)s to %(end)s has been successfully deleted")
+
+    def get_success_url(self):
+        return reverse('machines:training-detail', kwargs={'pk': self.object.training.pk})
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            messages.success(request, self.sucess_message % self.get_context_data())
+            return HttpResponseRedirect(self.get_success_url())
+        except ValidationError as e:
+            error_code = getattr(e, 'code')
+            request.session['error_code'] = error_code
+            messages.error(request, e.message)
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+
+class TrainingSlotRegistrationView(RegisterSlotView, TrainingSlotView):
+    template_name = 'fabcal/trainingslot_(un)registration_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy("machines:training-detail", kwargs={'pk': self.object.training_id})
+
+class TrainingSlotRegistrationCreateView(TrainingSlotRegistrationView):
+    form_class = TrainingSlotRegistrationCreateForm
+    success_message = _('You successfully registered the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user in self.object.registrations.all():
+            messages.success(request, _('You are already registered for this training slot'))
+            return redirect('machines:training-detail', pk=self.object.pk)
+        return super().dispatch(request, *args, **kwargs)
+
+class TrainingSlotRegistrationDeleteView(TrainingSlotRegistrationView):
+    form_class = TrainingSlotRegistrationDeleteForm
+    success_message = _('You successfully unregistered the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user not in self.object.registrations.all():
+            return HttpResponseForbidden("You are not allowed to access this page.")
+        return super().dispatch(request, *args, **kwargs)
 
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
@@ -591,7 +635,6 @@ class TrainingDeleteView(AbstractSlotView, DeleteView):
 
 class TrainingRegisterBaseView(RegisterBaseView):
     template_name = 'fabcal/trainingslot_(un)registration_form.html'
-    form_class = RegisterTrainingForm
     model = TrainingSlot
 
     def get_success_url(self):

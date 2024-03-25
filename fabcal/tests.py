@@ -1,22 +1,32 @@
 import datetime
 import re
 
+from unittest.mock import patch
+
 from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.contrib.auth.models import Group, AnonymousUser
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseForbidden, HttpResponse
+from django.http import HttpResponse
 from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse
-from django.utils.translation import activate
 from django.views import View
-from unittest.mock import patch
+
+from accounts.models import CustomUser
+from machines.models import Machine
+from machines.models import MachineCategory
+from machines.models import Training
+from machines.models import TrainingValidation
+from machines.models import TrainingNotification
+from openings.models import Opening
 
 from .forms import OpeningSlotForm
 from .forms import OpeningSlotCreateForm
 from .forms import MachineSlotUpdateForm
 from .forms import TrainingSlotCreateForm
 from .forms import TrainingSlotUpdateForm
+from .forms import TrainingSlotRegistrationCreateForm
+from .forms import TrainingSlotRegistrationDeleteForm
 from .mixins import SuperuserRequiredMixin
 from .models import OpeningSlot
 from .models import MachineSlot
@@ -27,15 +37,10 @@ from .views import OpeningSlotDeleteView
 from .views import MachineSlotUpdateView
 from .views import MachineSlotDeleteView
 from .views import TrainingSlotCreateView
-from .views import TrainingSlotUpdateView
+from .views import TrainingSlotDeleteView
+from .views import TrainingSlotRegistrationCreateView
+from .views import TrainingSlotRegistrationDeleteView
 
-from accounts.models import CustomUser
-from machines.models import Machine
-from machines.models import MachineCategory
-from machines.models import Training
-from machines.models import TrainingValidation
-from machines.models import TrainingNotification
-from openings.models import Opening
 
 
 class TestView(SuperuserRequiredMixin, View):
@@ -141,7 +146,9 @@ class SlotViewTestCase(TestCase):
         self.laser_training = Training.objects.create(
             title = 'laser',
             machine_category = self.laser_category,
-            duration=datetime.timedelta(hours=1, minutes=30)
+            duration=datetime.timedelta(hours=1, minutes=30),
+            photo = 'laser_training.png',
+            full_price = 40
         )
 
     def get_creation_url_parameter(self):
@@ -1108,7 +1115,7 @@ class TrainingSlotCreateViewTestCase(TrainingSlotTestCase):
         storage = get_messages(response.wsgi_request)
         message = [message.message for message in storage].pop()
 
-        expected_message = 'You successfully created the training laser during 120 minutes on lundi 1 mai 2023 from 10:00 to 12:00'
+        expected_message = 'Vous avez créé avec succès la formation laser durant 120 minutes le lundi 1 mai 2023 de 10:00 à 12:00'
         self.assertEqual(message, expected_message)
 
 class TrainingSlotUpdateViewTestCase(TrainingSlotTestCase):
@@ -1178,5 +1185,164 @@ class TrainingSlotUpdateViewTestCase(TrainingSlotTestCase):
         storage = get_messages(response.wsgi_request)
         message = [message.message for message in storage].pop()
 
-        expected_message = 'You successfully updated the training laser during 90 minutes on lundi 1 mai 2023 from 11:30 to 13:00'
+        expected_message = 'Vous avez créé avec succès la formation laser durant 90 minutes le lundi 1 mai 2023 de 11:30 à 13:00'
+        self.assertEqual(message, expected_message)
+
+class TrainingSlotDeleteViewTestCase(TrainingSlotTestCase):
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def setUp(self, mock_send_mail):
+        super().setUp()
+
+        form = TrainingSlotCreateForm(data=self.form_data, user=self.superuser)
+        self.assertTrue(form.is_valid())
+        self.training_slot = form.save()
+        self.delete_url = reverse('fabcal:trainingslot-delete', kwargs={'pk': 1})
+
+    def test_SuperuserRequiredMixin(self):
+        self.assertTrue(issubclass(TrainingSlotDeleteView, SuperuserRequiredMixin))
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_delete_training_slot(self, mock_send_mail):
+        # add registration
+        form=TrainingSlotRegistrationCreateForm(instance=self.training_slot, user=self.user)
+        form.save()
+
+        self.client.login(username='testsuperuser', password='testpass')
+        
+        # test invalid deletion due to registration
+        response = self.client.post(self.delete_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        self.assertEqual(self.client.session.get('error_code', None), "training_slot_with_registrations")
+
+        # remove registration
+        form=TrainingSlotRegistrationDeleteForm(instance=self.training_slot, user=self.user)
+        form.save()
+
+        self.assertEqual(self.training_slot.registrations.first(), None)
+
+        # Delete slot
+        response = self.client.post(self.delete_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'Votre formation du lundi 1 mai 2023 de 10:00 à 12:00 a bien été supprimée'
+        self.assertEqual(message, expected_message)
+        self.assertEqual(TrainingSlot.objects.all().count(), 0)
+
+class TrainingSlotRegistrationViewTestCase(TrainingSlotTestCase):
+
+    def setUp(self, ):
+        super().setUp()
+
+        form = TrainingSlotCreateForm(data=self.form_data, user=self.user)
+        self.assertTrue(form.is_valid())
+        self.training_slot = form.save()
+
+class TrainingSlotRegistrationCreateViewTestCase(TrainingSlotRegistrationViewTestCase):
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def setUp(self, mock_send_mail):
+        super(TrainingSlotRegistrationCreateViewTestCase, self).setUp()
+        self.create_url = reverse('fabcal:trainingslot-register', kwargs={'pk': self.training_slot.pk})
+    
+    def test_LoginRequiredMixin(self):
+        self.assertTrue(issubclass(TrainingSlotRegistrationCreateView, LoginRequiredMixin))
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_training_slot_registration_create_form(self, mock_send_mail):
+
+        form=TrainingSlotRegistrationCreateForm(instance=self.training_slot, user=self.user)
+        training_slot = form.save()
+
+        email_content = form.create_email_content()
+        self.assertEqual(training_slot.registrations.first(), self.user)
+        self.assertEqual(email_content['recipient_list'], [self.user.email])
+        self.assertEqual(email_content['subject'], "Confirmation de l'inscrition à la formation")
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_get_success_message(self, mock_send_mail):
+        """
+        Test the get_success_message function by checking if the correct message is displayed after registering for a training session.
+        """
+        
+        self.client.login(username='user', password='userpassword')
+        response = self.client.post(self.create_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'Vous vous êtes inscrit avec succès à la formation laser pendant 120 minutes le lundi 1 mai 2023 de 10:00 à 12:00'
+        self.assertEqual(message, expected_message)
+    
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_get_dispatch_message_when_already_registered(self, mock_send_mail):
+        self.client.login(username='user', password='userpassword')
+        response = self.client.post(self.create_url)
+        response = self.client.post(self.create_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'You are already registered for this training slot'
+        self.assertEqual(message, expected_message)
+
+class TrainingSlotRegistrationDeleteViewTestCase(TrainingSlotRegistrationViewTestCase):
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def setUp(self, mock_send_mail):
+        super(TrainingSlotRegistrationDeleteViewTestCase, self).setUp()
+
+        form=TrainingSlotRegistrationCreateForm(instance=self.training_slot, user=self.user)
+        self.training_slot = form.save()
+
+        self.delete_url = reverse('fabcal:trainingslot-unregister', kwargs={'pk': 1})
+
+    def test_LoginRequiredMixin(self):
+        self.assertTrue(issubclass(TrainingSlotRegistrationDeleteView, LoginRequiredMixin))
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_training_slot_registration_delete_form(self, mock_send_mail):
+        """
+        Test the training slot registration delete form.
+        """
+
+        form=TrainingSlotRegistrationDeleteForm(instance=self.training_slot, user=self.user)
+        form.save()
+
+        email_content = form.create_email_content()
+        self.assertEqual(self.training_slot.registrations.first(), None)
+        self.assertEqual(email_content['recipient_list'], [self.user.email])
+        self.assertEqual(email_content['subject'], 'Training unregistration confirmation')
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_dispatch_user_in_registrations(self, mock_send_mail):
+        """
+        Test case for when the user is in registrations.
+        """
+
+        self.client.login(username='user', password='userpassword')
+        response = self.client.get(self.delete_url)
+        self.assertEqual(response.status_code, 200)
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_dispatch_user_not_in_registrations(self, mock_send_mail):
+        """
+        Test case for when the user is not in registrations.
+        """
+        
+        self.client.login(username='testsuperuser', password='testpass')
+        response = self.client.post(self.delete_url)
+        self.assertEqual(response.status_code, 403)
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_get_success_message(self, mock_send_mail):
+        """
+        Test the get_success_message function with a mocked send_mail function.
+        """
+
+        self.client.login(username='user', password='userpassword')
+
+        response = self.client.post(self.delete_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'Vous avez créé avec succès la formation laser durant 120 minutes le lundi 1 mai 2023 de 10:00 à 12:00'
         self.assertEqual(message, expected_message)
