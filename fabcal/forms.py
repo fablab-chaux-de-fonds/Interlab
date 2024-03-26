@@ -231,13 +231,62 @@ class OpeningSlotForm(SlotForm):
         label=_('Machines'),
         required=False
     )
-    
+
     class Meta:
         model = OpeningSlot
         fields = ('opening', 'machines', 'date', 'start_time', 'end_time', 'comment')
 
     def save(self):
         self.instance.user = self.user
+        return self.instance
+
+class SlotLinkedToOpeningForm(OpeningSlotForm):
+    opening = forms.ModelChoiceField(
+        queryset=Opening.objects.all(),
+        label=_('Opening'),
+        empty_label=_('Select an opening'),
+        required=False
+        )
+
+    registration_limit = forms.IntegerField(required=True, label=_('Registration limit'))
+
+    def save(self, opening_slot_form_class, initial=None):
+        """
+        Save the opening slot form data and send mail with the created instance.
+
+        Parameters:
+            opening_slot_form_class (class): The class of the opening slot form.
+
+        Returns:
+            instance: The created instance.
+        """
+        self.instance = super().save()
+
+        opening_data = self.cleaned_data.get('opening')
+
+        if opening_data:
+            form_data = {
+                'opening':opening_data,
+                'machines':self.cleaned_data.get('machines'),
+                'date':self.cleaned_data.get('date'),
+                'start_time':self.cleaned_data.get('start_time'),
+                'end_time':self.cleaned_data.get('end_time'),
+                'comment':self.cleaned_data.get('comment')
+            }
+
+            form = opening_slot_form_class(
+                data=form_data,
+                initial=initial,
+                instance=self.instance.opening_slot,
+            )
+
+            form.is_valid()
+            opening_slot = form.save()
+        
+            self.instance.opening_slot = opening_slot
+        
+        self.instance.save()
+
         return self.instance
 
 class OpeningSlotCreateForm(OpeningSlotForm):
@@ -595,14 +644,13 @@ class MachineSlotUpdateForm(SlotForm):
         
         return self.instance
 
-class TrainingSlotForm(OpeningSlotForm):
+class TrainingSlotForm(SlotLinkedToOpeningForm):
     training = forms.ModelChoiceField(
         queryset= Training.objects.filter(is_active=True),
         label=_('Training'),
         empty_label=_('Select a training'),
         error_messages={'required': _('Please select a training.')}
         )
-    registration_limit = forms.IntegerField(required=True, label=_('Registration limit'))
 
     class Meta:
         model = TrainingSlot
@@ -624,48 +672,6 @@ class TrainingSlotForm(OpeningSlotForm):
 
         return email_content
 
-    def save(self, opening_slot_form_class, initial=None):
-        """
-        Save the opening slot form data and send mail with the created instance.
-
-        Parameters:
-            opening_slot_form_class (class): The class of the opening slot form.
-
-        Returns:
-            instance: The created instance.
-        """
-        self.instance = super().save()
-
-        opening_data = self.cleaned_data.get('opening')
-
-        if opening_data:
-            form_data = {
-                'opening':opening_data,
-                'machines':self.cleaned_data.get('machines'),
-                'date':self.cleaned_data.get('date'),
-                'start_time':self.cleaned_data.get('start_time'),
-                'end_time':self.cleaned_data.get('end_time'),
-                'comment':self.cleaned_data.get('comment')
-            }
-
-            form = opening_slot_form_class(
-                data=form_data,
-                initial=initial,
-                instance=self.instance.opening_slot,
-            )
-
-            form.is_valid()
-            opening_slot = form.save()
-        
-        self.instance.opening_slot = opening_slot
-        self.instance.save()
-
-        # send mail
-        email_content = self.create_email_content()
-        send_mail(**email_content)
-
-        return self.instance
-
 class TrainingSlotCreateForm(TrainingSlotForm):
     def create_email_content(self):
         email_content = super().create_email_content()
@@ -678,6 +684,11 @@ class TrainingSlotCreateForm(TrainingSlotForm):
     
     def save(self):
         self.instance = super().save(OpeningSlotCreateForm)
+        
+        # send mail
+        email_content = self.create_email_content()
+        send_mail(**email_content)
+        
         return self.instance
 
 class TrainingSlotUpdateForm(TrainingSlotForm):
@@ -692,6 +703,11 @@ class TrainingSlotUpdateForm(TrainingSlotForm):
 
     def save(self):
         self.instance = super().save(OpeningSlotUpdateForm, initial=self.initial)
+
+        # send mail
+        email_content = self.create_email_content()
+        send_mail(**email_content)
+
         return self.instance
 
 class TrainingSlotRegistrationForm(UserForm):
@@ -764,19 +780,32 @@ class TrainingSlotRegistrationDeleteForm(TrainingSlotRegistrationForm):
         
         return self.instance
 
-class EventForm(AbstractSlotForm):
+class EventSlotForm(SlotLinkedToOpeningForm):
     event = forms.ModelChoiceField(
         queryset= Event.objects.filter(is_active=True),
         label=_('Event'),
         empty_label=_('Select an event'),
         error_messages={'required': _('Please select an event.')}, 
         )
-    start_date = forms.CharField()
-    end_date = forms.CharField()
     price = forms.CharField(label=_('Price'), widget=forms.Textarea(attrs={'class':'form-control', 'rows':4}))
     has_registration = forms.BooleanField(required=False, label=_('On registration'))
     registration_limit = forms.IntegerField(required=False, label=_('Registration limit'), help_text=_('leave blank if no limit'))
 
+    class Meta: 
+        model = EventSlot
+        fields = ('event', 'date', 'start_time', 'end_time', 'price', 'has_registration', 'registration_limit', 'opening', 'machines', 'comment')
+
+class EventSlotCreateForm(EventSlotForm):
+    def save(self):
+        self.instance = super().save(OpeningSlotCreateForm)
+        return self.instance
+
+class EventSlotUpdateForm(EventSlotForm):
+    def save(self):
+        self.instance = super().save(OpeningSlotUpdateForm, initial=self.initial)
+        return self.instance
+
+class EventForm(AbstractSlotForm):
     def clean_start(self):
         self.cleaned_data['start'] = datetime.datetime.combine(
             dateparser.parse(self.data['start_date']), 

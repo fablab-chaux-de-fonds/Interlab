@@ -29,6 +29,8 @@ from .forms import TrainingSlotCreateForm
 from .forms import TrainingSlotUpdateForm
 from .forms import TrainingSlotRegistrationCreateForm
 from .forms import TrainingSlotRegistrationDeleteForm
+from .forms import EventSlotCreateForm
+from .forms import EventSlotUpdateForm
 from .forms import EventForm
 from .forms import RegisterEventForm
 
@@ -460,11 +462,11 @@ class TrainingSlotView():
                     end_time=self.object.formatted_end_time,
                 )
 
-class TrainingSlotCreateView(SuperuserRequiredMixin, TrainingSlotView, CreateSlotView, CreateView):
+class TrainingSlotCreateView(SuperuserRequiredMixin, TrainingSlotView, CreateSlotView):
     form_class = TrainingSlotCreateForm
     success_message = _('You successfully created the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
-class TrainingSlotUpdateView(SuperuserRequiredMixin, TrainingSlotView, UpdateSlotView, UpdateView):
+class TrainingSlotUpdateView(SuperuserRequiredMixin, TrainingSlotView, UpdateSlotView):
     form_class = TrainingSlotUpdateForm
     success_message = _('You successfully updated the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
@@ -524,6 +526,42 @@ class TrainingSlotRegistrationDeleteView(TrainingSlotRegistrationView):
             return HttpResponseForbidden("You are not allowed to access this page.")
         return super().dispatch(request, *args, **kwargs)
 
+class EventDetailView(DetailView):
+    model = EventSlot
+
+class EventSlotView():
+    model = EventSlot
+
+    def get_success_url(self):
+        return reverse('fabcal:eventslot-detail', kwargs={'pk': self.object.pk})
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % dict(
+                    event=self.object.event.title,
+                    duration=self.object.get_duration,
+                    start_date=self.object.formatted_start_date,
+                    start_time=self.object.formatted_start_time,
+                    end_time=self.object.formatted_end_time,
+                )
+
+class EventSlotCreateView(SuperuserRequiredMixin, EventSlotView, CreateSlotView):
+    form_class = EventSlotCreateForm
+    success_message = _('You successfully created the event %(event)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+
+class EventSlotUpdateView(SuperuserRequiredMixin, EventSlotView, UpdateSlotView):
+    form_class = EventSlotUpdateForm
+    success_message = _('You successfully updated the event %(event)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_btn'] = _('Update event')
+        return context
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['machines'] = [i.pk for i in self.object.opening_slot.get_machine_list]
+        return initial
+
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
     form_class = EventForm
@@ -569,9 +607,6 @@ class EventDeleteView(AbstractSlotView, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('pages-details-by-slug', kwargs={'slug': 'schedule'})
-
-class EventDetailView(AbstractSlotView, DetailView):
-    model = EventSlot
 
 class RegisterBaseView(LoginRequiredMixin, SingleObjectMixin, AbstractSlotView, CustomFormView):
     def get_context_data(self, **kwargs):

@@ -18,6 +18,7 @@ from machines.models import MachineCategory
 from machines.models import Training
 from machines.models import TrainingValidation
 from machines.models import TrainingNotification
+from openings.models import Event
 from openings.models import Opening
 
 from .forms import OpeningSlotForm
@@ -27,10 +28,13 @@ from .forms import TrainingSlotCreateForm
 from .forms import TrainingSlotUpdateForm
 from .forms import TrainingSlotRegistrationCreateForm
 from .forms import TrainingSlotRegistrationDeleteForm
+from .forms import EventSlotCreateForm
+from .forms import EventSlotUpdateForm
 from .mixins import SuperuserRequiredMixin
 from .models import OpeningSlot
 from .models import MachineSlot
 from .models import TrainingSlot
+from .models import EventSlot
 from .views import OpeningSlotCreateView
 from .views import OpeningSlotUpdateView
 from .views import OpeningSlotDeleteView
@@ -40,8 +44,8 @@ from .views import TrainingSlotCreateView
 from .views import TrainingSlotDeleteView
 from .views import TrainingSlotRegistrationCreateView
 from .views import TrainingSlotRegistrationDeleteView
-
-
+from .views import EventSlotCreateView
+from .views import EventSlotUpdateView
 
 class TestView(SuperuserRequiredMixin, View):
     def get(self, request):
@@ -149,6 +153,16 @@ class SlotViewTestCase(TestCase):
             duration=datetime.timedelta(hours=1, minutes=30),
             photo = 'laser_training.png',
             full_price = 40
+        )
+
+        self.event = Event.objects.create(
+            title = 'my event title',
+            lead = 'my event lead',
+            desc = 'my event description',
+            img = 'event.png',
+            is_active = True,
+            is_on_site = True,
+            location = 'Fablab'
         )
 
     def get_creation_url_parameter(self):
@@ -1346,3 +1360,143 @@ class TrainingSlotRegistrationDeleteViewTestCase(TrainingSlotRegistrationViewTes
 
         expected_message = 'Vous avez créé avec succès la formation laser durant 120 minutes le lundi 1 mai 2023 de 10:00 à 12:00'
         self.assertEqual(message, expected_message)
+
+class EventSlotCreateViewTestCase(SlotViewTestCase):
+    def setUp(self):
+        super().setUp()
+
+        self.form_data = self.get_default_form_data()
+        self.form_data = self.get_default_form_data()
+        self.form_data['event'] = Event.objects.first().pk
+        self.form_data['price'] = '10 CHF'
+        self.form_data['has_registration'] = True
+        self.form_data['registration_limit'] = 10
+
+    def test_superuser_required(self):
+        self.assertTrue(issubclass(EventSlotCreateView, SuperuserRequiredMixin))
+
+    def test_event_slot_create_form_without_opening(self):
+        """
+        Test the event slot create form.
+        """
+        self.form_data['opening'] = None
+        form=EventSlotCreateForm(data=self.form_data, user=self.superuser)
+        self.assertTrue(form.is_valid())
+        form.save()
+
+        self.assertEqual(EventSlot.objects.count(), 1)
+        self.assertEqual(OpeningSlot.objects.count(), 0)
+        self.assertEqual(EventSlot.objects.first().start, datetime.datetime(2023, 5, 1, 10))
+        self.assertEqual(EventSlot.objects.first().end, datetime.datetime(2023, 5, 1, 12))
+        self.assertEqual(EventSlot.objects.first().user, self.superuser)
+
+    def test_event_slot_create_form_with_opening(self):
+        """
+        Test the event slot create form and an opening.
+        """
+
+        self.form_data['opening'] = Opening.objects.first().pk
+
+        form=EventSlotCreateForm(data=self.form_data, user=self.superuser)
+        self.assertTrue(form.is_valid())
+        form.save()
+
+        self.assertEqual(EventSlot.objects.count(), 1)
+        self.assertEqual(OpeningSlot.objects.count(), 1)
+    
+    def test_get_success_message(self):
+        """
+        Test the success message returned by the get_success_message function.
+        """
+        create_url = reverse('fabcal:eventslot-create', kwargs=self.get_creation_url_parameter())
+
+        self.client.login(username='testsuperuser', password='testpass')
+
+        response = self.client.post(create_url, self.form_data)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = "Vous avez créé avec succès l'évènement my event title durant 120 minutes le lundi 1 mai 2023 de 10:00 à 12:00"
+        self.assertEqual(message, expected_message)
+    
+    def test_success_url(self):
+        """
+        Test the success url.
+        """
+        create_url = reverse('fabcal:eventslot-create', kwargs=self.get_creation_url_parameter())
+
+        self.client.login(username='testsuperuser', password='testpass')
+
+        response = self.client.post(create_url, self.form_data)
+        self.assertRedirects(response, reverse('fabcal:eventslot-detail', kwargs={'pk': EventSlot.objects.first().pk}))
+
+class EventSlotUpdateViewTestCase(SlotViewTestCase):
+    def setUp(self):
+        super().setUp()
+
+        self.form_data = self.get_default_form_data()
+        self.form_data = self.get_default_form_data()
+        self.form_data['event'] = Event.objects.first().pk
+        self.form_data['price'] = '10 CHF'
+        self.form_data['has_registration'] = True
+        self.form_data['registration_limit'] = 10
+
+
+        form=EventSlotCreateForm(data=self.form_data, user=self.superuser)
+        form.is_valid()
+        event_slot = form.save()
+
+        self.form_initial = {
+            'start': event_slot.start,
+            'end': event_slot.end
+        }
+    
+    def test_superuser_required(self):
+        self.assertTrue(issubclass(EventSlotUpdateView, SuperuserRequiredMixin))
+
+    def test_event_slot_update_form(self):
+        """
+        Test the event slot update form.
+        """
+
+        self.form_data['start_time'] = '10:30'
+        self.form_data['price'] = '5 CHF'
+        self.form_data['opening'] = Opening.objects.first().pk
+        self.form_data['machine'] = [Machine.objects.first().pk]
+
+
+        form=EventSlotUpdateForm(data=self.form_data, instance=EventSlot.objects.first(), user=self.superuser, initial=self.form_initial)
+        self.assertTrue(form.is_valid())
+        form.save()
+
+        self.assertEqual(EventSlot.objects.count(), 1)
+        self.assertEqual(EventSlot.objects.first().price, '5 CHF')
+        self.assertEqual(EventSlot.objects.first().start, datetime.datetime(2023, 5, 1, 10, 30))
+        self.assertEqual(EventSlot.objects.first().opening_slot, OpeningSlot.objects.first())
+
+    def test_get_success_message(self):
+        """
+        Test the success message returned by the get_success_message function.
+        """
+        update_url = reverse('fabcal:eventslot-update', kwargs={'pk': 1})
+
+        self.client.login(username='testsuperuser', password='testpass')
+
+        self.form_data['start_time'] = '10:30'
+        response = self.client.post(update_url, self.form_data)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = "Vous avez mis à jour avec succès l'évènement my event title durant 90 minutes le lundi 1 mai 2023 de 10:30 à 12:00"
+        self.assertEqual(message, expected_message)
+
+    def test_success_url(self):
+        """
+        Test the success url.
+        """
+        update_url = reverse('fabcal:eventslot-update', kwargs={'pk': 1})
+
+        self.client.login(username='testsuperuser', password='testpass')
+
+        response = self.client.post(update_url, self.form_data)
+        self.assertRedirects(response, reverse('fabcal:eventslot-detail', kwargs={'pk': EventSlot.objects.first().pk}))
