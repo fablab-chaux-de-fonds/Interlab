@@ -48,6 +48,7 @@ from .views import TrainingSlotRegistrationCreateView
 from .views import TrainingSlotRegistrationDeleteView
 from .views import EventSlotCreateView
 from .views import EventSlotUpdateView
+from .views import EventSlotDeleteView
 from .views import EventSlotRegistrationCreateView
 from .views import EventSlotRegistrationDeleteView
 
@@ -1498,6 +1499,50 @@ class EventSlotUpdateViewTestCase(EventSlotTestCase):
 
         response = self.client.post(update_url, self.form_data)
         self.assertRedirects(response, reverse('fabcal:eventslot-detail', kwargs={'pk': EventSlot.objects.first().pk}))
+
+class EventSlotDeleteViewTestCase(EventSlotTestCase):
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def setUp(self, mock_send_mail):
+        super().setUp()
+
+        form = EventSlotCreateForm(data=self.form_data, user=self.superuser)
+        self.assertTrue(form.is_valid())
+        self.event_slot = form.save()
+        self.delete_url = reverse('fabcal:eventslot-delete', kwargs={'pk': 1})
+
+    def test_SuperuserRequiredMixin(self):
+        self.assertTrue(issubclass(EventSlotDeleteView, SuperuserRequiredMixin))
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_delete_event_slot(self, mock_send_mail):
+        # add registration
+        form=EventSlotRegistrationCreateForm(instance=self.event_slot, user=self.user)
+        form.save()
+
+        self.client.login(username='testsuperuser', password='testpass')
+        
+        # test invalid deletion due to registration
+        response = self.client.post(self.delete_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        self.assertEqual(self.client.session.get('error_code', None), "event_slot_with_registrations")
+
+        # remove registration
+        form=EventSlotRegistrationDeleteForm(instance=self.event_slot, user=self.user)
+        form.save()
+
+        self.assertEqual(self.event_slot.registrations.first(), None)
+
+        # Delete slot
+        response = self.client.post(self.delete_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'Votre évènement du lundi 1 mai 2023 de 10:00 à 12:00 a bien été supprimée'
+        self.assertEqual(message, expected_message)
+        self.assertEqual(EventSlot.objects.all().count(), 0)
 
 class EventSlotRegistrationViewTestCase(EventSlotTestCase):
 

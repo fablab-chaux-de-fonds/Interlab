@@ -564,11 +564,31 @@ class EventSlotUpdateView(SuperuserRequiredMixin, EventSlotView, UpdateSlotView)
         initial['machines'] = [i.pk for i in self.object.opening_slot.get_machine_list]
         return initial
 
+class EventSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
+    model = EventSlot
+    sucess_message = _("Your event on %(date)s from %(start)s to %(end)s has been successfully deleted")
+
+    def get_success_url(self):
+        return reverse('fabcal:eventslot-detail', kwargs={'pk': self.object.event.pk})
+
+    def delete(self, request, *args, **kwargs): #TODO create a common method with TrainingSlotDeleteView
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            messages.success(request, self.sucess_message % self.get_context_data())
+            return HttpResponseRedirect(self.get_success_url())
+        except ValidationError as e:
+            error_code = getattr(e, 'code')
+            request.session['error_code'] = error_code
+            messages.error(request, e.message)
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+
 class EventSlotRegistrationView(EventSlotView, RegisterSlotView):
     template_name = 'fabcal/eventslot_(un)registration_form.html'
 
     def get_success_url(self):
         return reverse_lazy("fabcal:eventslot-detail", kwargs={'pk': self.object.event_id})
+
 class EventSlotRegistrationCreateView(EventSlotRegistrationView):
     form_class = EventSlotRegistrationCreateForm
     success_message = _('You successfully registered the event %(event)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
