@@ -225,7 +225,7 @@
                     </a>
                 </div>
                 {% elif slot|get_type == 'EventSlot' %}
-                <a href="{% url 'fabcal:event-detail' slot.pk %}">
+                <a href="{% url 'fabcal:eventslot-detail' slot.pk %}">
                     <i class="bi bi-pencil-square text-blue fs-1"></i>
                 </a>
                 {%endif%}

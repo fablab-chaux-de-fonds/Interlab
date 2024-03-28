@@ -30,6 +30,7 @@ from .forms import TrainingSlotRegistrationCreateForm
 from .forms import TrainingSlotRegistrationDeleteForm
 from .forms import EventSlotCreateForm
 from .forms import EventSlotUpdateForm
+from .forms import EventSlotRegistrationCreateForm
 from .mixins import SuperuserRequiredMixin
 from .models import OpeningSlot
 from .models import MachineSlot
@@ -46,6 +47,7 @@ from .views import TrainingSlotRegistrationCreateView
 from .views import TrainingSlotRegistrationDeleteView
 from .views import EventSlotCreateView
 from .views import EventSlotUpdateView
+from .views import EventSlotRegistrationCreateView
 
 class TestView(SuperuserRequiredMixin, View):
     def get(self, request):
@@ -1296,7 +1298,7 @@ class TrainingSlotRegistrationCreateViewTestCase(TrainingSlotRegistrationViewTes
         storage = get_messages(response.wsgi_request)
         message = [message.message for message in storage].pop()
 
-        expected_message = 'You are already registered for this training slot'
+        expected_message = "Vous êtes déjà inscrit à cette formation !"
         self.assertEqual(message, expected_message)
 
 class TrainingSlotRegistrationDeleteViewTestCase(TrainingSlotRegistrationViewTestCase):
@@ -1361,7 +1363,7 @@ class TrainingSlotRegistrationDeleteViewTestCase(TrainingSlotRegistrationViewTes
         expected_message = 'Vous avez créé avec succès la formation laser durant 120 minutes le lundi 1 mai 2023 de 10:00 à 12:00'
         self.assertEqual(message, expected_message)
 
-class EventSlotCreateViewTestCase(SlotViewTestCase):
+class EventSlotTestCase(SlotViewTestCase):
     def setUp(self):
         super().setUp()
 
@@ -1371,6 +1373,8 @@ class EventSlotCreateViewTestCase(SlotViewTestCase):
         self.form_data['price'] = '10 CHF'
         self.form_data['has_registration'] = True
         self.form_data['registration_limit'] = 10
+
+class EventSlotCreateViewTestCase(EventSlotTestCase):
 
     def test_superuser_required(self):
         self.assertTrue(issubclass(EventSlotCreateView, SuperuserRequiredMixin))
@@ -1430,17 +1434,9 @@ class EventSlotCreateViewTestCase(SlotViewTestCase):
         response = self.client.post(create_url, self.form_data)
         self.assertRedirects(response, reverse('fabcal:eventslot-detail', kwargs={'pk': EventSlot.objects.first().pk}))
 
-class EventSlotUpdateViewTestCase(SlotViewTestCase):
+class EventSlotUpdateViewTestCase(EventSlotTestCase):
     def setUp(self):
         super().setUp()
-
-        self.form_data = self.get_default_form_data()
-        self.form_data = self.get_default_form_data()
-        self.form_data['event'] = Event.objects.first().pk
-        self.form_data['price'] = '10 CHF'
-        self.form_data['has_registration'] = True
-        self.form_data['registration_limit'] = 10
-
 
         form=EventSlotCreateForm(data=self.form_data, user=self.superuser)
         form.is_valid()
@@ -1500,3 +1496,56 @@ class EventSlotUpdateViewTestCase(SlotViewTestCase):
 
         response = self.client.post(update_url, self.form_data)
         self.assertRedirects(response, reverse('fabcal:eventslot-detail', kwargs={'pk': EventSlot.objects.first().pk}))
+
+class EventSlotRegistrationViewTestCase(EventSlotTestCase):
+
+    def setUp(self, ):
+        super().setUp()
+
+        form = EventSlotCreateForm(data=self.form_data, user=self.user)
+        self.assertTrue(form.is_valid())
+        self.event_slot = form.save()
+
+class EventSlotRegistrationCreateViewTestCase(EventSlotRegistrationViewTestCase):
+    def setUp(self):
+        super(EventSlotRegistrationCreateViewTestCase, self).setUp()
+        self.create_url = reverse('fabcal:eventslot-register', kwargs={'pk': self.event_slot.pk})
+
+    def test_login_required_mixin(self):
+        self.assertTrue(issubclass(EventSlotRegistrationCreateView, LoginRequiredMixin))
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_event_slot_registration_create_form(self, mock_send_mail):
+
+        form=EventSlotRegistrationCreateForm(instance=self.event_slot, user=self.user)
+        event_slot = form.save()
+
+        email_content = form.create_email_content()
+        self.assertEqual(event_slot.registrations.first(), self.user)
+        self.assertEqual(email_content['recipient_list'], [self.user.email])
+        self.assertEqual(email_content['subject'], "Confirmation de l'inscrition à l'évènement")
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_get_success_message(self, mock_send_mail):
+        """
+        Test the get_success_message function by checking if the correct message is displayed after registering for the event.
+        """
+        
+        self.client.login(username='user', password='userpassword')
+        response = self.client.post(self.create_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = "Vous vous êtes inscrit avec succès à l'évènement my event title pendant 120 minutes le lundi 1 mai 2023 de 10:00 à 12:00"
+        self.assertEqual(message, expected_message)
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_get_dispatch_message_when_already_registered(self, mock_send_mail):
+        self.client.login(username='user', password='userpassword')
+        response = self.client.post(self.create_url)
+        response = self.client.post(self.create_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = 'Vous êtes déjà inscrit à cet évènement !'
+        self.assertEqual(message, expected_message)

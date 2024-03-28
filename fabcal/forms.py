@@ -1,9 +1,7 @@
-import datetime
-import dateparser
 import os
-
-from babel.dates import format_datetime, get_timezone
+import datetime
 from copy import deepcopy
+import dateparser
 
 from django import forms
 from django.conf import settings
@@ -16,9 +14,10 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe 
 from django.utils.translation import gettext_lazy as _
 
-from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
-from openings.models import Opening, Event
 from machines.models import Training, TrainingNotification, Machine
+from openings.models import Opening, Event
+
+from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
 from .custom_fields import CustomDateField
 from .validators import validate_delete_machine_slot
 
@@ -214,6 +213,20 @@ class SlotForm(UserForm):
         self.instance.end = self.cleaned_data['end']
 
         return cleaned_data
+
+class RegistrationForm(UserForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['registrations'].required = False
+
+    def save(self):
+
+        # send mail
+        email_content = self.create_email_content()
+        send_mail(**email_content)
+
+        return self.instance
 
 class OpeningSlotForm(SlotForm):
     opening = forms.ModelChoiceField(
@@ -710,15 +723,11 @@ class TrainingSlotUpdateForm(TrainingSlotForm):
 
         return self.instance
 
-class TrainingSlotRegistrationForm(UserForm):
+class TrainingSlotRegistrationForm(RegistrationForm):
 
     class Meta:
         model = TrainingSlot
         fields = ('registrations',)
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['registrations'].required = False
 
     def create_email_content(self):
         email_content = {
@@ -741,12 +750,7 @@ class TrainingSlotRegistrationCreateForm(TrainingSlotRegistrationForm):
     
     def save(self):
         self.instance.registrations.add(self.user)
-
-        # send mail
-        email_content = self.create_email_content()
-        send_mail(**email_content)
-        
-        return self.instance
+        return super(TrainingSlotRegistrationCreateForm, self).save()
 
 class TrainingSlotRegistrationDeleteForm(TrainingSlotRegistrationForm):
 
@@ -773,12 +777,7 @@ class TrainingSlotRegistrationDeleteForm(TrainingSlotRegistrationForm):
     
     def save(self):
         self.instance.registrations.remove(self.user)
-
-        # send mail
-        email_content = self.create_email_content()
-        send_mail(**email_content)
-        
-        return self.instance
+        return super(TrainingSlotRegistrationDeleteForm, self).save()
 
 class EventSlotForm(SlotLinkedToOpeningForm):
     event = forms.ModelChoiceField(
@@ -804,6 +803,37 @@ class EventSlotUpdateForm(EventSlotForm):
     def save(self):
         self.instance = super().save(OpeningSlotUpdateForm, initial=self.initial)
         return self.instance
+
+class EventSlotRegistraionForm(RegistrationForm):
+
+    class Meta:
+        model = EventSlot
+        fields = ('registrations',)
+
+    def create_email_content(self):
+        email_content = {
+            'from_email': None,
+            'recipient_list': [self.user.email],
+        }
+
+        return email_content
+
+class EventSlotRegistrationCreateForm(EventSlotRegistraionForm):
+    def create_email_content(self):
+        email_content = super().create_email_content()
+        context = {'event_slot': self.instance}
+        email_content['html_message'] = render_to_string('fabcal/email/eventslot_registration_confirm.html', context)
+        email_content['subject'] = _('Event registration confirmation')
+        email_content['message'] = _("Event registration confirmation")
+
+        return email_content
+    
+    def save(self):
+        self.instance.registrations.add(self.user)
+        return super(EventSlotRegistrationCreateForm, self).save()
+
+class EventSlotRegistrationDeleteForm(EventSlotRegistraionForm):
+    pass
 
 class EventForm(AbstractSlotForm):
     def clean_start(self):

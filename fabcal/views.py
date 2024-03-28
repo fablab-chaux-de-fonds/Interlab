@@ -31,6 +31,7 @@ from .forms import TrainingSlotRegistrationCreateForm
 from .forms import TrainingSlotRegistrationDeleteForm
 from .forms import EventSlotCreateForm
 from .forms import EventSlotUpdateForm
+from .forms import EventSlotRegistrationCreateForm
 from .forms import EventForm
 from .forms import RegisterEventForm
 
@@ -562,6 +563,22 @@ class EventSlotUpdateView(SuperuserRequiredMixin, EventSlotView, UpdateSlotView)
         initial['machines'] = [i.pk for i in self.object.opening_slot.get_machine_list]
         return initial
 
+class EventSlotRegistrationView(EventSlotView, RegisterSlotView):
+    template_name = 'fabcal/eventslot_(un)registration_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy("fabcal:eventslot-detail", kwargs={'pk': self.object.event_id})
+class EventSlotRegistrationCreateView(EventSlotRegistrationView):
+    form_class = EventSlotRegistrationCreateForm
+    success_message = _('You successfully registered the event %(event)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user in self.object.registrations.all():
+            messages.success(request, _('You are already registered for this event'))
+            return redirect('fabcal:eventslot-detail', pk=self.object.pk)
+        return super().dispatch(request, *args, **kwargs)
+
 class EventBaseView(CustomFormView, AbstractMachineView):
     template_name = 'fabcal/event_create_or_update_form.html'
     form_class = EventForm
@@ -622,7 +639,7 @@ class EventRegisterBaseView(RegisterBaseView):
     model = EventSlot
 
     def get_success_url(self):
-        return reverse_lazy("fabcal:event-detail", kwargs={'pk': self.kwargs['pk']})
+        return reverse_lazy("fabcal:eventslot-detail", kwargs={'pk': self.kwargs['pk']})
 
     def get_context_data(self, **kwargs):
         context = super(EventRegisterBaseView, self).get_context_data(**kwargs)
