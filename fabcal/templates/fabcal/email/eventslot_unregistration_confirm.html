@@ -1,0 +1,17 @@
+{% extends "email/base_email.html" %}
+{% load i18n %}
+
+{% block content %}
+<p> Hello {{request.user.first_name}}, </p> 
+<p>
+    {% trans "We confirme that you are unregistered to the event " %}
+    {{object.training.title}}
+    {% trans " on " %}
+    {{object.start|date:'l j F'}}
+    {% trans " from " %}
+    {{object.start|date:'H:i'}}
+    {% trans " to " %}
+    {{object.end|date:'H:i'}}.
+</p>
+
+{% endblock content %}

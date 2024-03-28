@@ -833,7 +833,31 @@ class EventSlotRegistrationCreateForm(EventSlotRegistraionForm):
         return super(EventSlotRegistrationCreateForm, self).save()
 
 class EventSlotRegistrationDeleteForm(EventSlotRegistraionForm):
-    pass
+    
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user not in self.object.registrations.all():
+            return HttpResponseForbidden("You are not allowed to access this page.")
+        return super().dispatch(request, *args, **kwargs)
+
+    def is_valid(self):
+        if self.user not in self.instance.registrations.all():
+            raise forms.ValidationError(_("You are not registered for this event slot."))
+            return False
+        return super().is_valid()
+    
+    def create_email_content(self):
+        email_content = super().create_email_content()
+        context = {'event_slot': self.instance}
+        email_content['html_message'] = render_to_string('fabcal/email/eventslot_unregistration_confirm.html', context)
+        email_content['subject'] = _('Event unregistration confirmation')
+        email_content['message'] = _("Event unregistration confirmation")
+
+        return email_content
+    
+    def save(self):
+        self.instance.registrations.remove(self.user)
+        return super(EventSlotRegistrationDeleteForm, self).save()
 
 class EventForm(AbstractSlotForm):
     def clean_start(self):

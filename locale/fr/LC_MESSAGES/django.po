@@ -1565,7 +1565,7 @@ msgid ""
 "You successfully unregistered the event %(event)s during %(duration)s "
 "minutes on %(start_date)s from %(start_time)s to %(end_time)s"
 msgstr ""
-"Vous avez créé avec succès l'évènement %(event)s durant %(duration)s minutes "
+"Vous vous êtes desinscrit avec succès à l'évènement %(event)s durant %(duration)s minutes "
 "le %(start_date)s de %(start_time)s à %(end_time)s"
 
 #: fabcal/views.py:601

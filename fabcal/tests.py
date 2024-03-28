@@ -31,6 +31,7 @@ from .forms import TrainingSlotRegistrationDeleteForm
 from .forms import EventSlotCreateForm
 from .forms import EventSlotUpdateForm
 from .forms import EventSlotRegistrationCreateForm
+from .forms import EventSlotRegistrationDeleteForm
 from .mixins import SuperuserRequiredMixin
 from .models import OpeningSlot
 from .models import MachineSlot
@@ -48,6 +49,7 @@ from .views import TrainingSlotRegistrationDeleteView
 from .views import EventSlotCreateView
 from .views import EventSlotUpdateView
 from .views import EventSlotRegistrationCreateView
+from .views import EventSlotRegistrationDeleteView
 
 class TestView(SuperuserRequiredMixin, View):
     def get(self, request):
@@ -1548,4 +1550,66 @@ class EventSlotRegistrationCreateViewTestCase(EventSlotRegistrationViewTestCase)
         message = [message.message for message in storage].pop()
 
         expected_message = 'Vous êtes déjà inscrit à cet évènement !'
+        self.assertEqual(message, expected_message)
+
+class EventSlotRegistrationDeleteViewTestCase(EventSlotRegistrationViewTestCase):
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def setUp(self, mock_send_mail):
+        super(EventSlotRegistrationDeleteViewTestCase, self).setUp()
+
+        form=EventSlotRegistrationCreateForm(instance=self.event_slot, user=self.user)
+        self.event_slot = form.save()
+
+        self.delete_url = reverse('fabcal:eventslot-unregister', kwargs={'pk': 1})
+
+    def test_LoginRequiredMixin(self):
+        self.assertTrue(issubclass(EventSlotRegistrationDeleteView, LoginRequiredMixin))
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_event_slot_registration_delete_form(self, mock_send_mail):
+        """
+        Test the event slot registration delete form.
+        """
+
+        form=EventSlotRegistrationDeleteForm(instance=self.event_slot, user=self.user)
+        form.save()
+
+        email_content = form.create_email_content()
+        self.assertEqual(self.event_slot.registrations.first(), None)
+        self.assertEqual(email_content['recipient_list'], [self.user.email])
+        self.assertEqual(email_content['subject'], 'Event unregistration confirmation')
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_dispatch_user_in_registrations(self, mock_send_mail):
+        """
+        Test case for when the user is in registrations.
+        """
+
+        self.client.login(username='user', password='userpassword')
+        response = self.client.get(self.delete_url)
+        self.assertEqual(response.status_code, 200)
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_dispatch_user_not_in_registrations(self, mock_send_mail):
+        """
+        Test case for when the user is not in registrations.
+        """
+        
+        self.client.login(username='testsuperuser', password='testpass')
+        response = self.client.post(self.delete_url)
+        self.assertEqual(response.status_code, 403)
+
+    @patch('fabcal.forms.send_mail', autospec=True)
+    def test_get_success_message(self, mock_send_mail):
+        """
+        Test the get_success_message function with a mocked send_mail function.
+        """
+
+        self.client.login(username='user', password='userpassword')
+
+        response = self.client.post(self.delete_url)
+        storage = get_messages(response.wsgi_request)
+        message = [message.message for message in storage].pop()
+
+        expected_message = "Vous vous êtes desinscrit avec succès à l'évènement my event title durant 120 minutes le lundi 1 mai 2023 de 10:00 à 12:00"
         self.assertEqual(message, expected_message)

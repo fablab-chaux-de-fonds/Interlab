@@ -32,6 +32,7 @@ from .forms import TrainingSlotRegistrationDeleteForm
 from .forms import EventSlotCreateForm
 from .forms import EventSlotUpdateForm
 from .forms import EventSlotRegistrationCreateForm
+from .forms import EventSlotRegistrationDeleteForm
 from .forms import EventForm
 from .forms import RegisterEventForm
 
@@ -577,6 +578,16 @@ class EventSlotRegistrationCreateView(EventSlotRegistrationView):
         if request.user in self.object.registrations.all():
             messages.success(request, _('You are already registered for this event'))
             return redirect('fabcal:eventslot-detail', pk=self.object.pk)
+        return super().dispatch(request, *args, **kwargs)
+
+class EventSlotRegistrationDeleteView(EventSlotRegistrationView):
+    form_class = EventSlotRegistrationDeleteForm
+    success_message = _('You successfully unregistered the event %(event)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+
+    def dispatch(self, request, *args, **kwargs): #TODO create a common method with EventSlotRegistrationDeleteView
+        self.object = self.get_object()
+        if request.user not in self.object.registrations.all():
+            return HttpResponseForbidden("You are not allowed to access this page.")
         return super().dispatch(request, *args, **kwargs)
 
 class EventBaseView(CustomFormView, AbstractMachineView):
