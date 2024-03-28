@@ -21,7 +21,6 @@ urlpatterns = [
     path('eventslot/register/create/<int:pk>/', views.EventSlotRegistrationCreateView.as_view(), name='eventslot-register'),
     path('eventslot/register/delete/<int:pk>/', views.EventSlotRegistrationDeleteView.as_view(), name='eventslot-unregister'),
     path('download-ics-file/<str:summary>/<str:start>/<str:end>/', views.downloadIcsFileView.as_view(), name='download-ics-file'),
-    path('training/<int:pk>/unregister/', views.TrainingUnregisterView.as_view(), name='training-unregister'),
     path('machine/reservation/future/', views.MachineFutureReservationListView.as_view(), name='machine-reservation-future'),
     path('machine/reservation/past/', views.MachinePastReservationListView.as_view(), name='machine-reservation-past')
 ]
