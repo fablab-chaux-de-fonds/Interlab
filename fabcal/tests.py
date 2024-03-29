@@ -317,6 +317,7 @@ class OpeningSlotUpdateViewTestCase(SlotViewTestCase):
         self.assertEqual(form_data['date'], '2023-05-01')
         self.assertEqual(form_data['start_time'], '10:00')
         self.assertEqual(form_data['end_time'], '12:00')
+        self.assertEqual(form_data['machines'], [1])
 
         # test message after confirm updating the opening slot
         self.client.login(username='testsuperuser', password='testpass')

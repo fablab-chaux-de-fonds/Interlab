@@ -17,7 +17,7 @@
         </div>
     </div>
     {% for machine_slot in opening_slot.machineslot_set.all|filter_user|filter_machine:machine|filter_slot_minimum_time %}
-    <a href="{% url 'fabcal:machine-reservation' machine_slot.pk %}">
+    <a href="{% url 'fabcal:machineslot-update' machine_slot.pk %}">
         <button class="btn btn-primary">
             {{machine_slot.start|date:"H:i"}} {% trans "to" %} {{machine_slot.end|date:"H:i"}} <i
                 class="bi bi-chevron-right"></i>
