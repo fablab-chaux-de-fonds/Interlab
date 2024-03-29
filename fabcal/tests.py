@@ -253,9 +253,6 @@ class OpeningSlotCreateViewTestCase(SlotViewTestCase):
 
     def test_view_valid(self):
         response = self.create_opening_slot()
-        self.assertEqual(response.status_code, 302)
-
-        self.assertIn('/schedule/', response.url)
         
         obj = OpeningSlot.objects.latest('id')
         self.assertEqual(obj.start, datetime.datetime(2023, 5, 1, 10, 0))
@@ -283,6 +280,14 @@ class OpeningSlotCreateViewTestCase(SlotViewTestCase):
 
         self.assertEqual(messages, [expected_message])
 
+    def test_success_url(self):
+        """
+        Test the success url.
+        """
+        response = self.create_opening_slot()
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/schedule', response.url)
+    
     def tearDown(self):
         self.client.logout()
         self.superuser.delete()
@@ -521,6 +526,20 @@ class OpeningSlotUpdateViewTestCase(SlotViewTestCase):
         # Assert Prusa machine slot removed
         self.assertEqual(MachineSlot.objects.all().count(), 1)
         self.assertEqual(response.status_code, 302)
+
+    def test_success_url(self):
+        """
+        Test the success url.
+        """
+        response = self.create_opening_slot()
+
+        # Update opening
+        response = self.client.get(self.update_url)
+        form_data = response.context_data['form'].initial
+        form_data['machines'].append(Machine.objects.get(title = 'Prusa').pk)
+
+        response = self.client.post(self.update_url, form_data)
+        self.assertRedirects(response, reverse('accounts:profile'))
 
 class OpeningSlotDeleteViewTestCase(SlotViewTestCase):
     def setUp(self):

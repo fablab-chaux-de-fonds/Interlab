@@ -19,7 +19,6 @@
         <div class="mb-3">
             <label for="{{ form.opening.id_for_label }}">{{ form.opening.label_tag }}</label>
             {{ form.opening }}
-            {{ form.opening.errors }}
         </div>
 
         {%include './form/select_machines.html'%}
@@ -31,23 +30,18 @@
                         <v-col cols="12">
                             <date-picker init-date={{form.initial.date}} input-name="date" label={% trans "Date" %}>
                             </date-picker>
-                            {{ form.date.errors }}
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col cols="6">
                             <time-picker init-time={{form.initial.start_time}} input-name="start_time" label={% trans "Start" %}>
                             </time-picker>
-                            {{ form.start_time.errors }}
                         </v-col>
                         <v-col cols="6">
                             <time-picker init-time={{form.initial.end_time}} input-name="end_time" label={% trans "End" %}>
                             </time-picker>
                         </v-col>
-                        {{ form.end_time.errors }}
                     </v-row>
-                    
-                    
                 </div>
             </div>
         </div>
@@ -55,7 +49,6 @@
         <div class="mb-3">
             <label for="{{ form.comment.id_for_label }}">{{ form.comment.label_tag }}</label>
             {{ form.comment }}
-            {{ form.comment.errors }}
         </div>
     </div>
 

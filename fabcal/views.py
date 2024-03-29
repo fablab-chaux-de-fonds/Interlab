@@ -6,19 +6,16 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.mail import send_mail
 from django.core.exceptions import ValidationError, PermissionDenied
-from django.http import HttpResponseForbidden, HttpResponse, QueryDict, HttpResponseRedirect
+from django.http import HttpResponse, QueryDict, HttpResponseForbidden
 from django.shortcuts import redirect
 from django.template import loader
-from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.urls import reverse, reverse_lazy
-from django.views import View
 from django.views.generic import TemplateView, ListView
-from django.views.generic.edit import FormView, DeleteView, CreateView, UpdateView
-from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.edit import DeleteView, CreateView, UpdateView
+from django.views.generic.detail import DetailView
 
 from interlab.views import CustomFormView
 
@@ -110,7 +107,6 @@ class DeleteSlotView(LoginRequiredMixin, DeleteView):
         
 class OpeningSlotView(SuperuserRequiredMixin):
     model = OpeningSlot
-    success_url = '/schedule/'
 
     success_message = _("Your opening has been successfully %(action)s on %(date)s from %(start_time)s to %(end_time)s </br> "
                  "<a href=\"/fabcal/download-ics-file/%(opening_title)s/%(start)s/%(end)s\"> "
@@ -122,15 +118,17 @@ class OpeningSlotView(SuperuserRequiredMixin):
         elif issubclass(self.__class__, UpdateView):
             action = _('updated')
 
-        return self.success_message % dict(
-                    action=action,
-                    date=self.object.formatted_start_date,
-                    start_time=self.object.formatted_start_time,
-                    end_time=self.object.formatted_end_time,
-                    opening_title=self.object.opening.title,
-                    start=self.object.start,
-                    end=self.object.end
-                )
+        return mark_safe(
+                    self.success_message % dict(
+                        action=action,
+                        date=self.object.formatted_start_date,
+                        start_time=self.object.formatted_start_time,
+                        end_time=self.object.formatted_end_time,
+                        opening_title=self.object.opening.title,
+                        start=self.object.start,
+                        end=self.object.end
+                    )
+                )       
 
     def form_invalid(self, form):       
         updated_data = QueryDict(mutable=True)
@@ -185,6 +183,7 @@ class OpeningSlotView(SuperuserRequiredMixin):
 
 class OpeningSlotCreateView(OpeningSlotView, CreateSlotView):
     form_class = OpeningSlotCreateForm
+    success_url = '/schedule'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -193,6 +192,9 @@ class OpeningSlotCreateView(OpeningSlotView, CreateSlotView):
 
 class OpeningSlotUpdateView(OpeningSlotView, UpdateSlotView):
     form_class = OpeningSlotUpdateForm
+
+    def get_success_url(self):
+        return reverse_lazy("accounts:profile")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -206,7 +206,7 @@
       },
 
       createOpeningSlot(event) {
-        location.href = "/fabcal/openingslot/create/?start=" + this.start + "&end=" + this.end;
+        location.href = "/fabcal/openingslot/create/" + this.start + "/" + this.end;
       },
 
       createEventSlot(event) {
