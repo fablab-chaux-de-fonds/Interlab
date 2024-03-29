@@ -93,6 +93,21 @@ class DeleteSlotView(LoginRequiredMixin, DeleteView):
         })
         return context
 
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            messages.success(request, self.sucess_message % self.get_context_data())
+            return redirect(self.get_success_url())
+        except ValidationError as e:
+            try: 
+                request.session['error_code'] = getattr(e, 'code')
+            except AttributeError:
+                request.session['error_code'] = None
+
+            messages.error(request, _(e.message))
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        
 class OpeningSlotView(SuperuserRequiredMixin):
     model = OpeningSlot
     success_url = '/schedule/'
@@ -193,16 +208,6 @@ class OpeningSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
     model = OpeningSlot
     success_url = '/schedule'
     sucess_message = _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted")
-
-    def delete(self, request, *args, **kwargs):
-        try:
-            super(OpeningSlotDeleteView, self).delete(self, request, *args, **kwargs)
-        except ValidationError as e:
-            messages.error(request, _(e.message))
-            return redirect(self.get_success_url())
-
-        messages.success(request, _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted") % self.get_context_data())
-        return redirect(self.get_success_url())
 
 class MachineSlotUpdateView(UpdateSlotView):
     model = MachineSlot
@@ -311,18 +316,6 @@ class TrainingSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
     def get_success_url(self):
         return reverse('machines:training-detail', kwargs={'pk': self.object.training.pk})
 
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        try:
-            self.object.delete()
-            messages.success(request, self.sucess_message % self.get_context_data())
-            return HttpResponseRedirect(self.get_success_url())
-        except ValidationError as e:
-            error_code = getattr(e, 'code')
-            request.session['error_code'] = error_code
-            messages.error(request, e.message)
-            return redirect(request.META.get('HTTP_REFERER', '/'))
-
 class TrainingSlotRegistrationView(TrainingSlotView, RegisterSlotView):
     template_name = 'fabcal/trainingslot_(un)registration_form.html'
 
@@ -392,18 +385,6 @@ class EventSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
 
     def get_success_url(self):
         return reverse('fabcal:eventslot-detail', kwargs={'pk': self.object.event.pk})
-
-    def delete(self, request, *args, **kwargs): #TODO create a common method with TrainingSlotDeleteView
-        self.object = self.get_object()
-        try:
-            self.object.delete()
-            messages.success(request, self.sucess_message % self.get_context_data())
-            return HttpResponseRedirect(self.get_success_url())
-        except ValidationError as e:
-            error_code = getattr(e, 'code')
-            request.session['error_code'] = error_code
-            messages.error(request, e.message)
-            return redirect(request.META.get('HTTP_REFERER', '/'))
 
 class EventSlotRegistrationView(EventSlotView, RegisterSlotView):
     template_name = 'fabcal/eventslot_(un)registration_form.html'
