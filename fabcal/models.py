@@ -126,7 +126,7 @@ class EventSlot(AbstractSlot, AbstractRegistration):
         verbose_name = _("Event Slot")
         verbose_name_plural = _("Event Slots")
 
-    def delete(self, *args, **kwargs): # TODO common method with TrainingSlot
+    def delete(self, *args, **kwargs):
         if self.registrations.all().exists():
             raise ValidationError(_("Cannot delete event slot with registrations."), code='event_slot_with_registrations')
         super().delete(*args, **kwargs)

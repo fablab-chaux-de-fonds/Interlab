@@ -407,7 +407,7 @@ class EventSlotRegistrationDeleteView(EventSlotRegistrationView):
     form_class = EventSlotRegistrationDeleteForm
     success_message = _('You successfully unregistered the event %(event)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
-    def dispatch(self, request, *args, **kwargs): #TODO create a common method with EventSlotRegistrationDeleteView
+    def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         if request.user not in self.object.registrations.all():
             return HttpResponseForbidden("You are not allowed to access this page.")

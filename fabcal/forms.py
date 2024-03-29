@@ -23,6 +23,15 @@ from .validators import validate_delete_machine_slot
 
 class UserForm(ModelForm):
     def __init__(self, user=None,  *args, **kwargs):
+        """
+        Initialize the UserForm with optional user parameter.
+
+        Parameters:
+            user (optional): A user object.
+
+        Returns:
+            None
+        """
         super(UserForm, self).__init__(*args, **kwargs)
         self.user = user
 
@@ -33,16 +42,31 @@ class SlotForm(UserForm):
     comment = forms.CharField(label=_('Comment'),  required=False)
 
     def clean(self):
+        """
+        Clean the form data.
+
+        This function combines the date, start_time, and end_time form fields
+        with the instance start and end fields, and updates the instance
+        before the clean in the model.
+
+        Returns:
+            cleaned_data (dict): The cleaned form data.
+        """
+        # Call the parent's clean method
         cleaned_data = super(SlotForm, self).clean()
+        
+        # Get the date, start_time, and end_time form fields or use the
+        # instance start and end fields.
         date = cleaned_data.get('date') or self.instance.start.date()
         start_time = cleaned_data.get('start_time') or self.instance.start.time()
         end_time = cleaned_data.get('end_time') or self.instance.end.time()
 
-        # set the start and end fields of the instance
+        # Combine the date, start_time, and end_time with the instance start
+        # and end fields to set the start and end fields of the instance.
         self.cleaned_data['start'] = datetime.datetime.combine(date, start_time)
         self.cleaned_data['end'] = datetime.datetime.combine(date, end_time)
 
-        # update instance before clean in model
+        # Update the instance before clean in the model.
         self.instance.start = self.cleaned_data['start']
         self.instance.end = self.cleaned_data['end']
 
@@ -103,35 +127,46 @@ class SlotLinkedToOpeningForm(OpeningSlotForm):
 
         Parameters:
             opening_slot_form_class (class): The class of the opening slot form.
+            initial (dict): The initial data for the opening slot form.
 
         Returns:
             instance: The created instance.
         """
+        # Save the instance of the superclass
         self.instance = super().save()
 
+        # Get the opening data from the cleaned data
         opening_data = self.cleaned_data.get('opening')
 
+        # If opening data is present
         if opening_data:
+            # Prepare the form data for the opening slot form
             form_data = {
-                'opening':opening_data,
-                'machines':self.cleaned_data.get('machines'),
-                'date':self.cleaned_data.get('date'),
-                'start_time':self.cleaned_data.get('start_time'),
-                'end_time':self.cleaned_data.get('end_time'),
-                'comment':self.cleaned_data.get('comment')
+                'opening': opening_data,
+                'machines': self.cleaned_data.get('machines'),
+                'date': self.cleaned_data.get('date'),
+                'start_time': self.cleaned_data.get('start_time'),
+                'end_time': self.cleaned_data.get('end_time'),
+                'comment': self.cleaned_data.get('comment')
             }
 
+            # Create the opening slot form using the form class and data
             form = opening_slot_form_class(
                 data=form_data,
                 initial=initial,
                 instance=self.instance.opening_slot,
             )
 
+            # Validate the form data
             form.is_valid()
+
+            # Save the opening slot form
             opening_slot = form.save()
         
+            # Update the instance with the opening slot
             self.instance.opening_slot = opening_slot
         
+        # Save the updated instance
         self.instance.save()
 
         return self.instance
@@ -139,9 +174,19 @@ class SlotLinkedToOpeningForm(OpeningSlotForm):
 class OpeningSlotCreateForm(OpeningSlotForm):
 
     def save(self):
+        """
+        Save the instance of the OpeningSlotCreateForm.
+
+        This function creates a new MachineSlot for each machine in
+        the cleaned_data['machines'] and saves it to the database.
+
+        Returns:
+            instance (OpeningSlot): The saved instance of OpeningSlot.
+        """
         self.instance = super().save()
         self.instance.save()
 
+        # Create a MachineSlot for each machine in cleaned_data['machines']
         for machine in self.cleaned_data['machines']:
             MachineSlot.objects.create(              
                 machine=machine,
@@ -155,8 +200,17 @@ class OpeningSlotCreateForm(OpeningSlotForm):
 class OpeningSlotUpdateForm(OpeningSlotForm):
 
     def clean(self):
+        """
+        Clean the form data by removing MachineSlots associated with machines
+        that are no longer selected.
+
+        Returns:
+            cleaned_data (dict): The cleaned form data.
+        """
+        # Get the set of machine primary keys to remove
         machines_to_remove = set(self.initial.get('machines', [])) - set(self.cleaned_data['machines'].values_list('pk', flat=True))
 
+        # Remove MachineSlots associated with machines to remove
         for pk in machines_to_remove:
             machine_slot = MachineSlot.objects.get(opening_slot=self.instance, machine=pk)
             validate_delete_machine_slot(machine_slot)
@@ -164,6 +218,9 @@ class OpeningSlotUpdateForm(OpeningSlotForm):
         return super().clean()
 
     def save(self):
+        """
+        A method to save the instance and perform operations to remove, update, or create machine slots.
+        """
         self.instance = super().save()
         self.instance.save()
 
@@ -177,7 +234,6 @@ class OpeningSlotUpdateForm(OpeningSlotForm):
 
         # -------------------
         # Update or create machine slot
-
         for machine in self.cleaned_data['machines']:
 
             # Get the machine slots to update.
@@ -263,6 +319,15 @@ class MachineSlotUpdateForm(SlotForm):
         fields = ('start_time', 'end_time')
 
     def clean_start_time(self):
+        """
+        Cleans the start time of the form data.
+
+        Returns:
+            datetime: The cleaned start time.
+
+        Raises:
+            ValidationError: If the start time is earlier than the opening slot start time.
+        """
         start_time = self.cleaned_data.get('start_time')
 
         if self.cleaned_data['start_time'] < self.instance.opening_slot.start.time():
@@ -275,6 +340,15 @@ class MachineSlotUpdateForm(SlotForm):
         return start_time
 
     def clean_end_time(self):
+        """
+        Cleans and validates the end time of a form.
+
+        Returns:
+            The cleaned and validated end time.
+        
+        Raises:
+            ValidationError: If the end time is later than the opening slot end time.
+        """
         end_time = self.cleaned_data.get('end_time')
 
         # Check if end time is later than opening slot end time
@@ -530,6 +604,12 @@ class TrainingSlotCreateForm(TrainingSlotForm):
         return email_content
     
     def save(self):
+        """
+        Saves the instance of the form and sends an email with the created email content.
+
+        Returns:
+            The saved instance of the form.
+        """
         self.instance = super().save(OpeningSlotCreateForm)
         
         # send mail
@@ -549,6 +629,10 @@ class TrainingSlotUpdateForm(TrainingSlotForm):
         return email_content
 
     def save(self):
+        """
+        Save the instance using the OpeningSlotUpdateForm, initialize email content, and send mail.
+        Returns the saved instance.
+        """
         self.instance = super().save(OpeningSlotUpdateForm, initial=self.initial)
 
         # send mail
@@ -589,6 +673,17 @@ class TrainingSlotRegistrationCreateForm(TrainingSlotRegistrationForm):
 class TrainingSlotRegistrationDeleteForm(TrainingSlotRegistrationForm):
 
     def is_valid(self):
+        """
+        Check if the form is valid.
+
+        This method checks if the user is registered for the training slot associated with the form instance. If the user is not registered, a validation error is raised. Otherwise, the parent class's `is_valid` method is called to perform further validation.
+
+        Returns:
+            bool: True if the form is valid, False otherwise.
+
+        Raises:
+            forms.ValidationError: If the user is not registered for the training slot.
+        """
         if self.user not in self.instance.registrations.all():
             raise forms.ValidationError(_("You are not registered for this training slot."))
             return False
