@@ -588,12 +588,6 @@ class TrainingSlotRegistrationCreateForm(TrainingSlotRegistrationForm):
 
 class TrainingSlotRegistrationDeleteForm(TrainingSlotRegistrationForm):
 
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if request.user not in self.object.registrations.all():
-            return HttpResponseForbidden("You are not allowed to access this page.")
-        return super().dispatch(request, *args, **kwargs)
-
     def is_valid(self):
         if self.user not in self.instance.registrations.all():
             raise forms.ValidationError(_("You are not registered for this training slot."))
@@ -667,12 +661,6 @@ class EventSlotRegistrationCreateForm(EventSlotRegistraionForm):
         return super(EventSlotRegistrationCreateForm, self).save()
 
 class EventSlotRegistrationDeleteForm(EventSlotRegistraionForm):
-    
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if request.user not in self.object.registrations.all():
-            return HttpResponseForbidden("You are not allowed to access this page.")
-        return super().dispatch(request, *args, **kwargs)
 
     def is_valid(self):
         if self.user not in self.instance.registrations.all():
