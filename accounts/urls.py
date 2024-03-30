@@ -6,7 +6,7 @@ app_name = 'accounts'
 
 urlpatterns =[
     path('register/', views.CustomRegistrationView.as_view(), name='django_registration_register'),
-    path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('login/', views.CustomLoginView.as_view(), name='accounts:login'),
     path('', include('django_registration.backends.activation.urls')),
     path('', include('django.contrib.auth.urls')),
     path('activate/<str:activation_key>/', views.CustomActivationView.as_view(), name='django_registration_activate'),

@@ -9,7 +9,7 @@
     {% for registration in event_slot.registrations.all %}
     <div class="row">
         <div class="col-2">
-            <a href="{% url 'superuser-profile-edit' registration.pk %}">
+            <a href="{% url 'accounts:superuser-profile-edit' registration.pk %}">
                 <div class="text-center">
                     {%include 'accounts/avatar.html'%}
                 </div>

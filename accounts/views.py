@@ -37,8 +37,10 @@ from django_registration.exceptions import ActivationError
 
 from newsletter.views import register_email, get_contact, update_contact
 from interlab.views import CustomFormView
+
 class CustomLoginView(LoginView):
     form_class = CustomAuthenticationForm
+
 class CustomRegistrationView(RegistrationView):
     template_name = 'registration/registration_form.html'
     form_class = CustomRegistrationForm
@@ -195,7 +197,6 @@ class OrganizationUserCreateView(OwnerRequiredMixin, LoginRequiredMixin, BaseOrg
 def token_error_view(request): 
     template = 'organizations/invitations_token_error.html'
     return render(request, template) 
-
 
 class UserListView(LoginRequiredMixin, TemplateView):
     number_of_item = 10

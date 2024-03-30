@@ -29,13 +29,15 @@
                         <p>
                             {% if slot.available_registration > 0  %}
                             <small class"fs-6">
-                                {% blocktrans with available_registration=slot.available_registration %}still {{available_registration}} places available !{% endblocktrans %}
+                                {% blocktrans with available_registration=slot.available_registration %}still
+                                {{available_registration}} places available !{% endblocktrans %}
                             </small>
                             {% if slot.registrations != None %}
                         <h5>{% trans "Registration" %}</h5>
                         <ul>
                             {% for user in slot.registrations.all %}
-                            <li> <a href={% url 'superuser-profile-edit' user.pk %}>{{user.first_name}} {{user.last_name}}
+                                <li> <a href={% url 'accounts:superuser-profile-edit' user.pk %}>{{user.first_name}}
+                                        {{user.last_name}}
                             </li>
                             {% endfor %}
                         </ul>
@@ -54,8 +56,9 @@
                         <div class="d-flex justify-content-end align-items-center">
                             {% if request.user|has_group:"superuser"%}
                             {% if slot.registrations.all %}
-                            <button type="button" class="btn btn-link align-middle link-secondary py-0" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="{% trans 'You have reservations!' %}">
+                            <button type="button" class="btn btn-link align-middle link-secondary py-0"
+                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="{% trans 'You have reservations!' %}">
                                 <i class="bi bi-trash3 fs-1"></i>
                             </button>
                             {% else %}
@@ -69,8 +72,8 @@
                             {% else %}
         
                             {% if not slot.is_editable %}
-                            <button type="button" class="btn btn-link align-middle link-secondary py-0" data-bs-toggle="tooltip"
-                                data-bs-placement="top"
+                            <button type="button" class="btn btn-link align-middle link-secondary py-0"
+                                data-bs-toggle="tooltip" data-bs-placement="top"
                                 title="{% trans 'It is not possible to cancel the reservation 24h before the begining of the training. Please contact us.' %}">
                                 <i class="bi bi-trash3 fs-1"></i>
                             </button>
@@ -83,7 +86,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 {% elif slot|get_type == 'OpeningSlot' %}
                 <div class="row">
@@ -99,8 +101,8 @@
                     <div class="col-4 py-0">
                         <div class="d-flex justify-content-end align-items-center">
                             {% if slot.get_reservation_list %}
-                            <button type="button" class="btn btn-link align-middle link-secondary py-0" data-bs-toggle="tooltip"
-                                data-bs-placement="top"
+                            <button type="button" class="btn btn-link align-middle link-secondary py-0"
+                                data-bs-toggle="tooltip" data-bs-placement="top"
                                 title="{% trans 'You have reservations!' %}">
                                 <i class="bi bi-trash3 fs-1"></i>
                             </button>
@@ -110,14 +112,15 @@
                                 <i class="bi bi-trash3 fs-1"></i>
                             </a>
                             {% endif %}
-                            <a class="btn btn-link align-middle py-0" href="{% url 'fabcal:openingslot-update' slot.pk %}">
+                            <a class="btn btn-link align-middle py-0"
+                                href="{% url 'fabcal:openingslot-update' slot.pk %}">
                                 <i class="bi bi-pencil-square text-blue fs-1"></i>
                             </a>
                         </div>
                     </div>
                 </div>
                 {% for reservation in slot.get_reservation_list %}
-                <a class="text-blue" href="{% url 'superuser-profile-edit' reservation.user.pk %}">
+                    <a class="text-blue" href="{% url 'accounts:superuser-profile-edit' reservation.user.pk %}">
                     <div class="row">
                         <div class="col-3 col-md-2">
                             {%include 'accounts/avatar.html' with user=reservation.user%}
@@ -134,17 +137,46 @@
                 {% endfor %}
 
                 {% elif slot|get_type == 'MachineSlot' %}
+                <div class="row">
+                    <div class="col-8 py-0">
                 <span class="h5">
-                    {% trans "Reservation" %} - {{slot.get_duration}} min
+                            {% trans "Reservation" %}
                 </span>
                 <p class='badge'
                     style="color:{{slot.opening_slot.opening.color}};background-color:{{slot.opening_slot.opening.background_color}}">
                     {{slot.opening_slot.opening.title}}
                 </p>
-                <br>
-                {{slot.machine.title}}
+                    </div>
+                    <div class="col-4">
+                        <div class="d-flex justify-content-end align-items-center">
+                            {% if not slot.is_editable %}
+                            <button type="button" class="btn btn-link align-middle link-secondary" data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="{% trans 'It is not possible to cancel the reservation 24h before the begining of the slot. Please contact us.' %}">
+                                <i class="bi bi-trash3 fs-1"></i>
+                            </button>
+                            {% else %}
+                            <a class="btn btn-link align-middle" href="{% url 'fabcal:machineslot-delete' slot.pk %}">
+                                <i class="bi bi-trash3 fs-1"></i>
+                            </a>
+                            {% endif %}
+        
+                            <a class="btn btn-link align-middle" href="{% url 'fabcal:machineslot-update' slot.pk %}">
+                                <i class="bi bi-pencil-square text-blue fs-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{slot.get_duration}} min - {{slot.machine.title}}
+                        </div>
+                    </div>
+                </div>
+
 
                 {% elif slot|get_type == 'EventSlot' %}
+                <div class="row">
+                    <div class="col-8">
                 <h5>
                     {% trans "Event" %}
                     {{slot.event.title}}
@@ -153,82 +185,15 @@
                     style="color:{{slot.opening_slot.opening.color}};background-color:{{slot.opening_slot.opening.background_color}}">
                     {{slot.opening_slot.opening.title}} - {{slot.opening_slot.user.first_name}}
                 </p>
-                {% endif %}
             </div>
-            <div class="col-4 text-end">
-                {% if slot|get_type == 'TrainingSlot'%}
-                <div class="d-flex justify-content-end align-items-center">
-                    {% if request.user|has_group:"superuser"%}
-                    {% if slot.registrations.all %}
-                    <button type="button" class="btn btn-link align-middle link-secondary" data-bs-toggle="tooltip"
-                        data-bs-placement="top" title="{% trans 'You have reservations!' %}">
-                        <i class="bi bi-trash3 fs-1"></i>
-                    </button>
-                    {% else %}
-                    <a class="btn btn-link align-middle" href="{% url 'fabcal:training-delete' slot.pk %}">
-                        <i class="bi bi-trash3 fs-1"></i>
-                    </a>
-                    {% endif %}
-                    <a class="btn btn-link align-middle" href="{% url 'fabcal:training-update' slot.pk %}">
-                        <i class="bi bi-pencil-square text-blue fs-1"></i>
-                    </a>
-                    {% else %}
 
-                    {% if not slot.is_editable %}
-                    <button type="button" class="btn btn-link align-middle link-secondary" data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="{% trans 'It is not possible to cancel the reservation 24h before the begining of the training. Please contact us.' %}">
-                        <i class="bi bi-trash3 fs-1"></i>
-                    </button>
-                    {% else %}
-                    <a class="btn btn-link" href="{% url 'fabcal:training-unregister' slot.pk %}">
-                        <i class="bi bi-trash3 fs-1"></i>
-                    </a>
-                    {% endif %}
-                    {% endif %}
-                </div>
-
-                {% elif slot|get_type == 'OpeningSlot' %}
-                <div class="d-flex justify-content-end align-items-center">
-                    {% if slot.get_reservation_list %}
-                    <button type="button" class="btn btn-link align-middle link-secondary" data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="{% trans 'You have reservations!' %}">
-                        <i class="bi bi-trash3 fs-1"></i>
-                    </button>
-                    {% else %}
-                    <a class="btn btn-link align-middle"
-                        href="{% url 'fabcal:openingslot-delete' slot.pk %}">
-                        <i class="bi bi-trash3 fs-1"></i>
-                    </a>
-                    {% endif %}
-                    <a class="btn btn-link align-middle" href="{% url 'fabcal:openingslot-update' slot.pk %}">
-                        <i class="bi bi-pencil-square text-blue fs-1"></i>
-                    </a>
-                </div>
-                {% elif slot|get_type == 'MachineSlot' %}
-                <div class="d-flex justify-content-end align-items-center">
-                    {% if not slot.is_editable %}
-                    <button type="button" class="btn btn-link align-middle link-secondary" data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="{% trans 'It is not possible to cancel the reservation 24h before the begining of the slot. Please contact us.' %}">
-                        <i class="bi bi-trash3 fs-1"></i>
-                    </button>
-                    {% else %}
-                    <a class="btn btn-link align-middle" href="{% url 'fabcal:machine-reservation-delete' slot.pk %}">
-                        <i class="bi bi-trash3 fs-1"></i>
-                    </a>
-                    {% endif %}
-
-                    <a class="btn btn-link align-middle" href="{% url 'fabcal:machine-reservation-update' slot.pk %}">
-                        <i class="bi bi-pencil-square text-blue fs-1"></i>
-                    </a>
-                </div>
                 {% elif slot|get_type == 'EventSlot' %}
                 <a href="{% url 'fabcal:eventslot-detail' slot.pk %}">
                     <i class="bi bi-pencil-square text-blue fs-1"></i>
                 </a>
-                {%endif%}
+            </div>
+        </div>
+        {% endif %}
             </div>
         </div>
         {% endfor %}

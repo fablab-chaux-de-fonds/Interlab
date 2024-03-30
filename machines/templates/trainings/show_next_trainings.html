@@ -71,7 +71,7 @@
             {% endif %}
         </form>
         {% else %}
-        <a href="{% url 'login'%}?next={{request.path}}" class="btn btn-outline-primary float-end">
+        <a href="{% url 'accounts:login'%}?next={{request.path}}" class="btn btn-outline-primary float-end">
             <i class="bi bi-box-arrow-in-right pe-2"></i> {% trans "Log in" %}
         </a>
         {% endif %}
