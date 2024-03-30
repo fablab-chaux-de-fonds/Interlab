@@ -52,7 +52,7 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
         events = list(OpeningSlot.objects.filter(start__gt = date.today() - timedelta(days=365) ))
         for event in events:
             backend['events'].append({
-                'type': 'opening',
+                'type': 'openingslot',
                 'pk': event.pk,
                 'username': event.user.username,
                 'user_firstname': event.user.first_name,
@@ -69,7 +69,7 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
         events = list(EventSlot.objects.filter(start__gt = date.today() - timedelta(days=365) ))
         for event in events:
             backend['events'].append({
-                'type': 'event',
+                'type': 'eventslot',
                 'pk': event.pk,
                 'username': event.user.username,
                 'user_firstname': event.user.first_name,
@@ -85,7 +85,7 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
         events = list(TrainingSlot.objects.filter(start__gt = date.today() - timedelta(days=365) ))
         for event in events:
             backend['events'].append({
-                'type': 'training',
+                'type': 'trainingslot',
                 'pk': event.training.pk,
                 'username': event.user.username,
                 'user_firstname': event.user.first_name,

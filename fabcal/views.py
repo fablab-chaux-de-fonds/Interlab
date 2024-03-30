@@ -18,6 +18,7 @@ from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django.views.generic.detail import DetailView
 
 from interlab.views import CustomFormView
+from machines.models import Machine
 
 from .forms import OpeningSlotCreateForm
 from .forms import OpeningSlotUpdateForm
@@ -297,6 +298,11 @@ class TrainingSlotCreateView(SuperuserRequiredMixin, TrainingSlotView, CreateSlo
     form_class = TrainingSlotCreateForm
     success_message = _('You successfully created the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_btn'] = _('Create training')
+        return context
+
 class TrainingSlotUpdateView(SuperuserRequiredMixin, TrainingSlotView, UpdateSlotView):
     form_class = TrainingSlotUpdateForm
     success_message = _('You successfully updated the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
@@ -316,13 +322,13 @@ class TrainingSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
     sucess_message = _("Your training on %(date)s from %(start)s to %(end)s has been successfully deleted")
 
     def get_success_url(self):
-        return reverse('machines:training-detail', kwargs={'pk': self.object.training.pk})
+        return reverse('accounts:profile')
 
 class TrainingSlotRegistrationView(TrainingSlotView, RegisterSlotView):
     template_name = 'fabcal/trainingslot_(un)registration_form.html'
 
     def get_success_url(self):
-        return reverse_lazy("machines:training-detail", kwargs={'pk': self.object.training_id})
+        return reverse_lazy("machines:training-detail", kwargs={'pk': self.object.training.pk})
 
 class TrainingSlotRegistrationCreateView(TrainingSlotRegistrationView):
     form_class = TrainingSlotRegistrationCreateForm
@@ -359,13 +365,19 @@ class EventSlotView():
                     event=self.object.event.title,
                     duration=self.object.get_duration,
                     start_date=self.object.formatted_start_date,
+                    end_date=self.object.formatted_end_date,
                     start_time=self.object.formatted_start_time,
                     end_time=self.object.formatted_end_time,
                 )
 
 class EventSlotCreateView(SuperuserRequiredMixin, EventSlotView, CreateSlotView):
     form_class = EventSlotCreateForm
-    success_message = _('You successfully created the event %(event)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+    success_message = _('You successfully created the event %(event)s during %(duration)s minutes from %(start_date)s %(start_time)s to %(end_date)s %(end_time)s')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_btn'] = _('Create Event')
+        return context
 
 class EventSlotUpdateView(SuperuserRequiredMixin, EventSlotView, UpdateSlotView):
     form_class = EventSlotUpdateForm
@@ -378,7 +390,10 @@ class EventSlotUpdateView(SuperuserRequiredMixin, EventSlotView, UpdateSlotView)
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['machines'] = [i.pk for i in self.object.opening_slot.get_machine_list]
+        if self.object.opening_slot is not None:
+            initial['machines'] = [i.pk for i in self.object.opening_slot.get_machine_list]
+        else:
+            initial['machines'] = [i.pk for i in Machine.objects.all()]
         return initial
 
 class EventSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):

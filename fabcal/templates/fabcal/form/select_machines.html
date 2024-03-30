@@ -5,7 +5,7 @@
         {% for field in form.machines %}
         <input  id="{{field.id_for_label}}" name="{{form.machines.name}}" type="checkbox"
             value="{{field.data.value.instance.pk}}" class="btn-check" autocomplete="off"
-            {% if field.data.attrs.checked or request.resolver_match.url_name == 'openingslot-create' %} checked {% endif %}
+            {% if field.data.attrs.checked or 'create' in request.resolver_match.url_name %} checked {% endif %}
             />
         <label for="{{field.id_for_label}}"
             class="btn btn-outline-secondary rounded-pill m-2"> {{ field.data.value.instance.title }}</label>

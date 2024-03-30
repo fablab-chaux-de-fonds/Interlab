@@ -47,7 +47,7 @@ def validate_update_opening_slot_on_machine_slot(opening_slot):
                 mark_safe(_('You can not update the opening slot because {user} has already reserved the {machine} from {start_time} to {end_time}.').format(
                     start_time=machine_slot.start.strftime('%H:%M'),
                     end_time=machine_slot.end.strftime('%H:%M'),
-                    user=machine_slot.user.first_name + machine_slot.user.last_name,
+                    user=machine_slot.user.first_name + ' ' + machine_slot.user.last_name,
                     machine=machine_slot.machine.title
                 )),
                 code='conflicting_reservation',

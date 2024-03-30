@@ -16,7 +16,7 @@
 </div>
 
 <form action="
-    {% if 'unregister' in view.request.path %}
+    {% if 'delete' in view.request.path %}
         {% url 'fabcal:trainingslot-unregister' object.pk %}
     {% else %}
         {% url 'fabcal:trainingslot-register' object.pk %}{%endif%}"

@@ -41,15 +41,15 @@
                                 </time-picker>
                             </v-col>
                         </v-row>
-                        {{ form.start.errors }}
-                        {{ form.end.errors }}
+                        {{ form.errors.start_time }}
+                        {{ form.errors.end_time }}
                     {% else %}
                     <v-row>
                         <v-col cols="12">
                             <p>{% trans "You can start between " %} {{object.start|date:"H:i"}} {% trans " and " %} {{max_start_time|date:"H:i"}}</p>
                             <time-picker init-time={{object.formatted_start_time}} input-name="start_time" label={% trans "Time" %}>
                             </time-picker>
-                            {{ form.start.errors }}
+                            {{ form.errors.start_time }}
                         </v-col>
                     </v-row>
 
@@ -65,11 +65,11 @@
                             {% endif %}</p>
                             <date-picker init-date={{object.formatted_end_date}} input-name="end_date" label={% trans "Date" %}>
                             </date-picker>
-                            {{ form.end_date.errors}}
+                            {{ form.errors.end_date}}
                             
                             <time-picker init-time={{object.formatted_end_time}} input-name="end_time" label={% trans "Time" %}>
                             </time-picker>
-                            {{ form.end.errors }}
+                            {{ form.errors.end_time }}
                         </v-col>
                     </v-row>
                     {% endif %}

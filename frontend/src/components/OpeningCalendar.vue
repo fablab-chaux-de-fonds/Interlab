@@ -51,8 +51,8 @@
               <strong>{{ formatEventTime(event.start) }} - {{ formatEventTime(event.end) }} </strong>
               <span v-if="type!='month'"> <br> </span>
                  {{ event.title }}
-              <span v-if="type!='month' & event.type=='opening'"> <br> </span>
-              <span v-if="event.type=='opening'"> {{ event.user_firstname }} </span>
+              <span v-if="type!='month' & event.type=='openingslot'"> <br> </span>
+              <span v-if="event.type=='openingslot'"> {{ event.user_firstname }} </span>
               <span v-if="type!='month'"> <br>
                 {{ event.comment }}
               </span>
@@ -92,7 +92,7 @@
               <div v-if="backend.is_superuser">
                 <div v-if="backend.username === selectedEvent.username">
                   <v-btn icon>
-                    <a :href="'/fabcal/update-' + selectedEvent.type + '/' + selectedEvent.pk + '/'"
+                    <a :href="'/fabcal/' + selectedEvent.type +  '/update/' + selectedEvent.pk + '/'"
                       :style="{'color':selectedEvent.text_color}">
                       <i class="bi bi-pencil"></i>
                     </a>
@@ -114,7 +114,7 @@
               </span>
 
               <p>{{selectedEvent.desc}}</p>
-              <div v-if="selectedEvent.type=='opening'">
+              <div v-if="selectedEvent.type=='openingslot'">
                 <h4> {{ $vuetify.lang.t('$vuetify.machines') }} </h4>
                   <span v-for="machine in selectedEvent.machines">
                   <a :href="'/machines/machines/' + machine.pk + '/show'" class="badge text-bg-info rounded-pill btn-sm m-1">
@@ -210,11 +210,11 @@
       },
 
       createEventSlot(event) {
-        location.href = "/fabcal/event/add/" + this.start + "/" + this.end;
+        location.href = "/fabcal/eventslot/create/" + this.start + "/" + this.end;
       },
 
       createTrainingSlot(event) {
-        location.href = "/fabcal/training/add/" + this.start + "/" + this.end;
+        location.href = "/fabcal/trainingslot/create/" + this.start + "/" + this.end;
       },
 
       cancelDrag() {
@@ -280,11 +280,11 @@
         const open = () => {
           this.selectedEvent = event;
           this.selectedElement = nativeEvent.target;
-          if (this.selectedEvent.type === 'opening') {
+          if (this.selectedEvent.type === 'openingslot') {
             requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true));
-          } else if (this.selectedEvent.type === 'event') {
-            location.href = "/fabcal/event/" + this.selectedEvent.pk;
-          } else if (this.selectedEvent.type === 'training') {
+          } else if (this.selectedEvent.type === 'eventslot') {
+            location.href = "/fabcal/eventslot/" + this.selectedEvent.pk;
+          } else if (this.selectedEvent.type === 'trainingslot') {
             location.href = "/machines/training/" + this.selectedEvent.pk;
           }
         };
