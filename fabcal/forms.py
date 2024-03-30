@@ -531,13 +531,27 @@ class MachineSlotUpdateForm(SlotForm):
 
             if initial_machine_slot.start < start:
                 previous_slot = initial_machine_slot.previous_slots(initial_machine_slot.start).first()
-                previous_slot.end = start
-                previous_slot.save()
+                if previous_slot:
+                    previous_slot.end = start
+                    previous_slot.save()
+                else:
+                    new_slot = deepcopy(initial_machine_slot)
+                    new_slot.id = None
+                    new_slot.end = start
+                    new_slot.user= None
+                    new_slot.save()
 
             if initial_machine_slot.end > end:
                 next_slot = initial_machine_slot.next_slots(initial_machine_slot.end).first()
-                next_slot.start = end
-                next_slot.save()
+                if next_slot:
+                    next_slot.start = end
+                    next_slot.save()
+                else: 
+                    new_slot = deepcopy(initial_machine_slot)
+                    new_slot.id = None
+                    new_slot.start = end
+                    new_slot.user= None
+                    new_slot.save()
 
         if self.instance.machine.category.name == '3D':
             for slot in MachineSlot.objects.filter(

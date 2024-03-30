@@ -686,6 +686,45 @@ class MachineSlotUpdateViewTestCase(SlotViewTestCase):
         self.assertEqual(machine_slot_prev.end.time(), datetime.time(10,30))
 
     @patch('fabcal.forms.send_mail', autospec=True)
+    def test_update_machine_slot_starting_with_whole_slot(self, mock_send_mail):
+        """
+        This test tests if a slot is created in the whole slot, and then modified. 
+        This check the next_slot is not None
+        """
+        # Add reservation
+        form_data = {
+            'start_time': '10:00',
+            'end_time': '12:00'
+        }
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.first(), user=self.user)
+        self.assertTrue(form.is_valid())
+        machine_slot = form.save()
+
+        # Update reservation, modify the end time
+        form_data['end_time'] = '11:30'
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.first(), user=self.user)
+        self.assertTrue(form.is_valid())
+        machine_slot = form.save()
+
+        self.assertEqual(MachineSlot.objects.all().count(), 2)
+        self.assertEqual(machine_slot.user, self.user)
+        self.assertEqual(MachineSlot.objects.last().start.time(), datetime.time(11,30))
+        self.assertEqual(MachineSlot.objects.last().end.time(), datetime.time(12,00))
+        self.assertEqual(MachineSlot.objects.last().user, None)
+
+        # Update reservation, modify the start time 
+        form_data['start_time'] = '10:30'
+        form = MachineSlotUpdateForm(data=form_data, instance=MachineSlot.objects.first(), user=self.user)
+        self.assertTrue(form.is_valid())
+        machine_slot = form.save()
+
+        self.assertEqual(MachineSlot.objects.all().count(), 3)
+        self.assertEqual(machine_slot.user, self.user)
+        self.assertEqual(MachineSlot.objects.last().start.time(), datetime.time(10,00))
+        self.assertEqual(MachineSlot.objects.last().end.time(), datetime.time(10,30))
+        self.assertEqual(MachineSlot.objects.last().user, None)
+
+    @patch('fabcal.forms.send_mail', autospec=True)
     def test_extend_machine_slot_form(self, mock_send_mail):
         """
         This test tests if a slot is extended
