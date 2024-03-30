@@ -4,6 +4,12 @@ from django.views.generic.edit import FormView
 
 class CustomFormView(FormView):
     success_url = '/schedule/'
+
+    def get(self, request, *args, **kwargs):
+        # Store the previous URL in the session
+        self.request.session['prev_url'] = self.request.META.get('HTTP_REFERER', '/')
+        return super().get(request, *args, **kwargs)
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         for field in context['form'].fields:
