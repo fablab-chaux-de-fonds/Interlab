@@ -57,14 +57,24 @@ class SlotForm(UserForm):
         
         # Get the date, start_time, and end_time form fields or use the
         # instance start and end fields.
-        date = cleaned_data.get('date') or self.instance.start.date()
+        if cleaned_data.get('date'):
+            start_date = cleaned_data.get('date') or self.instance.start.date()
+            end_date = start_date
+        else: 
+            # in the case of events with start_date and end_dates
+            if cleaned_data.get('start_date') != cleaned_data.get('end_date') and cleaned_data.get('opening'): 
+                raise ValidationError(_('You cannot create an opening over several days'), code='opening_over_several_days')
+
+            start_date = cleaned_data.get('start_date') or self.instance.start.date()
+            end_date = cleaned_data.get('end_date') or self.instance.start.date()
+
         start_time = cleaned_data.get('start_time') or self.instance.start.time()
         end_time = cleaned_data.get('end_time') or self.instance.end.time()
 
         # Combine the date, start_time, and end_time with the instance start
         # and end fields to set the start and end fields of the instance.
-        self.cleaned_data['start'] = datetime.datetime.combine(date, start_time)
-        self.cleaned_data['end'] = datetime.datetime.combine(date, end_time)
+        self.cleaned_data['start'] = datetime.datetime.combine(start_date, start_time)
+        self.cleaned_data['end'] = datetime.datetime.combine(end_date, end_time)
 
         # Update the instance before clean in the model.
         self.instance.start = self.cleaned_data['start']
@@ -144,7 +154,7 @@ class SlotLinkedToOpeningForm(OpeningSlotForm):
             form_data = {
                 'opening': opening_data,
                 'machines': self.cleaned_data.get('machines'),
-                'date': self.cleaned_data.get('date'),
+                'date': self.cleaned_data.get('date') or self.cleaned_data.get('start_date'),
                 'start_time': self.cleaned_data.get('start_time'),
                 'end_time': self.cleaned_data.get('end_time'),
                 'comment': self.cleaned_data.get('comment')
@@ -155,6 +165,7 @@ class SlotLinkedToOpeningForm(OpeningSlotForm):
                 data=form_data,
                 initial=initial,
                 instance=self.instance.opening_slot,
+                user=self.user
             )
 
             # Validate the form data
@@ -165,7 +176,11 @@ class SlotLinkedToOpeningForm(OpeningSlotForm):
         
             # Update the instance with the opening slot
             self.instance.opening_slot = opening_slot
-        
+        else:
+            if self.instance.opening_slot_id:  # Check if opening_slot is associated with the instance
+                self.instance.opening_slot.delete()
+                self.instance.opening_slot_id = None
+
         # Save the updated instance
         self.instance.save()
 
@@ -647,7 +662,11 @@ class TrainingSlotUpdateForm(TrainingSlotForm):
         Save the instance using the OpeningSlotUpdateForm, initialize email content, and send mail.
         Returns the saved instance.
         """
-        self.instance = super().save(OpeningSlotUpdateForm, initial=self.initial)
+        if self.initial.get('opening'):
+            self.instance = super().save(OpeningSlotUpdateForm, initial=self.initial)
+        else:
+            self.instance = super().save(OpeningSlotCreateForm, initial=self.initial)
+        return self.instance
 
         # send mail
         email_content = self.create_email_content()
@@ -717,6 +736,8 @@ class TrainingSlotRegistrationDeleteForm(TrainingSlotRegistrationForm):
         return super(TrainingSlotRegistrationDeleteForm, self).save()
 
 class EventSlotForm(SlotLinkedToOpeningForm):
+    start_date = CustomDateField()
+    end_date = CustomDateField()
     event = forms.ModelChoiceField(
         queryset= Event.objects.filter(is_active=True),
         label=_('Event'),
@@ -738,7 +759,10 @@ class EventSlotCreateForm(EventSlotForm):
 
 class EventSlotUpdateForm(EventSlotForm):
     def save(self):
-        self.instance = super().save(OpeningSlotUpdateForm, initial=self.initial)
+        if self.initial.get('opening'):
+            self.instance = super().save(OpeningSlotUpdateForm, initial=self.initial)
+        else:
+            self.instance = super().save(OpeningSlotCreateForm, initial=self.initial)
         return self.instance
 
 class EventSlotRegistraionForm(RegistrationForm):

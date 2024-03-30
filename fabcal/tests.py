@@ -1382,6 +1382,12 @@ class TrainingSlotRegistrationDeleteViewTestCase(TrainingSlotRegistrationViewTes
         Test the training slot registration delete form.
         """
 
+        # Register to the training slot
+        form=TrainingSlotRegistrationCreateForm(instance=self.training_slot, user=self.user)
+        form.save()
+        self.assertEqual(self.training_slot.registrations.first(), self.user)
+
+        # Unregister to the training slot
         form=TrainingSlotRegistrationDeleteForm(instance=self.training_slot, user=self.user)
         form.save()
 
@@ -1422,7 +1428,7 @@ class TrainingSlotRegistrationDeleteViewTestCase(TrainingSlotRegistrationViewTes
         storage = get_messages(response.wsgi_request)
         message = [message.message for message in storage].pop()
 
-        expected_message = 'Vous avez créé avec succès la formation laser durant 120 minutes le lundi 1 mai 2023 de 10:00 à 12:00'
+        expected_message = 'Vous vous êtes désinscrit avec succès la formation laser durant 120 minutes le lundi 1 mai 2023 de 10:00 à 12:00'
         self.assertEqual(message, expected_message)
 
 class EventSlotTestCase(SlotViewTestCase):
@@ -1430,7 +1436,10 @@ class EventSlotTestCase(SlotViewTestCase):
         super().setUp()
 
         self.form_data = self.get_default_form_data()
-        self.form_data = self.get_default_form_data()
+        self.form_data['opening'] = ''
+        del self.form_data['date']
+        self.form_data['start_date'] = '2023-05-01'
+        self.form_data['end_date'] = '2023-05-01'
         self.form_data['event'] = Event.objects.first().pk
         self.form_data['price'] = '10 CHF'
         self.form_data['has_registration'] = True
@@ -1445,7 +1454,6 @@ class EventSlotCreateViewTestCase(EventSlotTestCase):
         """
         Test the event slot create form.
         """
-        self.form_data['opening'] = None
         form=EventSlotCreateForm(data=self.form_data, user=self.superuser)
         self.assertTrue(form.is_valid())
         form.save()
@@ -1463,13 +1471,21 @@ class EventSlotCreateViewTestCase(EventSlotTestCase):
 
         self.form_data['opening'] = Opening.objects.first().pk
 
+        # test with opening over several days
+        self.form_data['end_date'] = '2023-05-02'
+        form=EventSlotCreateForm(data=self.form_data, user=self.superuser)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors.as_data()['__all__'][0].code, 'opening_over_several_days')
+
+        self.form_data['end_date'] = '2023-05-01'
+        # test with opening over single day
         form=EventSlotCreateForm(data=self.form_data, user=self.superuser)
         self.assertTrue(form.is_valid())
         form.save()
 
         self.assertEqual(EventSlot.objects.count(), 1)
         self.assertEqual(OpeningSlot.objects.count(), 1)
-    
+
     def test_get_success_message(self):
         """
         Test the success message returned by the get_success_message function.
@@ -1482,9 +1498,9 @@ class EventSlotCreateViewTestCase(EventSlotTestCase):
         storage = get_messages(response.wsgi_request)
         message = [message.message for message in storage].pop()
 
-        expected_message = "Vous avez créé avec succès l'évènement my event title durant 120 minutes le lundi 1 mai 2023 de 10:00 à 12:00"
+        expected_message = "Vous avez créé avec succès l'évènement my event title durant 120 minutes du lundi 1 mai 2023 10:00 au lundi 1 mai 2023 12:00"
         self.assertEqual(message, expected_message)
-    
+
     def test_success_url(self):
         """
         Test the success url.
@@ -1519,9 +1535,6 @@ class EventSlotUpdateViewTestCase(EventSlotTestCase):
 
         self.form_data['start_time'] = '10:30'
         self.form_data['price'] = '5 CHF'
-        self.form_data['opening'] = Opening.objects.first().pk
-        self.form_data['machine'] = [Machine.objects.first().pk]
-
 
         form=EventSlotUpdateForm(data=self.form_data, instance=EventSlot.objects.first(), user=self.superuser, initial=self.form_initial)
         self.assertTrue(form.is_valid())
@@ -1530,6 +1543,38 @@ class EventSlotUpdateViewTestCase(EventSlotTestCase):
         self.assertEqual(EventSlot.objects.count(), 1)
         self.assertEqual(EventSlot.objects.first().price, '5 CHF')
         self.assertEqual(EventSlot.objects.first().start, datetime.datetime(2023, 5, 1, 10, 30))
+        self.assertEqual(EventSlot.objects.first().opening_slot, OpeningSlot.objects.first())
+
+    def test_remove_add_opening_to_event_slot_update_form(self):
+        """
+        Test the event slot update form.
+        """
+
+        # Remove opening slot
+        self.form_data['opening'] = None
+        self.form_data['machine'] = [Machine.objects.first().pk]
+
+        form=EventSlotUpdateForm(data=self.form_data, instance=EventSlot.objects.first(), user=self.superuser, initial=self.form_initial)
+        self.assertTrue(form.is_valid())
+        form.save()
+        self.assertEqual(EventSlot.objects.first().opening_slot, None)
+        self.assertEqual(OpeningSlot.objects.count(), 0)
+
+        # Add opening slot
+        self.form_data['opening'] = Opening.objects.first().pk
+        form=EventSlotUpdateForm(data=self.form_data, instance=EventSlot.objects.first(), user=self.superuser, initial=self.form_initial)
+        self.assertTrue(form.is_valid())
+        form.save()
+        self.assertEqual(EventSlot.objects.count(), 1)
+        self.assertEqual(EventSlot.objects.first().opening_slot, OpeningSlot.objects.first())
+        self.assertEqual(EventSlot.objects.first().opening_slot.user, self.superuser)
+
+        # Modify Event once again        
+        form=EventSlotUpdateForm(data=self.form_data, instance=EventSlot.objects.first(), user=self.superuser, initial=self.form_initial)
+        self.assertTrue(form.is_valid())
+        form.save()
+        self.assertEqual(EventSlot.objects.count(), 1)
+        self.assertEqual(OpeningSlot.objects.count(), 1)
         self.assertEqual(EventSlot.objects.first().opening_slot, OpeningSlot.objects.first())
 
     def test_get_success_message(self):
