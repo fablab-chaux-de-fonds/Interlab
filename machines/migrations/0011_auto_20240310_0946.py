@@ -41,7 +41,7 @@ def backward_change(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('machines', '0010_auto_20240310_0852'),
+        ('machines', '0010_auto_20240331_1314'),
     ]
 
     operations = [

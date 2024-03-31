@@ -7,7 +7,7 @@ from polymorphic.models import PolymorphicModel
 from polymorphic.managers import PolymorphicManager
 from djangocms_text_ckeditor.fields import HTMLField
 from cms.models import CMSPlugin
-
+from decimal import Decimal
 from accounts.models import Profile
 from openings.models import AbstractOpening
 from url_or_relative_url_field.fields import URLOrRelativeURLField
@@ -31,7 +31,6 @@ class DegressiveFdmPriceModel(PriceModel):
         return 'Degressive FDM ({}, {}, {}, {})'.format(self.hourFactor, self.maxDivider, self.matterFactor, self.supportMatterFactor)
 
 class ItemForRent(AbstractOpening):
-    price = models.ForeignKey(PriceModel, on_delete=models.SET_NULL, null=True, db_column='price')
     full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2, null=True, blank=False, help_text='for 30 min', db_column='full_price')
     photo = models.ImageField(upload_to='img', verbose_name=_('Photo'))
     header = HTMLField(verbose_name=_('Header'),blank=True,configuration='CKEDITOR_SETTINGS')
@@ -176,12 +175,19 @@ class Machine(ItemForRent):
         default='available'
     )
 
+    price = models.ForeignKey(PriceModel, on_delete=models.SET_NULL, null=True, db_column='price')
     group = models.ForeignKey(MachineGroup, blank=True, null=True,on_delete=models.SET_NULL)
     category = models.ForeignKey(MachineCategory, blank=True, null=True, on_delete=models.SET_NULL)
     material = models.ManyToManyField(Material, blank=True)
     workshop = models.ManyToManyField(Workshop, blank=True)
     reservable = models.BooleanField(default=True)
-    premium_price = models.DecimalField(verbose_name=_('Premium Price'),max_digits=6,decimal_places=2, null=True, blank=False)
+
+    @property
+    def premium_price(self):
+        if isinstance(self.price, LinearPriceModel):
+            return self.price.full_price / Decimal(2.0)
+        else:
+            return None
 
     @property
     def highlights(self):
