@@ -1181,6 +1181,18 @@ class TrainingSlotCreateViewTestCase(TrainingSlotTestCase):
         self.assertEqual(email_content['subject'], 'Une nouvelle formation a été planifiée')
 
     @patch('fabcal.forms.send_mail', autospec=True)
+    def test_create_training_slot_form_on_an_existing_opening_slot(self, mock_send_mail):
+
+        form = OpeningSlotCreateForm(data=self.form_data, user=self.user)
+        self.assertTrue(form.is_valid())
+        form.save()
+
+        # Add invalid training with a conflicting opening slot
+        form = TrainingSlotCreateForm(data=self.form_data, user=self.superuser)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form._errors['__all__'].data[0].code, 'conflicting_openings')
+
+    @patch('fabcal.forms.send_mail', autospec=True)
     def test_get_success_message(self, mock_send_mail):
         """
         Test the success message returned by the get_success_message function.
@@ -1485,6 +1497,19 @@ class EventSlotCreateViewTestCase(EventSlotTestCase):
 
         self.assertEqual(EventSlot.objects.count(), 1)
         self.assertEqual(OpeningSlot.objects.count(), 1)
+
+    def test_create_event_slot_form_on_an_existing_opening_slot(self):
+
+        self.form_data['date'] = '2023-05-01'
+        self.form_data['opening'] = Opening.objects.first().pk
+        form = OpeningSlotCreateForm(data=self.form_data, user=self.user)
+        self.assertTrue(form.is_valid())
+        form.save()
+
+        # Add invalid training with a conflicting opening slot
+        form = EventSlotCreateForm(data=self.form_data, user=self.superuser)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form._errors['__all__'].data[0].code, 'conflicting_openings')
 
     def test_get_success_message(self):
         """

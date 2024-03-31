@@ -1,11 +1,9 @@
 import os
 import datetime
 from copy import deepcopy
-import dateparser
 
 from django import forms
 from django.conf import settings
-from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.forms import ModelForm
@@ -131,6 +129,19 @@ class SlotLinkedToOpeningForm(OpeningSlotForm):
 
     registration_limit = forms.IntegerField(required=True, label=_('Registration limit'))
 
+    def clean(self):
+        self.cleaned_data = super().clean()
+
+        if self.cleaned_data.get('opening'):
+            opening_slot = self.instance.opening_slot or OpeningSlot(
+                    user = self.user,
+                    opening = self.cleaned_data.get('opening'),
+                    start = self.cleaned_data.get('start'),
+                    end = self.cleaned_data.get('end'),
+                    comment = self.cleaned_data.get('comment')
+                )
+            opening_slot.clean()
+
     def save(self, opening_slot_form_class, initial=None):
         """
         Save the opening slot form data and send mail with the created instance.
@@ -168,14 +179,9 @@ class SlotLinkedToOpeningForm(OpeningSlotForm):
                 user=self.user
             )
 
-            # Validate the form data
             form.is_valid()
+            self.instance.opening_slot = form.save()
 
-            # Save the opening slot form
-            opening_slot = form.save()
-        
-            # Update the instance with the opening slot
-            self.instance.opening_slot = opening_slot
         else:
             if self.instance.opening_slot_id:  # Check if opening_slot is associated with the instance
                 self.instance.opening_slot.delete()
