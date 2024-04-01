@@ -48,7 +48,7 @@
 <hr>
 {% for object in object_list %}
 <div class="row">
-    <div class="col">{{object.start}}<br>{{object.end}}</div>
+    <div class="col">{{object.start|date:"D j b Y"}}, {{object.start|date:"H:i"}} à {{object.end|date:"H:i"}}</div>
     <div class="col">{{object.machine.title}}</div>
     <div class="col">{{object.user.first_name}} {{object.user.last_name}}</div>
 </div>
