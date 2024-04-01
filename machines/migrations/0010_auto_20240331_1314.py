@@ -51,10 +51,11 @@ class Migration(migrations.Migration):
             name='DegressiveFdmPriceModel',
             fields=[
                 ('pricemodel_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='machines.pricemodel')),
-                ('hourFactor', models.FloatField(default=0.7)),
-                ('maxDivider', models.SmallIntegerField(default=30)),
-                ('matterFactor', models.FloatField(default=0.075)),
-                ('supportMatterFactor', models.FloatField(default=0.2)),
+                ('first_hour_price', models.DecimalField(decimal_places=2, default=0, max_digits=6, verbose_name='First hour price')),
+                ('hour_factor', models.FloatField(default=0.7)),
+                ('max_divider', models.SmallIntegerField(default=30)),
+                ('matter_factor', models.FloatField(default=0.075)),
+                ('support_matter_factor', models.FloatField(default=0.2)),
             ],
             options={
                 'abstract': False,

@@ -23,15 +23,15 @@ class LinearPriceModel(PriceModel):
 
 class DegressiveFdmPriceModel(PriceModel):
     """Fused Deposed Modeling 3D printers might be a special case where price per 30 min slot became lower with high durations"""
-    hourFactor = models.FloatField(default=0.7)
-    maxDivider = models.SmallIntegerField(default=30)
-    matterFactor = models.FloatField(default=0.075)
-    supportMatterFactor = models.FloatField(default=0.2)
+    first_hour_price = models.DecimalField(verbose_name=_('First hour price'),max_digits=6,decimal_places=2,default=0)
+    hour_factor = models.FloatField(default=0.7)
+    max_divider = models.SmallIntegerField(default=30)
+    matter_factor = models.FloatField(default=0.075)
+    support_matter_factor = models.FloatField(default=0.2)
     def __str__(self):
-        return 'Degressive FDM ({}, {}, {}, {})'.format(self.hourFactor, self.maxDivider, self.matterFactor, self.supportMatterFactor)
+        return 'Degressive FDM ({}, {}, {}, {}, {})'.format(self.first_hour_price, self.hour_factor, self.max_divider, self.matter_factor, self.support_matter_factor)
 
 class ItemForRent(AbstractOpening):
-    full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2, null=True, blank=False, help_text='for 30 min', db_column='full_price')
     photo = models.ImageField(upload_to='img', verbose_name=_('Photo'))
     header = HTMLField(verbose_name=_('Header'),blank=True,configuration='CKEDITOR_SETTINGS')
 
@@ -67,6 +67,7 @@ class Training(ItemForRent):
         (ADVANCED, _('Advanced')),
     ]
 
+    full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2, null=True, blank=False, help_text='for 30 min', db_column='full_price')
     machine_category = models.ForeignKey(MachineCategory, on_delete=models.CASCADE, verbose_name=_('Machine category'))
     level = models.CharField(max_length=3, choices=LEVEL_CHOICES, verbose_name=_('Level'))
     duration = models.DurationField(verbose_name=_('Duration'), help_text=_('Use the format HH:MM:SS')) # TODO essayer de trouver un truc plus pratique pour dire la durée
