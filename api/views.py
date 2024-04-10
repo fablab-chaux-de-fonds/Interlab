@@ -6,10 +6,10 @@ from rest_framework.authentication import TokenAuthentication
 from .permissions import IsInApiGroup
 
 from accounts.models import CustomUser, Subscription, Profile
-from fabcal.models import OpeningSlot, MachineSlot
+from fabcal.models import OpeningSlot, MachineSlot, TrainingSlot
 from openings.models import Opening
 
-from .serializers import OpeningSlotSerializer, MachineSlotSerializer
+from .serializers import OpeningSlotSerializer, MachineSlotSerializer, TrainingSlotSerializer
 from .serializers import CustomUserSerializer
 from .serializers import OpeningSerializer
 from .serializers import SubscriptionSerializer
@@ -32,6 +32,12 @@ class MachineSlotSet(generics.ListAPIView):
     permission_classes = [IsInApiGroup]
     queryset = MachineSlot.objects.all()
     serializer_class = MachineSlotSerializer
+
+class TrainingSlotSet(generics.ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsInApiGroup]
+    queryset = TrainingSlot.objects.all()
+    serializer_class = TrainingSlotSerializer
 
 class CustomUserSet(generics.ListAPIView):
     authentication_classes = [TokenAuthentication]
