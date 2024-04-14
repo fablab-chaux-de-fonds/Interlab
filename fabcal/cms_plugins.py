@@ -131,15 +131,19 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
             )
         )
 
-        # Iterate over the events
+
+        # Fetch all Machine objects corresponding to machine IDs in events
+        machine_ids = set(machine_id for event in events if 'machines' in event for machine_id in event['machines'])
+        machines = Machine.objects.filter(pk__in=machine_ids)
+
+        # Create a dictionary to map machine IDs to Machine objects
+        machine_mapping = {machine.pk: machine for machine in machines}
+
+        # Iterate over the events and update the 'machines' field
         for event in events:
             if 'machines' in event:
-                # Fetch Machine objects corresponding to the machine IDs
-                machines = Machine.objects.filter(pk__in=event['machines'])
-
-                # Convert machines into a list of dictionaries
-                machine_list = [{'pk': machine.pk, 'title': machine.title, 'category': machine.category} for machine in machines]
-
+                # Map machine IDs to Machine objects and convert to a list of dictionaries
+                machine_list = [{'pk': machine_id, 'title': machine_mapping[machine_id].title, 'category': machine_mapping[machine_id].category} for machine_id in event['machines'] if machine_id]
                 # Replace the machine IDs with the list of dictionaries
                 event['machines'] = machine_list
 
