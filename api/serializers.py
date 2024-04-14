@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from accounts.models import CustomUser, Subscription, Profile
-from fabcal.models import OpeningSlot, MachineSlot
+from fabcal.models import OpeningSlot, MachineSlot, TrainingSlot
 from openings.models import Opening
 
 class OpeningSerializer(serializers.ModelSerializer):
@@ -23,6 +23,16 @@ class MachineSlotSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = MachineSlot
+        fields = ['id', 'start', 'end', 'created_at', 'updated_at', 'user', 'duration']
+
+    def get_duration(self, obj):
+        return obj.get_duration
+
+class TrainingSlotSerializer(serializers.ModelSerializer):
+    duration = serializers.SerializerMethodField()
+
+    class Meta: 
+        model = TrainingSlot
         fields = ['id', 'start', 'end', 'created_at', 'updated_at', 'user', 'duration']
 
     def get_duration(self, obj):

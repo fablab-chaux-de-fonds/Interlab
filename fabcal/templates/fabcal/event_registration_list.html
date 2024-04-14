@@ -5,8 +5,8 @@
 <div class="text-red">
     <h1>{%trans "Superuser area" %}</h1>
     <h3>{%trans "Registration" %}</h3>
-    {{event_slot.registrations.count}} {% trans "peoples registered for the event" %}
-    {% for registration in event_slot.registrations.all %}
+    {{object.registrations.count}} {% trans "peoples registered for the event" %}
+    {% for registration in object.registrations.all %}
     <div class="row">
         <div class="col-2">
             <a href="{% url 'accounts:superuser-profile-edit' registration.pk %}">
