@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Coverage for fabcal/cms_plugins.py: 46%</title>
+    <title>Coverage for fabcal/cms_plugins.py: 53%</title>
     <link rel="icon" sizes="32x32" href="favicon_32.png">
     <link rel="stylesheet" href="style.css" type="text/css">
     <script type="text/javascript" src="coverage_html.js" defer></script>
@@ -12,7 +12,7 @@
     <div class="content">
         <h1>
             <span class="text">Coverage for </span><b>fabcal/cms_plugins.py</b>:
-            <span class="pc_cov">46%</span>
+            <span class="pc_cov">53%</span>
         </h1>
         <aside id="help_panel_wrapper">
             <input id="help_panel_state" type="checkbox">
@@ -54,9 +54,9 @@
             </div>
         </aside>
         <h2>
-            <span class="text">68 statements &nbsp;</span>
+            <span class="text">58 statements &nbsp;</span>
             <button type="button" class="run button_toggle_run" value="run" data-shortcut="r" title="Toggle lines run">31<span class="text"> run</span></button>
-            <button type="button" class="mis show_mis button_toggle_mis" value="mis" data-shortcut="m" title="Toggle lines missing">37<span class="text"> missing</span></button>
+            <button type="button" class="mis show_mis button_toggle_mis" value="mis" data-shortcut="m" title="Toggle lines missing">27<span class="text"> missing</span></button>
             <button type="button" class="exc show_exc button_toggle_exc" value="exc" data-shortcut="x" title="Toggle lines excluded">0<span class="text"> excluded</span></button>
         </h2>
         <p class="text">
@@ -65,7 +65,7 @@
             <a id="nextFileLink" class="nav" href="d_4323b561ffe78ff5_forms_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.4.4">coverage.py v7.4.4</a>,
-            created at 2024-04-14 08:14 +0000
+            created at 2024-04-14 08:59 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"/>
@@ -197,27 +197,12 @@
     <p class="run"><span class="n"><a id="t115" href="#t115">115</a></span><span class="t">    <span class="nam">render_template</span> <span class="op">=</span> <span class="str">"fabcal/events_list.html"</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t116" href="#t116">116</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t117" href="#t117">117</a></span><span class="t">    <span class="key">def</span> <span class="nam">render</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">context</span><span class="op">,</span> <span class="nam">instance</span><span class="op">,</span> <span class="nam">placeholder</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t118" href="#t118">118</a></span><span class="t">        <span class="nam">language_code</span> <span class="op">=</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">LANGUAGE_CODE</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t119" href="#t119">119</a></span><span class="t">        <span class="nam">context</span> <span class="op">=</span> <span class="op">{</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t120" href="#t120">120</a></span><span class="t">            <span class="str">'event_slots'</span><span class="op">:</span> <span class="nam">list</span><span class="op">(</span><span class="nam">EventSlot</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">filter</span><span class="op">(</span><span class="nam">end__gt</span> <span class="op">=</span> <span class="nam">date</span><span class="op">.</span><span class="nam">today</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">.</span><span class="nam">order_by</span><span class="op">(</span><span class="str">'start'</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t118" href="#t118">118</a></span><span class="t">        <span class="nam">context</span> <span class="op">=</span> <span class="op">{</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t119" href="#t119">119</a></span><span class="t">            <span class="str">'event_slots'</span><span class="op">:</span> <span class="nam">list</span><span class="op">(</span><span class="nam">EventSlot</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">filter</span><span class="op">(</span><span class="nam">end__gte</span> <span class="op">=</span> <span class="nam">date</span><span class="op">.</span><span class="nam">today</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">.</span><span class="nam">order_by</span><span class="op">(</span><span class="str">'-start'</span><span class="op">)</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t120" href="#t120">120</a></span><span class="t">            <span class="str">'past_event_slots'</span><span class="op">:</span> <span class="nam">list</span><span class="op">(</span><span class="nam">EventSlot</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">filter</span><span class="op">(</span><span class="nam">end__lt</span> <span class="op">=</span> <span class="nam">date</span><span class="op">.</span><span class="nam">today</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">.</span><span class="nam">order_by</span><span class="op">(</span><span class="str">'start'</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t121" href="#t121">121</a></span><span class="t">        <span class="op">}</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t122" href="#t122">122</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t123" href="#t123">123</a></span><span class="t">        <span class="key">for</span> <span class="nam">index</span><span class="op">,</span> <span class="nam">event</span> <span class="key">in</span> <span class="nam">enumerate</span><span class="op">(</span><span class="nam">context</span><span class="op">[</span><span class="str">'event_slots'</span><span class="op">]</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t124" href="#t124">124</a></span><span class="t">            <span class="com"># TODO Refactoring wigh fabcal -> data in model</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t125" href="#t125">125</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t126" href="#t126">126</a></span><span class="t">            <span class="nam">context</span><span class="op">[</span><span class="str">'event_slots'</span><span class="op">]</span><span class="op">[</span><span class="nam">index</span><span class="op">]</span><span class="op">.</span><span class="nam">start_date</span> <span class="op">=</span> <span class="nam">format_datetime</span><span class="op">(</span><span class="nam">event</span><span class="op">.</span><span class="nam">start</span><span class="op">,</span> <span class="str">"EEEE d MMMM y"</span><span class="op">,</span> <span class="nam">locale</span><span class="op">=</span><span class="nam">language_code</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t127" href="#t127">127</a></span><span class="t">            <span class="nam">context</span><span class="op">[</span><span class="str">'event_slots'</span><span class="op">]</span><span class="op">[</span><span class="nam">index</span><span class="op">]</span><span class="op">.</span><span class="nam">start_time</span> <span class="op">=</span> <span class="nam">format_datetime</span><span class="op">(</span><span class="nam">event</span><span class="op">.</span><span class="nam">start</span><span class="op">,</span> <span class="str">"H:mm"</span><span class="op">,</span> <span class="nam">locale</span><span class="op">=</span><span class="nam">language_code</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t128" href="#t128">128</a></span><span class="t">            <span class="nam">context</span><span class="op">[</span><span class="str">'event_slots'</span><span class="op">]</span><span class="op">[</span><span class="nam">index</span><span class="op">]</span><span class="op">.</span><span class="nam">end_date</span> <span class="op">=</span> <span class="nam">format_datetime</span><span class="op">(</span><span class="nam">event</span><span class="op">.</span><span class="nam">end</span><span class="op">,</span> <span class="str">"EEEE d MMMM y"</span><span class="op">,</span> <span class="nam">locale</span><span class="op">=</span><span class="nam">language_code</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t129" href="#t129">129</a></span><span class="t">            <span class="nam">context</span><span class="op">[</span><span class="str">'event_slots'</span><span class="op">]</span><span class="op">[</span><span class="nam">index</span><span class="op">]</span><span class="op">.</span><span class="nam">end_time</span> <span class="op">=</span> <span class="nam">format_datetime</span><span class="op">(</span><span class="nam">event</span><span class="op">.</span><span class="nam">end</span><span class="op">,</span> <span class="str">"H:mm"</span><span class="op">,</span> <span class="nam">locale</span><span class="op">=</span><span class="nam">language_code</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t130" href="#t130">130</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t131" href="#t131">131</a></span><span class="t">            <span class="key">if</span> <span class="nam">event</span><span class="op">.</span><span class="nam">is_single_day</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t132" href="#t132">132</a></span><span class="t">                <span class="nam">message_format</span> <span class="op">=</span> <span class="nam">_</span><span class="op">(</span><span class="str">"%(start_date)s &lt;br> %(start_time)s - %(end_time)s"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t133" href="#t133">133</a></span><span class="t">            <span class="key">else</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t134" href="#t134">134</a></span><span class="t">                <span class="nam">message_format</span> <span class="op">=</span> <span class="nam">_</span><span class="op">(</span><span class="str">"From %(start_date)s at %(start_time)s &lt;br> to %(end_date)s at %(end_time)s "</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t135" href="#t135">135</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t136" href="#t136">136</a></span><span class="t">            <span class="nam">context</span><span class="op">[</span><span class="str">'event_slots'</span><span class="op">]</span><span class="op">[</span><span class="nam">index</span><span class="op">]</span><span class="op">.</span><span class="nam">format_info_datetime</span> <span class="op">=</span> <span class="nam">mark_safe</span><span class="op">(</span><span class="nam">message_format</span> <span class="op">%</span> <span class="nam">context</span><span class="op">[</span><span class="str">'event_slots'</span><span class="op">]</span><span class="op">[</span><span class="nam">index</span><span class="op">]</span><span class="op">.</span><span class="nam">__dict__</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t137" href="#t137">137</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t138" href="#t138">138</a></span><span class="t">        <span class="key">return</span> <span class="nam">context</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t123" href="#t123">123</a></span><span class="t">        <span class="key">return</span> <span class="nam">context</span>&nbsp;</span><span class="r"></span></p>
 </main>
 <footer>
     <div class="content">
@@ -227,7 +212,7 @@
             <a id="nextFileLink" class="nav" href="d_4323b561ffe78ff5_forms_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.4.4">coverage.py v7.4.4</a>,
-            created at 2024-04-14 08:14 +0000
+            created at 2024-04-14 08:59 +0000
         </p>
     </div>
 </footer>
