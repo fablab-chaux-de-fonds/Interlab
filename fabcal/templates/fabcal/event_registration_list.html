@@ -11,7 +11,7 @@
         <div class="col-2">
             <a href="{% url 'superuser-profile-edit' registration.pk %}">
                 <div class="text-center">
-                    {%include 'accounts/avatar.html'%}
+                    {%include 'accounts/avatar.html' with user=registration%}
                 </div>
             </a>
         </div>
