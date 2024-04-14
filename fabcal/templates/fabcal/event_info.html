@@ -3,7 +3,7 @@
 <div class="row">
 
     <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
-        {% include 'fabcal/event_info_datetime.html' %}
+        {% include 'fabcal/event_info_datetime.html' with event_slot=object %}
     </div>
 
     <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
@@ -17,33 +17,6 @@
             </div>
         </div>
     </div>
-
-    <!-- <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
-        <div class="row">
-            <div class="col-2 text-end pe-0">
-                <h4><i class="bi bi-info-circle"></i></h4>
-            </div>
-            <div class="col-10 ">
-                <h4>{% trans "Registration" %}</h4>
-                {% if object.has_registration %}
-                <p>{% trans 'Registration mandatory' %}<br>
-                    {% if object.available_registration > 0  %}
-                    <small class"fs-6">
-                        {% if request.user in object.registrations.all %}
-                            {% trans "You are already registered !" %}
-                        {% else %}
-                            {% blocktrans with available_registration=object.available_registration %}still {{available_registration}} places available !{% endblocktrans %}</small>
-                        {% endif %}
-                    {% elif object.available_registration == 0 %}
-                    <small class="text-red">{% trans "sold out" %}</small>
-                    {% endif %}
-                </p>
-                {% else %}
-                <p>{% trans 'No registration required for this event' %}</p>
-                {% endif %}
-            </div>
-        </div>
-    </div> -->
 
     <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
         <div class="row">
