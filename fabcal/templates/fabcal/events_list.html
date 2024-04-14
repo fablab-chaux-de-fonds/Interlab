@@ -2,10 +2,22 @@
 
 {% block content %}
 <div class="row">
+    <h1>{%trans "Upcoming events" %}</h1>
     {% for event_slot in event_slots %}
-            {% include 'fabcal/event_card.html' %}
+        	{% include 'fabcal/event_card.html' %}
     {% empty %}
             <p> {% trans "No events scheduled for the moment" %} </p>
     {% endfor %}
 </div>
+
+{% if past_event_slots %}
+<div class="row mt-5">
+    <h1>{%trans "Past events" %}</h1>
+	{% for event_slot in past_event_slots %}
+        {% include 'fabcal/event_card.html' %}
+	{% empty %}
+        <p> {% trans "No events scheduled for the moment" %} </p>
+	{% endfor %}
+</div>
+{% endif %}
 {% endblock content %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-09 10:38+0200\n"
+"POT-Creation-Date: 2024-04-14 10:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,8 +68,8 @@ msgid ""
 "150 characters maximum. Only letters, numbers and the characters \"@\", \"."
 "\", \"+\", \"-\" and \"_\"."
 msgstr ""
-"150 caractères maximum. Seuls les lettres, les chiffres et les caractères \"@"
-"\", \".\", \"+\", \"-\" et \"_\"."
+"150 caractères maximum. Seuls les lettres, les chiffres et les caractères "
+"\"@\", \".\", \"+\", \"-\" et \"_\"."
 
 #: accounts/forms.py:147
 msgid "No Subscription"
@@ -337,14 +337,12 @@ msgid "Training"
 msgstr "Formation"
 
 #: accounts/templates/accounts/profile.html:32
-#: fabcal/templates/fabcal/event_info.html:35
 #: machines/templates/trainings/show_next_trainings.html:18
 #, python-format
 msgid "still %(available_registration)s places available !"
 msgstr "encore %(available_registration)s places disponibles !"
 
 #: accounts/templates/accounts/profile.html:35
-#: fabcal/templates/fabcal/event_info.html:27
 #: fabcal/templates/fabcal/event_registration_list.html:7
 msgid "Registration"
 msgstr "Inscription"
@@ -358,7 +356,6 @@ msgid "No registrations for the moment"
 msgstr "Pas de réservations pour le moment"
 
 #: accounts/templates/accounts/profile.html:48
-#: fabcal/templates/fabcal/event_info.html:38
 #: machines/templates/trainings/show_next_trainings.html:22
 msgid "sold out"
 msgstr "complet"
@@ -834,12 +831,12 @@ msgstr "Calendrier - ouverture"
 msgid "Event list"
 msgstr "Liste d'évènement"
 
-#: fabcal/cms_plugins.py:132 fabcal/views.py:161
+#: fabcal/cms_plugins.py:133 fabcal/views.py:161
 #, python-format
 msgid "%(start_date)s <br> %(start_time)s - %(end_time)s"
 msgstr "%(start_date)s <br> %(start_time)s - %(end_time)s"
 
-#: fabcal/cms_plugins.py:134 fabcal/views.py:163
+#: fabcal/cms_plugins.py:135 fabcal/views.py:163
 #, python-format
 msgid ""
 "From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s "
@@ -1034,11 +1031,11 @@ msgstr "Céneau machine"
 msgid "Machine Slots"
 msgstr "Créneaux machine"
 
-#: fabcal/tasks.py:27 fabcal/tasks.py:28 fabcal/tests.py:69
+#: fabcal/tasks.py:35 fabcal/tasks.py:36 fabcal/tests.py:68
 msgid "No reservation - your opening slot has been deleted"
 msgstr "Pas de réservation - ton créneau d'ouverture a été supprimé"
 
-#: fabcal/tasks.py:36 fabcal/tasks.py:37 fabcal/tests.py:97
+#: fabcal/tasks.py:44 fabcal/tasks.py:45 fabcal/tests.py:96
 msgid "You have reservation - your opening slot is confirmed"
 msgstr "Vous avez des réservations - ton créneau d'ouverture est confirmé"
 
@@ -1073,27 +1070,32 @@ msgstr "Conditions d'annulation"
 #, python-format
 msgid ""
 "Please note that you may cancel this reservation up to 24 hours prior to the "
-"start of the slot without charge via your <a href=\"%(profile_url)s"
-"\">account page on our website</a>. However, if you wish to cancel your "
-"reservation after this period, please <a href=\"%(mail_url)s\">inform us by "
-"email</a>. In this case, we are sorry to inform you that we will be obliged "
-"to charge you for the machine hours, as the reserved machine could not be "
-"used by another person at that time. Thank you for your understanding."
+"start of the slot without charge via your <a "
+"href=\"%(profile_url)s\">account page on our website</a>. However, if you "
+"wish to cancel your reservation after this period, please <a "
+"href=\"%(mail_url)s\">inform us by email</a>. In this case, we are sorry to "
+"inform you that we will be obliged to charge you for the machine hours, as "
+"the reserved machine could not be used by another person at that time. Thank "
+"you for your understanding."
 msgstr ""
 "Veuillez noter que vous pouvez annuler cette réservation jusqu'à 24 heures "
 "avant le début du créneau sans frais via la <a href=\"%(profile_url)s\">page "
 "de votre compte sur notre site internet</a>. En revanche, si vous souhaitez "
-"annuler votre réservation après cette période, veuillez nous en <a href="
-"\"%(mail_url)s\">informer par mail</a>. Dans ce cas, nous sommes désolés de "
-"vous informer que nous serons dans l'obligation de vous facturer les heures "
-"machine, car la machine réservée n'aura pas pu être utilisée par une autre "
-"personne à ce moment-là. Nous vous remercions de votre compréhension."
+"annuler votre réservation après cette période, veuillez nous en <a "
+"href=\"%(mail_url)s\">informer par mail</a>. Dans ce cas, nous sommes "
+"désolés de vous informer que nous serons dans l'obligation de vous facturer "
+"les heures machine, car la machine réservée n'aura pas pu être utilisée par "
+"une autre personne à ce moment-là. Nous vous remercions de votre "
+"compréhension."
 
 #: fabcal/templates/fabcal/email/openingslot_auto_delete.html:7
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Unfortunately, there are no reservations for tomorrow's opening from "
+#| "%(start)s to %(end)s . The slot has been removed from the fablab calendar."
 msgid ""
 "Unfortunately, there are no reservations for tomorrow's opening from "
-"%(start)s to %(end)s . The slot has been removed from the fablab calendar."
+"%(start)s to %(end)s. The slot has been removed from the fablab calendar."
 msgstr ""
 "Malheureusement, il n'y a pas de réservations pour l'ouverture de demain de "
 "%(start)s à %(end)s . Le créneau a été supprimé du calendrier du fablab."
@@ -1168,20 +1170,7 @@ msgstr "Date"
 msgid "Time"
 msgstr "Heure"
 
-#: fabcal/templates/fabcal/event_info.html:29
-msgid "Registration mandatory"
-msgstr "Inscription obligatoire"
-
-#: fabcal/templates/fabcal/event_info.html:33
-#: machines/templates/trainings/show_next_trainings.html:16
-msgid "You are already registered !"
-msgstr "Vous êtes déjà inscrit !"
-
-#: fabcal/templates/fabcal/event_info.html:42
-msgid "No registration required for this event"
-msgstr "Pas d'inscription requise pour cet évènement"
-
-#: fabcal/templates/fabcal/event_info.html:54
+#: fabcal/templates/fabcal/event_info.html:27
 msgid "Location"
 msgstr "Lieu"
 
@@ -1215,9 +1204,18 @@ msgstr "Espace Superutilisateur"
 msgid "peoples registered for the event"
 msgstr "personnes inscrites à l'évènement"
 
-#: fabcal/templates/fabcal/events_list.html:8
+#: fabcal/templates/fabcal/events_list.html:5
+msgid "Upcoming events"
+msgstr "Évènement à venir"
+
+#: fabcal/templates/fabcal/events_list.html:9
+#: fabcal/templates/fabcal/events_list.html:19
 msgid "No events scheduled for the moment"
 msgstr "Pas d'évènement planifié pour le moment"
+
+#: fabcal/templates/fabcal/events_list.html:15
+msgid "Past events"
+msgstr "Évènement passés"
 
 #: fabcal/templates/fabcal/eventslot_confirm_delete.html:11
 #, python-format
@@ -1368,46 +1366,46 @@ msgstr "Votre évènement a été supprimé avec succès"
 #: fabcal/views.py:343
 #, python-format
 msgid ""
-"We confirm that you are registered for the event <a href=\"%(href)s\">"
-"%(title)s</a> which will take place on %(start_date)s from %(start_time)s to "
-"%(end_time)s."
+"We confirm that you are registered for the event <a "
+"href=\"%(href)s\">%(title)s</a> which will take place on %(start_date)s from "
+"%(start_time)s to %(end_time)s."
 msgstr ""
-"Nous vous confirmons que vous êtes inscrit·e à l'évènement <a href=\"%(href)s"
-"\">%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s à "
-"%(end_time)s."
+"Nous vous confirmons que vous êtes inscrit·e à l'évènement <a "
+"href=\"%(href)s\">%(title)s</a> qui aura lieu le %(start_date)s de "
+"%(start_time)s à %(end_time)s."
 
 #: fabcal/views.py:345
 #, python-format
 msgid ""
-"We confirm that you are registered for the event <a href=\"%(href)s\">"
-"%(title)s</a> which will take place from %(start_date)s at %(start_time)s to "
-"%(end_date)s at %(end_time)s."
+"We confirm that you are registered for the event <a "
+"href=\"%(href)s\">%(title)s</a> which will take place from %(start_date)s at "
+"%(start_time)s to %(end_date)s at %(end_time)s."
 msgstr ""
-"Nous vous confirmons que vous êtes inscrit·e à l'évènement <a href=\"%(href)s"
-"\">%(title)s</a> qui aura lieu du %(start_date)s à %(start_time)s au "
-"%(end_date)s à %(end_time)s."
+"Nous vous confirmons que vous êtes inscrit·e à l'évènement <a "
+"href=\"%(href)s\">%(title)s</a> qui aura lieu du %(start_date)s à "
+"%(start_time)s au %(end_date)s à %(end_time)s."
 
 #: fabcal/views.py:356
 #, python-format
 msgid ""
-"We confirme that you are unregister for the event <a href=\"%(href)s\">"
-"%(title)s</a> which will take place on %(start_date)s from %(start_time)s to "
-"%(end_time)s."
+"We confirme that you are unregister for the event <a "
+"href=\"%(href)s\">%(title)s</a> which will take place on %(start_date)s from "
+"%(start_time)s to %(end_time)s."
 msgstr ""
-"Nous vous confirmons que vous êtes desinscrit·e de l'évènement <a href="
-"%(href)s>%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s à "
-"%(end_time)s."
+"Nous vous confirmons que vous êtes desinscrit·e de l'évènement <a "
+"href=%(href)s>%(title)s</a> qui aura lieu le %(start_date)s de "
+"%(start_time)s à %(end_time)s."
 
 #: fabcal/views.py:358
 #, python-format
 msgid ""
-"We confirme that you are unregister for the event <a href=\"%(href)s\">"
-"%(title)s</a> which will take place from %(start_date)s at %(start_time)s to "
-"%(end_date)s at %(end_time)s."
+"We confirme that you are unregister for the event <a "
+"href=\"%(href)s\">%(title)s</a> which will take place from %(start_date)s at "
+"%(start_time)s to %(end_date)s at %(end_time)s."
 msgstr ""
-"Nous vous confirmons que vous êtes desinscrit·e de l'évènement <a href="
-"\"%(href)s\">%(title)s</a> qui aura lieu du %(start_date)s à %(start_time)s "
-"au %(end_date)s à %(end_time)s."
+"Nous vous confirmons que vous êtes desinscrit·e de l'évènement <a "
+"href=\"%(href)s\">%(title)s</a> qui aura lieu du %(start_date)s à "
+"%(start_time)s au %(end_date)s à %(end_time)s."
 
 #: fabcal/views.py:372
 msgid "Create training"
@@ -1424,24 +1422,24 @@ msgstr "Votre formation a été supprimée avec succès"
 #: fabcal/views.py:441
 #, python-format
 msgid ""
-"We confirm that you are registered for the training <a href=\"%(href)s\">"
-"%(title)s</a> which will take place on %(start_date)s from %(start_time)s to "
-"%(end_time)s."
+"We confirm that you are registered for the training <a "
+"href=\"%(href)s\">%(title)s</a> which will take place on %(start_date)s from "
+"%(start_time)s to %(end_time)s."
 msgstr ""
-"Nous vous confirmons que vous êtes inscrit·e à la formation <a href="
-"\"%(href)s\">%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s "
-"à %(end_time)s."
+"Nous vous confirmons que vous êtes inscrit·e à la formation <a "
+"href=\"%(href)s\">%(title)s</a> qui aura lieu le %(start_date)s de "
+"%(start_time)s à %(end_time)s."
 
 #: fabcal/views.py:450
 #, python-format
 msgid ""
-"We confirm that you are unregistered for the training <a href=\"%(href)s\">"
-"%(title)s</a> which will take place on %(start_date)s from %(start_time)s to "
-"%(end_time)s."
+"We confirm that you are unregistered for the training <a "
+"href=\"%(href)s\">%(title)s</a> which will take place on %(start_date)s from "
+"%(start_time)s to %(end_time)s."
 msgstr ""
-"Nous vous confirmons que vous êtes desinscrit·e de la formation <a href="
-"\"%(href)s\">%(title)s</a> qui aura lieu le %(start_date)s de %(start_time)s "
-"à %(end_time)s."
+"Nous vous confirmons que vous êtes desinscrit·e de la formation <a "
+"href=\"%(href)s\">%(title)s</a> qui aura lieu le %(start_date)s de "
+"%(start_time)s à %(end_time)s."
 
 #: fabcal/views.py:483
 msgid ""
@@ -1455,7 +1453,7 @@ msgstr ""
 msgid "You reservation has been canceled !"
 msgstr "Pas de réservation possible"
 
-#: interlab/settings.py:239 interlab/settings.py:258
+#: interlab/settings.py:242 interlab/settings.py:261
 msgid "fr"
 msgstr "fr"
 
@@ -1745,6 +1743,10 @@ msgstr "Malheureusement, aucune machine n'est disponible pour le moment."
 #: machines/templates/trainings/show_next_trainings.html:4
 msgid "Next Trainings"
 msgstr "Prochaines formations"
+
+#: machines/templates/trainings/show_next_trainings.html:16
+msgid "You are already registered !"
+msgstr "Vous êtes déjà inscrit !"
 
 #: machines/templates/trainings/show_next_trainings.html:48
 msgid "Not available ?"
