@@ -29,9 +29,9 @@ $input-color: $custom-blue;
 $input-border-color: $custom-blue;
 $input-placeholder-color: $custom-blue;
 
-$tooltip-color: $custom-red;
-$tooltip-bg: $custom-red-light;
-$tooltip-arrow-color: $custom-red-light;
+$tooltip-color: white;
+$tooltip-bg: $custom-red;
+$tooltip-arrow-color: $custom-red;
 $tooltip-opacity: 1;
 
 $accordion-border-width: 2px;
@@ -48,8 +48,5 @@ $table-striped-bg: $custom-green-light;
 $badge-color: inherit;
 
 $font-size-base: 1.2rem;
-
-$tooltip-color: white;
-$tooltip-bg: $custom-blue;
 
 $mark-bg: $custom-green-light;

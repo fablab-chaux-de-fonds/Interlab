@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{% if not slot.is_editable %}
+<button type="button" class="btn btn-link btn-outline-primary" data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="{% trans 'It is not possible to cancel the reservation 24h before the begining of the slot. Please contact us.' %}">
+    <i class="bi bi-trash3"></i>
+</button>
+{% else %}
+<a class="btn btn-link btn-outline-primary"
+    href="{% url 'fabcal:machine-reservation-delete' slot.pk %}">
+    <i class="bi bi-trash3"></i>
+</a>
+{% endif %}

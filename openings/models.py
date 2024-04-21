@@ -17,6 +17,7 @@ class AbstractOpening(models.Model):
     desc = HTMLField(verbose_name=_('Description'),blank=True,configuration='CKEDITOR_SETTINGS')
     color = ColorField(default='#ffffff', samples=COLOR_PALETTE)
     background_color = ColorField(default='#0b1783', samples=COLOR_PALETTE)
+    photo = models.ImageField(upload_to='img', verbose_name=_('Photo'), default='/img/opening.jpg')
 
     class Meta:
         abstract = True
@@ -36,7 +37,6 @@ class Opening(AbstractOpening):
         verbose_name_plural = _("Openings")
 
 class Event(AbstractOpening):
-    img = models.ImageField()
     lead = models.TextField(blank=True, null=True)
     is_on_site = models.BooleanField()
     location = models.CharField(max_length=255, default='Fablab')
