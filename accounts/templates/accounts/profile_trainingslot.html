@@ -1,0 +1,87 @@
+{% load i18n %}
+
+
+<!-- Mobile -->
+<div class="d-md-none">
+    <div class="card">
+        <div class="position-relative">
+            <a href="{% url 'fabcal:event-detail' slot.pk %}">
+                <img class="img-fluid rounded-top" src={{slot.training.photo.url}}>
+            </a>
+            {% if slot.opening_slot %}
+            <p class='badge position-absolute top-0 start-0 m-2'
+                style="color:{{slot.opening_slot.opening.color}};background-color:{{slot.opening_slot.opening.background_color}}">
+                {{slot.opening_slot.opening.title}}
+            </p>
+            {% endif %}
+
+            <div class="position-absolute top-0 end-0 p-2">
+                {%include 'accounts/profile_trainingslot_delete_btn.html'%}
+            </div>
+        </div>
+
+        <div class="card-body">
+            <h4 class="card-title">{% trans "Training" %}</h4>
+            <h5 class="card-title">{{slot.training.title}}</h5>
+            {%include 'accounts/profile_slot_datetime.html'%}
+
+            {% if request.user == slot.user %}
+            {%include 'accounts/profile_slot_registration_list.html'%}
+
+            <div class="row">
+                <div class="col text-center">
+                    <a class="btn btn-outline-primary my-4" href="{% url 'machines:training-validation' slot.pk %}">
+                        <i class="bi bi-card-checklist pe-2"></i> {% trans "Validate trainings" %}
+                    </a>
+                    <a href="{% url 'fabcal:training-update' slot.pk %}" class="btn btn-primary"> <i
+                            class="bi bi-pencil pe-2"></i> {% trans "Edit my training" %}</a>
+                </div>
+            </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+<!-- Desktop -->
+<div class="d-none d-md-block">
+    <hr>
+    <div class="row">
+        <div class="col-3 py-0">
+            <a href="{% url 'fabcal:event-detail' slot.pk %}">
+                <img class="img-fluid rounded" src={{slot.training.photo.url}}>
+            </a>
+        </div>
+        <div class="col-9 py-0">
+            <div class="row">
+                <div class="col-8 py-auto">
+                    <span class="h4 align-middle d-inline pe-2">{%trans "Training" %}</span>
+                    {% if slot.opening_slot %}
+                    <span class='badge d-inline align-middle'
+                        style="color:{{slot.opening_slot.opening.color}};background-color:{{slot.opening_slot.opening.background_color}}">
+                        {{slot.opening_slot.opening.title}}
+                    </span>
+                    <h5 class="card-title">{{slot.training.title}}</h5>
+                    {% endif %}
+
+                    {%include 'accounts/profile_slot_datetime.html'%}
+                </div>
+                <div class="col-4 text-end py-0">
+                    <a class="btn btn-link btn-outline-primary" href="{% url 'fabcal:training-update' slot.pk %}">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    {%include 'accounts/profile_trainingslot_delete_btn.html'%}
+                </div>
+            </div>
+            {%include 'accounts/profile_slot_registration_list.html'%}
+            <div class="row">
+                <div class="col text-center">
+                    <a class="btn btn-outline-primary" href="{% url 'machines:training-validation' slot.pk %}">
+                        <i class="bi bi-card-checklist"></i> {% trans "Validate trainings" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

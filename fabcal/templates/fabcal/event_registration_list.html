@@ -4,29 +4,8 @@
 <hr>
 <div class="text-red">
     <h1>{%trans "Superuser area" %}</h1>
-    <h3>{%trans "Registration" %}</h3>
+    <h3>{%trans "Registrations" %}</h3>
     {{object.registrations.count}} {% trans "peoples registered for the event" %}
-    {% for registration in object.registrations.all %}
-    <div class="row">
-        <div class="col-2">
-            <a href="{% url 'accounts:superuser-profile-edit' registration.pk %}">
-                <div class="text-center">
-                    {%include 'accounts/avatar.html' with user=registration%}
-                </div>
-            </a>
-        </div>
-        <div class="col-10">
-            {{registration.first_name}} {{registration.last_name}}<br>
-            <small>
-                {{registration.email}}
-                {% if registration.registration %} <br>
-                {{ registration.registration_category.title }} {% trans "valid until" %}
-                {{ registration.end|date:'d.m.Y' }}
-                </br>
-                {% endif %}
-            </small>
-        </div>
-    </div>
-    {% endfor %}
 </div>
+{%include 'accounts/profile_slot_registration_list.html' with slot=object%}
 {% endif %}

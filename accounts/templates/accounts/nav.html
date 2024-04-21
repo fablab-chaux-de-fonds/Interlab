@@ -6,12 +6,9 @@
 <a class="px-0 text-blue" href="{% url 'organization_detail' request.user.organizations_organization.first.pk %}">
     <div class="row">
         <div class="col-12 py-0">
-            <div class="row fs-1">
+            <div class="row fs-4">
                 <div class="col-10 py-0">
                     {% trans "My subscription" %}
-                </div>
-                <div class="col-2 text-end py-0">
-                    <i class="bi bi-arrow-right-square "></i>
                 </div>
             </div>
             <div class="row">
@@ -31,12 +28,9 @@
 <a class="px-0 text-blue" href="{% url 'accounts:edit-profile' %}">
     <div class="row">
         <div class="col-12 py-0">
-            <div class="row fs-1">
+            <div class="row fs-4">
                 <div class="col-10 py-0">
-                    {% trans "My profile" %}
-                </div>
-                <div class="col-2 text-end py-0">
-                    <i class="bi bi-arrow-right-square"></i>
+                    <i class="bi bi-person-fill pe-2"></i> {% trans "My profile" %}
                 </div>
             </div>
             <div class="row">
@@ -52,12 +46,12 @@
 <a class="px-0 text-blue" href="/accounts/logout">
     <div class="row">
         <div class="col-12 pt-0">
-            <div class="row fs-1">
+            <div class="row fs-4">
                 <div class="col-10">
                     {% trans "Logout" %}
                 </div>
                 <div class="col-2 text-end">
-                    <i class="bi bi-arrow-right-square"></i>
+                    <i class="bi bi-box-arrow-right pe-2"></i> 
                 </div>
             </div>
         </div>
@@ -68,12 +62,9 @@
 <a class="px-0" href="{% url 'accounts:user-list' %}">
     <div class="row">
         <div class="col-12 py-0">
-            <div class="row fs-1">
+            <div class="row fs-4">
                 <div class="col-10 py-0">
-                    {% trans "Users" %}</h2>
-                </div>
-                <div class="col-2 text-end py-0">
-                    <h1><i class="bi bi-arrow-right-square"></i></h1>
+                    <i class="bi bi-people-fill pe-2"></i> {% trans "Users" %}</h2>
                 </div>
             </div>
             <div class="row">
@@ -88,12 +79,9 @@
 <a class="px-0" href="{% url 'fabcal:machine-reservation-future' %}">
     <div class="row">
         <div class="col-12 py-0">
-            <div class="row fs-1">
+            <div class="row fs-4">
                 <div class="col-10 py-0">
-                    {% trans "Reservations" %}</h2>
-                </div>
-                <div class="col-2 text-end py-0">
-                    <h1><i class="bi bi-arrow-right-square"></i></h1>
+                    <i class="bi bi-calendar-week-fill pe-2"></i> {% trans "Reservations" %}</h2>
                 </div>
             </div>
             <div class="row">

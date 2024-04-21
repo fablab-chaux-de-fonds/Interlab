@@ -3,174 +3,56 @@
 
 {% block content %}
 <div class="row g-5">
-    <div class="col-12 col-lg-4 py-5">
-        {% include 'accounts/user-summary.html' %}
-        <div class="d-none d-lg-block">
-            <hr>
-            {% include 'accounts/nav.html' %}
+    <div class="col-12 col-lg-4 py-5 navbar-profile">
+        <div class="card">
+            <div class="card-body p-4">
+                {% include 'accounts/user-summary.html' %}
+                <div class="d-none d-lg-block">
+                    <hr>
+                    {% include 'accounts/nav.html' %}
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-12 col-lg-8 py-5">
-        {% for slot in slots %}
-        <hr>
-        <div class="row text-blue">
-            <div class="col-12 pb-0">
-                {{slot.start|date:"D j b"|capfirst}} {{slot.start|date:"H:i"}} - {{slot.end|date:"H:i"}}
-            </div>
+        <h1>{%trans "My future activities in Fablab" %}</h1>
+        <div class="row">
+            {% for slot in slots %}
             <div class="col-12">
                 {% if slot|get_type == 'TrainingSlot'%}
-                <div class="row">
-                    <div class="col-8 py-0">
-                        <h5>
-                            {% trans "Training" %}
-                            {{slot.training.title}}
-                        </h5>
-                        {% if request.user|has_group:"superuser" %}
-                        <p>
-                            {% if slot.available_registration > 0  %}
-                            <small class"fs-6">
-                                {% blocktrans with available_registration=slot.available_registration %}still
-                                {{available_registration}} places available !{% endblocktrans %}
-                            </small>
-                            {% if slot.registrations != None %}
-                        <h5>{% trans "Registration" %}</h5>
-                        <ul>
-                            {% for user in slot.registrations.all %}
-                                <li> <a href={% url 'accounts:superuser-profile-edit' user.pk %}>{{user.first_name}}
-                                        {{user.last_name}}
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        <a class="btn btn-outline-primary" href="{% url 'machines:training-validation' slot.pk %}">
-                            <i class="bi bi-card-checklist"></i> {% trans "Validate trainings" %}
-                        </a>
-                        {% else %}
-                        <p>{% trans "No registrations for the moment" %}</p>
-                        {% endif %}
-                        {% elif slot.available_registration == 0 %}<small>{% trans "sold out" %}</small>
-                        {% endif %}
-                        </p>
-                        {% endif %}
-                    </div>
-                    <div class="col-4">
-                        <div class="d-flex justify-content-end align-items-center">
-                            {% if request.user|has_group:"superuser"%}
-                            {% if slot.registrations.all %}
-                            <button type="button" class="btn btn-link align-middle link-secondary py-0"
-                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                title="{% trans 'You have reservations!' %}">
-                                <i class="bi bi-trash3 fs-1"></i>
-                            </button>
-                            {% else %}
-                            <a class="btn btn-link align-middle py-0" href="{% url 'fabcal:trainingslot-delete' slot.pk %}">
-                                <i class="bi bi-trash3 fs-1"></i>
-                            </a>
-                            {% endif %}
-                            <a class="btn btn-link align-middle py-0" href="{% url 'fabcal:trainingslot-update' slot.pk %}">
-                                <i class="bi bi-pencil-square text-blue fs-1"></i>
-                            </a>
-                            {% else %}
-        
-                            {% if not slot.is_editable %}
-                            <button type="button" class="btn btn-link align-middle link-secondary py-0"
-                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                title="{% trans 'It is not possible to cancel the reservation 24h before the begining of the training. Please contact us.' %}">
-                                <i class="bi bi-trash3 fs-1"></i>
-                            </button>
-                            {% else %}
-                            <a class="btn btn-link py-0" href="{% url 'fabcal:trainingslot-unregister' slot.pk %}">
-                                <i class="bi bi-trash3 fs-1"></i>
-                            </a>
-                            {% endif %}
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+                {% include 'accounts/profile_trainingslot.html' %}
+                {% endif %}
 
-                {% elif slot|get_type == 'OpeningSlot' %}
-                <div class="row">
-                    <div class="col-8 py-0">
-                        <span class="h5">
-                            {% trans "Opening" %}
-                        </span>
-                        <p class='badge'
-                            style="color:{{slot.opening.color}};background-color:{{slot.opening.background_color}}">
-                            {{slot.opening.title}}
-                        </p>
-                    </div>
-                    <div class="col-4 py-0">
-                        <div class="d-flex justify-content-end align-items-center">
-                            {% if slot.get_reservation_list %}
-                            <button type="button" class="btn btn-link align-middle link-secondary py-0"
-                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                title="{% trans 'You have reservations!' %}">
-                                <i class="bi bi-trash3 fs-1"></i>
-                            </button>
-                            {% else %}
-                            <a class="btn btn-link align-middle py-0"
-                                href="{% url 'fabcal:openingslot-delete' slot.pk %}">
-                                <i class="bi bi-trash3 fs-1"></i>
-                            </a>
-                            {% endif %}
-                            <a class="btn btn-link align-middle py-0"
-                                href="{% url 'fabcal:openingslot-update' slot.pk %}">
-                                <i class="bi bi-pencil-square text-blue fs-1"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                {% for reservation in slot.get_reservation_list %}
-                    <a class="text-blue" href="{% url 'accounts:superuser-profile-edit' reservation.user.pk %}">
-                    <div class="row">
-                        <div class="col-3 col-md-2">
-                            {%include 'accounts/avatar.html' with user=reservation.user%}
-                        </div>
-                        <div class="col-9 my-auto">
-                            {{reservation.start|date:"H:i"}} - {{reservation.end|date:"H:i"}}:
-                            {{reservation.machine.title}} -
-                            {{reservation.user.first_name}} {{reservation.user.last_name}}
-                        </div>
-                    </div>
-                </a>
-                {% empty %}
-                {% trans "No reservations for the moment" %}
-                {% endfor %}
+                {% if slot|get_type == 'EventSlot'%}
+                {% include 'accounts/profile_eventslot.html' %}
+                {% endif %}
 
-                {% elif slot|get_type == 'MachineSlot' %}
-                <div class="row">
-                    <div class="col-8 py-0">
-                <span class="h5">
-                            {% trans "Reservation" %}
-                </span>
-                <p class='badge'
-                    style="color:{{slot.opening_slot.opening.color}};background-color:{{slot.opening_slot.opening.background_color}}">
-                    {{slot.opening_slot.opening.title}}
-                </p>
-                    </div>
-                    <div class="col-4">
-                        <div class="d-flex justify-content-end align-items-center">
-                            {% if not slot.is_editable %}
-                            <button type="button" class="btn btn-link align-middle link-secondary" data-bs-toggle="tooltip"
-                                data-bs-placement="top"
-                                title="{% trans 'It is not possible to cancel the reservation 24h before the begining of the slot. Please contact us.' %}">
-                                <i class="bi bi-trash3 fs-1"></i>
-                            </button>
-                            {% else %}
-                            <a class="btn btn-link align-middle" href="{% url 'fabcal:machineslot-delete' slot.pk %}">
-                                <i class="bi bi-trash3 fs-1"></i>
-                            </a>
-                            {% endif %}
-        
-                            <a class="btn btn-link align-middle" href="{% url 'fabcal:machineslot-update' slot.pk %}">
-                                <i class="bi bi-pencil-square text-blue fs-1"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            {{slot.get_duration}} min - {{slot.machine.title}}
-                        </div>
-                    </div>
+                {% if slot|get_type == 'OpeningSlot'%}
+                {% include 'accounts/profile_openingslot.html' %}
+                {% endif %}
+
+                {% if slot|get_type == 'MachineSlot'%}
+                {% include 'accounts/profile_machineslot.html' %}
+                {% endif %}
+            </div>
+            {% empty %}
+            <p>{%trans "Nothing planned at the moment..." %}</p>
+            <div class="row text-center align-items-center">
+                <div class="col">
+                    <a class="btn btn-outline-primary m-2" href="/trainings/">
+                        <i class="bi bi-mortarboard-fill pe-2"></i> {% trans "Register a training" %}
+                    </a>
+                </div>
+                <div class="col">
+                    <a class="btn btn-outline-primary m-2" href="/machines/">
+                        <i class="bi bi-tools pe-2"></i> {% trans "Book a machine" %}
+                    </a>
+                </div>
+                {% if request.user|has_group:"superuser" %}
+                <div class="col">
+                    <a class="btn btn-primary m-2" href="/schedule/">
+                        <i class="bi bi-door-open-fill pe-2"></i> {% trans "Add an opening" %}
+                    </a>
                 </div>
 
 
@@ -195,8 +77,8 @@
         </div>
         {% endif %}
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
     <div class="col-12 d-lg-none py-5">
         <hr>

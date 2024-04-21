@@ -74,6 +74,10 @@ class AbstractRegistration(models.Model):
     class Meta:
         abstract = True
 
+    @property
+    def get_reservation_list(self):
+        return self.registrations.all()
+        
 class OpeningSlot(AbstractSlot):
     opening = models.ForeignKey(Opening, on_delete=models.CASCADE)
     class Meta:
