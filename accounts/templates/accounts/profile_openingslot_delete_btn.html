@@ -1,0 +1,12 @@
+{% load i18n %}
+
+{% if not slot.is_editable %}
+<button type="button" class="btn btn-link btn-outline-primary" data-bs-toggle="tooltip"
+    data-bs-placement="top" title="{% trans 'You have reservations!' %}">
+    <i class="bi bi-trash3"></i>
+</button>
+{% else %}
+<a class="btn btn-link btn-outline-primary" href="{% url 'fabcal:opening-delete' slot.pk %}">
+    <i class="bi bi-trash3"></i>
+</a>
+{% endif %}

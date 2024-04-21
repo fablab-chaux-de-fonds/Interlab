@@ -48,6 +48,11 @@ class AbstractRegistration(models.Model):
         return self.start.date() == self.end.date()
     class Meta:
         abstract = True
+
+    @property
+    def get_reservation_list(self):
+        return self.registrations.all()
+        
 class OpeningSlot(AbstractSlot):
     opening = models.ForeignKey(Opening, on_delete=models.CASCADE)
     class Meta:
@@ -94,6 +99,7 @@ class EventSlot(AbstractSlot, AbstractRegistration):
         verbose_name = _("Event Slot")
         verbose_name_plural = _("Event Slots")
 
+
 class TrainingSlot(AbstractSlot, AbstractRegistration):
     training = models.ForeignKey(Training, on_delete=models.CASCADE)
     opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
@@ -102,6 +108,8 @@ class TrainingSlot(AbstractSlot, AbstractRegistration):
     class Meta:
         verbose_name = _("Training Slot")
         verbose_name_plural = _("Training Slots")
+
+    
 
 class MachineSlot(AbstractSlot):
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE, blank=True, null=True)
