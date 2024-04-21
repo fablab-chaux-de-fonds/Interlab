@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-14 10:24+0200\n"
+"POT-Creation-Date: 2024-04-21 14:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Comptes"
 msgid "Super user list"
 msgstr "Liste des utilisateurs"
 
-#: accounts/forms.py:38 accounts/templates/accounts/nav.html:44
+#: accounts/forms.py:38 accounts/templates/accounts/nav.html:38
 msgid "email"
 msgstr "e-mail"
 
@@ -167,7 +167,7 @@ msgstr "Technique"
 msgid "Software"
 msgstr "Logiciel"
 
-#: accounts/models.py:85 machines/models.py:36 machines/models.py:50
+#: accounts/models.py:85 machines/models.py:35 machines/models.py:49
 msgid "Machine category"
 msgstr "Catégorie de machine"
 
@@ -258,6 +258,7 @@ msgstr ""
 "pour donner vie à vos idées, et vous assurer la pérennité du lieu."
 
 #: accounts/templates/accounts/email/subscription_updated.html:12
+#: accounts/templates/accounts/profile.html:48
 #: payments/templates/payments/subscription_update_success.html:10
 msgid "Book a machine"
 msgstr "Réserver une machine"
@@ -277,52 +278,52 @@ msgstr "A bientôt,"
 msgid "My subscription"
 msgstr "Mon abonnement"
 
-#: accounts/templates/accounts/nav.html:19
+#: accounts/templates/accounts/nav.html:16
 msgid "Manage subscription members"
 msgstr "Gérer les membres de mon abonnement"
 
-#: accounts/templates/accounts/nav.html:36
+#: accounts/templates/accounts/nav.html:33
 msgid "My profile"
 msgstr "Mon profil"
 
-#: accounts/templates/accounts/nav.html:44
+#: accounts/templates/accounts/nav.html:38
 msgid "name"
 msgstr "nom"
 
-#: accounts/templates/accounts/nav.html:44
+#: accounts/templates/accounts/nav.html:38
 #: accounts/templates/registration/login.html:15
 msgid "password"
 msgstr "mot de passe"
 
-#: accounts/templates/accounts/nav.html:45
+#: accounts/templates/accounts/nav.html:39
 #: accounts/templates/accounts/profile_edit.html:36
 msgid "delete account"
 msgstr "supprimer mon compte"
 
-#: accounts/templates/accounts/nav.html:57
+#: accounts/templates/accounts/nav.html:51
 msgid "Logout"
 msgstr "Se déconnecter"
 
-#: accounts/templates/accounts/nav.html:73
+#: accounts/templates/accounts/nav.html:67
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: accounts/templates/accounts/nav.html:81
+#: accounts/templates/accounts/nav.html:72
 #: machines/templates/trainings/training_validation.html:12
 msgid "training validation"
 msgstr "validation de formations"
 
-#: accounts/templates/accounts/nav.html:81
+#: accounts/templates/accounts/nav.html:72
 msgid "subscription"
 msgstr "abonnement"
 
-#: accounts/templates/accounts/nav.html:93
-#, fuzzy
-#| msgid "Reservation"
+#: accounts/templates/accounts/nav.html:84
+#: accounts/templates/accounts/profile_openingslot_reservation_list.html:5
+#: accounts/templates/accounts/profile_slot_registration_list.html:5
 msgid "Reservations"
-msgstr "Réservation"
+msgstr "Réservations"
 
-#: accounts/templates/accounts/nav.html:101
+#: accounts/templates/accounts/nav.html:89
 msgid "Future and past reservations"
 msgstr "Réservations futures et passées"
 
@@ -330,76 +331,21 @@ msgstr "Réservations futures et passées"
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: accounts/templates/accounts/profile.html:25 fabcal/forms.py:242
-#: fabcal/templates/fabcal/trainingslot_(un)registration_form.html:10
-#: machines/models.py:67
-msgid "Training"
-msgstr "Formation"
+#: accounts/templates/accounts/profile.html:18
+msgid "My future activities in Fablab"
+msgstr "Mes futures activités au Fablab"
 
-#: accounts/templates/accounts/profile.html:32
-#: machines/templates/trainings/show_next_trainings.html:18
-#, python-format
-msgid "still %(available_registration)s places available !"
-msgstr "encore %(available_registration)s places disponibles !"
-
-#: accounts/templates/accounts/profile.html:35
-#: fabcal/templates/fabcal/event_registration_list.html:7
-msgid "Registration"
-msgstr "Inscription"
+#: accounts/templates/accounts/profile.html:39
+msgid "Nothing planned at the moment..."
+msgstr "Rien de plannifié pour le moment..."
 
 #: accounts/templates/accounts/profile.html:43
-msgid "Validate trainings"
-msgstr "Valider les formations"
+msgid "Register a training"
+msgstr "S'inscrire à une formation"
 
-#: accounts/templates/accounts/profile.html:46
-msgid "No registrations for the moment"
-msgstr "Pas de réservations pour le moment"
-
-#: accounts/templates/accounts/profile.html:48
-#: machines/templates/trainings/show_next_trainings.html:22
-msgid "sold out"
-msgstr "complet"
-
-#: accounts/templates/accounts/profile.html:58
-#: accounts/templates/accounts/profile.html:104
-msgid "You have reservations!"
-msgstr "Tu as des réservations!"
-
-#: accounts/templates/accounts/profile.html:74
-msgid ""
-"It is not possible to cancel the reservation 24h before the begining of the "
-"training. Please contact us."
-msgstr ""
-"Il n'est pas possible d'annuler la réservation 24h avant le début de la "
-"formation. Veuillez nous contacter."
-
-#: accounts/templates/accounts/profile.html:92 fabcal/forms.py:32
-#: fabcal/forms.py:178 openings/models.py:35
-msgid "Opening"
-msgstr "Ouverture"
-
-#: accounts/templates/accounts/profile.html:133
-msgid "No reservations for the moment"
-msgstr "Pas de réservations pour le moment"
-
-#: accounts/templates/accounts/profile.html:138
-#: interlab/templates/menu-mobile.html:18
-#: interlab/templates/navbar-header.html:17
-msgid "Reservation"
-msgstr "Réservation"
-
-#: accounts/templates/accounts/profile.html:151 fabcal/forms.py:187
-#: openings/models.py:46
-msgid "Event"
-msgstr "Évènement"
-
-#: accounts/templates/accounts/profile.html:164
-msgid ""
-"It is not possible to cancel the reservation 24h before the begining of the "
-"slot. Please contact us."
-msgstr ""
-"Il n'est pas possible d'annuler la réservation 24h avant le début du "
-"créneau. Veuillez nous contacter."
+#: accounts/templates/accounts/profile.html:54
+msgid "Add an opening"
+msgstr "Ajouter une ouverture"
 
 #: accounts/templates/accounts/profile_delete.html:9
 msgid "Are you sure you want to delete your account ?"
@@ -418,13 +364,84 @@ msgstr "Profil public"
 msgid "Change password"
 msgstr "Changer mon mot de passe"
 
+#: accounts/templates/accounts/profile_eventslot.html:24
+#: accounts/templates/accounts/profile_eventslot.html:56 fabcal/forms.py:187
+#: openings/models.py:46
+msgid "Event"
+msgstr "Évènement"
+
+#: accounts/templates/accounts/profile_eventslot.html:34
+msgid "Edit my event"
+msgstr "Modifier mon évènement"
+
+#: accounts/templates/accounts/profile_eventslot_delete_btn.html:8
+#: accounts/templates/accounts/profile_openingslot_delete_btn.html:5
+#: accounts/templates/accounts/profile_trainingslot_delete_btn.html:8
+msgid "You have reservations!"
+msgstr "Tu as des réservations!"
+
+#: accounts/templates/accounts/profile_eventslot_delete_btn.html:22
+#: accounts/templates/accounts/profile_machineslot_delete_btn.html:6
+#: accounts/templates/accounts/profile_trainingslot_delete_btn.html:22
+msgid ""
+"It is not possible to cancel the reservation 24h before the begining of the "
+"slot. Please contact us."
+msgstr ""
+"Il n'est pas possible d'annuler la réservation 24h avant le début du "
+"créneau. Veuillez nous contacter."
+
+#: accounts/templates/accounts/profile_machineslot.html:22
+#: accounts/templates/accounts/profile_machineslot.html:48
+#: interlab/templates/menu-mobile.html:18
+#: interlab/templates/navbar-header.html:17
+msgid "Reservation"
+msgstr "Réservation"
+
+#: accounts/templates/accounts/profile_machineslot.html:29
+msgid "Edit my reservation"
+msgstr "Modifier ma réservations"
+
+#: accounts/templates/accounts/profile_openingslot.html:20
+#: accounts/templates/accounts/profile_openingslot.html:46 fabcal/forms.py:32
+#: fabcal/forms.py:178 openings/models.py:36
+msgid "Opening"
+msgstr "Ouverture"
+
+#: accounts/templates/accounts/profile_openingslot.html:28
+msgid "Edit my opening"
+msgstr "Modifier mon ouverture"
+
+#: accounts/templates/accounts/profile_openingslot_reservation_list.html:20
+msgid "No reservations for the moment"
+msgstr "Pas de réservations pour le moment"
+
+#: accounts/templates/accounts/profile_slot_registration_list.html:18
+msgid "No registrations for the moment"
+msgstr "Pas de réservations pour le moment"
+
+#: accounts/templates/accounts/profile_trainingslot.html:24
+#: accounts/templates/accounts/profile_trainingslot.html:59 fabcal/forms.py:242
+#: fabcal/templates/fabcal/trainingslot_(un)registration_form.html:10
+#: machines/models.py:66
+msgid "Training"
+msgstr "Formation"
+
+#: accounts/templates/accounts/profile_trainingslot.html:34
+#: accounts/templates/accounts/profile_trainingslot.html:81
+msgid "Validate trainings"
+msgstr "Valider les formations"
+
+#: accounts/templates/accounts/profile_trainingslot.html:37
+msgid "Edit my training"
+msgstr "Modifier ma formation"
+
 #: accounts/templates/accounts/superuser-list.html:3
 #: machines/templates/machines/list.html:5
 msgid "Filter"
 msgstr "Filtres"
 
 #: accounts/templates/accounts/superuser-list.html:22
-#: fabcal/templates/fabcal/machineslot_list.html:42 machines/models.py:197
+#: fabcal/templates/fabcal/machineslot_list.html:42 machines/models.py:196
 msgid "Machine"
 msgstr "Machine"
 
@@ -456,7 +473,7 @@ msgstr "Fin"
 
 #: accounts/templates/accounts/superuser-profile-edit.html:38
 #: interlab/templates/menu-mobile.html:52
-#: interlab/templates/navbar-header.html:21 machines/models.py:68
+#: interlab/templates/navbar-header.html:21 machines/models.py:67
 msgid "Trainings"
 msgstr "Formations"
 
@@ -474,7 +491,6 @@ msgstr "Chercher un utilisateur"
 
 #: accounts/templates/accounts/user-summary.html:22
 #: accounts/templates/organizations/organization_detail.html:17
-#: fabcal/templates/fabcal/event_registration_list.html:23
 msgid "valid until"
 msgstr "valable jusqu'au"
 
@@ -790,7 +806,7 @@ msgstr "Les caractères spéciaux ne sont pas autorisés."
 msgid "This domain is not valid"
 msgstr "Ce domaine n'est pas valide"
 
-#: accounts/views.py:138
+#: accounts/views.py:137
 msgid ""
 "Your newsletter registration has been updated successfully with the email "
 "address: "
@@ -798,50 +814,38 @@ msgstr ""
 "Votre inscription à la newsletter a été mise à jour avec succès avec "
 "l'adresse e-mail : "
 
-#: accounts/views.py:143
+#: accounts/views.py:142
 msgid "Your profile has been updated successfully"
 msgstr "Votre profil a été mis à jour avec succès"
 
-#: accounts/views.py:166
+#: accounts/views.py:165
 msgid "Your account has been successfully deleted"
 msgstr "Votre compte a été supprimé avec succès"
 
-#: accounts/views.py:187 accounts/views.py:189
+#: accounts/views.py:186 accounts/views.py:188
 msgid " has been removed successfully from the team."
 msgstr " a été retiré de l'équipe avec succès."
 
-#: accounts/views.py:289
+#: accounts/views.py:288
 #, python-format
 msgid "Invalid subscription duration from %(start)s to %(end)s"
 msgstr "Durée d'abonnement non valide de %(start)s à %(end)s"
 
-#: fabcal/cms_plugins.py:20 fabcal/cms_plugins.py:42 fabcal/cms_plugins.py:113
+#: fabcal/cms_plugins.py:24 fabcal/cms_plugins.py:46 fabcal/cms_plugins.py:166
 msgid "Fabcal"
 msgstr "Fabcal"
 
-#: fabcal/cms_plugins.py:21
+#: fabcal/cms_plugins.py:25
 msgid "Weekly view"
 msgstr "Horaire hebdomadaire"
 
-#: fabcal/cms_plugins.py:43
+#: fabcal/cms_plugins.py:47
 msgid "Calendar openings view"
 msgstr "Calendrier - ouverture"
 
-#: fabcal/cms_plugins.py:114
+#: fabcal/cms_plugins.py:167
 msgid "Event list"
 msgstr "Liste d'évènement"
-
-#: fabcal/cms_plugins.py:133 fabcal/views.py:161
-#, python-format
-msgid "%(start_date)s <br> %(start_time)s - %(end_time)s"
-msgstr "%(start_date)s <br> %(start_time)s - %(end_time)s"
-
-#: fabcal/cms_plugins.py:135 fabcal/views.py:163
-#, python-format
-msgid ""
-"From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s "
-msgstr ""
-"Du %(start_date)s à %(start_time)s <br> au %(end_date)s à %(end_time)s "
 
 #: fabcal/forms.py:25
 msgid "Comment"
@@ -853,7 +857,7 @@ msgstr "Pas d'ouverture"
 
 #: fabcal/forms.py:42 interlab/templates/menu-mobile.html:58
 #: interlab/templates/navbar-header.html:20 machines/cms_plugins.py:13
-#: machines/cms_plugins.py:27 machines/models.py:198
+#: machines/cms_plugins.py:27 machines/models.py:197
 #: machines/templates/trainings/show.html:38
 msgid "Machines"
 msgstr "Machines"
@@ -999,35 +1003,35 @@ msgstr ""
 "Vous avez réservé avec succès la machine %(machine)s durant %(duration)s "
 "minutes le %(date)s de %(start)s à %(end)s"
 
-#: fabcal/models.py:54
+#: fabcal/models.py:59
 msgid "Opening Slot"
 msgstr "Créneau d'ouverture"
 
-#: fabcal/models.py:55
+#: fabcal/models.py:60
 msgid "Opening Slots"
 msgstr "Créneaux d'ouverture"
 
-#: fabcal/models.py:94
+#: fabcal/models.py:99
 msgid "Event Slot"
 msgstr "Créneau d'évènement"
 
-#: fabcal/models.py:95
+#: fabcal/models.py:100
 msgid "Event Slots"
 msgstr "Créneaux d'évènements"
 
-#: fabcal/models.py:103
+#: fabcal/models.py:109
 msgid "Training Slot"
 msgstr "Créneau de formation"
 
-#: fabcal/models.py:104
+#: fabcal/models.py:110
 msgid "Training Slots"
 msgstr "Créneaux de formation"
 
-#: fabcal/models.py:111
+#: fabcal/models.py:119
 msgid "Machine Slot"
 msgstr "Céneau machine"
 
-#: fabcal/models.py:112
+#: fabcal/models.py:120
 msgid "Machine Slots"
 msgstr "Créneaux machine"
 
@@ -1089,10 +1093,7 @@ msgstr ""
 "compréhension."
 
 #: fabcal/templates/fabcal/email/openingslot_auto_delete.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "Unfortunately, there are no reservations for tomorrow's opening from "
-#| "%(start)s to %(end)s . The slot has been removed from the fablab calendar."
+#, python-format
 msgid ""
 "Unfortunately, there are no reservations for tomorrow's opening from "
 "%(start)s to %(end)s. The slot has been removed from the fablab calendar."
@@ -1199,6 +1200,10 @@ msgstr "S'inscrire"
 #: fabcal/templates/fabcal/event_registration_list.html:6
 msgid "Superuser area"
 msgstr "Espace Superutilisateur"
+
+#: fabcal/templates/fabcal/event_registration_list.html:7
+msgid "Registrations"
+msgstr "Inscriptions"
 
 #: fabcal/templates/fabcal/event_registration_list.html:8
 msgid "peoples registered for the event"
@@ -1308,6 +1313,18 @@ msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
 #: fabcal/templates/fabcal/weekly.html:35
 msgid "Closed"
 msgstr "Fermé"
+
+#: fabcal/views.py:161
+#, python-format
+msgid "%(start_date)s <br> %(start_time)s - %(end_time)s"
+msgstr "%(start_date)s <br> %(start_time)s - %(end_time)s"
+
+#: fabcal/views.py:163
+#, python-format
+msgid ""
+"From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s "
+msgstr ""
+"Du %(start_date)s à %(start_time)s <br> au %(end_date)s à %(end_time)s "
 
 #: fabcal/views.py:169
 msgid "We hope to see you back soon !"
@@ -1501,150 +1518,146 @@ msgid "Machine list"
 msgstr "Liste des machines"
 
 #: machines/models.py:15
-msgid "Photo"
-msgstr "Photo"
-
-#: machines/models.py:16
 msgid "Header"
 msgstr "Chapeau"
 
-#: machines/models.py:37
+#: machines/models.py:36
 msgid "Machine categories"
 msgstr "Catégories de machine"
 
 # For the trainings models
-#: machines/models.py:45
+#: machines/models.py:44
 msgid "Beginner"
 msgstr "Débutant"
 
-#: machines/models.py:46
+#: machines/models.py:45
 msgid "Intermediate"
 msgstr "Intermédiaire"
 
-#: machines/models.py:47
+#: machines/models.py:46
 msgid "Advanced"
 msgstr "Avancé"
 
-#: machines/models.py:51 machines/templates/trainings/info.html:39
+#: machines/models.py:50 machines/templates/trainings/info.html:39
 msgid "Level"
 msgstr "Niveau"
 
-#: machines/models.py:52 machines/templates/trainings/info.html:23
+#: machines/models.py:51 machines/templates/trainings/info.html:23
 msgid "Duration"
 msgstr "Durée"
 
-#: machines/models.py:52
+#: machines/models.py:51
 msgid "Use the format HH:MM:SS"
 msgstr "Utiliser le format HH:MM:SS"
 
-#: machines/models.py:55
+#: machines/models.py:54
 msgid "Include free machine voucher"
 msgstr "Inclus bon machine"
 
-#: machines/models.py:85
+#: machines/models.py:84
 msgid "Icon"
 msgstr "Icon"
 
-#: machines/models.py:87 share/models.py:7
+#: machines/models.py:86 share/models.py:7
 msgid "Title"
 msgstr "Titre"
 
-#: machines/models.py:88 machines/templates/trainings/show.html:20
-#: openings/models.py:17 openings/models.py:28
+#: machines/models.py:87 machines/templates/trainings/show.html:20
+#: openings/models.py:17 openings/models.py:29
 msgid "Description"
 msgstr "Description"
 
-#: machines/models.py:89 share/models.py:10
+#: machines/models.py:88 share/models.py:10
 msgid "Link"
 msgstr "Lien"
 
-#: machines/models.py:90
+#: machines/models.py:89
 msgid "Link text"
 msgstr "Text lien"
 
-#: machines/models.py:96
+#: machines/models.py:95
 msgid "Card"
 msgstr "Carte"
 
-#: machines/models.py:97
+#: machines/models.py:96
 msgid "Cards"
 msgstr "Cartes"
 
-#: machines/models.py:113
+#: machines/models.py:112
 msgid "Training tool"
 msgstr "Outil de formation"
 
-#: machines/models.py:114
+#: machines/models.py:113
 msgid "Training tools"
 msgstr "Outils de formation"
 
-#: machines/models.py:118
+#: machines/models.py:117
 msgid "Question"
 msgstr "Question"
 
-#: machines/models.py:119
+#: machines/models.py:118
 msgid "Answer"
 msgstr "Réponse"
 
-#: machines/models.py:123
+#: machines/models.py:122
 msgid "FAQ"
 msgstr "FAQ"
 
-#: machines/models.py:124
+#: machines/models.py:123
 msgid "FAQs"
 msgstr "FAQs"
 
-#: machines/models.py:130
+#: machines/models.py:129
 msgid "Machine group"
 msgstr "Groupe de machine"
 
-#: machines/models.py:131
+#: machines/models.py:130
 msgid "Machine groups"
 msgstr "Groupes de machine"
 
-#: machines/models.py:136
+#: machines/models.py:135
 msgid "Material"
 msgstr "Matière"
 
-#: machines/models.py:137 machines/templates/machines/list.html:24
+#: machines/models.py:136 machines/templates/machines/list.html:24
 #: machines/templates/machines/show.html:59
 msgid "Materials"
 msgstr "Matières"
 
-#: machines/models.py:141
+#: machines/models.py:140
 msgid "Workshop"
 msgstr "Atelier"
 
-#: machines/models.py:142 machines/templates/machines/list.html:10
+#: machines/models.py:141 machines/templates/machines/list.html:10
 #: machines/templates/machines/show.html:53
 msgid "Workshops"
 msgstr "Ateliers"
 
-#: machines/models.py:163
+#: machines/models.py:162
 msgid "Premium Price"
 msgstr "Tarif membre"
 
-#: machines/models.py:204
+#: machines/models.py:203
 msgid "Machine tool"
 msgstr "Outil machine"
 
-#: machines/models.py:205
+#: machines/models.py:204
 msgid "Machine tools"
 msgstr "Outils machines"
 
-#: machines/models.py:211
+#: machines/models.py:210
 msgid "Machine highlight"
 msgstr "Atouts machine"
 
-#: machines/models.py:212
+#: machines/models.py:211
 msgid "Machine highlights"
 msgstr "Atouts machine"
 
-#: machines/models.py:221
+#: machines/models.py:220
 msgid "Specification"
 msgstr "Spécification"
 
-#: machines/models.py:222
+#: machines/models.py:221
 msgid "Specifications"
 msgstr "Spécifications"
 
@@ -1748,6 +1761,15 @@ msgstr "Prochaines formations"
 msgid "You are already registered !"
 msgstr "Vous êtes déjà inscrit !"
 
+#: machines/templates/trainings/show_next_trainings.html:18
+#, python-format
+msgid "still %(available_registration)s places available !"
+msgstr "encore %(available_registration)s places disponibles !"
+
+#: machines/templates/trainings/show_next_trainings.html:22
+msgid "sold out"
+msgstr "complet"
+
 #: machines/templates/trainings/show_next_trainings.html:48
 msgid "Not available ?"
 msgstr "Pas disponible ?"
@@ -1820,9 +1842,13 @@ msgstr "une newsletter par mois dans votre boîte mail"
 msgid "Thank you ! You are now registered in our newsletter list"
 msgstr "Merci ! Vous êtes maintenant inscrit à notre newsletter"
 
-#: openings/apps.py:7 openings/models.py:36
+#: openings/apps.py:7 openings/models.py:37
 msgid "Openings"
 msgstr "Ouvertures"
+
+#: openings/models.py:20
+msgid "Photo"
+msgstr "Photo"
 
 #: payments/cms_plugins.py:12
 msgid "Interlab"

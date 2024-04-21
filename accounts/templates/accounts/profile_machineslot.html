@@ -1,0 +1,67 @@
+{% load i18n %}
+
+
+<!-- Mobile -->
+<div class="d-md-none">
+    <div class="card">
+        <div class="position-relative">
+            <a href="{% url 'machines:machines-show' slot.machine.pk %}">
+                <img class="img-fluid" src={{slot.machine.photo.url}}>
+            </a>
+            <p class='badge position-absolute top-0 start-0 m-2'
+                style="color:{{slot.opening_slot.opening.color}};background-color:{{slot.opening_slot.opening.background_color}}">
+                {{slot.opening_slot.opening.title}}
+            </p>
+
+            <div class="position-absolute top-0 end-0 p-2">
+                {%include 'accounts/profile_machineslot_delete_btn.html'%}
+            </div>
+        </div>
+
+        <div class="card-body">
+            <h4 class="card-title">{% trans "Reservation" %}</h4>
+            <h5 class="card-text">{{slot.machine.category}} </br> {{slot.machine.title}}</h5>
+            {%include 'accounts/profile_slot_datetime.html'%}
+
+            <div class="row">
+                <div class="col text-center">
+                    <a href="{% url 'fabcal:machine-reservation-update' slot.pk %}" class="btn btn-primary"> <i
+                            class="bi bi-pencil pe-2"></i> {% trans "Edit my reservation" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Desktop -->
+<div class="d-none d-md-block">
+    <hr>
+    <div class="row">
+        <div class="col-3 py-0">
+            <a href="{% url 'machines:machines-show' slot.machine.pk %}">
+                <img class="img-fluid rounded-start" src={{slot.machine.photo.url}}>
+            </a>
+        </div>
+        <div class="col-9 py-0">
+            <div class="row h-100">
+                <div class="col-8 my-auto">
+                    <span class="h4 pe-2 align-middle d-inline">{%trans "Reservation" %}</span>
+                    <span class='badge d-inline align-middle'
+                        style="color:{{slot.opening_slot.opening.color}};background-color:{{slot.opening_slot.opening.background_color}}">
+                        {{slot.opening_slot.opening.title}}
+                    </span>
+                    <h5 class="card-text">{{slot.machine.category}} </br> {{slot.machine.title}}</h5>
+                    {%include 'accounts/profile_slot_datetime.html'%}
+                </div>
+                <div class="col-4 text-end py-0">
+
+                    <a class="btn btn-link btn-outline-primary"
+                        href="{% url 'fabcal:machine-reservation-update' slot.pk %}">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    {%include 'accounts/profile_machineslot_delete_btn.html'%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

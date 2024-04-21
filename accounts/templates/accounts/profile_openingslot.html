@@ -1,0 +1,65 @@
+{% load i18n %}
+
+
+<!-- Mobile -->
+<div class="d-md-none">
+    <div class="card">
+        <div class="position-relative">
+            <img class="img-fluid rounded-top" src={{slot.opening.photo.url}}>
+            <p class='badge position-absolute top-0 start-0 m-2'
+                style="color:{{slot.opening.color}};background-color:{{slot.opening.background_color}}">
+                {{slot.opening.title}}
+            </p>
+
+            <div class="position-absolute top-0 end-0 p-2">
+                {%include 'accounts/profile_openingslot_delete_btn.html'%}
+            </div>
+        </div>
+
+        <div class="card-body">
+            <h4 class="card-title">{% trans "Opening" %}</h4>
+            {%include 'accounts/profile_slot_datetime.html'%}
+
+            {%include 'accounts/profile_openingslot_reservation_list.html'%}
+
+            <div class="row">
+                <div class="col text-center">
+                    <a href="{% url 'fabcal:update-opening' slot.pk %}"
+                        class="btn btn-primary"> <i class="bi bi-pencil pe-2"></i> {% trans "Edit my opening" %}</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Desktop -->
+<div class="d-none d-md-block">
+    <hr>
+    <div class="row">
+        <div class="col-3 py-0">
+            <img class="img-fluid rounded" src={{slot.opening.photo.url}}>
+        </div>
+        <div class="col-9 py-0">
+            <div class="row">
+                <div class="col-8 py-auto">
+                    <span class="h4 align-middle d-inline pe-2">{%trans "Opening" %}</span>
+                    <span class='badge d-inline align-middle'
+                        style="color:{{slot.opening.color}};background-color:{{slot.opening.background_color}}">
+                        {{slot.opening.title}}
+                    </span>
+                    {%include 'accounts/profile_slot_datetime.html'%}
+                </div>
+                <div class="col-4 text-end py-0">
+                    <a class="btn btn-link btn-outline-primary" href="{% url 'fabcal:update-opening' slot.pk %}">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    {%include 'accounts/profile_openingslot_delete_btn.html'%}
+                </div>
+            </div>
+
+            {%include 'accounts/profile_openingslot_reservation_list.html'%}
+
+        </div>
+    </div>
+</div>

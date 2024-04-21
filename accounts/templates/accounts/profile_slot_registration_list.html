@@ -1,0 +1,21 @@
+{% load i18n %}
+
+<div class="row">
+    <div class="col">
+        <h5>{% trans "Reservations" %}</h5>
+        {% for user in slot.get_reservation_list %}
+        <a class="text-blue" href="{% url 'superuser-profile-edit' user.pk %}">
+            <div class="row">
+                <div class="col-3 col-md-2">
+                    {%include 'accounts/avatar.html' with user=user%}
+                </div>
+                <div class="col-9 my-auto">
+                    {{user.first_name}} {{user.last_name}}
+                </div>
+            </div>
+        </a>
+        {% empty %}
+        {% trans "No registrations for the moment" %}
+        {% endfor %}
+    </div>
+</div>
