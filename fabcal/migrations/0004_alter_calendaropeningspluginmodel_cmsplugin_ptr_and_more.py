@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cms', '0036_alter_cmsplugin_id_alter_globalpagepermission_id_and_more'),
+        #('cms', '0036_alter_cmsplugin_id_alter_globalpagepermission_id_and_more'),
         ('fabcal', '0003_auto_20230801_1033'),
     ]
 
