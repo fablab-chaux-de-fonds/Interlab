@@ -283,6 +283,8 @@ CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
 
+CMS_CONFIRM_VERSION4 = True
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 

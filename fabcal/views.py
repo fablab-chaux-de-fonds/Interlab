@@ -14,7 +14,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.template import loader
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView
