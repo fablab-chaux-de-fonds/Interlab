@@ -347,6 +347,7 @@ COMPRESS_PRECOMPILERS = (
 
 WEBPACK_LOADER = {
     'DEFAULT': {
+        # 'BUNDLE_DIR_NAME': STATICFILES_DIRS,
         'STATS_FILE': str(BASE_DIR / 'build' / 'webpack-stats.json'),
     },
 }

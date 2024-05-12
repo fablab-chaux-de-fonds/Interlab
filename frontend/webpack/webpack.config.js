@@ -1,36 +1,38 @@
 const Path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const autoprefixer = require('autoprefixer')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { VueLoaderPlugin } = require('vue-loader')
 const BundleTracker = require('webpack-bundle-tracker'); 
+const webpack = require("webpack");
 
 module.exports = {
   entry: {
-    app: Path.resolve(__dirname, '../src/scripts/index'),
-    vue: Path.resolve(__dirname, '../src/scripts/vue'),
+    index: Path.resolve(__dirname, '../src/js/index'),
+    app: Path.resolve(__dirname, '../src/js/app'),
+    vue: Path.resolve(__dirname, '../src/js/vue'),
   },
   output: {
-    path: Path.join(__dirname, '../../build'),
-    filename: 'js/[name].js',
+    path: Path.join(__dirname,'..','..', 'build'),
+    filename: '[name].js',
     publicPath: '/static/',
   },
   optimization: {
     splitChunks: {
       chunks: 'all',
-      name: 'vendors',
+      name: 'vendors', 
     },
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new BundleTracker({filename: '../build/webpack-stats.json'}),
+    new BundleTracker({ path: Path.join(__dirname,'..','..', 'build'), filename: "webpack-stats.json" }),
     new VueLoaderPlugin(),
   ],
   resolve: {
     alias: {
       '~': Path.resolve(__dirname, '../src'),
-      'vue$': 'vue/dist/vue.esm.js',
     },
-    extensions: ["*", ".js", ".vue", ".json"],
+    extensions: [".js", ".vue", ".json"],
   },
   module: {
     rules: [

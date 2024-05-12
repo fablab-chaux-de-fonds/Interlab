@@ -1,7 +1,5 @@
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
-
-Vue.use(VueI18n);
+import { createApp } from 'vue';
+import { createI18n } from 'vue-i18n';
 
 const messages = {
     fr: {
@@ -34,9 +32,13 @@ const messages = {
     },
 };
 
-const i18n = new VueI18n({
-    locale: 'fr', // set locale
-    messages, // set locale messages
-});
-
-export default i18n;
+const i18n = createI18n({
+    locale: 'fr',
+    messages
+  });
+  
+  const app = createApp();
+  
+  app.use(i18n);
+  
+  export default i18n;

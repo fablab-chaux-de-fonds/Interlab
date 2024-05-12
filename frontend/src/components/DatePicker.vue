@@ -22,20 +22,21 @@
 </template>
 
 <script>
-    var moment = require('moment');
+    import moment from 'moment';
     moment.locale('fr');
-    module.exports = {
+
+    export default {
         props: ['init-date', 'label', 'input-name'],
-        data: function () {
+        data() {
             return {
                 date: this.initDate,
                 dialog: false,
-            }
+            };
         },
         methods: {
             formatDate() {
                 return moment(this.date).format('D MMMM YYYY');
             },
         },
-    }
+    };
 </script>

@@ -2,15 +2,15 @@ const Path = require('path');
 const Webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const StylelintPlugin = require('stylelint-webpack-plugin');
+
 const ESLintPlugin = require('eslint-webpack-plugin');
 
-const common = require('./webpack.common.js');
+const common = require('./webpack.config.js');
 
 module.exports = merge(common, {
   target: 'web',
   mode: 'development',
-  devtool: 'inline-cheap-source-map',
+  devtool: 'source-map',
   output: {
     chunkFilename: 'js/[name].chunk.js',
     filename: 'js/[name].js',
@@ -30,10 +30,6 @@ module.exports = merge(common, {
     new Webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
-    new StylelintPlugin({
-      files: Path.join('src', '**/*.s?(a|c)ss'),
-      fix: true,
-    }),
     new MiniCssExtractPlugin({ filename: 'css/[name].css', }),
     new ESLintPlugin({
       fix: true,
@@ -45,7 +41,7 @@ module.exports = merge(common, {
         test: /\.html$/i,
         loader: 'html-loader',
       },
-
+      
     ],
   }
 });
