@@ -286,7 +286,7 @@ CMS_PLACEHOLDER_CONF = {}
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-if any('test' in item for item in sys.argv) or 'PWD' in os.environ:
+if any(item == 'test' for item in sys.argv):
     # Test if run test or on local computer
     DATABASES = {
         'default' : {
