@@ -12,6 +12,7 @@ RUN pip install -r requirements.txt
 RUN apt-get update \
       && apt-get install -y \
             gettext \
+            uwsgi \
       && apt-get clean \
       && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
