@@ -164,7 +164,7 @@ class SlotViewTestCase(TestCase):
             title = 'my event title',
             lead = 'my event lead',
             desc = 'my event description',
-            img = 'event.png',
+            photo = 'event.png',
             is_active = True,
             is_on_site = True,
             location = 'Fablab'
