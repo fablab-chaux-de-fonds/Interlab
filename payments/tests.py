@@ -14,15 +14,16 @@ class SubscriptionRenewBase(TestCase):
         self.with_subscription = with_subscription
 
     def setUp(self):
-        user = CustomUser.objects.create(email='someuser@fake.django')
+        self.user = CustomUser.objects.create(email='someuser@fake.django')
         subscription = None
         category = SubscriptionCategory.objects.create(pk=1, duration=1000, price=1234, star_flag=False, sort=0, default_access_number=123)
         if self.with_subscription:
             subscription = Subscription.objects.create(pk=1, access_number=42, start=self.start, end=self.end, subscription_category=category)
-        Profile.objects.create(pk=12, user=user, subscription=subscription)
+        user.profile.subscription = subscription
+        user.profile.save()
 
     def _test_renew_should_create_new_subscription(self, expected_duration, subscription_category_id):
-        session = {'customer_details': {'email':'someuser@fake.django'}, 'metadata': {'profile_id': 12, 'subscription_category_id': subscription_category_id}}
+        session = {'customer_details': {'email':'someuser@fake.django'}, 'metadata': {'profile_id': self.user.profile.id, 'subscription_category_id': subscription_category_id}}
         fulfill_order(session, None)
 
         profile = Profile.objects.get(user__email='someuser@fake.django')
@@ -103,7 +104,6 @@ class TestViewBase(TestCase):
 
     def setUp(self):
         user = CustomUser.objects.create_user(pk=1, username='alphonse', email='dontexists@django.fake', password='fonce')
-        Profile.objects.create(pk=1, user_id=user.id)
         SubscriptionCategory.objects.create(pk=1, title='title', price=12, sort=0, star_flag=False, default_access_number=1, duration=1)
 
 

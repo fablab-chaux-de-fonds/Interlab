@@ -960,7 +960,7 @@ msgstr "Une formation a été mise à jour"
 
 #: fabcal/forms.py:703 fabcal/forms.py:704
 msgid "Training registration confirmation"
-msgstr "Confirmation de l'inscrition à la formation"
+msgstr "Confirmation de l'inscription à la formation"
 
 #: fabcal/forms.py:727
 msgid "You are not registered for this training slot."
@@ -968,7 +968,7 @@ msgstr "Vous n'êtes pas inscrit à cette formation"
 
 #: fabcal/forms.py:735 fabcal/forms.py:736
 msgid "Training unregistration confirmation"
-msgstr "Confirmation de desinscrition de la formation"
+msgstr "Confirmation de desinscription de la formation"
 
 #: fabcal/forms.py:750
 msgid "Select an event"
@@ -993,7 +993,7 @@ msgstr "Laisser vide si pas de limite"
 
 #: fabcal/forms.py:793 fabcal/forms.py:794
 msgid "Event registration confirmation"
-msgstr "Confirmation de l'inscrition à l'évènement"
+msgstr "Confirmation de l'inscription à l'évènement"
 
 #: fabcal/forms.py:806
 msgid "You are not registered for this event slot."
@@ -1001,7 +1001,7 @@ msgstr "Vous n'êtes pas inscrit à cet évènement"
 
 #: fabcal/forms.py:814 fabcal/forms.py:815
 msgid "Event unregistration confirmation"
-msgstr "Confirmation de l'inscrition à l'évènement"
+msgstr "Confirmation de la désinscription à l'évènement"
 
 #: fabcal/models.py:84
 msgid "Opening Slot"

@@ -1348,7 +1348,7 @@ class TrainingSlotRegistrationCreateViewTestCase(TrainingSlotRegistrationViewTes
         email_content = form.create_email_content()
         self.assertEqual(training_slot.registrations.first(), self.user)
         self.assertEqual(email_content['recipient_list'], [self.user.email])
-        self.assertEqual(email_content['subject'], "Confirmation de l'inscrition à la formation")
+        self.assertEqual(email_content['subject'], "Confirmation de l'inscription à la formation")
 
     @patch('fabcal.forms.send_mail', autospec=True)
     def test_get_success_message(self, mock_send_mail):
@@ -1406,7 +1406,7 @@ class TrainingSlotRegistrationDeleteViewTestCase(TrainingSlotRegistrationViewTes
         email_content = form.create_email_content()
         self.assertEqual(self.training_slot.registrations.first(), None)
         self.assertEqual(email_content['recipient_list'], [self.user.email])
-        self.assertEqual(email_content['subject'], 'Training unregistration confirmation')
+        self.assertEqual(email_content['subject'], 'Confirmation de desinscription de la formation')
 
     @patch('fabcal.forms.send_mail', autospec=True)
     def test_dispatch_user_in_registrations(self, mock_send_mail):
@@ -1699,7 +1699,7 @@ class EventSlotRegistrationCreateViewTestCase(EventSlotRegistrationViewTestCase)
         email_content = form.create_email_content()
         self.assertEqual(event_slot.registrations.first(), self.user)
         self.assertEqual(email_content['recipient_list'], [self.user.email])
-        self.assertEqual(email_content['subject'], "Confirmation de l'inscrition à l'évènement")
+        self.assertEqual(email_content['subject'], "Confirmation de l'inscription à l'évènement")
 
     @patch('fabcal.forms.send_mail', autospec=True)
     def test_get_success_message(self, mock_send_mail):
@@ -1751,7 +1751,7 @@ class EventSlotRegistrationDeleteViewTestCase(EventSlotRegistrationViewTestCase)
         email_content = form.create_email_content()
         self.assertEqual(self.event_slot.registrations.first(), None)
         self.assertEqual(email_content['recipient_list'], [self.user.email])
-        self.assertEqual(email_content['subject'], 'Event unregistration confirmation')
+        self.assertEqual(email_content['subject'], 'Confirmation de la désinscription à l\'évènement')
 
     @patch('fabcal.forms.send_mail', autospec=True)
     def test_dispatch_user_in_registrations(self, mock_send_mail):
