@@ -1,13 +1,11 @@
-import { createVuetify } from 'vuetify'; // Import createVuetify from 'vuetify'
-import { createApp } from 'vue'; // Import createApp from Vue 3
+import Vue from 'vue';
+import Vuetify from 'vuetify';
 import i18n from '../locales/i18n';
-import { fr } from 'vuetify/locale';
+import fr from 'vuetify/src/locale/fr.ts';
 
-// Create the Vue app instance
-const app = createApp();
+Vue.use(Vuetify);
 
-// Use Vuetify plugin with createVuetify and pass the app instance
-const vuetify = createVuetify(app, {
+export default new Vuetify({
   theme: {
     themes: {
       light: {
@@ -22,5 +20,3 @@ const vuetify = createVuetify(app, {
     t: (key, ...params) => i18n.t(key, params),
   },
 });
-
-export default vuetify;

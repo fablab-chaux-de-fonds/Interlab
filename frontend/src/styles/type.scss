@@ -8,7 +8,7 @@ footer {
 }
 
 .text-red {
-  color: $custom-red;
+  color: $custom-red !important;
 }
 
 .text-blue {
@@ -16,7 +16,7 @@ footer {
 }
 
 .text-green {
-  color: $custom-green;
+  color: $custom-green !important;
 }
 
 .text-bg-success-light {

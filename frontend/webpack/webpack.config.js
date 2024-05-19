@@ -1,15 +1,12 @@
 const Path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const autoprefixer = require('autoprefixer')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { VueLoaderPlugin } = require('vue-loader')
 const BundleTracker = require('webpack-bundle-tracker'); 
-const webpack = require("webpack");
 
 module.exports = {
   entry: {
-    index: Path.resolve(__dirname, '../src/js/index'),
-    app: Path.resolve(__dirname, '../src/js/app'),
+    app: Path.resolve(__dirname, '../src/js/index'),
     vue: Path.resolve(__dirname, '../src/js/vue'),
   },
   output: {
@@ -31,6 +28,7 @@ module.exports = {
   resolve: {
     alias: {
       '~': Path.resolve(__dirname, '../src'),
+      'vue': 'vue/dist/vue.esm.js',
     },
     extensions: [".js", ".vue", ".json"],
   },
@@ -71,7 +69,7 @@ module.exports = {
         type: 'javascript/auto',
       },
       {
-        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+        test: /\.(ico|jpg|jpeg|png|gif|webp|svg)(\?.*)?$/,
         use: {
           loader: 'file-loader',
           options: {
@@ -79,16 +77,6 @@ module.exports = {
           },
         },
       },
-      {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        include: Path.resolve(__dirname, './node_modules/bootstrap-icons/font/fonts'),
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[path][name].[ext]',
-          },
-        }
-      }
     ],
   },
 };
