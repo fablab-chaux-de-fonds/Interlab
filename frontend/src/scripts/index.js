@@ -7,7 +7,6 @@ import "bootstrap-show-password/dist/bootstrap-show-password.js";
 import "htmx.org";
 import "masonry-layout";
 import "imagesloaded";
-import Typewriter from 'typewriter-effect/dist/core';
 
 // Bootstrap - initialize tooltips
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -36,8 +35,3 @@ $grid.imagesLoaded(function () {
     });
  });
 
- new Typewriter('#typewriter', {
-    strings: ['Apprenez', 'Fabriquez', 'Partagez'],
-    autoStart: true,
-    loop: true, 
-  });

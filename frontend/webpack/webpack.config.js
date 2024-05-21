@@ -8,6 +8,7 @@ module.exports = {
   entry: {
     app: Path.resolve(__dirname, '../src/scripts/index'),
     vue: Path.resolve(__dirname, '../src/scripts/vue'),
+    typewriter: Path.resolve(__dirname, '../src/scripts/plugins/typewriter'),
   },
   output: {
     path: Path.join(__dirname,'..','..', 'build'),
