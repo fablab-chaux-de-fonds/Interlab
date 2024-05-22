@@ -156,8 +156,8 @@ class Machine(ItemForRent):
 
     group = models.ForeignKey(MachineGroup, blank=True, null=True,on_delete=models.SET_NULL)
     category = models.ForeignKey(MachineCategory, blank=True, null=True, on_delete=models.SET_NULL)
-    material = models.ManyToManyField(Material,null=True, blank=True)
-    workshop = models.ManyToManyField(Workshop,null=True, blank=True)
+    material = models.ManyToManyField(Material, blank=True)
+    workshop = models.ManyToManyField(Workshop, blank=True)
     reservable = models.BooleanField(default=True)
     premium_price = models.DecimalField(verbose_name=_('Premium Price'),max_digits=6,decimal_places=2, null=True, blank=False)
 
@@ -222,7 +222,7 @@ class Specification(models.Model):
 
 class Software(models.Model):
     title = models.CharField(max_length=255)
-    machines = models.ManyToManyField(Machine ,null=True, blank=True)
+    machines = models.ManyToManyField(Machine, blank=True)
 
     def __str__(self):
         return self.title
