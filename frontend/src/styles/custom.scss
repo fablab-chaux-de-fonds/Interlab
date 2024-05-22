@@ -9,15 +9,15 @@ $custom-green-light:  #e4f2e5;
   font-family: 'GT Pressura';
   font-display: 'swap';
   src:
-    url('../fonts/GTPressura-Bold.woff2') format("woff2"),
-    url('../fonts/GTPressura-Bold.woff') format("woff"),
-    url('../fonts/GTPressura-Bold.eot') format("embedded-opentype"),
-    url('../fonts/GTPressura-Bold.otf') format("opentype"),
-    url('../fonts/GTPressura-Bold.ttf') format("truetype"),
-    url('../fonts/GTPressura-Bold.svg') format("svg");
+    '../fonts/GTPressura-Bold.woff2' format("woff2"),
+    '../fonts/GTPressura-Bold.woff' format("woff"),
+    '../fonts/GTPressura-Bold.eot' format("embedded-opentype"),
+    '../fonts/GTPressura-Bold.otf' format("opentype"),
+    '../fonts/GTPressura-Bold.ttf' format("truetype"),
+    '../fonts/GTPressura-Bold.svg' format("svg");
 }
 
-// variables
+/* variables */
 $body-color: $custom-blue;
 $blue: $custom-blue;
 $red: $custom-red;

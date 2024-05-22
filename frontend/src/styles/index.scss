@@ -1,6 +1,6 @@
 @import "custom.scss";
-@import '~vuetify/dist/vuetify.min.css';
-@import "~bootstrap/scss/bootstrap.scss";
+@import 'vuetify/dist/vuetify.min.css';
+@import "bootstrap/scss/bootstrap.scss";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import "alerts.scss";
 @import "animations.scss";
@@ -16,10 +16,6 @@
 @import "type.scss";
 @import "vue.scss";
 
-footer {
-  background-color: $custom-green-light;
-  padding-bottom: 100px;
-}
 
 a {
   text-decoration: none;
@@ -27,10 +23,6 @@ a {
 
 .cms-messages {
   display: none !important;
-}
-
-#div_id_is_admin {
-  display: none;
 }
 
 td > p {

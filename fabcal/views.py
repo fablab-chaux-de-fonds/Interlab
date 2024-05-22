@@ -11,7 +11,7 @@ from django.http import HttpResponse, QueryDict, HttpResponseForbidden
 from django.shortcuts import redirect
 from django.template import loader
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import DeleteView, CreateView, UpdateView

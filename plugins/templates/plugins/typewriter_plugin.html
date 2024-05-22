@@ -1,0 +1,10 @@
+{% load render_bundle from webpack_loader %}
+
+<div class="text-center text-red mb-4">
+    <div class="container-fluid fs-title" id="typewriter"></div>
+</div>
+
+<script id="typewriter-data" type="application/json">{{ strings|safe }}</script>
+
+{% render_bundle 'typewriter' 'js' %}
+

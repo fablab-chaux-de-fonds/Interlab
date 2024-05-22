@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:latest
 ENV PYTHONUNBUFFERED=1
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -28,7 +28,8 @@ COPY machines /code/machines/
 COPY newsletter /code/newsletter/
 COPY openings /code/openings
 COPY share /code/share
-COPY payments /code/payments 
+COPY payments /code/payments
+COPY plugins /code/plugins
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # Front-end generation

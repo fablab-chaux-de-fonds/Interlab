@@ -238,6 +238,7 @@ INSTALLED_APPS = [
     'api.apps.APIConfig',
     'rest_framework',
     'rest_framework.authtoken',
+    'plugins'
 ]
 
 LANGUAGES = (
@@ -285,6 +286,8 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
+
+CMS_CONFIRM_VERSION4 = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

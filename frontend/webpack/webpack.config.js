@@ -8,29 +8,30 @@ module.exports = {
   entry: {
     app: Path.resolve(__dirname, '../src/scripts/index'),
     vue: Path.resolve(__dirname, '../src/scripts/vue'),
+    typewriter: Path.resolve(__dirname, '../src/scripts/plugins/typewriter'),
   },
   output: {
-    path: Path.join(__dirname, '../../build'),
-    filename: 'js/[name].js',
+    path: Path.join(__dirname,'..','..', 'build'),
+    filename: '[name].js',
     publicPath: '/static/',
   },
   optimization: {
     splitChunks: {
       chunks: 'all',
-      name: 'vendors',
+      name: 'vendors', 
     },
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new BundleTracker({filename: '../build/webpack-stats.json'}),
+    new BundleTracker({ path: Path.join(__dirname,'..','..', 'build'), filename: "webpack-stats.json" }),
     new VueLoaderPlugin(),
   ],
   resolve: {
     alias: {
       '~': Path.resolve(__dirname, '../src'),
-      'vue$': 'vue/dist/vue.esm.js',
+      'vue': 'vue/dist/vue.esm.js',
     },
-    extensions: ["*", ".js", ".vue", ".json"],
+    extensions: [".js", ".vue", ".json"],
   },
   module: {
     rules: [
@@ -69,7 +70,7 @@ module.exports = {
         type: 'javascript/auto',
       },
       {
-        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+        test: /\.(ico|jpg|jpeg|png|gif|webp|svg)(\?.*)?$/,
         use: {
           loader: 'file-loader',
           options: {
@@ -77,16 +78,6 @@ module.exports = {
           },
         },
       },
-      {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        include: Path.resolve(__dirname, './node_modules/bootstrap-icons/font/fonts'),
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[path][name].[ext]',
-          },
-        }
-      }
     ],
   },
 };

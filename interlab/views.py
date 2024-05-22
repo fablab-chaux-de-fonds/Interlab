@@ -26,16 +26,6 @@ class CustomFormView(FormView):
                 form[field].field.widget.attrs['class'] = 'form-control is-invalid'
         return super().form_invalid(form)
 
-def bootstrap(request):
-    template = loader.get_template('bootstrap.html')
-    context = {}
-    return HttpResponse(template.render(context, request))
-
-def schedule(request):
-    template = loader.get_template('vuejs.html')
-    context = {}
-    return HttpResponse(template.render(context, request))
-
 def error_500(request):
     template = loader.get_template('500.html')
     context = {}

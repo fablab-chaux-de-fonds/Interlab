@@ -2,8 +2,13 @@ h2 {
   @extend .text-uppercase;
 }
 
+footer {
+  background-color: $custom-green-light;
+  padding-bottom: 100px;
+}
+
 .text-red {
-  color: $custom-red;
+  color: $custom-red !important;
 }
 
 .text-blue {
@@ -11,7 +16,7 @@ h2 {
 }
 
 .text-green {
-  color: $custom-green;
+  color: $custom-green !important;
 }
 
 .text-bg-success-light {
