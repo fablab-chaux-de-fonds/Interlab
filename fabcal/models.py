@@ -103,7 +103,7 @@ class EventSlot(AbstractSlot, AbstractRegistration):
 class TrainingSlot(AbstractSlot, AbstractRegistration):
     training = models.ForeignKey(Training, on_delete=models.CASCADE)
     opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
-    registrations = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='training_registration_users', blank=True, null=True)
+    registrations = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='training_registration_users', blank=True)
 
     class Meta:
         verbose_name = _("Training Slot")
