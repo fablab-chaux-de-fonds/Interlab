@@ -26,7 +26,6 @@ urlpatterns += i18n_patterns(
     path('share/', include('share.urls')),
     path('payments/', include('payments.urls')),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
-    path('bootstrap/', views.bootstrap, name='bootstrap'),
     path('error-500/', views.error_500, name='error-500'),
     path("", include("newsletter.urls")),
     path("", include("cms.urls")),
