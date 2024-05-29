@@ -190,6 +190,8 @@ INSTALLED_APPS = [
     'djangocms_text_ckeditor',
     'filer',
     'easy_thumbnails',
+    'djangocms_icon',
+    'djangocms_link',
     'djangocms_bootstrap4',
     'djangocms_bootstrap4.contrib.bootstrap4_alerts',
     'djangocms_bootstrap4.contrib.bootstrap4_badge',
@@ -205,9 +207,24 @@ INSTALLED_APPS = [
     'djangocms_bootstrap4.contrib.bootstrap4_picture',
     'djangocms_bootstrap4.contrib.bootstrap4_tabs',
     'djangocms_bootstrap4.contrib.bootstrap4_utilities',
+    "djangocms_frontend",
+    "djangocms_frontend.contrib.accordion",
+    "djangocms_frontend.contrib.alert",
+    "djangocms_frontend.contrib.badge",
+    "djangocms_frontend.contrib.card",
+    "djangocms_frontend.contrib.carousel",
+    "djangocms_frontend.contrib.collapse",
+    "djangocms_frontend.contrib.content",
+    "djangocms_frontend.contrib.grid",
+    "djangocms_frontend.contrib.icon",
+    "djangocms_frontend.contrib.image",
+    "djangocms_frontend.contrib.jumbotron",
+    "djangocms_frontend.contrib.link",
+    "djangocms_frontend.contrib.listgroup",
+    "djangocms_frontend.contrib.media",
+    "djangocms_frontend.contrib.tabs",
+    "djangocms_frontend.contrib.utilities",
     'djangocms_file',
-    'djangocms_icon',
-    'djangocms_link',
     'djangocms_picture',
     'djangocms_style',
     'djangocms_video',
@@ -289,25 +306,25 @@ CMS_CONFIRM_VERSION4 = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-if any('test' in item for item in sys.argv) or 'PWD' in os.environ:
-    # Test if run test or on local computer
-    DATABASES = {
-        'default' : {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
-        }
+# if any('test' in item for item in sys.argv) or 'PWD' in os.environ:
+#     # Test if run test or on local computer
+#     DATABASES = {
+#         'default' : {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
+#         }
+#     }
+# else:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT')
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('POSTGRES_NAME'),
-            'USER': os.environ.get('POSTGRES_USER'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-            'HOST': os.environ.get('POSTGRES_HOST'),
-            'PORT': os.environ.get('POSTGRES_PORT')
-        }
-    }
+}
 
 DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL')
 EMAIL_HOST=os.environ.get('EMAIL_HOST')

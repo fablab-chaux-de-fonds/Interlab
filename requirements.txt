@@ -28,6 +28,7 @@ django-webpack-loader
 djangocms-admin-style
 djangocms-bootstrap4
 djangocms-file
+djangocms-frontend
 djangocms-icon
 djangocms-link
 djangocms-picture
