@@ -26,7 +26,6 @@ django-treebeard
 django-url-or-relative-url-field
 django-webpack-loader
 djangocms-admin-style
-djangocms-bootstrap4
 djangocms-file
 djangocms-frontend
 djangocms-icon
