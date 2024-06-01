@@ -16,10 +16,10 @@
 </div>
 
 <form action="
-    {% if 'unregister' in view.request.path %}
-        {% url 'fabcal:training-unregister' object.pk %}
+    {% if 'delete' in view.request.path %}
+        {% url 'fabcal:trainingslot-unregister' object.pk %}
     {% else %}
-        {% url 'fabcal:training-register' object.pk %}{%endif%}"
+        {% url 'fabcal:trainingslot-register' object.pk %}{%endif%}"
     method="POST">
 
     <form action="." method="POST">

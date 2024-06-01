@@ -19,12 +19,12 @@
         </button>
 
         {% if user.is_authenticated %}
-        <a href="{% url 'profile' %}" role="button" class="btn btn-mobile-navbar btn-lg" style="width: 108px;">
+        <a href="{% url 'accounts:profile' %}" role="button" class="btn btn-mobile-navbar btn-lg" style="width: 108px;">
             <i class="bi bi-person-circle"></i>
             <div>{% trans "My account" %}</div>
         </a>
         {% else %}
-        <a href="{% url 'login' %}" role="button" class="btn btn-mobile-navbar btn-lg" style="width: 80px;">
+        <a href="{% url 'accounts:login' %}" role="button" class="btn btn-mobile-navbar btn-lg" style="width: 80px;">
             <i class="bi bi-box-arrow-in-right"></i>
             <div>{% trans "Login" %}</div>
         </a>

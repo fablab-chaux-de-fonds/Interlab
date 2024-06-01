@@ -1,242 +1,85 @@
-from copy import deepcopy
-import dateparser
-
+from datetime import datetime, timedelta
 from babel.dates import format_datetime
 
-from datetime import datetime, timedelta
+from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin 
-from django.core.mail import send_mail
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ValidationError, PermissionDenied
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponse, QueryDict, HttpResponseForbidden
+from django.shortcuts import redirect
 from django.template import loader
-from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.urls import reverse, reverse_lazy
-from django.views import View
 from django.views.generic import TemplateView, ListView
-from django.views.generic.edit import FormView, DeleteView
-from django.views.generic.detail import DetailView, SingleObjectMixin
-
-from .forms import OpeningForm, EventForm, TrainingForm, RegisterTrainingForm, MachineReservationForm, RegisterEventForm
-from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
+from django.views.generic.edit import DeleteView, CreateView, UpdateView
+from django.views.generic.detail import DetailView
 
 from interlab.views import CustomFormView
+from machines.models import Machine
 
-def get_start_end(self, context):
-    if self.request.method =='GET':
-        if self.crud_state == 'created':
-            context['start'] = datetime.fromtimestamp(int(self.kwargs['start'])/1000)
-            context['end'] = datetime.fromtimestamp(int(self.kwargs['end'])/1000)
-        elif self.crud_state == 'updated':
-            if self.type == 'opening':
-                slot = OpeningSlot.objects.get(pk=self.kwargs['pk'])
-            elif self.type == 'event':
-                slot = EventSlot.objects.get(pk=self.kwargs['pk'])
-            elif self.type == 'training':
-                slot = TrainingSlot.objects.get(pk=self.kwargs['pk'])
-            context['start'] = slot.start
-            context['end'] = slot.end
-    elif self.request.method =='POST':
-        try:
-            context['start'] = super(type(context['form']), context['form']).clean_start()
-        except ValidationError:
-            context['start'] = context['form'].initial['start']
+from .forms import OpeningSlotCreateForm
+from .forms import OpeningSlotUpdateForm
+from .forms import MachineSlotUpdateForm
+from .forms import TrainingSlotCreateForm
+from .forms import TrainingSlotUpdateForm
+from .forms import TrainingSlotRegistrationCreateForm
+from .forms import TrainingSlotRegistrationDeleteForm
+from .forms import EventSlotCreateForm
+from .forms import EventSlotUpdateForm
+from .forms import EventSlotRegistrationCreateForm
+from .forms import EventSlotRegistrationDeleteForm
 
-        try:
-            context['end'] = super(type(context['form']), context['form']).clean_end()
-        except ValidationError:
-            context['end'] = context['form'].initial['end']
+from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
+from .mixins import SuperuserRequiredMixin
 
-    return context
 
-class AbstractMachineView(FormView):
-    def form_valid(self, form):
+class UserView(LoginRequiredMixin, SuccessMessageMixin, CustomFormView):
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+            
+        # Pass the user object to the form's constructor
+        return form_class(self.request.user, **self.get_form_kwargs())
 
-        if form.cleaned_data['opening'] != None:
-            self.opening_slot = form.update_or_create_opening_slot(self)
-
-            if self.crud_state == 'created':
-                # TODO: check if machine slot already exists
-                for machine in form.cleaned_data['machine']:
-                    form.create_machine_slot(self, machine)
-
-            elif self.crud_state == 'updated':
-                # Remove machine slot
-                for pk in form.initial.get('machine', []):
-                    if pk not in form.cleaned_data['machine'].values_list('pk', flat=True):
-                        form.delete_machine_slot(self, pk)
-
-                # Update machine slot
-                for machine in form.cleaned_data['machine']:
-                    qs = MachineSlot.objects.filter(
-                            opening_slot=self.opening_slot,
-                            machine = machine
-                    ).order_by('start')
-
-                    if form.cleaned_data['start'] < form.initial['start']:
-                        # extend start opening before
-                        obj = qs.first()
-                        if obj.user:
-                            # create new slot to not modify user reservation
-                            MachineSlot.objects.create(
-                                opening_slot = self.opening_slot,
-                                machine = machine,
-                                start = form.cleaned_data['start'],
-                                end = form.initial['start'],
-                            )
-                        else:
-                            # exend slot
-                            obj.start = form.cleaned_data['start']
-                            obj.save()
-
-                    # shorten or remove start slots
-                    if form.cleaned_data['start'] > form.initial['start']:
-                        for obj in qs:
-                            if obj.start < form.cleaned_data['start']:
-                                
-                                # shorten start slot
-                                if obj.end > form.cleaned_data['start']:
-                                    obj.start = form.cleaned_data['start']
-                                    obj.save()
-                                
-                                # remove start slot
-                                else:
-                                    obj.delete()
-
-                    # shorten or remove start slots
-                    if form.cleaned_data['end'] < form.initial['end']:
-                        for obj in qs:
-                            if obj.end > form.cleaned_data['end']:
-                                
-                                # shorten start slot
-                                if obj.start < form.cleaned_data['end']:
-                                    obj.end = form.cleaned_data['end']
-                                    obj.save()
-                                
-                                # remove start slot
-                                else:
-                                    obj.delete()
-
-                    if form.cleaned_data['end'] > form.initial['end']:
-                        # extend end opening after
-                        obj = qs.last()
-
-                        if obj.user:
-                            # create new slot to not modify user reservation
-                            MachineSlot.objects.create(
-                                opening_slot = self.opening_slot,
-                                machine = machine,
-                                start = form.initial['end'],
-                                end = form.cleaned_data['end'],
-                            )
-                        else:
-                            # exend slot
-                            obj.end = form.cleaned_data['end']
-                            obj.save()
-
-                # Create a new machine slot
-                for machine in form.cleaned_data['machine']:
-                    if machine.pk not in form.initial.get('machine', []):
-                        form.create_machine_slot(self, machine)
-        
-        return super().form_valid(form)
-
-class AbstractSlotView(View): 
-    def get_context_data(self, **kwargs):
-        language_code = settings.LANGUAGE_CODE
-        context = super().get_context_data(**kwargs)
-
-        context.update({
-            'start_date': format_datetime(context['object'].start, "EEEE d MMMM y", locale=language_code),
-            'start_time': format_datetime(context['object'].start, "H:mm", locale=language_code),
-            'end_date': format_datetime(context['object'].end, "EEEE d MMMM y", locale=language_code),
-            'end_time': format_datetime(context['object'].end, "H:mm", locale=language_code),
-        })
-
-        if context['object'].is_single_day:
-            message_format = _("%(start_date)s <br> %(start_time)s - %(end_time)s")
-        else:
-            message_format = _("From %(start_date)s at %(start_time)s <br> to %(end_date)s at %(end_time)s ")
-
-        context.update({
-            'format_info_datetime': mark_safe(message_format % context)
-        })
-        if 'unregister' in self.request.path:
-            context["email_footer"] = _('We hope to see you back soon !')
-        else:
-            context["email_footer"] = _('The payment will be done on the spot by card or in cash')
-
-        return context
-
-    def send_email(self):
-        html_message = render_to_string(
-            'fabcal/email/(un)registration_confirmation.html',
-             self.get_context_data()
-             )
-        subject = _('Confirmation of your unregistration') if 'unregister' in self.request.path else _('Confirmation of your registration')
-
-        send_mail(
-            from_email = None,
-            subject = subject,
-            message = subject,
-            recipient_list = [self.request.user.email],
-            html_message = html_message
-        )
-
-    def get_success_message(self):
-        if 'unregister' in self.request.path: 
-            return messages.success(self.request, _("Oh no! We sent you an email to confirme your unregistration"))
-        else: 
-            return messages.success(self.request, _("Well done! We sent you an email to confirme your registration"))
-
-    def form_valid(self, form):
-        if 'unregister' in self.request.path:
-            self.get_object().registrations.remove(self.request.user)
-        else:
-            self.get_object().registrations.add(self.request.user)
-        self.send_email()
-        self.get_success_message()
-        return super().form_valid(form)
- 
-class OpeningBaseView(CustomFormView, AbstractMachineView):
-    template_name = 'fabcal/opening_create_or_update_form.html'
-    form_class = OpeningForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        if self.crud_state == 'created':
-            context['submit_btn'] = _('Create opening')
-        elif self.crud_state == 'updated':
-            context['submit_btn'] = _('Update opening')
-
-        context = get_start_end(self, context)
-        return context
-
-class CreateOpeningView(OpeningBaseView):
-    crud_state = 'created'
-
-class UpdateOpeningView(OpeningBaseView):
-    crud_state = 'updated'
-    type = 'opening'
-
+class CreateSlotView(UserView, CreateView):
     def get_initial(self):
-        opening_slot = OpeningSlot.objects.get(pk=self.kwargs['pk'])
-        initial = opening_slot.__dict__
-        initial['opening'] = opening_slot.opening
+        initial = super().get_initial()
         
-        machine_slot = MachineSlot.objects.filter(opening_slot = opening_slot)
-        machine = {i.machine.pk for i in machine_slot}
-        initial['machine'] = machine
+        params = {}
+        for i in ['start', 'end']:
+            params[i] = datetime.fromtimestamp(int(self.kwargs.get(i))/1000)
+
+        initial['date'] = params['start'].strftime('%Y-%m-%d')
+        initial['start_time'] = params['start'].strftime('%H:%M')
+        initial['end_time'] = params['end'].strftime('%H:%M')
         return initial
 
-class OpeningSlotDeleteView(DeleteView):
-    model = OpeningSlot
-    success_url = '/schedule'
+class UpdateSlotView(UserView, UpdateView):
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['start'] = self.object.start
+        initial['end'] = self.object.end
+
+        initial['date'] = self.object.start.strftime('%Y-%m-%d')
+        initial['start_time'] = self.object.start.strftime('%H:%M')
+        initial['end_time'] = self.object.end.strftime('%H:%M')
+        return initial
+
+class RegisterSlotView(UserView, UpdateView):
+    pass
+
+class DeleteSlotView(LoginRequiredMixin, DeleteView):
+
+    def dispatch(self, request, *args, **kwargs):
+        slot = self.get_object()
+        # Check if the request user is not the same as the machine slot user
+        if request.user != slot.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -250,406 +93,342 @@ class OpeningSlotDeleteView(DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        context = self.get_context_data()
-
-        if not self.object.can_be_deleted:
-            messages.error(request, _('This opening slot cannot be deleted.'))
-            return redirect(success_url)
-
-        self.object.delete()
-        messages.success(request, _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted") % context)
-        return redirect(success_url)
-
-class EventBaseView(CustomFormView, AbstractMachineView):
-    template_name = 'fabcal/event_create_or_update_form.html'
-    form_class = EventForm
-    crud_state = None
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context['submit_btn'] = _('Create event') if self.crud_state == 'created' else _('Update event')
-
-        context = get_start_end(self, context)
-        return context
-
-    def form_valid(self, form):
-        response  = super().form_valid(form)
-        form.update_or_create_event_slot(self)
-        return response
-
-class EventCreateView(EventBaseView):
-    crud_state = 'created'
-
-class EventUpdateView(EventBaseView):
-    crud_state = 'updated'
-    type = 'event'
-
-    def get_initial(self):
-        event_slot = EventSlot.objects.get(pk=self.kwargs['pk'])
-        initial = event_slot.__dict__
-        initial['event'] = event_slot.event
         try:
-            initial['opening'] = event_slot.opening_slot.opening
-        except AttributeError:
-            initial['opening'] = None
-        return initial
+            self.object.delete()
+            messages.success(request, self.sucess_message % self.get_context_data())
+            return redirect(self.get_success_url())
+        except ValidationError as e:
+            try: 
+                request.session['error_code'] = getattr(e, 'code')
+            except AttributeError:
+                request.session['error_code'] = None
 
-class EventDeleteView(AbstractSlotView, DeleteView):
-    model = EventSlot
-
-    def delete(self, request, *args, **kwargs):
-        delete = super().delete(request, *args, **kwargs)
-        messages.success(request, _("Your event has been successfully deleted"))
-        return delete
-
-    def get_success_url(self):
-        return reverse_lazy('pages-details-by-slug', kwargs={'slug': 'schedule'})
-
-class EventDetailView(AbstractSlotView, DetailView):
-    model = EventSlot
-
-class RegisterBaseView(LoginRequiredMixin, SingleObjectMixin, AbstractSlotView, FormView):
-    def get_context_data(self, **kwargs):
-        context = super(RegisterBaseView, self).get_context_data(**kwargs)
-        context.update({
-            'first_name': self.request.user.first_name
-        })
-        return context
-
-class EventRegisterBaseView(RegisterBaseView):
-    template_name = 'fabcal/eventslot_(un)registration_form.html'
-    form_class = RegisterEventForm
-    model = EventSlot
-
-    def get_success_url(self):
-        return reverse_lazy("fabcal:event-detail", kwargs={'pk': self.kwargs['pk']})
-
-    def get_context_data(self, **kwargs):
-        self.object = self.get_object()
-        context = super(EventRegisterBaseView, self).get_context_data(**kwargs)
-        context.update({
-            'href': f"{self.request._current_scheme_host}/fabcal/event/{context['object'].pk}",
-            'title': context['object'].event.title,
-        })
-        return context
+            messages.error(request, _(e.message))
+            return redirect(request.META.get('HTTP_REFERER', '/'))
         
-class EventRegisterView(EventRegisterBaseView):
+class OpeningSlotView(SuperuserRequiredMixin):
+    model = OpeningSlot
+
+    success_message = _("Your opening has been successfully %(action)s on %(date)s from %(start_time)s to %(end_time)s </br> "
+                 "<a href=\"/fabcal/download-ics-file/%(opening_title)s/%(start)s/%(end)s\"> "
+                 "<i class=\"bi bi-file-earmark-arrow-down-fill\"> </i> Add to my calendar</a>")
+
+    def get_success_message(self, cleaned_data):
+        if issubclass(self.__class__, CreateView):
+            action = _('created')
+        elif issubclass(self.__class__, UpdateView):
+            action = _('updated')
+
+        return mark_safe(
+                    self.success_message % dict(
+                        action=action,
+                        date=self.object.formatted_start_date,
+                        start_time=self.object.formatted_start_time,
+                        end_time=self.object.formatted_end_time,
+                        opening_title=self.object.opening.title,
+                        start=self.object.start,
+                        end=self.object.end
+                    )
+                )       
+
+    def form_invalid(self, form):       
+        updated_data = QueryDict(mutable=True)
+        updated_data.update(form.data)
+
+        for error in form.errors.get('__all__').data:
+
+            if error.code == 'conflicting_openings':        
+                conflicting_openings = error.params.get('conflicting_openings')
+
+                # Calculate the new start and end time based on the existing opening
+                for conflicting_opening in conflicting_openings:
+
+                    # Determine the start time of the new opening based on the conflicting opening
+                    # If the new opening starts before the conflicting opening, use the start time of the new opening
+                    # Otherwise, use the end time of the conflicting opening
+                    if form.cleaned_data['start_time'] < conflicting_opening.start.time():
+                        start_time = form.cleaned_data['start_time']
+                    else:
+                        start_time = conflicting_opening.end.time()
+
+                    # Determine the end time of the new opening based on the conflicting opening
+                    # If the new opening ends after the conflicting opening, use the end time of the new opening
+                    # Otherwise, use the start time of the conflicting opening
+                    if form.cleaned_data['end_time'] > conflicting_opening.end.time():
+                        end_time = form.cleaned_data['end_time']
+                    else:
+                        end_time = conflicting_opening.start.time()
+
+
+                # Set the form data to the new start and end time
+                updated_data['start_time'] = forms.TimeField().prepare_value(start_time)
+                updated_data['end_time'] = forms.TimeField().prepare_value(end_time)
+
+                # Call form.add_error to add the error to the start_time field
+                form.add_error('start_time', error)
+
+
+            elif error.code == 'conflicting_reservation':
+                updated_data['start_time'] = forms.TimeField().prepare_value(
+                    datetime.strptime(form.initial['start_time'], '%H:%M').time()
+                    )
+                updated_data['end_time'] = forms.TimeField().prepare_value(
+                    datetime.strptime(form.initial['end_time'], '%H:%M').time()
+                    )
+
+        # Update form data
+        form.data = updated_data
+
+        # Return the invalid form
+        return self.render_to_response(self.get_context_data(form=form))
+
+class OpeningSlotCreateView(OpeningSlotView, CreateSlotView):
+    form_class = OpeningSlotCreateForm
+    success_url = '/schedule'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update({
-            'email_body': \
-                mark_safe(_('We confirm that you are registered for the event <a href="%(href)s">%(title)s</a> which will take place on %(start_date)s from %(start_time)s to %(end_time)s.') % context) \
-                if context['object'].is_single_day else \
-                mark_safe(_('We confirm that you are registered for the event <a href="%(href)s">%(title)s</a> which will take place from %(start_date)s at %(start_time)s to %(end_date)s at %(end_time)s.') % context)
-        })
-
+        context['submit_btn'] = _('Create opening')
         return context
 
-class EventUnregisterView(EventRegisterBaseView):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+class OpeningSlotUpdateView(OpeningSlotView, UpdateSlotView):
+    form_class = OpeningSlotUpdateForm
 
-        context.update({
-            'email_body': \
-                mark_safe( _('We confirme that you are unregister for the event <a href="%(href)s">%(title)s</a> which will take place on %(start_date)s from %(start_time)s to %(end_time)s.') % context) \
-                if context['object'].is_single_day else \
-                mark_safe(_('We confirme that you are unregister for the event <a href="%(href)s">%(title)s</a> which will take place from %(start_date)s at %(start_time)s to %(end_date)s at %(end_time)s.') % context)
-        })
-
-        return context
-
-class TrainingBaseView(CustomFormView, AbstractMachineView): 
-    template_name = 'fabcal/trainig_create_or_update_form.html'
-    form_class = TrainingForm
-    type = 'training'
+    def get_success_url(self):
+        return reverse_lazy("accounts:profile")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        if self.crud_state == 'created':
-            context['submit_btn'] = _('Create training')
-        elif self.crud_state == 'updated':
-            context['submit_btn'] = _('Update training')
-
-        context = get_start_end(self, context)
+        context['submit_btn'] = _('Update opening')
         return context
-
-    def form_valid(self, form):
-
-        # Create training
-        training_slot = form.update_or_create_training_slot(self)
-
-        # Alert users
-        self.context = {
-            'training_slot': training_slot,
-            'request': self.request
-        }
-        form.alert_users(self)
-
-        return super().form_valid(form)
-
-class TrainingCreateView(TrainingBaseView):
-    crud_state = 'created'
-
-class TrainingUpdateView(TrainingBaseView):
-    crud_state = 'updated'
 
     def get_initial(self):
-        training_slot = TrainingSlot.objects.get(pk=self.kwargs['pk'])
-        initial = training_slot.__dict__
-        initial['training'] = training_slot.training
-        try:
-            initial['opening'] = training_slot.opening_slot.opening
-        except AttributeError:
-            initial['opening'] = None
+        initial = super().get_initial()
+        initial['machines'] = [i.pk for i in self.object.get_machine_list]
         return initial
 
-class TrainingDeleteView(AbstractSlotView, DeleteView):
-    model = TrainingSlot
+class OpeningSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
+    model = OpeningSlot
+    success_url = '/schedule'
+    sucess_message = _("Your opening on %(date)s from %(start)s to %(end)s has been successfully deleted")
 
-    def delete(self, request, *args, **kwargs):
-        delete = super().delete(request, *args, **kwargs)
-        messages.success(request, _("Your training has been successfully deleted"))
-        return delete
+class MachineSlotUpdateView(UpdateSlotView):
+    model = MachineSlot
+    form_class = MachineSlotUpdateForm
+
+    success_message = _('You successfully booked the machine %(machine)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
     def get_success_url(self):
-        return reverse_lazy("machines:training-detail", kwargs={'pk': self.object.training_id})
+        return reverse_lazy("accounts:profile")
 
-class TrainingRegisterBaseView(RegisterBaseView):
-    template_name = 'fabcal/trainingslot_(un)registration_form.html'
-    form_class = RegisterTrainingForm
-    model = TrainingSlot
-    
-    def get_success_url(self):
-        return reverse_lazy("machines:training-detail", kwargs={'pk': self.object.training_id})
-
-    def get_context_data(self, **kwargs):
-        self.object = self.get_object()
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'href': f"{self.request._current_scheme_host}{self.get_success_url()}",
-            'title': context['object'].training.title,
-        })
-        return context
-
-class TrainingRegisterView(TrainingRegisterBaseView):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'email_body': mark_safe(_('We confirm that you are registered for the training <a href="%(href)s">%(title)s</a> which will take place on %(start_date)s from %(start_time)s to %(end_time)s.') % context),
-        })
-
-        return context
-
-class TrainingUnregisterView(TrainingRegisterBaseView):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'email_body': mark_safe(_('We confirm that you are unregistered for the training <a href="%(href)s">%(title)s</a> which will take place on %(start_date)s from %(start_time)s to %(end_time)s.') % context),
-        })
-
-        return context
-
-class MachineReservationBaseView(LoginRequiredMixin, FormView):
-    template_name = 'fabcal/machine/reservation_form.html'
-    form_class = MachineReservationForm
+    def get_success_message(self, cleaned_data):
+        return self.success_message % dict(
+                    machine=self.object.machine.title,
+                    duration=self.object.get_duration,
+                    start_date=self.object.formatted_start_date,
+                    start_time=self.object.formatted_start_time,
+                    end_time=self.object.formatted_end_time,
+                )
 
     def dispatch(self, request, *args, **kwargs):
+        """
+        Check if the user's profile is in the trained profile list of a specific machine. 
+        If not, display an error message and redirect the user to the training page for that machine category.
+        """
 
-        if not request.user.is_authenticated:
-            return redirect('/accounts/login?next=%s' % request.path)
+        machine_slot = self.get_object()
 
-        self.machine_slot = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
-        self.next_machine_slot = MachineSlot.objects.filter(
-                start__gt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=False
-                ).order_by('start').first()
+        if (
+            self.request.user.profile.pk not in machine_slot.machine.trained_profile_list
+        ):
+            messages.error(
+                request,
+                _(
+                    "Sorry, you cannot reserve this machine yet. You have to take the training first before you can use it."
+                ),
+            )
+            return redirect(
+                "/trainings/?machine_category="
+                + str(machine_slot.machine.category.pk)
+            )
 
-        self.previous_machine_slot = MachineSlot.objects.filter(
-                start__lt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=False
-                ).order_by('start').last()
+        return super().dispatch(request, *args, **kwargs)
 
-        self.next_free_machine_slot = MachineSlot.objects.filter(
-                start__gt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=True
-                ).order_by('start').first()
+class MachineSlotDeleteView(DeleteSlotView):
+    model = MachineSlot
 
-        self.previous_free_machine_slot = MachineSlot.objects.filter(
-                start__lt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=True
-                ).order_by('start').last()
+    def delete(self, request, pk):
+        """
+        Deletes a machine slot, adjusts adjacent slots if they are unoccupied, and cancels the user's reservation.
+        """
+        machine_slot = self.get_object()
+        next_machine_slot = machine_slot.next_slots(machine_slot.end + timedelta(minutes=1)).first()
+        previous_machine_slot = machine_slot.previous_slots(machine_slot.start - timedelta(minutes=1)).first()
 
-        # Check if user is trained
-        if self.request.user.profile.pk not in self.machine_slot.machine.trained_profile_list:
-            messages.error(request, _('Sorry, you cannot reserve this machine yet. You have to take the training first before you can use it.'))
-            return redirect('/trainings/?machine_category=' + str(self.machine_slot.machine.category.pk))
+        if next_machine_slot and next_machine_slot.user is None:
+            machine_slot.end = next_machine_slot.end
+            next_machine_slot.delete()
+        
+        if previous_machine_slot and previous_machine_slot.user is None:
+            machine_slot.start = previous_machine_slot.start
+            previous_machine_slot.delete()
 
-        return super(MachineReservationBaseView, self).dispatch(request, *args, **kwargs)
+        machine_slot.user = None
+        machine_slot.save()
+        
+        messages.success(request, _("You reservation has been deleted !"))
+        return redirect('accounts:profile') 
 
-    def get_form_kwargs(self):
-        kwargs = super(MachineReservationBaseView, self).get_form_kwargs()
-        kwargs['machine_slot'] = self.machine_slot
-        kwargs["next_machine_slot"] = self.next_machine_slot
-        kwargs["previous_machine_slot"] = self.previous_machine_slot
-        return kwargs
+class TrainingSlotView():
+    model = TrainingSlot
 
-    def get_initial(self):
-        try:
-            initial = {
-                'start_time': self.request._post['start_time'],
-                'end_time': self.request._post['end_time'],
-            }
-            if self.machine_slot.machine.category.name == '3D':
-               initial['end_date']= dateparser.parse(self.request._post['end_date']).strftime('%Y-%m-%d')
+    def get_success_url(self):
+        return reverse('accounts:profile')
 
-        except:
-            initial = {
-                'start_time': self.machine_slot.start.strftime('%H:%M'),
-                'end_time': self.machine_slot.end.strftime('%H:%M'),
-            }
-            if self.machine_slot.machine.category.name == '3D':
-               initial['end_date']= self.machine_slot.end.strftime('%Y-%m-%d')
+    def get_success_message(self, cleaned_data):
+        return self.success_message % dict(
+                    training=self.object.training.title,
+                    duration=self.object.get_duration,
+                    start_date=self.object.formatted_start_date,
+                    start_time=self.object.formatted_start_time,
+                    end_time=self.object.formatted_end_time,
+                )
 
-        return initial
+class TrainingSlotCreateView(SuperuserRequiredMixin, TrainingSlotView, CreateSlotView):
+    form_class = TrainingSlotCreateForm
+    success_message = _('You successfully created the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
     def get_context_data(self, **kwargs):
-        context = super(MachineReservationBaseView, self).get_context_data(**kwargs)
-        context["machine_slot"] = self.machine_slot
-        context["next_machine_slot"] = self.next_machine_slot
-
-        if self.machine_slot.machine.category.name == '3D':
-            context["next_machine_slot"] = MachineSlot.objects.filter(
-                start__gt = self.machine_slot.start, machine=self.machine_slot.machine, user__isnull=False
-                ).order_by('start').first()
-            context['max_start_time'] = self.machine_slot.end - timedelta(minutes=settings.FABCAL_MINIMUM_RESERVATION_TIME)
+        context = super().get_context_data(**kwargs)
+        context['submit_btn'] = _('Create training')
         return context
 
-class CreateMachineReservationView(MachineReservationBaseView): 
-    
-    def get_success_url(self, **kwargs):
-        return reverse('machines:machines-show', kwargs = {'pk': self.machine_slot.machine.pk})
+class TrainingSlotUpdateView(SuperuserRequiredMixin, TrainingSlotView, UpdateSlotView):
+    form_class = TrainingSlotUpdateForm
+    success_message = _('You successfully updated the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
-    def form_valid(self, form):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_btn'] = _('Update training')
+        return context
 
-        if form.machine_slot.start < form.cleaned_data['start']:
-            # create a new empty slot at the begining
-            new_slot = deepcopy(form.machine_slot)
-            new_slot.id = None
-            new_slot.end = form.cleaned_data['start']
-            new_slot.save()
-        
-        if form.machine_slot.end > form.cleaned_data['end']:
-            # create a new empty slot at the end
-            new_slot = deepcopy(form.machine_slot)
-            new_slot.id = None
-            new_slot.start = form.cleaned_data['end']
-            new_slot.save()
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['machines'] = [i.pk for i in self.object.opening_slot.get_machine_list]
+        return initial
 
-        if self.machine_slot.machine.category.name == '3D':
-            for slot in MachineSlot.objects.filter(
-                start__gt=form.cleaned_data['start'], 
-                end__gt=form.cleaned_data['end'],
-                machine=self.machine_slot.machine).all():
-                    # create a new empty slot at the end
-                    slot.start = form.cleaned_data['end']
-                    slot.save()
+class TrainingSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
+    model = TrainingSlot
+    sucess_message = _("Your training on %(date)s from %(start)s to %(end)s has been successfully deleted")
 
-            for slot in MachineSlot.objects.filter(
-                start__gt=form.cleaned_data['start'], 
-                end__lt=form.cleaned_data['end'],
-                machine=self.machine_slot.machine).all():
-                # delete slot
-                slot.delete()
+    def get_success_url(self):
+        return reverse('accounts:profile')
 
-        # update slot for user
-        form.machine_slot.user = self.request.user
-        form.machine_slot.start = form.cleaned_data['start']
-        form.machine_slot.end = form.cleaned_data['end']
-        form.machine_slot.save()
+class TrainingSlotRegistrationView(TrainingSlotView, RegisterSlotView):
+    template_name = 'fabcal/trainingslot_(un)registration_form.html'
 
-        # send mail and message
-        self.context = {
-            'machine_slot': self.machine_slot,
-            'request': self.request
-        }
-        form.send_mail(self)
-        form.message(self)
+    def get_success_url(self):
+        return reverse_lazy("machines:training-detail", kwargs={'pk': self.object.training.pk})
 
-        return super().form_valid(form)
+class TrainingSlotRegistrationCreateView(TrainingSlotRegistrationView):
+    form_class = TrainingSlotRegistrationCreateForm
+    success_message = _('You successfully registered the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
-class UpdateMachineReservationView(MachineReservationBaseView):
-    def get_success_url(self, **kwargs):
-        return reverse('profile')
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user in self.object.registrations.all():
+            messages.success(request, _('You are already registered for this training slot'))
+            return redirect('machines:training-detail', pk=self.object.pk)
+        return super().dispatch(request, *args, **kwargs)
 
-    def form_valid(self, form):
+class TrainingSlotRegistrationDeleteView(TrainingSlotRegistrationView):
+    form_class = TrainingSlotRegistrationDeleteForm
+    success_message = _('You successfully unregistered the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
-        # start modification
-        #===================
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user not in self.object.registrations.all():
+            return HttpResponseForbidden("You are not allowed to access this page.")
+        return super().dispatch(request, *args, **kwargs)
 
-        if form.cleaned_data['start'] > form.machine_slot.start:
-            if form.machine_slot.start == form.machine_slot.opening_slot.start:
-                start = form.machine_slot.opening_slot.start
-            
-            elif form.machine_slot.start == self.previous_machine_slot.end:
-                start = self.previous_machine_slot.end
+class EventDetailView(DetailView):
+    model = EventSlot
 
-            # create new slot
-            MachineSlot.objects.create(
-                opening_slot = self.machine_slot.opening_slot,
-                machine = self.machine_slot.machine,
-                start = start,
-                end = form.cleaned_data['start'],
-            )
+class EventSlotView():
+    model = EventSlot
 
+    def get_success_url(self):
+        return reverse('fabcal:eventslot-detail', kwargs={'pk': self.object.pk})
 
-        if form.cleaned_data['start'] != form.machine_slot.start:
-            # adjust the previous slot end
-            if self.previous_free_machine_slot:
-                if self.previous_free_machine_slot.end == form.machine_slot.start:
-                    self.previous_free_machine_slot.end = form.cleaned_data['start']
-                    self.previous_free_machine_slot.save()
+    def get_success_message(self, cleaned_data):
+        return self.success_message % dict(
+                    event=self.object.event.title,
+                    duration=self.object.get_duration,
+                    start_date=self.object.formatted_start_date,
+                    end_date=self.object.formatted_end_date,
+                    start_time=self.object.formatted_start_time,
+                    end_time=self.object.formatted_end_time,
+                )
 
-                # delete free slot if start = end
-                if self.previous_free_machine_slot.start == self.previous_free_machine_slot.end:
-                    self.previous_free_machine_slot.delete()
+class EventSlotCreateView(SuperuserRequiredMixin, EventSlotView, CreateSlotView):
+    form_class = EventSlotCreateForm
+    success_message = _('You successfully created the event %(event)s during %(duration)s minutes from %(start_date)s %(start_time)s to %(end_date)s %(end_time)s')
 
-            # adjust start slot
-            form.machine_slot.start = form.cleaned_data['start']
-            form.machine_slot.save()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_btn'] = _('Create Event')
+        return context
 
+class EventSlotUpdateView(SuperuserRequiredMixin, EventSlotView, UpdateSlotView):
+    form_class = EventSlotUpdateForm
+    success_message = _('You successfully updated the event %(event)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
-        # end modification
-        #=================
-        if form.cleaned_data['end'] < form.machine_slot.end:
-            if form.machine_slot.end == form.machine_slot.opening_slot.end:
-                end = form.machine_slot.opening_slot.end
-            
-            elif form.machine_slot.end == self.next_machine_slot.start:
-                end = self.next_machine_slot.start
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_btn'] = _('Update event')
+        return context
 
-            # create new slot
-            MachineSlot.objects.create(
-                opening_slot = self.machine_slot.opening_slot,
-                machine = self.machine_slot.machine,
-                start = form.cleaned_data['end'],
-                end = end,
-            )
+    def get_initial(self):
+        initial = super().get_initial()
+        if self.object.opening_slot is not None:
+            initial['machines'] = [i.pk for i in self.object.opening_slot.get_machine_list]
+        else:
+            initial['machines'] = [i.pk for i in Machine.objects.all()]
+        return initial
 
-        if form.cleaned_data['end'] != form.machine_slot.end:
-            # adjust the next slot start
-            if self.next_free_machine_slot:
-                if self.next_free_machine_slot.start == form.machine_slot.end:
-                    self.next_free_machine_slot.start = form.cleaned_data['end']
-                    self.next_free_machine_slot.save()
+class EventSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
+    model = EventSlot
+    sucess_message = _("Your event on %(date)s from %(start)s to %(end)s has been successfully deleted")
 
-                # delete free slot if start = end
-                if self.next_free_machine_slot.start == self.next_free_machine_slot.end:
-                    self.next_free_machine_slot.delete()
+    def get_success_url(self):
+        return reverse('fabcal:eventslot-detail', kwargs={'pk': self.object.event.pk})
 
-            # adjust end
-            form.machine_slot.end = form.cleaned_data['end']
-            form.machine_slot.save()         
+class EventSlotRegistrationView(EventSlotView, RegisterSlotView):
+    template_name = 'fabcal/eventslot_(un)registration_form.html'
 
-        return super().form_valid(form)
+    def get_success_url(self):
+        return reverse_lazy("fabcal:eventslot-detail", kwargs={'pk': self.object.event_id})
+
+class EventSlotRegistrationCreateView(EventSlotRegistrationView):
+    form_class = EventSlotRegistrationCreateForm
+    success_message = _('You successfully registered the event %(event)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user in self.object.registrations.all():
+            messages.success(request, _('You are already registered for this event'))
+            return redirect('fabcal:eventslot-detail', pk=self.object.pk)
+        return super().dispatch(request, *args, **kwargs)
+
+class EventSlotRegistrationDeleteView(EventSlotRegistrationView):
+    form_class = EventSlotRegistrationDeleteForm
+    success_message = _('You successfully unregistered the event %(event)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user not in self.object.registrations.all():
+            return HttpResponseForbidden("You are not allowed to access this page.")
+        return super().dispatch(request, *args, **kwargs)
 
 class MachineReservationListView(LoginRequiredMixin, ListView):
     Model = MachineSlot
@@ -670,26 +449,6 @@ class MachineFutureReservationListView(MachineReservationListView):
     def get_queryset(self):
         now = datetime.now().date()
         return MachineSlot.objects.filter(user__isnull=False, end__gte=now).order_by('start')
-
-
-class DeleteMachineReservationView(TemplateView):
-    template_name = 'fabcal/machine/delete_form.html'
-
-    def get_success_url(self, **kwargs):
-        return reverse('profile')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['machine_slot'] = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
-        return context
-
-    def post(self, request, pk):
-        obj = get_object_or_404(MachineSlot, pk=self.kwargs['pk'])
-        obj.user = None
-        obj.save()
-        
-        messages.success(request, _("You reservation has been canceled !"))
-        return redirect('profile') 
 
 class downloadIcsFileView(TemplateView):
     template_name = 'fabcal/fablab.ics'

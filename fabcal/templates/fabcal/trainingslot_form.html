@@ -7,44 +7,60 @@
 {% endblock header %}
 
 {% block content_form_img %}
-<i class="bi bi-calendar-plus mb-5 img-form-logo mx-auto d-block"></i>
+<i class="bi bi-mortarboard mb-5 img-form-logo mx-auto d-block"></i>
 {% endblock %}
 
 {% block content_form %}
 
 <form action="." method="POST">
+
     {% csrf_token %}
 
     <div class="form-group">
+
+        <div class="mb-3">
+            <label for="{{ form.training.id_for_label }}">{{ form.training.label_tag }}</label>
+            {{ form.training }}
+            {{ form.training.errors }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.registration_limit.label_tag }}
+            <input class="form-control" id={{form.registration_limit.auto_id}} name="registration_limit" placeholder=""
+                type="number" min="0"
+                value={% if form.registration_limit.value %}{{ form.registration_limit.value }}{% endif %}>
+            </input>
+            {{ form.registration_limit.errors }}
+            <small>{{ form.registration_limit.help_text }}</small>
+        </div>
+
         <div class="mb-3">
             <label for="{{ form.opening.id_for_label }}">{{ form.opening.label_tag }}</label>
             {{ form.opening }}
             {{ form.opening.errors }}
         </div>
 
-        {%include './form/select_machines.html'%}
+        {%include './form/select_machines.html'%} 
 
         <div data-app>
             <div id="vue">
                 <div class="mb-3">
                     <v-row>
                         <v-col cols="12">
-                            <date-picker init-date={{start|date:"Y-m-d"}} input-name="date" label={% trans "Date" %}>
+                            <date-picker init-date={{form.initial.date}} input-name="date" label={% trans "Date" %}>
                             </date-picker>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col cols="6">
-                            <time-picker init-time={{start|date:"H:i"}} input-name="start_time" label={% trans "Start" %}>
+                            <time-picker init-time={{form.initial.start_time}} input-name="start_time" label={% trans "Start" %}>
                             </time-picker>
                         </v-col>
                         <v-col cols="6">
-                            <time-picker init-time={{end|date:"H:i"}} input-name="end_time" label={% trans "End" %}>
+                            <time-picker init-time={{form.initial.end_time}} input-name="end_time" label={% trans "End" %}>
                             </time-picker>
                         </v-col>
                     </v-row>
-                    {{ form.start.errors }}
-                    {{ form.end.errors }}
                 </div>
             </div>
         </div>
@@ -55,10 +71,10 @@
             {{ form.comment.errors }}
         </div>
     </div>
-
+    
     {% include 'forms/base_submit_button.html'%}
-</form>
 
+</form>
 {% endblock content_form %}
 
 {% block js_footer %}

@@ -25,7 +25,7 @@
 {% endif %}
 
 
-<a class="px-0 text-blue" href="{% url 'edit-profile' %}">
+<a class="px-0 text-blue" href="{% url 'accounts:edit-profile' %}">
     <div class="row">
         <div class="col-12 py-0">
             <div class="row fs-4">
@@ -59,7 +59,7 @@
 </a>
 {% if request.user|has_group:"superuser" %}
 <hr class="text-red">
-<a class="px-0" href="{% url 'user-list' %}">
+<a class="px-0" href="{% url 'accounts:user-list' %}">
     <div class="row">
         <div class="col-12 py-0">
             <div class="row fs-4">

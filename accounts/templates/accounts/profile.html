@@ -54,7 +54,28 @@
                         <i class="bi bi-door-open-fill pe-2"></i> {% trans "Add an opening" %}
                     </a>
                 </div>
-                {% endif %}
+
+
+                {% elif slot|get_type == 'EventSlot' %}
+                <div class="row">
+                    <div class="col-8">
+                <h5>
+                    {% trans "Event" %}
+                    {{slot.event.title}}
+                </h5>
+                <p class='badge align-middle'
+                    style="color:{{slot.opening_slot.opening.color}};background-color:{{slot.opening_slot.opening.background_color}}">
+                    {{slot.opening_slot.opening.title}} - {{slot.opening_slot.user.first_name}}
+                </p>
+            </div>
+
+                {% elif slot|get_type == 'EventSlot' %}
+                <a href="{% url 'fabcal:eventslot-detail' slot.pk %}">
+                    <i class="bi bi-pencil-square text-blue fs-1"></i>
+                </a>
+            </div>
+        </div>
+        {% endif %}
             </div>
             {% endfor %}
         </div>

@@ -8,7 +8,7 @@
     </div>
 </div>
 {% for training_notification in training_notifications %}
-<a class="text-blue" href="{% url 'superuser-profile-edit' training_notification.profile.user.pk %}">
+<a class="text-blue" href="{% url 'accounts:superuser-profile-edit' training_notification.profile.user.pk %}">
     <div class="row d-flex justify-content-center">
         <div class="col-3 col-md-1">
             {%include 'accounts/avatar.html' with user=training_notification.profile.user%}

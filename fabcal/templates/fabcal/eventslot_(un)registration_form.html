@@ -14,7 +14,7 @@
     {% if 'unregister' in view.request.path %}
         {% url 'fabcal:event-unregister' object.pk %}
     {% else %}
-        {% url 'fabcal:event-register' object.pk %}{%endif%}"
+        {% url 'fabcal:eventslot-register' object.pk %}{%endif%}"
     method="POST">
     {% csrf_token %}
     {% include 'fabcal/(un)registration_button.html' %}
