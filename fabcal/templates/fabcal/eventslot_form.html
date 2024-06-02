@@ -78,13 +78,13 @@
 
         <div class="row mb-3">
             <div class="col">
-                {{ form.has_registration.label_tag }}
+                {{ form.registration_required.label_tag }}
             </div>
             <div class="col">
                 <div class="form-check form-switch">
                     <input class="form-check-input float-end" type="checkbox" role="switch"
-                        id={{form.has_registration.auto_id}} name="has_registration"
-                        {% if form.has_registration.value %}checked{% endif %}>
+                        id={{form.registration_required.auto_id}} name="registration_required"
+                        {% if form.registration_required.value %}checked{% endif %}>
                 </div>
             </div>
         </div>

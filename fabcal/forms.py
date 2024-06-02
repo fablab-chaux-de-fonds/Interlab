@@ -751,12 +751,12 @@ class EventSlotForm(SlotLinkedToOpeningForm):
         error_messages={'required': _('Please select an event.')}, 
         )
     price = forms.CharField(label=_('Price'), widget=forms.Textarea(attrs={'class':'form-control', 'rows':4}))
-    has_registration = forms.BooleanField(required=False, label=_('On registration'))
+    registration_required = forms.BooleanField(required=False, label=_('On registration'))
     registration_limit = forms.IntegerField(required=False, label=_('Registration limit'), help_text=_('leave blank if no limit'))
 
     class Meta: 
         model = EventSlot
-        fields = ('event', 'date', 'start_time', 'end_time', 'price', 'has_registration', 'registration_limit', 'opening', 'machines', 'comment')
+        fields = ('event', 'date', 'start_time', 'end_time', 'price', 'registration_required', 'registration_limit', 'opening', 'machines', 'comment')
 
 class EventSlotCreateForm(EventSlotForm):
     def save(self):

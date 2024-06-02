@@ -16,6 +16,7 @@ from .validators import validate_conflicting_openings
 from .validators import validate_time_range
 from .validators import validate_update_opening_slot_on_machine_slot
 from .validators import validate_delete_opening_slot
+from .validators import url_or_email_validator
 
 class AbstractSlot(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
@@ -120,15 +121,40 @@ class CalendarOpeningsPluginModel(CMSPlugin):
 
 class EventSlot(AbstractSlot, AbstractRegistration):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    has_registration = models.BooleanField()
-    registrations = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='event_registration_users', blank=True)
+    registration_required = models.BooleanField()
+    registration_type = models.CharField(
+        max_length=20,
+        choices=[('onsite', 'On-site'), ('external', 'External')],
+        blank=True,
+        null=True, 
+        help_text=_('Define whether event registration is done directly on the fablab site or on the external site')
+    )
+    external_registration_link = models.CharField(
+        blank=True,
+        null=True,
+        validators=[url_or_email_validator],
+        help_text=_('Enter URL or email address')
+    )
+    registrations = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='event_registration_users', blank=True)
     is_active = models.BooleanField(default=True)
     price = models.TextField(max_length=255)
     opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
-    
+
     class Meta:
         verbose_name = _("Event Slot")
         verbose_name_plural = _("Event Slots")
+
+    def clean(self):
+        # If registration is required, ensure registration type is specified
+        if self.registration_required:
+            if not self.registration_type:
+                raise ValidationError(_('Registration type must be specified if registration is required.'))
+
+            if self.registration_type == 'onsite' and not self.registration_limit:
+                raise ValidationError(_('Registration limit must be specified if registration type is on-site.'))
+                
+            if self.registration_type == 'external' and not self.external_registration_link:
+                raise ValidationError(_('External registration link must be specified if registration type is external.'))
 
     def delete(self, *args, **kwargs):
         if self.registrations.all().exists():
