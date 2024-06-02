@@ -2,18 +2,26 @@
 
 <div class='row text-center'>
     <div class='col'>
-    {% if object.has_registration %}
-        {% if request.user in object.registrations.all %}
-            {% if object.is_editable %}
-                <a href={% url 'fabcal:event-unregister' object.pk %} class="btn btn-primary"> <i class="bi bi-calendar2-x pe-2"></i> {% trans "Unregister" %}</a>
+    {% if object.registration_required %}
+        {% if object.registration_type == 'onsite' %}
+            {% if request.user in object.registrations.all %}
+                {% if object.is_editable %}
+                    <a href={% url 'fabcal:event-unregister' object.pk %} class="btn btn-primary"> <i class="bi bi-calendar2-x pe-2"></i> {% trans "Unregister" %}</a>
+                {% else %}
+                    <button href={% url 'fabcal:event-unregister' object.pk %} class="btn btn-primary" disabled> <i class="bi bi-calendar2-x pe-2"></i> {% trans "Unregister" %}</button><br>
+                    <small class='text-red'>{% trans "Sorry, you can not unregister 24h before the start of the event" %}</small>
+                {% endif %}
+            {% elif object.available_registration <= 0 %}
+                <button href={% url 'fabcal:eventslot-register' object.pk %} class="btn btn-primary" disabled> <i class="bi bi-plus-circle pe-2"></i> {% trans "Register" %}</button>
             {% else %}
-                <button href={% url 'fabcal:event-unregister' object.pk %} class="btn btn-primary" disabled> <i class="bi bi-calendar2-x pe-2"></i> {% trans "Unregister" %}</button><br>
-                <small class='text-red'>{% trans "Sorry, you can not unregister 24h before the start of the event" %}</small>
+                <a href={% url 'fabcal:eventslot-register' object.pk %} class="btn btn-primary"> <i class="bi bi-plus-circle pe-2"></i> {% trans "Register" %}</a>
             {% endif %}
-        {% elif object.available_registration <= 0 %}
-            <button href={% url 'fabcal:eventslot-register' object.pk %} class="btn btn-primary" disabled> <i class="bi bi-plus-circle pe-2"></i> {% trans "Register" %}</button>
-        {% else %}
-            <a href={% url 'fabcal:eventslot-register' object.pk %} class="btn btn-primary"> <i class="bi bi-plus-circle pe-2"></i> {% trans "Register" %}</a>
+        {% elif object.registration_type == 'external' %}
+            {% if '@' in object.external_registration_link %} 
+                <a href="mailto:{{object.external_registration_link}}" class="btn btn-primary" target="_blank"> <i class="bi bi-envelope pe-2"></i> {% trans "Register" %}</a>
+            {% else %}
+                <a href="{{ object.external_registration_link }}" class="btn btn-primary" target="_blank"> <i class="bi bi-box-arrow-up-right pe-2"></i> {% trans "Register" %}</a>
+            {% endif %}
         {% endif %}
     {% endif %}
     </div>

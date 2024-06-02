@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-29 10:31+0200\n"
+"POT-Creation-Date: 2024-06-02 13:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -860,7 +860,11 @@ msgstr "Vous ne pouvez pas créer une ouverture sur plusieurs jours"
 msgid "Select an opening"
 msgstr "Selectionnez une ouverture"
 
-#: fabcal/forms.py:42 interlab/templates/menu-mobile.html:58
+#: fabcal/forms.py:102
+msgid "Please select an opening."
+msgstr "Veuillez sélectionner une ouverture."
+
+#: fabcal/forms.py:110 interlab/templates/menu-mobile.html:58
 #: interlab/templates/navbar-header.html:23 machines/cms_plugins.py:13
 #: machines/cms_plugins.py:27 machines/models.py:197
 #: machines/templates/trainings/show.html:38
@@ -999,43 +1003,71 @@ msgstr "Vous n'êtes pas inscrit à cet évènement"
 msgid "Event unregistration confirmation"
 msgstr "Confirmation de la désinscription à l'évènement"
 
-#: fabcal/models.py:84
+#: fabcal/models.py:85
 msgid "Opening Slot"
 msgstr "Créneau d'ouverture"
 
-#: fabcal/models.py:85
+#: fabcal/models.py:86
 msgid "Opening Slots"
 msgstr "Créneaux d'ouverture"
 
 #: fabcal/models.py:130
+msgid ""
+"Define whether event registration is done directly on the fablab site or on "
+"the external site"
+msgstr ""
+"Défini si l'inscription à l'évènement se fait directement sur le site du fablab "
+"ou sur un site externe"
+
+#: fabcal/models.py:136
+msgid "Enter URL or email address"
+msgstr "Saisissez un lien ou une addresse mail"
+
+#: fabcal/models.py:144
 msgid "Event Slot"
 msgstr "Créneau d'évènement"
 
-#: fabcal/models.py:131
+#: fabcal/models.py:145
 msgid "Event Slots"
 msgstr "Créneaux d'évènements"
 
-#: fabcal/models.py:135
+#: fabcal/models.py:151
+msgid "Registration type must be specified if registration is required."
+msgstr "Le type d'inscription doit être spécifié si l'inscription est requis."
+
+#: fabcal/models.py:154
+msgid "Registration limit must be specified if registration type is on-site."
+msgstr "Le type d'inscription doit être spécifié si l'inscription est requis."
+
+#: fabcal/models.py:157
+msgid ""
+"External registration link must be specified if registration type is "
+"external."
+msgstr ""
+"Le lien d'enregistrement externe doit être spécifié si le type d'inscription "
+"est  externe."
+
+#: fabcal/models.py:161
 msgid "Cannot delete event slot with registrations."
 msgstr "Tu ne peux pas supprimer cet évènement car il y a des inscriptions"
 
-#: fabcal/models.py:144
+#: fabcal/models.py:170
 msgid "Training Slot"
 msgstr "Créneau de formation"
 
-#: fabcal/models.py:145
+#: fabcal/models.py:171
 msgid "Training Slots"
 msgstr "Créneaux de formation"
 
-#: fabcal/models.py:149
+#: fabcal/models.py:175
 msgid "Cannot delete Training Slot with registrations."
 msgstr "Tu ne peux pas supprimer cette formation car il y a des inscriptions"
 
-#: fabcal/models.py:157
+#: fabcal/models.py:183
 msgid "Machine Slot"
 msgstr "Céneau machine"
 
-#: fabcal/models.py:158
+#: fabcal/models.py:184
 msgid "Machine Slots"
 msgstr "Créneaux machine"
 
@@ -1172,19 +1204,21 @@ msgstr "Lieu"
 msgid "Date and schedule"
 msgstr "Date et horaire"
 
-#: fabcal/templates/fabcal/event_registration_button.html:8
-#: fabcal/templates/fabcal/event_registration_button.html:10
+#: fabcal/templates/fabcal/event_registration_button.html:9
+#: fabcal/templates/fabcal/event_registration_button.html:11
 #: machines/templates/trainings/show_next_trainings.html:28
 msgid "Unregister"
 msgstr "Se désinscrire"
 
-#: fabcal/templates/fabcal/event_registration_button.html:11
+#: fabcal/templates/fabcal/event_registration_button.html:12
 msgid "Sorry, you can not unregister 24h before the start of the event"
 msgstr ""
 "Désolé, vous ne pouvez pas vous desinscrire 24h avant le début de l'évènement"
 
-#: fabcal/templates/fabcal/event_registration_button.html:14
-#: fabcal/templates/fabcal/event_registration_button.html:16
+#: fabcal/templates/fabcal/event_registration_button.html:15
+#: fabcal/templates/fabcal/event_registration_button.html:17
+#: fabcal/templates/fabcal/event_registration_button.html:21
+#: fabcal/templates/fabcal/event_registration_button.html:23
 #: machines/templates/trainings/show_next_trainings.html:30
 #: machines/templates/trainings/show_next_trainings.html:33
 msgid "Register"
@@ -1332,7 +1366,7 @@ msgstr "⚠️ Attention: Nos horaires changent chaque semaine"
 msgid "Closed"
 msgstr "Fermé"
 
-#: fabcal/validators.py:24
+#: fabcal/validators.py:25
 #, python-brace-format
 msgid ""
 "The time slot ({start_time} - {end_time}) conflicts with the following "
@@ -1341,11 +1375,11 @@ msgstr ""
 "L'horraire du créneau ({start_time} - {end_time}) est en conflit avec "
 "l'ouverture: <br> {openings}"
 
-#: fabcal/validators.py:35
+#: fabcal/validators.py:36
 msgid "Start time after end time."
 msgstr "Heure du début après heure de fin"
 
-#: fabcal/validators.py:47
+#: fabcal/validators.py:48
 #, python-brace-format
 msgid ""
 "You can not update the opening slot because {user} has already reserved the "
@@ -1354,11 +1388,11 @@ msgstr ""
 "Tu ne peux pas mettre à jour ton ouverture car {user} a déjà réservé la "
 "{machine} de {start_time} à {end_time}."
 
-#: fabcal/validators.py:60
+#: fabcal/validators.py:61
 msgid "You cannot delete your opening slot because you have reservations"
 msgstr "Tu ne peux pas supprimer cette ouverture car il y a des réservations"
 
-#: fabcal/validators.py:67
+#: fabcal/validators.py:68
 msgid "You cannot delete your machine slot because you have reservations"
 msgstr "Tu ne peux pas supprimer cette machine car il y a des réservations"
 
@@ -1524,7 +1558,7 @@ msgstr ""
 "Vous vous êtes desinscrit avec succès à l'évènement %(event)s durant "
 "%(duration)s minutes le %(start_date)s de %(start_time)s à %(end_time)s"
 
-#: interlab/settings.py:244 interlab/settings.py:263
+#: interlab/settings.py:247 interlab/settings.py:266
 msgid "fr"
 msgstr "fr"
 

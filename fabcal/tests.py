@@ -1454,7 +1454,7 @@ class EventSlotTestCase(SlotViewTestCase):
         self.form_data['end_date'] = '2023-05-01'
         self.form_data['event'] = Event.objects.first().pk
         self.form_data['price'] = '10 CHF'
-        self.form_data['has_registration'] = True
+        self.form_data['registration_required'] = True
         self.form_data['registration_limit'] = 10
 
 class EventSlotCreateViewTestCase(EventSlotTestCase):
