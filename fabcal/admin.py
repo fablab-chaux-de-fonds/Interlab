@@ -14,6 +14,7 @@ class EventSlotAdmin(admin.ModelAdmin):
 @admin.register(TrainingSlot)
 class TrainingSlotAdmin(admin.ModelAdmin):
     list_display = ['training', 'start', 'end', 'user']
+    filter_horizontal = ['registrations']
 
 @admin.register(MachineSlot)
 class MachineSlotAdmin(admin.ModelAdmin):
