@@ -3,7 +3,6 @@ from django.utils import timezone
 from datetime import timedelta, date
 from django.test import TestCase
 from accounts.models import Profile, CustomUser, Subscription, SubscriptionCategory
-from django.contrib.auth.models import User
 from payments.views import fulfill_order
 
 class SubscriptionRenewBase(TestCase):
@@ -19,8 +18,8 @@ class SubscriptionRenewBase(TestCase):
         category = SubscriptionCategory.objects.create(pk=1, duration=1000, price=1234, star_flag=False, sort=0, default_access_number=123)
         if self.with_subscription:
             subscription = Subscription.objects.create(pk=1, access_number=42, start=self.start, end=self.end, subscription_category=category)
-        user.profile.subscription = subscription
-        user.profile.save()
+        self.user.profile.subscription = subscription
+        self.user.profile.save()
 
     def _test_renew_should_create_new_subscription(self, expected_duration, subscription_category_id):
         session = {'customer_details': {'email':'someuser@fake.django'}, 'metadata': {'profile_id': self.user.profile.id, 'subscription_category_id': subscription_category_id}}
@@ -43,7 +42,7 @@ class UserWithoutSubscription(SubscriptionRenewBase):
         )
 
     def test_user_without_subscription_should_get_default_subscription_category(self):
-        session = {'customer_details': {'email':'someuser@fake.django'}, 'metadata': {'profile_id':12, 'subscription_category_id': 1}}
+        session = {'customer_details': {'email':'someuser@fake.django'}, 'metadata': {'profile_id':self.user.profile.id, 'subscription_category_id': 1}}
         fulfill_order(session, None)
         self.assertEqual(Subscription.objects.count(), 1, 'should have created a new subscription')
         created_subscription = Subscription.objects.first()
@@ -103,8 +102,9 @@ class SubscriptionRenewExpiredTestCase(SubscriptionRenewBase):
 class TestViewBase(TestCase):
 
     def setUp(self):
-        user = CustomUser.objects.create_user(pk=1, username='alphonse', email='dontexists@django.fake', password='fonce')
-        SubscriptionCategory.objects.create(pk=1, title='title', price=12, sort=0, star_flag=False, default_access_number=1, duration=1)
+        super().setUp()
+        user = CustomUser.objects.create_user(username='alphonse', email='dontexists@django.fake', password='fonce')
+        SubscriptionCategory.objects.create(title='title', price=12, sort=0, star_flag=False, default_access_number=1, duration=1)
 
 
 class TestUpdateViews(TestViewBase):
