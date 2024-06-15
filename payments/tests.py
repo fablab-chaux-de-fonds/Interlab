@@ -21,6 +21,10 @@ class SubscriptionRenewBase(TestCase):
         self.user.profile.subscription = subscription
         self.user.profile.save()
 
+    def tearDown(self):
+        super().tearDown()
+        self.user.delete()
+
     def _test_renew_should_create_new_subscription(self, expected_duration, subscription_category_id):
         session = {'customer_details': {'email':'someuser@fake.django'}, 'metadata': {'profile_id': self.user.profile.id, 'subscription_category_id': subscription_category_id}}
         fulfill_order(session, None)
@@ -103,9 +107,12 @@ class TestViewBase(TestCase):
 
     def setUp(self):
         super().setUp()
-        user = CustomUser.objects.create_user(username='alphonse', email='dontexists@django.fake', password='fonce')
+        self.user = CustomUser.objects.create_user(username='alphonse', email='dontexists@django.fake', password='fonce')
         SubscriptionCategory.objects.create(title='title', price=12, sort=0, star_flag=False, default_access_number=1, duration=1)
 
+    def tearDown(self):
+        super().tearDown()
+        self.user.delete()
 
 class TestUpdateViews(TestViewBase):
 
