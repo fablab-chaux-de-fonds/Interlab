@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-26 20:16+0200\n"
+"POT-Creation-Date: 2024-05-29 10:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -393,7 +393,7 @@ msgstr ""
 #: accounts/templates/accounts/profile_machineslot.html:22
 #: accounts/templates/accounts/profile_machineslot.html:48
 #: interlab/templates/menu-mobile.html:18
-#: interlab/templates/navbar-header.html:17
+#: interlab/templates/navbar-header.html:20
 msgid "Reservation"
 msgstr "Réservation"
 
@@ -473,7 +473,7 @@ msgstr "Fin"
 
 #: accounts/templates/accounts/superuser-profile-edit.html:38
 #: interlab/templates/menu-mobile.html:52
-#: interlab/templates/navbar-header.html:21 machines/models.py:67
+#: interlab/templates/navbar-header.html:24 machines/models.py:67
 msgid "Trainings"
 msgstr "Formations"
 
@@ -726,7 +726,7 @@ msgstr "Mot de passe changé"
 
 #: accounts/templates/registration/password_change_done.html:13
 #: interlab/templates/menu-mobile.html:24
-#: interlab/templates/navbar-header.html:27
+#: interlab/templates/navbar-header.html:30
 msgid "My account"
 msgstr "Mon compte"
 
@@ -865,7 +865,7 @@ msgid "Please select an opening."
 msgstr "Veuillez sélectionner une ouverture."
 
 #: fabcal/forms.py:110 interlab/templates/menu-mobile.html:58
-#: interlab/templates/navbar-header.html:20 machines/cms_plugins.py:13
+#: interlab/templates/navbar-header.html:23 machines/cms_plugins.py:13
 #: machines/cms_plugins.py:27 machines/models.py:197
 #: machines/templates/trainings/show.html:38
 msgid "Machines"
@@ -1528,7 +1528,7 @@ msgstr ""
 "Vous vous êtes desinscrit avec succès à l'évènement %(event)s durant "
 "%(duration)s minutes le %(start_date)s de %(start_time)s à %(end_time)s"
 
-#: interlab/settings.py:242 interlab/settings.py:261
+#: interlab/settings.py:244 interlab/settings.py:263
 msgid "fr"
 msgstr "fr"
 
@@ -1558,14 +1558,18 @@ msgid "Whoops, no !"
 msgstr "Oups, non !"
 
 #: interlab/templates/menu-mobile.html:29
-#: interlab/templates/navbar-header.html:32
+#: interlab/templates/navbar-header.html:35
 msgid "Login"
 msgstr "Connexion"
 
 #: interlab/templates/menu-mobile.html:46
-#: interlab/templates/navbar-header.html:22 openings/models.py:47
+#: interlab/templates/navbar-header.html:25 openings/models.py:47
 msgid "Events"
 msgstr "Évènements"
+
+#: interlab/templates/navbar-header.html:15
+msgid "Prices"
+msgstr "Tarifs"
 
 #: machines/cms_plugins.py:14
 msgid "training list"
@@ -1968,6 +1972,10 @@ msgstr ""
 #: payments/views.py:202
 msgid "Thank you for your subscription!"
 msgstr "Merci pour votre abonnement !"
+
+#: plugins/cms_plugins.py:12
+msgid "Typewriter Plugin"
+msgstr ""
 
 #: share/models.py:8
 msgid "Image"
