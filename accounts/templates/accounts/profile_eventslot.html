@@ -5,7 +5,7 @@
 <div class="d-md-none">
     <div class="card">
         <div class="position-relative">
-            <a href="{% url 'fabcal:event-detail' slot.pk %}">
+            <a href="{% url 'fabcal:eventslot-detail' slot.pk %}">
                 <img class="img-fluid rounded-top" src={{slot.event.photo.url}}>
             </a>
             {% if slot.opening_slot %}
@@ -30,7 +30,7 @@
                 
                 <div class="row">
                     <div class="col text-center">
-                        <a href="{% url 'fabcal:event-update' slot.pk %}"
+                        <a href="{% url 'fabcal:eventslot-update' slot.pk %}"
                         class="btn btn-primary"> <i class="bi bi-pencil pe-2"></i> {% trans "Edit my event" %}</a>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
     <hr>
     <div class="row">
         <div class="col-3 py-0">
-            <a href="{% url 'fabcal:event-detail' slot.pk %}">
+            <a href="{% url 'fabcal:eventslot-detail' slot.pk %}">
                 <img class="img-fluid rounded" src={{slot.event.photo.url}}>
             </a>
         </div>
@@ -64,7 +64,7 @@
                     {%include 'accounts/profile_slot_datetime.html'%}
                 </div>
                 <div class="col-4 text-end py-0">
-                    <a class="btn btn-link btn-outline-primary" href="{% url 'fabcal:event-update' slot.pk %}">
+                    <a class="btn btn-link btn-outline-primary" href="{% url 'fabcal:eventslot-update' slot.pk %}">
                         <i class="bi bi-pencil-square"></i>
                     </a>
                     {%include 'accounts/profile_eventslot_delete_btn.html'%}

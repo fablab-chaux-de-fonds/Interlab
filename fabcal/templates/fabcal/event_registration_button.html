@@ -5,9 +5,9 @@
     {% if object.has_registration %}
         {% if request.user in object.registrations.all %}
             {% if object.is_editable %}
-                <a href={% url 'fabcal:event-unregister' object.pk %} class="btn btn-primary"> <i class="bi bi-calendar2-x pe-2"></i> {% trans "Unregister" %}</a>
+                <a href={% url 'fabcal:eventslot-unregister' object.pk %} class="btn btn-primary"> <i class="bi bi-calendar2-x pe-2"></i> {% trans "Unregister" %}</a>
             {% else %}
-                <button href={% url 'fabcal:event-unregister' object.pk %} class="btn btn-primary" disabled> <i class="bi bi-calendar2-x pe-2"></i> {% trans "Unregister" %}</button><br>
+                <button href={% url 'fabcal:eventslot-unregister' object.pk %} class="btn btn-primary" disabled> <i class="bi bi-calendar2-x pe-2"></i> {% trans "Unregister" %}</button><br>
                 <small class='text-red'>{% trans "Sorry, you can not unregister 24h before the start of the event" %}</small>
             {% endif %}
         {% elif object.available_registration <= 0 %}

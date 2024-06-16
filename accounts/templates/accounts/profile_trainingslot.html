@@ -5,7 +5,7 @@
 <div class="d-md-none">
     <div class="card">
         <div class="position-relative">
-            <a href="{% url 'fabcal:event-detail' slot.pk %}">
+            <a href="{% url 'fabcal:eventslot-detail' slot.pk %}">
                 <img class="img-fluid rounded-top" src={{slot.training.photo.url}}>
             </a>
             {% if slot.opening_slot %}
@@ -33,7 +33,7 @@
                     <a class="btn btn-outline-primary my-4" href="{% url 'machines:training-validation' slot.pk %}">
                         <i class="bi bi-card-checklist pe-2"></i> {% trans "Validate trainings" %}
                     </a>
-                    <a href="{% url 'fabcal:training-update' slot.pk %}" class="btn btn-primary"> <i
+                    <a href="{% url 'fabcal:trainingslot-update' slot.pk %}" class="btn btn-primary"> <i
                             class="bi bi-pencil pe-2"></i> {% trans "Edit my training" %}</a>
                 </div>
             </div>
@@ -49,7 +49,7 @@
     <hr>
     <div class="row">
         <div class="col-3 py-0">
-            <a href="{% url 'fabcal:event-detail' slot.pk %}">
+            <a href="{% url 'fabcal:eventslot-detail' slot.pk %}">
                 <img class="img-fluid rounded" src={{slot.training.photo.url}}>
             </a>
         </div>
@@ -68,7 +68,7 @@
                     {%include 'accounts/profile_slot_datetime.html'%}
                 </div>
                 <div class="col-4 text-end py-0">
-                    <a class="btn btn-link btn-outline-primary" href="{% url 'fabcal:training-update' slot.pk %}">
+                    <a class="btn btn-link btn-outline-primary" href="{% url 'fabcal:trainingslot-update' slot.pk %}">
                         <i class="bi bi-pencil-square"></i>
                     </a>
                     {%include 'accounts/profile_trainingslot_delete_btn.html'%}

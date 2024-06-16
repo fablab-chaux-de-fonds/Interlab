@@ -4,7 +4,7 @@
     <div class="col">
         <h5>{% trans "Reservations" %}</h5>
         {% for reservation in slot.get_reservation_list %}
-        <a class="text-blue" href="{% url 'superuser-profile-edit' reservation.user.pk %}">
+        <a class="text-blue" href="{% url 'accounts:superuser-profile-edit' reservation.user.pk %}">
             <div class="row">
                 <div class="col-3 col-md-2">
                     {%include 'accounts/avatar.html' with user=reservation.user%}
