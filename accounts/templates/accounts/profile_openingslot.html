@@ -24,7 +24,7 @@
 
             <div class="row">
                 <div class="col text-center">
-                    <a href="{% url 'fabcal:update-opening' slot.pk %}"
+                    <a href="{% url 'fabcal:openingslot-update' slot.pk %}"
                         class="btn btn-primary"> <i class="bi bi-pencil pe-2"></i> {% trans "Edit my opening" %}</a>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                     {%include 'accounts/profile_slot_datetime.html'%}
                 </div>
                 <div class="col-4 text-end py-0">
-                    <a class="btn btn-link btn-outline-primary" href="{% url 'fabcal:update-opening' slot.pk %}">
+                    <a class="btn btn-link btn-outline-primary" href="{% url 'fabcal:openingslot-update' slot.pk %}">
                         <i class="bi bi-pencil-square"></i>
                     </a>
                     {%include 'accounts/profile_openingslot_delete_btn.html'%}

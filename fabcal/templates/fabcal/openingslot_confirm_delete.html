@@ -8,7 +8,7 @@
 
 {% block content_form %}
 <h3>{% blocktrans with date=object.start|date:"l j F" start=object.start|date:"G:i" end=object.end|date:"G:i" %}Are you sure you want to remove the slot on {{date}} from {{start}} to {{end}}{% endblocktrans %}</h3>
-<form action={% url 'fabcal:opening-delete' object.pk%} method="POST">
+<form method="POST">
     {% csrf_token %}
     {% include 'forms/base_submit_button.html' with submit_btn=_("Yes, I'm sure") %}
 </form>

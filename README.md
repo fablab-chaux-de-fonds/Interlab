@@ -156,3 +156,19 @@ docker exec -i interlab_web_1 python manage.py createtasks
 ```shell
 docker exec -i interlab-web-1 coverage run --data-file=test/.coverage --source='/code' manage.py test
 ```
+
+### On local developement machine
+* With VS Code, create a [virtual enviroment](https://code.visualstudio.com/docs/python/environments)
+* Apply requirements
+
+```shell
+pip install -r requirements
+```
+
+* Apply migrations
+
+```shell
+python manage.py migrate
+```
+
+Launch tests with [VS Code Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python)

@@ -19,6 +19,6 @@
     {{training_slot.end|date:"H:i"}}
 </p>
 
-<a href="{{request.scheme}}://{{request.get_host}}{% url 'fabcal:training-register' training_slot.pk %}">{% trans "Subscribe" %}</a>
+<a href="{{request.scheme}}://{{request.get_host}}{% url 'fabcal:trainingslot-register' training_slot.pk %}">{% trans "Subscribe" %}</a>
 
 {% endblock content %}

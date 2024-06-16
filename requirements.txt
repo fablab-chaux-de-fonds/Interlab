@@ -52,3 +52,4 @@ Babel
 django-htmx
 python-dotenv
 markdown
+uwsgi

@@ -10,7 +10,7 @@
 
 <h3> {% blocktrans with title=object.event.title  %} Do you want to delete the event {{title}}{% endblocktrans %}</h3>
 {% include 'fabcal/event_info.html' %}
-<form action={% url 'fabcal:event-delete' object.pk %} method="POST">
+<form action={% url 'fabcal:eventslot-delete' object.pk %} method="POST">
     {% csrf_token %}
     {% include "forms/base_submit_button.html" with submit_btn="Yes, I'm sure" %}
 </form>

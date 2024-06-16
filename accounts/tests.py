@@ -22,7 +22,8 @@ class ExpiredAndReminderTestCase(TestCase):
     def create_subscription(self, email: str, delta: timedelta):
         user = CustomUser.objects.create(username=email.replace('@', '_'), email=email)
         subscription = Subscription.objects.create(start=datetime.today(), end=datetime.today() + delta, access_number=0)
-        Profile.objects.create(user=user, subscription=subscription)
+        user.profile.subscription = subscription
+        user.profile.save()
     
     def test_expire_only_the_target_day(self):
         result = send_expire_subscription_email()

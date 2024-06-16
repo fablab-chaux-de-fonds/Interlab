@@ -28,6 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
 TEST_OUTPUT_DIR = os.path.join(BASE_DIR, 'test')
 TEST_OUTPUT_FILE_NAME = 'test-results.xml'
+TEST_MODE = any([v == 'test' or v == 'test_coverage' for v in sys.argv])
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -114,7 +115,9 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 STATIC_ROOT = os.path.join(DATA_DIR, 'static')
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
+if not TEST_MODE:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'build'),
@@ -290,25 +293,25 @@ CMS_CONFIRM_VERSION4 = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# if any('test' in item for item in sys.argv) or 'PWD' in os.environ:
-#     # Test if run test or on local computer
-#     DATABASES = {
-#         'default' : {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
-#         }
-#     }
-# else:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_NAME'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': os.environ.get('POSTGRES_HOST'),
-        'PORT': os.environ.get('POSTGRES_PORT')
+if TEST_MODE:
+    # Test if run test or on local computer
+    DATABASES = {
+        'default' : {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'test', 'tests.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('POSTGRES_NAME'),
+            'USER': os.environ.get('POSTGRES_USER'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+            'HOST': os.environ.get('POSTGRES_HOST'),
+            'PORT': os.environ.get('POSTGRES_PORT')
+        }
+    }
 
 DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL')
 EMAIL_HOST=os.environ.get('EMAIL_HOST')
@@ -373,7 +376,7 @@ LOGOUT_REDIRECT_URL = '/'
 # This is required to have correct protocol on links generated
 # PLEASE READ WARNING INFO:
 #  * https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-SECURE_PROXY_SSL_HEADER
-if DEBUG == False:
+if DEBUG == False and not TEST_MODE:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
 

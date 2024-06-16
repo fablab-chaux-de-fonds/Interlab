@@ -39,12 +39,12 @@
                     {% trans "Start" %}<br>
                     <v-row>
                         <v-col cols="8">
-                            <date-picker init-date={{start|date:"Y-m-d"}} input-name="start_date"
+                            <date-picker init-date={{form.initial.date}} input-name="start_date"
                                 label={% trans "Date" %}>
                             </date-picker>
                         </v-col>
                         <v-col cols="4">
-                            <time-picker init-time={{start|date:"H:i"}} input-name="start_time"
+                            <time-picker init-time={{form.initial.start_time}} input-name="start_time"
                                 label={% trans "Time" %}>
                             </time-picker>
                         </v-col>
@@ -52,11 +52,11 @@
                     {% trans "End" %}<br>
                     <v-row>
                         <v-col cols="8">
-                            <date-picker init-date={{end|date:"Y-m-d"}} input-name="end_date" label={% trans "Date" %}>
+                            <date-picker init-date={{form.initial.date}} input-name="end_date" label={% trans "Date" %}>
                             </date-picker>
                         </v-col>
                         <v-col cols="4">
-                            <time-picker init-time={{end|date:"H:i"}} input-name="end_time" label={% trans "Time" %}>
+                            <time-picker init-time={{form.initial.end_time}} input-name="end_time" label={% trans "Time" %}>
                             </time-picker>
                         </v-col>
                     </v-row>

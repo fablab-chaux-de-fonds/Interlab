@@ -5,11 +5,11 @@
 {% if request.user|has_group:"superuser" %}
 <div class="row">
     <div class="col text-end">
-        <a href="{% url 'fabcal:event-delete' object.pk %}"
+        <a href="{% url 'fabcal:eventslot-delete' object.pk %}"
             class="btn btn-outline-primary pe-2 {%if object.regristration.all%} disabled {%endif%}">
             <i class="bi bi-trash3 pe-1"></i> {% trans "Delete" %}
         </a>
-        <a href="{% url 'fabcal:event-update' object.pk %}" class="btn btn-outline-primary">
+        <a href="{% url 'fabcal:eventslot-update' object.pk %}" class="btn btn-outline-primary">
             <i class="bi bi-pencil pe-1"></i> {% trans "Edit" %}
         </a>
     </div>

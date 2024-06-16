@@ -23,7 +23,7 @@
 </form>
 
 <div class="text-center mt-5 text-red">
-  <a href="{% url 'password_reset' %}">{% trans "Forgot password" %}</a> &ensp; | &ensp;
-  <a href="{% url 'django_registration_register' %}">{% trans "Sign up" %}</a>
+  <a href="{% url 'accounts:password_reset' %}">{% trans "Forgot password" %}</a> &ensp; | &ensp;
+  <a href="{% url 'accounts:django_registration_register' %}">{% trans "Sign up" %}</a>
 </div>
 {% endblock content_form %}

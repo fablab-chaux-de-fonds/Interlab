@@ -1,0 +1,101 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n crispy_forms_tags training_extras %}
+{% load render_bundle from webpack_loader %}
+
+{% block header %}
+{{ form.media }}
+{% endblock header %}
+
+{% block content_form_img %}
+<img class="card-img pb-4" src="{{object.machine.photo.url}}"  alt="{{machine}}">
+{% endblock %}
+
+{% block content_form %}
+<div class="text-center">
+    <h3> {% trans "Choose your schedule !" %} </h3>
+
+    <p>{{object.start|date:"l j F Y"|capfirst}} </br>
+        <span class='badge align-middle' style="color:{{object.opening_slot.opening.color}};background-color:{{object.opening_slot.opening.background_color}}">
+            {{object.opening_slot.opening.title}} - {{object.opening_slot.user.first_name}}
+        </span >
+    </p>
+
+    {% if object.machine.category.name == '3D' %} <h4> {% trans "Start" %} </h4> {% endif %}
+
+</div>
+
+<form action="." method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <div data-app>
+            <div id="vue">
+                <div class="mb-3">
+                    {% if object.machine.category.name != '3D' %}
+                        <v-row>
+                            <v-col cols="6">
+                                <time-picker init-time={{object.formatted_start_time}} input-name="start_time" label={% trans "Start" %}>
+                                </time-picker>
+                            </v-col>
+                            <v-col cols="6">
+                                <time-picker init-time={{object.formatted_end_time}} input-name="end_time" label={% trans "End" %}>
+                                </time-picker>
+                            </v-col>
+                        </v-row>
+                        {{ form.errors.start_time }}
+                        {{ form.errors.end_time }}
+                    {% else %}
+                    <v-row>
+                        <v-col cols="12">
+                            <p>{% trans "You can start between " %} {{object.start|date:"H:i"}} {% trans " and " %} {{max_start_time|date:"H:i"}}</p>
+                            <time-picker init-time={{object.formatted_start_time}} input-name="start_time" label={% trans "Time" %}>
+                            </time-picker>
+                            {{ form.errors.start_time }}
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col cols="12">
+                            <h4> {% trans "End" %}</h4>
+                            <p>
+                            {% if next_object %}
+                                {% trans "The 3D print in free until:" %} <br>
+                                {{next_object.start|date:"l j F Y H:i"|capfirst}}
+                            {% else %}
+                                {% trans "There are no reservations for the next few days. Feel free to use it !" %}
+                            {% endif %}</p>
+                            <date-picker init-date={{object.formatted_end_date}} input-name="end_date" label={% trans "Date" %}>
+                            </date-picker>
+                            {{ form.errors.end_date}}
+                            
+                            <time-picker init-time={{object.formatted_end_time}} input-name="end_time" label={% trans "Time" %}>
+                            </time-picker>
+                            {{ form.errors.end_time }}
+                        </v-col>
+                    </v-row>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="text-center">
+        {% if request.user.profile.is_subscription_valid %}
+            <h4>{{object.machine.premium_price|price_format}} / 30 min </h4>
+        {% else %}
+            <h4>{{object.machine.full_price|price_format}} / 30 min </h4>
+        
+            <small> {% trans "Benefit from half price prices<br> for 15 CHF / month" %}<br></small>
+            <a class="btn btn-outline-primary my-2" href="/comment-ca-marche/#abonnement-demi-tarif"> {% trans "I take advantage of it" %}</a>        
+        {% endif %}
+    </div>
+    <hr>
+    {% include 'forms/base_submit_button.html' with submit_btn=_('Reserve')%}
+</form>
+
+{% endblock content_form %}
+
+{% block js_footer %}
+{% render_bundle 'vue' 'js' %}
+{% endblock js_footer %}
