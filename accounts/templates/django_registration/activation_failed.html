@@ -11,6 +11,6 @@
     <h1> {% trans 'Unfortunately this link has expired.' %}</h1>
     <p>{% trans "Please create a new account with a new username." %}</p>
 
-    <a class="btn btn-primary" href="{% url 'django_registration_register' %}">{% trans 'Create a new account' %} </a>
+    <a class="btn btn-primary" href="{% url 'accounts:django_registration_register' %}">{% trans 'Create a new account' %} </a>
 </div>
 {% endblock %}

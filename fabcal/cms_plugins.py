@@ -114,12 +114,13 @@ class CalendarOpeningsPluginPublisher(CMSPluginBase):
                 user_firstname=F('user__first_name'),
                 username=F('user__username'),
                 title=F('training__title'),
+                training_pk=F('training__pk'),
                 background_color=Value('#ddf9ff', output_field=CharField()),
                 color=Value('#0b1783', output_field=CharField())
             )
             .values(
                 'type',
-                'training__pk',
+                'training_pk',
                 'username',
                 'user_firstname',
                 'start',

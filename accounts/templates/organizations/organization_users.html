@@ -47,7 +47,7 @@
 
 {% if organization_users.count < user.profile.subscription.access_number  %}
         
-<a class="text-blue" href="{% url "organization_user_add" organization.pk %}">
+<a class="text-blue" href="{% url "accounts:organization_user_add" organization.pk %}">
 <div class="row">
     <div class="col-2 text-center">
         <i class="bi bi-person-plus-fill img-sm" ></i>

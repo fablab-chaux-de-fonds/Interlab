@@ -5,7 +5,7 @@
 {% block content_form %}
 
 <h1>{% trans "Edit my profile" %}</h1> 
-<form action="{% url 'edit-profile' %}" method="POST">
+<form action="{% url 'accounts:edit-profile' %}" method="POST">
     {% csrf_token %}
     <div class="form-group">
     {{ edit_user_form | crispy }}
@@ -33,7 +33,7 @@
 
         <div class="d-grid">
             <a class="btn btn-outline-primary my-4" href="../../password_change/"> {% trans "Change password" %} </a>
-            <a class="text-center" href="{% url 'delete-profile' %}">{% trans "delete account"|capfirst %}</a> 
+            <a class="text-center" href="{% url 'accounts:delete-profile' %}">{% trans "delete account"|capfirst %}</a> 
         </div>
     </div>
     {% include "forms/base_submit_button.html" with submit_btn="Update" %}
