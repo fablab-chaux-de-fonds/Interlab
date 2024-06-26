@@ -236,6 +236,9 @@ class MachineSlotUpdateView(UpdateSlotView):
         If not, display an error message and redirect the user to the training page for that machine category.
         """
 
+        if not request.user.is_authenticated:
+            return super(MachineSlotUpdateView, self).dispatch(request, *args, **kwargs)
+
         machine_slot = self.get_object()
 
         if (
@@ -430,14 +433,9 @@ class EventSlotRegistrationDeleteView(EventSlotRegistrationView):
             return HttpResponseForbidden("You are not allowed to access this page.")
         return super().dispatch(request, *args, **kwargs)
 
-class MachineReservationListView(LoginRequiredMixin, ListView):
+class MachineReservationListView(SuperuserRequiredMixin, ListView):
     Model = MachineSlot
     paginate_by = 100
-
-    def dispatch(self, request, *args, **kwargs):
-        if not self.request.user.groups.filter(name='superuser').exists():
-            raise PermissionDenied
-        return super().dispatch(request, *args, **kwargs)
 
 class MachinePastReservationListView(MachineReservationListView):
     def get_queryset(self):

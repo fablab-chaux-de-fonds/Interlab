@@ -241,7 +241,7 @@ class SuperuserProfileEditView(LoginRequiredMixin, CustomFormView):
     form_class = SuperuserProfileEditForm
 
     def get_success_url(self):
-        return reverse('user-list')
+        return reverse('accounts:user-list')
 
     def get_initial(self):
         initial = super().get_initial()
