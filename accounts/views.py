@@ -57,40 +57,6 @@ class CustomRegistrationView(RegistrationView):
         )
         return new_user
 
-class CustomActivationView(ActivationView):
-    
-    def get(self, *args, **kwargs):
-        """
-        The base activation logic; subclasses should leave this method
-        alone and implement activate(), which is called from this
-        method.
-        """
-        extra_context = {}
-        try:
-            activated_user = self.activate(*args, **kwargs)
-        except ActivationError as e:
-            
-            ###################################
-            #Check if account already activated
-            #https://github.com/ubernostrum/django-registration/blob/3.2/src/django_registration/views.py
-            if e.code == 'already_activated':
-                self.template_name = "django_registration/already_activated.html"
-            ###################################
-
-            extra_context["activation_error"] = {
-                "message": e.message,
-                "code": e.code,
-                "params": e.params,
-            }
-        else:
-            signals.user_activated.send(
-                sender=self.__class__, user=activated_user, request=self.request
-            )
-            return HttpResponseRedirect(force_str(self.get_success_url(activated_user)))
-        context_data = self.get_context_data()
-        context_data.update(extra_context)
-        return self.render_to_response(context_data)
-
 @login_required
 def AccountsView(request):
     user = request.user
@@ -241,7 +207,7 @@ class SuperuserProfileEditView(LoginRequiredMixin, CustomFormView):
     form_class = SuperuserProfileEditForm
 
     def get_success_url(self):
-        return reverse('user-list')
+        return reverse('accounts:user-list')
 
     def get_initial(self):
         initial = super().get_initial()

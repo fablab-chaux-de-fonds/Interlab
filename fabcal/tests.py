@@ -59,18 +59,31 @@ class TestView(SuperuserRequiredMixin, View):
 
 class SuperuserRequiredMixinTestCase(TestCase):
     def setUp(self):
+        super().setUp()
         self.factory = RequestFactory()
         self.login_url = reverse('accounts:login')
+        
+        # Create a superuser and add them to the 'superuser' group
+        self.superuser = CustomUser.objects.create_superuser(username='admin', password='adminpassword', email='admin@exmple.test')
+        self.superuser_group = Group.objects.create(name='superuser')
+        self.superuser.groups.add(self.superuser_group)
+
+        # Create a non-superuser and add them to the 'normal' group
+        self.user = CustomUser.objects.create_user(username='user', password='userpassword', email='user@exmple.test')
+        self.normal_group = Group.objects.create(name='normal')
+        self.user.groups.add(self.normal_group)
+
+    def tearDown(self):
+        super().tearDown()
+        self.superuser.delete()
+        self.superuser_group.delete()
+        self.user.delete()
+        self.normal_group.delete()
 
     def test_superuser_required(self):
-        # Create a superuser and add them to the 'superuser' group
-        superuser = CustomUser.objects.create_superuser(username='admin', password='adminpassword')
-        superuser_group = Group.objects.create(name='superuser')
-        superuser.groups.add(superuser_group)
-
         # Create a request and set the user attribute to the superuser
         request = self.factory.get('/')
-        request.user = superuser
+        request.user = self.superuser
 
         # Create an instance of the view and check if test_func returns True
         view = TestView()
@@ -78,14 +91,10 @@ class SuperuserRequiredMixinTestCase(TestCase):
         self.assertTrue(view.test_func())
 
     def test_non_superuser_denied(self):
-        # Create a non-superuser and add them to the 'normal' group
-        user = CustomUser.objects.create_user(username='user', password='userpassword')
-        normal_group = Group.objects.create(name='normal')
-        user.groups.add(normal_group)
 
         # Create a request and set the user attribute to the non-superuser
         request = self.factory.get('/')
-        request.user = user
+        request.user = self.user
 
         # Create an instance of the view and check if test_func returns False
         view = TestView.as_view()
@@ -107,6 +116,7 @@ class SuperuserRequiredMixinTestCase(TestCase):
 
 class SlotViewTestCase(TestCase):
     def setUp(self):
+        super().setUp()
         self.client = Client()
         self.factory = RequestFactory()
         self.create_url = reverse('fabcal:openingslot-create', kwargs=self.get_creation_url_parameter())
@@ -289,6 +299,7 @@ class OpeningSlotCreateViewTestCase(SlotViewTestCase):
         self.assertIn('/schedule', response.url)
     
     def tearDown(self):
+        super().tearDown()
         self.client.logout()
         self.superuser.delete()
         self.group.delete()

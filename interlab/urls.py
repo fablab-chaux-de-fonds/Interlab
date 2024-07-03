@@ -19,6 +19,8 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    path('accounts/', include('django_registration.backends.activation.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('api/', include('api.urls')),
     path('machines/', include('machines.urls')),
     path('invitations/', include(invitation_backend().get_urls())),

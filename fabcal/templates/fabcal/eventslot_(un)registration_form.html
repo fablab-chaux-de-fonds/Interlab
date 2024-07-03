@@ -12,7 +12,7 @@
 
 <form action="
     {% if 'unregister' in view.request.path %}
-        {% url 'fabcal:event-unregister' object.pk %}
+        {% url 'fabcal:eventslot-unregister' object.pk %}
     {% else %}
         {% url 'fabcal:eventslot-register' object.pk %}{%endif%}"
     method="POST">

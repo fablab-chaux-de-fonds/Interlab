@@ -20,13 +20,17 @@ class OpeningSlotSerializer(serializers.ModelSerializer):
 
 class MachineSlotSerializer(serializers.ModelSerializer):
     duration = serializers.SerializerMethodField()
+    machine_title = serializers.SerializerMethodField()
 
     class Meta: 
         model = MachineSlot
-        fields = ['id', 'start', 'end', 'created_at', 'updated_at', 'user', 'duration']
+        fields = ['id', 'start', 'end', 'created_at', 'updated_at', 'user', 'duration', 'machine_title']
 
     def get_duration(self, obj):
         return obj.get_duration
+
+    def get_machine_title(self, obj):
+        return obj.machine.title if obj.machine else None
 
 class TrainingSlotSerializer(serializers.ModelSerializer):
     duration = serializers.SerializerMethodField()

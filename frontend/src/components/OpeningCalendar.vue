@@ -327,6 +327,7 @@
             start: event.start,
             text_color: event.color,
             pk: event.pk,
+            training_pk: event.training_pk,
             username: event.username,
             type: event.type,
             machines: event.machines
