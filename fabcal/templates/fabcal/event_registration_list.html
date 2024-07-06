@@ -5,7 +5,7 @@
 <div class="text-red">
     <h1>{%trans "Superuser area" %}</h1>
     <h3>{%trans "Registrations" %}</h3>
-    {{object.registrations.count}} {% trans "peoples registered for the event" %}
+    {{object.get_number_of_attendees}} {% trans "peoples registered for the event" %}
 </div>
 {%include 'accounts/profile_slot_registration_list.html' with slot=object%}
 {% endif %}

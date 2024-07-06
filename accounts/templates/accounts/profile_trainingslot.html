@@ -5,7 +5,7 @@
 <div class="d-md-none">
     <div class="card">
         <div class="position-relative">
-            <a href="{% url 'fabcal:eventslot-detail' slot.pk %}">
+            <a href="{% url 'machines:training-detail' slot.pk %}">
                 <img class="img-fluid rounded-top" src={{slot.training.photo.url}}>
             </a>
             {% if slot.opening_slot %}
@@ -49,7 +49,7 @@
     <hr>
     <div class="row">
         <div class="col-3 py-0">
-            <a href="{% url 'fabcal:eventslot-detail' slot.pk %}">
+            <a href="{% url 'machines:training-detail' slot.pk %}">
                 <img class="img-fluid rounded" src={{slot.training.photo.url}}>
             </a>
         </div>

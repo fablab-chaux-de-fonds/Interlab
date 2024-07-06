@@ -88,6 +88,22 @@
                 </div>
             </div>
         </div>
+
+        <div class="mb-3">
+            <label for="{{ form.registration_type.id_for_label }}">{{ form.registration_type.label_tag }}</label>
+            {{ form.registration_type }}
+            <small>{{ form.registration_type.help_text }}</small>
+            {{ form.registration_type.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.external_registration_link.id_for_label }}">{{ form.external_registration_link.label_tag }}</label>
+            {{ form.external_registration_link }}
+            <small>{{ form.external_registration_link.help_text }}</small>
+            {{ form.external_registration_link.errors }}
+        </div>
+        
+
         <div class="mb-3">
             {{ form.registration_limit.label_tag }}
             <input class="form-control" id={{form.registration_limit.auto_id}} name="registration_limit" placeholder=""

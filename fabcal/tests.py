@@ -31,7 +31,6 @@ from .forms import TrainingSlotRegistrationDeleteForm
 from .forms import EventSlotCreateForm
 from .forms import EventSlotUpdateForm
 from .forms import EventSlotRegistrationCreateForm
-from .forms import EventSlotRegistrationDeleteForm
 from .mixins import SuperuserRequiredMixin
 from .models import OpeningSlot
 from .models import MachineSlot

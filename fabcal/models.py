@@ -5,8 +5,10 @@ from cms.models import CMSPlugin
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Q
+from django.db.models import Sum
 from django.utils.translation import gettext_lazy as _
 
 from openings.models import Opening, Event
@@ -63,21 +65,17 @@ class AbstractSlot(models.Model):
         return self.get_formatted_datetime(self.end, "H:mm")
 
 class AbstractRegistration(models.Model):
-    registration_limit = models.IntegerField(blank=True, null=True)
+    registration_limit = models.PositiveIntegerField(blank=True, null=True)
 
     @property
     def available_registration(self):
         "Check if there is still place for the event/training"
         if self.registration_limit:
-            return self.registration_limit - self.registrations.count()
+            return self.registration_limit - self.get_number_of_attendees()
         else:
             return None
     class Meta:
         abstract = True
-
-    @property
-    def get_reservation_list(self):
-        return self.registrations.all()
         
 class OpeningSlot(AbstractSlot):
     opening = models.ForeignKey(Opening, on_delete=models.CASCADE)
@@ -130,12 +128,12 @@ class EventSlot(AbstractSlot, AbstractRegistration):
         help_text=_('Define whether event registration is done directly on the fablab site or on the external site')
     )
     external_registration_link = models.CharField(
+        max_length=2048,
         blank=True,
         null=True,
         validators=[url_or_email_validator],
         help_text=_('Enter URL or email address')
     )
-    registrations = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='event_registration_users', blank=True)
     is_active = models.BooleanField(default=True)
     price = models.TextField(max_length=255)
     opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
@@ -143,6 +141,9 @@ class EventSlot(AbstractSlot, AbstractRegistration):
     class Meta:
         verbose_name = _("Event Slot")
         verbose_name_plural = _("Event Slots")
+        
+    def __str__(self):
+        return f"{self.start} - {self.event.title}"
 
     def clean(self):
         # If registration is required, ensure registration type is specified
@@ -150,16 +151,51 @@ class EventSlot(AbstractSlot, AbstractRegistration):
             if not self.registration_type:
                 raise ValidationError(_('Registration type must be specified if registration is required.'))
 
-            if self.registration_type == 'onsite' and not self.registration_limit:
+            if self.registration_type == 'onsite' and (self.registration_limit is None or self.registration_limit < 0):
                 raise ValidationError(_('Registration limit must be specified if registration type is on-site.'))
                 
             if self.registration_type == 'external' and not self.external_registration_link:
                 raise ValidationError(_('External registration link must be specified if registration type is external.'))
 
+            #check if user already register to the event slot
+            if True:
+                pass
+
     def delete(self, *args, **kwargs):
         if self.registrations.all().exists():
             raise ValidationError(_("Cannot delete event slot with registrations."), code='event_slot_with_registrations')
         super().delete(*args, **kwargs)
+
+    @property
+    def get_reservation_list(self):
+        # Fetch all registrations for this event slot, including the related user data
+        registrations = RegistrationEventSlot.objects.filter(event_slot=self)
+        
+        # Prepare the list of users with the number of attendees included
+        user_list = []
+        for registration in registrations:
+            user = registration.user
+            user.number_of_attendees = registration.number_of_attendees
+            user_list.append(user)
+        
+        return user_list
+
+    @property
+    def get_number_of_attendees(self):
+        return RegistrationEventSlot.objects.filter(event_slot=self).aggregate(total=Sum('number_of_attendees'))['total']
+        
+class RegistrationEventSlot(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='event_registration_users', blank=True)
+    event_slot = models.ForeignKey(EventSlot, on_delete=models.CASCADE, related_name='registrations')
+    registration_date = models.DateTimeField(auto_now_add=True)
+    number_of_attendees = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)])
+
+    def __str__(self):
+        return f"{self.pk} - {self.user} registered {self.number_of_attendees} people for {self.event_slot} on {self.registration_date}"
+    
+    class Meta:
+        verbose_name = _("Event slot Registration")
+        verbose_name_plural = _("Event slot registrations")
 
 class TrainingSlot(AbstractSlot, AbstractRegistration):
     training = models.ForeignKey(Training, on_delete=models.CASCADE)
@@ -174,6 +210,14 @@ class TrainingSlot(AbstractSlot, AbstractRegistration):
         if self.registrations.all().exists():
             raise ValidationError(_("Cannot delete Training Slot with registrations."), code='training_slot_with_registrations')
         super().delete(*args, **kwargs)
+    
+    @property
+    def get_reservation_list(self):
+        return self.registrations.all()
+
+    @property
+    def get_number_of_attendees(self):
+        return self.registrations.all().count
 
 class MachineSlot(AbstractSlot):
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE, blank=True, null=True)

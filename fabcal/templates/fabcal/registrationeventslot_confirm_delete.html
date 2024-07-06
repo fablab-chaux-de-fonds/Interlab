@@ -1,0 +1,18 @@
+{% extends "forms/base_forms.html" %}
+{% load i18n crispy_forms_tags %}
+{% load render_bundle from webpack_loader %}
+
+{% block content_form_img %}
+<img src="{{object.event_slot.event.photo.url}}" class="img img-fluid rounded pb-4" alt="{{object.event_slot.event.title}}">
+{% endblock %}
+
+{% block content_form %}
+<h3>{{object.event_slot.event.title}}</h3>
+{% include 'fabcal/event_info.html' with object=object.event_slot %}
+
+<form method="POST">
+    {% csrf_token %}
+    {% include 'fabcal/(un)registration_button.html' %}
+</form>
+
+{% endblock content_form %}

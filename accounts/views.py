@@ -11,7 +11,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.sessions.models import Session
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.core.paginator import Paginator
-from django.db.models import Q 
+from django.db.models import Q, OuterRef, Subquery, Exists, Value
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.template import loader
@@ -21,7 +21,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic.base import TemplateView
 
-from fabcal.models import EventSlot, OpeningSlot, TrainingSlot, MachineSlot
+
+from fabcal.models import EventSlot, OpeningSlot, TrainingSlot, MachineSlot, RegistrationEventSlot
 from machines.models import TrainingValidation
 
 from .forms import EditUserForm, EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm, CustomAuthenticationForm, SuperuserProfileEditForm
@@ -61,6 +62,16 @@ class CustomRegistrationView(RegistrationView):
 def AccountsView(request):
     user = request.user
     template = loader.get_template('accounts/profile.html')
+
+    today = datetime.date.today()
+
+    # Subquery to check if the user has registrations for the event slot
+    registration_event_slot = RegistrationEventSlot.objects.filter(
+        event_slot=OuterRef('pk'),
+        event_slot__end__gte=today,
+        user=request.user
+    )
+
     context = {
         'page_title': "My account",
         'user': user,
@@ -68,7 +79,7 @@ def AccountsView(request):
             TrainingSlot.objects.filter(user=request.user, end__gte=datetime.date.today()),
             TrainingSlot.objects.filter(registrations=request.user, end__gte=datetime.date.today()),
             EventSlot.objects.filter(user=request.user, end__gte=datetime.date.today()),
-            EventSlot.objects.filter(registrations=request.user, end__gte=datetime.date.today()),
+            EventSlot.objects.filter(Exists(registration_event_slot)),
             OpeningSlot.objects.filter(user=request.user, end__gte=datetime.date.today()), 
             MachineSlot.objects.filter(user=request.user, end__gte=datetime.date.today()),
         ),
