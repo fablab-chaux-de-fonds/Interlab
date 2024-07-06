@@ -1911,8 +1911,8 @@ msgid "still %(available_registration)s places available !"
 msgstr "encore %(available_registration)s places disponibles !"
 
 #: machines/templates/trainings/show_next_trainings.html:22
-msgid "sold out"
-msgstr "complet"
+msgid "Sold out"
+msgstr "Complet"
 
 #: machines/templates/trainings/show_next_trainings.html:48
 msgid "Not available ?"

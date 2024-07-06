@@ -71,7 +71,7 @@ class AbstractRegistration(models.Model):
     def available_registration(self):
         "Check if there is still place for the event/training"
         if self.registration_limit:
-            return self.registration_limit - self.get_number_of_attendees()
+            return self.registration_limit - self.get_number_of_attendees
         else:
             return None
     class Meta:
