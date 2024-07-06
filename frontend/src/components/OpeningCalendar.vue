@@ -51,8 +51,8 @@
               <strong>{{ formatEventTime(event.start) }} - {{ formatEventTime(event.end) }} </strong>
               <span v-if="type!='month'"> <br> </span>
                  {{ event.title }}
-              <span v-if="type!='month' & event.type=='openingslot'"> <br> </span>
-              <span v-if="event.type=='openingslot'"> {{ event.user_firstname }} </span>
+              <span v-if="type!='month' & event.type=='opening'"> <br> </span>
+              <span v-if="event.type=='opening'"> {{ event.user_firstname }} </span>
               <span v-if="type!='month'"> <br>
                 {{ event.comment }}
               </span>
@@ -114,7 +114,7 @@
               </span>
 
               <p>{{selectedEvent.desc}}</p>
-              <div v-if="selectedEvent.type=='openingslot'">
+              <div v-if="selectedEvent.type=='opening'">
                 <h4> {{ $vuetify.lang.t('$vuetify.machines') }} </h4>
                   <span v-for="machine in selectedEvent.machines">
                   <a :href="'/machines/machines/' + machine.pk + '/show'" class="badge text-bg-info rounded-pill btn-sm m-1">
@@ -280,12 +280,12 @@
         const open = () => {
           this.selectedEvent = event;
           this.selectedElement = nativeEvent.target;
-          if (this.selectedEvent.type === 'openingslot') {
+          if (this.selectedEvent.type === 'opening') {
             requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true));
-          } else if (this.selectedEvent.type === 'eventslot') {
+          } else if (this.selectedEvent.type === 'event') {
             location.href = "/fabcal/eventslot/" + this.selectedEvent.pk;
-          } else if (this.selectedEvent.type === 'trainingslot') {
-            location.href = "/machines/training/" + this.selectedEvent.pk;
+          } else if (this.selectedEvent.type === 'training') {
+            location.href = "/machines/training/" + this.selectedEvent.training_pk;
           }
         };
 
