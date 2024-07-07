@@ -23,6 +23,8 @@
                 <a href="{% url 'fabcal:eventslot-register' object.pk %}" class="btn btn-primary">
                     <i class="bi bi-plus-circle pe-2"></i> {% trans "Register" %}
                 </a>
+                </br>
+                <small>{% blocktrans with available_registration=object.available_registration%}still {{available_registration}} places available !{% endblocktrans %}</small>
             {% endif %}
         {% elif object.registration_type == 'external' %}
             {% if '@' in object.external_registration_link %}

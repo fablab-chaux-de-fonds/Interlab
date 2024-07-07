@@ -102,7 +102,13 @@
             <small>{{ form.external_registration_link.help_text }}</small>
             {{ form.external_registration_link.errors }}
         </div>
-        
+
+        <div class="mb-3">
+            <label for="{{ form.additional_info.id_for_label }}">{{ form.additional_info.label_tag }}</label>
+            {{ form.additional_info }}
+            <small>{{ form.additional_info.help_text }}</small>
+            {{ form.additional_info.errors }}
+        </div>        
 
         <div class="mb-3">
             {{ form.registration_limit.label_tag }}

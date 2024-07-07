@@ -67,6 +67,9 @@ class AbstractSlot(models.Model):
 class AbstractRegistration(models.Model):
     registration_limit = models.PositiveIntegerField(blank=True, null=True)
 
+    class Meta:
+        abstract = True
+
     @property
     def available_registration(self):
         "Check if there is still place for the event/training"
@@ -74,8 +77,7 @@ class AbstractRegistration(models.Model):
             return self.registration_limit - self.get_number_of_attendees
         else:
             return None
-    class Meta:
-        abstract = True
+
         
 class OpeningSlot(AbstractSlot):
     opening = models.ForeignKey(Opening, on_delete=models.CASCADE)
@@ -137,6 +139,7 @@ class EventSlot(AbstractSlot, AbstractRegistration):
     is_active = models.BooleanField(default=True)
     price = models.TextField(max_length=255)
     opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
+    additional_info = models.TextField(blank=True, null=True, help_text="Information supplémentaire pour l'inscription à l'événement")
 
     class Meta:
         verbose_name = _("Event Slot")
@@ -182,7 +185,8 @@ class EventSlot(AbstractSlot, AbstractRegistration):
 
     @property
     def get_number_of_attendees(self):
-        return RegistrationEventSlot.objects.filter(event_slot=self).aggregate(total=Sum('number_of_attendees'))['total']
+        total_attendees = RegistrationEventSlot.objects.filter(event_slot=self).aggregate(total=Sum('number_of_attendees'))['total']
+        return total_attendees if total_attendees is not None else 0
         
 class RegistrationEventSlot(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='event_registration_users', blank=True)

@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-{% blocktrans with first_name=object.user.first_name title=object.event_slot.event.title number_of_attendees=object.number_of_attendees date=object.event_slot.formatted_start_date start=object.event_slot.formatted_start_time end=object.event_slot.formatted_end_time location=object.event_slot.event.location eventslot_url=object.event_slot.absolute_url%}
+{% blocktrans with first_name=object.user.first_name title=object.event_slot.event.title number_of_attendees=object.number_of_attendees date=object.event_slot.formatted_start_date start=object.event_slot.formatted_start_time end=object.event_slot.formatted_end_time location=object.event_slot.event.location eventslot_url=object.event_slot.absolute_url additional_info=object.event_slot.additional_info%}
     <p>Hello {{first_name}},</p>
     <p>
     We would like to confirm your registration for the event <i>{{title}}</i> for {{number_of_attendees}} people which will take place on {{date}} from {{start}} to {{end}} at {{location}}.
@@ -10,6 +10,9 @@
     <div class="btn btn-primary text-center my4">
         <a href="{{eventslot_url}}">View the event</a>
     </div>
+
+    <p>{{additional_info}}</p>
+
     <p>Payment can be made on site by credit card or in cash.</p>
     <p>We look forward to seeing you at the event!</br>
     The FabLab La Chaux-de-Fonds team</p>

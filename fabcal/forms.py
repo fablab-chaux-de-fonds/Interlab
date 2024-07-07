@@ -18,6 +18,7 @@ from openings.models import Opening, Event
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot, RegistrationEventSlot
 from .custom_fields import CustomDateField
 from .validators import validate_delete_machine_slot
+from .validators import validate_attendees_within_available_slots
 
 class UserForm(ModelForm):
     def __init__(self, user=None,  *args, **kwargs):
@@ -756,7 +757,7 @@ class EventSlotForm(SlotLinkedToOpeningForm):
         help_text=_('Define whether event registration is done directly on the fablab site or on the external site'),
         required=False
         )
-    external_registration_link = forms.CharField(required=False, help_text=_('Enter URL or email address'))
+    external_registration_link = forms.CharField(required=False, label=_('External registration link'), help_text=_('Enter URL or email address'))
     registration_limit = forms.IntegerField(required=False, label=_('Registration limit'), help_text=_('leave blank if no limit'))
 
     class Meta: 
@@ -774,6 +775,7 @@ class EventSlotForm(SlotLinkedToOpeningForm):
             "opening",
             "machines",
             "comment",
+            "additional_info"
         )
 
 class EventSlotCreateForm(EventSlotForm):
@@ -799,6 +801,14 @@ class EventSlotRegistrationCreateForm(UserForm):
         model = RegistrationEventSlot
         fields = ('number_of_attendees',)
         labels = {"number_of_attendees": _("Number of attendees")}
+    
+    def clean_number_of_attendees(self):
+        data = self.cleaned_data["number_of_attendees"]
+
+        if data is not None:
+            validate_attendees_within_available_slots(data, self.event_slot)
+
+        return data
     
     def create_email_content(self):
         context = {'object': self.instance}

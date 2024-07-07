@@ -83,3 +83,18 @@ def url_or_email_validator(value):
             email_validator(value)
         except ValidationError:
             raise ValidationError('This field must be a valid URL or email address.')
+
+
+def validate_attendees_within_available_slots(value, event_slot):
+    if (
+        event_slot.available_registration is not None
+        and value > event_slot.available_registration
+    ):
+        raise ValidationError(
+            mark_safe(
+                _(
+                    "You cannot register more than {available_registration} peoples."
+                ).format(available_registration=event_slot.available_registration)
+            ),
+            code="attendees_not_within_available_slots",
+        )
