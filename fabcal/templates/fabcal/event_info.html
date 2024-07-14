@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n fabcal_tags %}
 
 <div class="row">
 
@@ -6,6 +6,7 @@
         {% include 'fabcal/event_info_datetime.html' with event_slot=object %}
     </div>
 
+    {% if object|is_onsite %}
     <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
         <div class="row">
             <div class="col-2 text-end pe-0">
@@ -17,6 +18,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
     <div class="col-12 {% if "detail" in view.template_name_suffix %}col-sm-6{% endif %}">
         <div class="row">

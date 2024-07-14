@@ -21,3 +21,11 @@ def is_registered(object, user):
 @register.filter
 def registration_disabled(object):
     return object.available_registration <= 0
+
+@register.filter
+def no_registration_limit(object):
+    return object.registration_limit == 0
+
+@register.filter
+def is_onsite(object):
+    return object.registration_type == 'onsite'

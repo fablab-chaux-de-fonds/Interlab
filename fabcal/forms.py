@@ -17,6 +17,7 @@ from openings.models import Opening, Event
 
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot, RegistrationEventSlot
 from .custom_fields import CustomDateField
+from .custom_widgets import NumberInputWithButtons
 from .validators import validate_delete_machine_slot
 from .validators import validate_attendees_within_available_slots
 
@@ -741,24 +742,50 @@ class TrainingSlotRegistrationDeleteForm(TrainingSlotRegistrationForm):
         return super(TrainingSlotRegistrationDeleteForm, self).save()
 
 class EventSlotForm(SlotLinkedToOpeningForm):
+
+    def __init__(self, *args, **kwargs):
+        super(EventSlotForm, self).__init__(*args, **kwargs)
+        self.fields['opening'].widget = forms.Select(attrs={'onchange': "opening_change();"})
+        self.fields['opening'].queryset = Opening.objects.all() 
+
     start_date = CustomDateField()
     end_date = CustomDateField()
     event = forms.ModelChoiceField(
         queryset= Event.objects.filter(is_active=True),
         label=_('Event'),
         empty_label=_('Select an event'),
-        error_messages={'required': _('Please select an event.')}, 
+        error_messages={'required': _('Please select an event.')},
         )
-    price = forms.CharField(label=_('Price'), widget=forms.Textarea(attrs={'class':'form-control', 'rows':4}))
-    registration_required = forms.BooleanField(required=False, label=_('On registration'))
+
+    price = forms.CharField(
+        label=_("Price"),
+        widget=forms.Textarea(attrs={"class": "form-control", "rows": 4}),
+        required=False,
+    )
+    registration_required = forms.BooleanField(
+        required=False, label=_("On registration")
+    )
     registration_type = forms.ChoiceField(
-        choices=[('', ''), ('onsite', 'On-site'), ('external', 'External')],
-        label=_('Registration type'),
-        help_text=_('Define whether event registration is done directly on the fablab site or on the external site'),
-        required=False
-        )
-    external_registration_link = forms.CharField(required=False, label=_('External registration link'), help_text=_('Enter URL or email address'))
-    registration_limit = forms.IntegerField(required=False, label=_('Registration limit'), help_text=_('leave blank if no limit'))
+        choices=[("", ""), ("onsite", "On-site"), ("external", "External")],
+        label=_("Registration type"),
+        help_text=_(
+            "Define whether event registration is done directly on the fablab site or on the external site"
+        ),
+        required=False,
+        widget=forms.Select(attrs={"onchange": "registration_type_change();"}),
+    )
+    external_registration_link = forms.CharField(
+        required=False,
+        label=_("External registration link"),
+        help_text=_("Enter URL or email address"),
+    )
+    registration_limit = forms.IntegerField(
+        required=False,
+        label=_("Registration limit"),
+        help_text=_("0 if no limit"),
+        widget=NumberInputWithButtons(),
+        min_value=0,
+    )
 
     class Meta: 
         model = EventSlot
@@ -777,6 +804,9 @@ class EventSlotForm(SlotLinkedToOpeningForm):
             "comment",
             "additional_info"
         )
+        labels = {
+            "additional_info": _("Additional information"),
+        }
 
 class EventSlotCreateForm(EventSlotForm):
     def save(self):
@@ -794,13 +824,17 @@ class EventSlotUpdateForm(EventSlotForm):
 class EventSlotRegistrationCreateForm(UserForm):
 
     def __init__(self, event_slot=None, *args, **kwargs):
-        self.event_slot = event_slot
         super(EventSlotRegistrationCreateForm, self).__init__(*args, **kwargs)
+        self.event_slot = event_slot
+
+        # Update the widget attributes
+        self.fields['number_of_attendees'].widget.attrs.update({'min': 1, 'value': '1'})
         
     class Meta:
         model = RegistrationEventSlot
         fields = ('number_of_attendees',)
-        labels = {"number_of_attendees": _("Number of attendees")}
+        labels = {'number_of_attendees': _("Number of attendees")}
+        widgets = {'number_of_attendees': NumberInputWithButtons()}
     
     def clean_number_of_attendees(self):
         data = self.cleaned_data["number_of_attendees"]

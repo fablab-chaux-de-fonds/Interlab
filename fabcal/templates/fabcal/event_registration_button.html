@@ -15,6 +15,10 @@
                 <small class='text-red'>
                     {% trans "Sorry, you can not unregister 24h before the start of the event" %}
                 </small>
+            {% elif object|no_registration_limit %}
+                <a href="{% url 'fabcal:eventslot-register' object.pk %}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle pe-2"></i> {% trans "Register" %}
+                </a>
             {% elif object|registration_disabled %}
                 <button class="btn btn-primary" disabled>
                     <i class="bi bi-calendar2-x pe-2"></i> {% trans "Sold out" %}

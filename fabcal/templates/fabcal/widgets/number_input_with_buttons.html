@@ -1,0 +1,9 @@
+<div class="input-group">
+    <span type="button" class="fs-3 pe-1" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+        <i class="bi bi-dash-square"></i>
+    </span>
+    <input type="number" name="{{ widget.name }}" class="form-control input-number border-0 text-center" min="{{ widget.attrs.min }}" value="{{ widget.attrs.value }}" required="" id="{{ widget.attrs.id }}" readonly>
+    <span type="button" class="fs-3 ps-1" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus">
+        <i class="bi bi-plus-square"></i>
+    </span>
+</div>

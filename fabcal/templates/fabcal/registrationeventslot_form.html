@@ -17,11 +17,7 @@
             <div class="form-group row">
                 <label for="{{ form.number_of_attendees.id_for_label }}" class="col-7 col-form-label my-auto">{{ form.number_of_attendees.label }}</label>
                 <div class="col-5">
-                    <div class="input-group">
-                        <span type="button" class="fs-3 pe-1" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ><i class="bi bi-dash-square"></i></span>
-                        <input type="number" name="number_of_attendees" class="form-control input-number border-0 text-center" value="1" min="1" required="" id="id_number_of_attendees" readonly>
-                        <span type="button" class="fs-3 ps-1" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"><i class="bi bi-plus-square"></i></span>
-                    </div>
+                    {{form.number_of_attendees}}
                 </div>
                 <div class="col-12">{{ form.number_of_attendees.errors }}</div>
             </div>

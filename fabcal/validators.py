@@ -87,7 +87,7 @@ def url_or_email_validator(value):
 
 def validate_attendees_within_available_slots(value, event_slot):
     if (
-        event_slot.available_registration is not None
+        event_slot.registration_limit != 0
         and value > event_slot.available_registration
     ):
         raise ValidationError(

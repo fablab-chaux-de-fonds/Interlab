@@ -73,10 +73,7 @@ class AbstractRegistration(models.Model):
     @property
     def available_registration(self):
         "Check if there is still place for the event/training"
-        if self.registration_limit:
-            return self.registration_limit - self.get_number_of_attendees
-        else:
-            return None
+        return self.registration_limit - self.get_number_of_attendees
 
         
 class OpeningSlot(AbstractSlot):
@@ -139,7 +136,7 @@ class EventSlot(AbstractSlot, AbstractRegistration):
     is_active = models.BooleanField(default=True)
     price = models.TextField(max_length=255)
     opening_slot = models.ForeignKey(OpeningSlot, on_delete=models.CASCADE, blank=True, null=True)
-    additional_info = models.TextField(blank=True, null=True, help_text="Information supplémentaire pour l'inscription à l'événement")
+    additional_info = models.TextField(blank=True, null=True, help_text=_("Additional information sent by e-mail upon registration"))
 
     class Meta:
         verbose_name = _("Event Slot")
