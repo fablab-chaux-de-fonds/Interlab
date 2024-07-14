@@ -15,9 +15,11 @@ from django.utils.translation import gettext_lazy as _
 from machines.models import Training, TrainingNotification, Machine
 from openings.models import Opening, Event
 
-from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
+from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot, RegistrationEventSlot
 from .custom_fields import CustomDateField
+from .custom_widgets import NumberInputWithButtons
 from .validators import validate_delete_machine_slot
+from .validators import validate_attendees_within_available_slots
 
 class UserForm(ModelForm):
     def __init__(self, user=None,  *args, **kwargs):
@@ -79,20 +81,6 @@ class SlotForm(UserForm):
         self.instance.end = self.cleaned_data['end']
 
         return cleaned_data
-
-class RegistrationForm(UserForm):
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['registrations'].required = False
-
-    def save(self):
-
-        # send mail
-        email_content = self.create_email_content()
-        send_mail(**email_content)
-
-        return self.instance
 
 class OpeningSlotForm(SlotForm):
     opening = forms.ModelChoiceField(
@@ -680,11 +668,23 @@ class TrainingSlotUpdateForm(TrainingSlotForm):
 
         return self.instance
 
-class TrainingSlotRegistrationForm(RegistrationForm):
+class TrainingSlotRegistrationForm(UserForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['registrations'].required = False
+    
     class Meta:
         model = TrainingSlot
         fields = ('registrations',)
+
+    def save(self):
+
+        # send mail
+        email_content = self.create_email_content()
+        send_mail(**email_content)
+
+        return self.instance
 
     def create_email_content(self):
         email_content = {
@@ -742,21 +742,71 @@ class TrainingSlotRegistrationDeleteForm(TrainingSlotRegistrationForm):
         return super(TrainingSlotRegistrationDeleteForm, self).save()
 
 class EventSlotForm(SlotLinkedToOpeningForm):
+
+    def __init__(self, *args, **kwargs):
+        super(EventSlotForm, self).__init__(*args, **kwargs)
+        self.fields['opening'].widget = forms.Select(attrs={'onchange': "opening_change();"})
+        self.fields['opening'].queryset = Opening.objects.all() 
+
     start_date = CustomDateField()
     end_date = CustomDateField()
     event = forms.ModelChoiceField(
         queryset= Event.objects.filter(is_active=True),
         label=_('Event'),
         empty_label=_('Select an event'),
-        error_messages={'required': _('Please select an event.')}, 
+        error_messages={'required': _('Please select an event.')},
         )
-    price = forms.CharField(label=_('Price'), widget=forms.Textarea(attrs={'class':'form-control', 'rows':4}))
-    has_registration = forms.BooleanField(required=False, label=_('On registration'))
-    registration_limit = forms.IntegerField(required=False, label=_('Registration limit'), help_text=_('leave blank if no limit'))
+
+    price = forms.CharField(
+        label=_("Price"),
+        widget=forms.Textarea(attrs={"class": "form-control", "rows": 4}),
+        required=False,
+    )
+    registration_required = forms.BooleanField(
+        required=False, label=_("On registration")
+    )
+    registration_type = forms.ChoiceField(
+        choices=[("", ""), ("onsite", "On-site"), ("external", "External")],
+        label=_("Registration type"),
+        help_text=_(
+            "Define whether event registration is done directly on the fablab site or on the external site"
+        ),
+        required=False,
+        widget=forms.Select(attrs={"onchange": "registration_type_change();"}),
+    )
+    external_registration_link = forms.CharField(
+        required=False,
+        label=_("External registration link"),
+        help_text=_("Enter URL or email address"),
+    )
+    registration_limit = forms.IntegerField(
+        required=False,
+        label=_("Registration limit"),
+        help_text=_("0 if no limit"),
+        widget=NumberInputWithButtons(),
+        min_value=0,
+    )
 
     class Meta: 
         model = EventSlot
-        fields = ('event', 'date', 'start_time', 'end_time', 'price', 'has_registration', 'registration_limit', 'opening', 'machines', 'comment')
+        fields = (
+            "event",
+            "date",
+            "start_time",
+            "end_time",
+            "price",
+            "registration_required",
+            "registration_limit",
+            "registration_type",
+            "external_registration_link",
+            "opening",
+            "machines",
+            "comment",
+            "additional_info"
+        )
+        labels = {
+            "additional_info": _("Additional information"),
+        }
 
 class EventSlotCreateForm(EventSlotForm):
     def save(self):
@@ -771,52 +821,48 @@ class EventSlotUpdateForm(EventSlotForm):
             self.instance = super().save(OpeningSlotCreateForm, initial=self.initial)
         return self.instance
 
-class EventSlotRegistraionForm(RegistrationForm):
+class EventSlotRegistrationCreateForm(UserForm):
 
+    def __init__(self, event_slot=None, *args, **kwargs):
+        super(EventSlotRegistrationCreateForm, self).__init__(*args, **kwargs)
+        self.event_slot = event_slot
+
+        # Update the widget attributes
+        self.fields['number_of_attendees'].widget.attrs.update({'min': 1, 'value': '1'})
+        
     class Meta:
-        model = EventSlot
-        fields = ('registrations',)
+        model = RegistrationEventSlot
+        fields = ('number_of_attendees',)
+        labels = {'number_of_attendees': _("Number of attendees")}
+        widgets = {'number_of_attendees': NumberInputWithButtons()}
+    
+    def clean_number_of_attendees(self):
+        data = self.cleaned_data["number_of_attendees"]
 
+        if data is not None:
+            validate_attendees_within_available_slots(data, self.event_slot)
+
+        return data
+    
     def create_email_content(self):
+        context = {'object': self.instance}
+
         email_content = {
             'from_email': None,
             'recipient_list': [self.user.email],
+            'subject': _('Event registration confirmation'),
+            'message': _("Event registration confirmation"),
+            'html_message': render_to_string('fabcal/email/eventslot_registration_confirm.html', context)
         }
 
         return email_content
 
-class EventSlotRegistrationCreateForm(EventSlotRegistraionForm):
-    def create_email_content(self):
-        email_content = super().create_email_content()
-        context = {'event_slot': self.instance}
-        email_content['html_message'] = render_to_string('fabcal/email/eventslot_registration_confirm.html', context)
-        email_content['subject'] = _('Event registration confirmation')
-        email_content['message'] = _("Event registration confirmation")
-
-        return email_content
-    
     def save(self):
-        self.instance.registrations.add(self.user)
-        return super(EventSlotRegistrationCreateForm, self).save()
+        self.instance.user = self.user
+        self.instance.event_slot = self.event_slot
+        self.instance.save()
 
-class EventSlotRegistrationDeleteForm(EventSlotRegistraionForm):
+        email_content = self.create_email_content()
+        send_mail(**email_content)
 
-    def is_valid(self):
-        if self.user not in self.instance.registrations.all():
-            raise forms.ValidationError(_("You are not registered for this event slot."))
-            return False
-        return super().is_valid()
-    
-    def create_email_content(self):
-        email_content = super().create_email_content()
-        context = {'event_slot': self.instance}
-        email_content['html_message'] = render_to_string('fabcal/email/eventslot_unregistration_confirm.html', context)
-        email_content['subject'] = _('Event unregistration confirmation')
-        email_content['message'] = _("Event unregistration confirmation")
-
-        return email_content
-    
-    def save(self):
-        self.instance.registrations.remove(self.user)
-        return super(EventSlotRegistrationDeleteForm, self).save()
-
+        return self.instance

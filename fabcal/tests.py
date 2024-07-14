@@ -31,7 +31,6 @@ from .forms import TrainingSlotRegistrationDeleteForm
 from .forms import EventSlotCreateForm
 from .forms import EventSlotUpdateForm
 from .forms import EventSlotRegistrationCreateForm
-from .forms import EventSlotRegistrationDeleteForm
 from .mixins import SuperuserRequiredMixin
 from .models import OpeningSlot
 from .models import MachineSlot
@@ -1465,7 +1464,7 @@ class EventSlotTestCase(SlotViewTestCase):
         self.form_data['end_date'] = '2023-05-01'
         self.form_data['event'] = Event.objects.first().pk
         self.form_data['price'] = '10 CHF'
-        self.form_data['has_registration'] = True
+        self.form_data['registration_required'] = True
         self.form_data['registration_limit'] = 10
 
 class EventSlotCreateViewTestCase(EventSlotTestCase):

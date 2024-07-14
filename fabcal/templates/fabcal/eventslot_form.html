@@ -25,14 +25,6 @@
             {{ form.event.errors }}
         </div>
 
-        <div class="mb-3">
-            <label for="{{ form.opening.id_for_label }}">{{ form.opening.label_tag }}</label>
-            {{ form.opening }}
-            {{ form.opening.errors }}
-        </div>
-
-        {%include './form/select_machines.html'%}
-
         <div data-app>
             <div id="vue">
                 <div class="mb-3">
@@ -64,39 +56,91 @@
             </div>
         </div>
 
-        <div class="mb-3">
-            <label for="{{ form.price.id_for_label }}">{{ form.price.label_tag }}</label>
-            {{ form.price }}
-            {{ form.price.errors }}
-        </div>
-
-        <div class="mb-3">
-            <label for="{{ form.comment.id_for_label }}">{{ form.comment.label_tag }}</label>
-            {{ form.comment }}
-            {{ form.comment.errors }}
-        </div>
 
         <div class="row mb-3">
             <div class="col">
-                {{ form.has_registration.label_tag }}
+                {{ form.registration_required.label_tag }}
             </div>
             <div class="col">
                 <div class="form-check form-switch">
                     <input class="form-check-input float-end" type="checkbox" role="switch"
-                        id={{form.has_registration.auto_id}} name="has_registration"
-                        {% if form.has_registration.value %}checked{% endif %}>
+                        id={{form.registration_required.auto_id}} name="registration_required"
+                        onclick=event_slot_form()
+                        {% if form.registration_required.value %}checked{% endif %}>
                 </div>
             </div>
         </div>
-        <div class="mb-3">
-            {{ form.registration_limit.label_tag }}
-            <input class="form-control" id={{form.registration_limit.auto_id}} name="registration_limit" placeholder=""
-                type="number" min="0"
-                value={% if form.registration_limit.value %}{{ form.registration_limit.value }}{% endif %}>
-            </input>
-            {{ form.registration_limit.errors }}
-            <small>{{ form.registration_limit.help_text }}</small>
+
+        <div id="registration-type-fields">
+            <div class="mb-3">
+                <label for="{{ form.registration_type.id_for_label }}">{{ form.registration_type.label_tag }}</label>
+                {{ form.registration_type }}
+                <small>{{ form.registration_type.help_text }}</small>
+                {{ form.registration_type.errors }}
+            </div>
         </div>
+
+        <div id="registration-on-site">
+
+            <div class="mb-3">
+                <div class="form-group row">
+                    <div class="col-7 col-form-label my-auto">
+                        <label for="{{ form.registration_limit.id_for_label }}" >{{ form.registration_limit.label }} :</label>
+                        </br>
+                        <small>({{ form.registration_limit.help_text }})</small>
+                    </div>
+                    <div class="col-5">
+                        {{ form.registration_limit }}
+                    </div>
+                </div>
+                {{ form.registration_limit.errors }}
+
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.price.id_for_label }}">{{ form.price.label_tag }}</label>
+                {{ form.price }}
+                {{ form.price.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.additional_info.id_for_label }}">{{ form.additional_info.label_tag }}</label>
+                {{ form.additional_info }}
+                <small>{{ form.additional_info.help_text }}</small>
+                {{ form.additional_info.errors }}
+            </div>
+        </div>
+
+        <div id="registration-external">        
+            <div class="mb-3">
+                <label for="{{ form.external_registration_link.id_for_label }}">{{ form.external_registration_link.label_tag }}</label>
+                {{ form.external_registration_link }}
+                <small>{{ form.external_registration_link.help_text }}</small>
+                {{ form.external_registration_link.errors }}
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="mb-3">
+            <label for="{{ form.opening.id_for_label }}">{{ form.opening.label_tag }}</label>
+            {{ form.opening }}
+            {{ form.opening.errors }}
+        </div>
+
+        <div id='opening-fields'>
+
+            {%include './form/select_machines.html'%}
+
+            <div class="mb-3">
+                <label for="{{ form.comment.id_for_label }}">{{ form.comment.label_tag }}</label>
+                {{ form.comment }}
+                {{ form.comment.errors }}
+            </div>
+
+        </div>
+
     </div>
     
     {% include 'forms/base_submit_button.html'%}
@@ -106,4 +150,56 @@
 
 {% block js_footer %}
 {% render_bundle 'vue' 'js' %}
+<script>
+
+    function opening_change() {
+        var opening = document.getElementById("id_opening");
+        var opening_fields = document.getElementById("opening-fields");
+
+        if (opening.value === "") {
+            opening_fields.style.display = "none";
+        } else {
+            opening_fields.style.display = "block";
+        }
+    }
+
+    function event_slot_form() {
+        var checkBox = document.getElementById("id_registration_required");
+        var text = document.getElementById("registration-type-fields");
+
+        if (checkBox.checked) {
+            text.style.display = "block";
+        } else {
+            text.style.display = "none";
+            document.getElementById("registration-on-site").style.display = "none";
+            document.getElementById("registration-external").style.display = "none";
+        }
+    }
+ 
+    function registration_type_change() {
+        var registration_type = document.getElementById("id_registration_type");
+        var on_site = document.getElementById("registration-on-site");
+        var external = document.getElementById("registration-external");
+        console.log(registration_type.value)
+
+        if (registration_type.value === "onsite") {
+            console.log('on site condition')
+            on_site.style.display = "block";
+            external.style.display = "none";
+        } else if (registration_type.value == "external") {
+            on_site.style.display = "none";
+            external.style.display = "block";
+        } else {
+            on_site.style.display = "none";
+            external.style.display = "none";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        opening_change();
+        event_slot_form();
+        registration_type_change();
+    });
+
+</script>
 {% endblock js_footer %}

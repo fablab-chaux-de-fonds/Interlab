@@ -9,7 +9,7 @@ services:
         - .env
   web:
     build: .
-    command: python manage.py runserver_queue 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     env_file:
       - .env
     volumes:
@@ -29,5 +29,6 @@ services:
       - ./plugins:/code/plugins
     ports:
       - "8000:8000"
+      - "3000:3000"
     depends_on:
       - db

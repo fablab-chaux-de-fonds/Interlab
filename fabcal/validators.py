@@ -1,6 +1,7 @@
 import datetime
 from django import forms
 from django.core.exceptions import ValidationError
+from django.core.validators import URLValidator, EmailValidator
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
@@ -66,4 +67,34 @@ def validate_delete_machine_slot(machine_slot):
         raise ValidationError(
             mark_safe(_('You cannot delete your machine slot because you have reservations')),
             code='machine_slot_has_reservation'
+        )
+
+from django.core.exceptions import ValidationError
+from django.core.validators import URLValidator, EmailValidator
+
+def url_or_email_validator(value):
+    url_validator = URLValidator()
+    email_validator = EmailValidator()
+
+    try:
+        url_validator(value)
+    except ValidationError:
+        try:
+            email_validator(value)
+        except ValidationError:
+            raise ValidationError('This field must be a valid URL or email address.')
+
+
+def validate_attendees_within_available_slots(value, event_slot):
+    if (
+        event_slot.registration_limit != 0
+        and value > event_slot.available_registration
+    ):
+        raise ValidationError(
+            mark_safe(
+                _(
+                    "You cannot register more than {available_registration} peoples."
+                ).format(available_registration=event_slot.available_registration)
+            ),
+            code="attendees_not_within_available_slots",
         )

@@ -2,20 +2,27 @@
 {% load i18n %}
 
 {% block content %}
-<p> Hello {{request.user.first_name}}, </p> 
-<p>
-    {% trans "We confirme that you are registered to the event " %}
-    {{object.training.title}}
-    {% trans " on " %}
-    {{object.start|date:'l j F'}}
-    {% trans " from " %}
-    {{object.start|date:'H:i'}}
-    {% trans " to " %}
-    {{object.end|date:'H:i'}}.
-</p>
+{% blocktrans with first_name=object.user.first_name title=object.event_slot.event.title number_of_attendees=object.number_of_attendees date=object.event_slot.formatted_start_date start=object.event_slot.formatted_start_time end=object.event_slot.formatted_end_time location=object.event_slot.event.location eventslot_url=object.event_slot.absolute_url additional_info=object.event_slot.additional_info%}
+    <p>Hello {{first_name}},</p>
+    <p>
+    We would like to confirm your registration for the event <i>{{title}}</i> for {{number_of_attendees}} people which will take place on {{date}} from {{start}} to {{end}} at {{location}}.
+    </p>
+    <div class="btn btn-primary text-center my4">
+        <a href="{{eventslot_url}}">View the event</a>
+    </div>
 
-<p>
-    {% trans "The payment will be done on the spot by card or in cash" %}
+    <p>{{additional_info}}</p>
+
+    <p>Payment can be made on site by credit card or in cash.</p>
+    <p>We look forward to seeing you at the event!</br>
+    The FabLab La Chaux-de-Fonds team</p>
+    {% endblocktrans %}
+
+<hr>
+<p>{% trans "Cancellation policy" %}:</br>
+    {% blocktrans with profile_url='fablab-chaux-de-fonds.ch/accounts/profile/' mail_url='mailto:info@fablab-chaux-de-fonds.ch' %}
+    Veuillez prendre note que vous pouvez annuler votre inscription jusqu'à 24 heures avant le début de l'évènement sans frais via la <a href=\"%(profile_url)s\">page de votre compte sur notre site internet</a>. En revanche, si vous deviez annuler votre inscription après cette période, veuillez nous en <a href=\"%(mail_url)s\">informer par mail</a>. Dans ce cas, nous serions malheusement dans l'obligation de vous facturer l'évènement.
+    {% endblocktrans %}
 </p>
 
 {% endblock content %}

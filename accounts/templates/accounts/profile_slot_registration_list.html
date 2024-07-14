@@ -11,6 +11,13 @@
                 </div>
                 <div class="col-9 my-auto">
                     {{user.first_name}} {{user.last_name}}
+                    {% if user.number_of_attendees %}
+                        {% if user.number_of_attendees > 1 %}
+                            {% blocktrans with num_attendees=user.number_of_attendees %}
+                            ({{ num_attendees }} peoples)
+                            {% endblocktrans %}
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
         </a>

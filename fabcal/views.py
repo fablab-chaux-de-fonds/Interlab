@@ -30,9 +30,8 @@ from .forms import TrainingSlotRegistrationDeleteForm
 from .forms import EventSlotCreateForm
 from .forms import EventSlotUpdateForm
 from .forms import EventSlotRegistrationCreateForm
-from .forms import EventSlotRegistrationDeleteForm
 
-from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot
+from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot, RegistrationEventSlot
 from .mixins import SuperuserRequiredMixin
 
 
@@ -69,7 +68,7 @@ class UpdateSlotView(UserView, UpdateView):
         initial['end_time'] = self.object.end.strftime('%H:%M')
         return initial
 
-class RegisterSlotView(UserView, UpdateView):
+class RegisterSlotView(UserView):
     pass
 
 class DeleteSlotView(LoginRequiredMixin, DeleteView):
@@ -105,7 +104,7 @@ class DeleteSlotView(LoginRequiredMixin, DeleteView):
 
             messages.error(request, _(e.message))
             return redirect(request.META.get('HTTP_REFERER', '/'))
-        
+
 class OpeningSlotView(SuperuserRequiredMixin):
     model = OpeningSlot
 
@@ -333,7 +332,7 @@ class TrainingSlotRegistrationView(TrainingSlotView, RegisterSlotView):
     def get_success_url(self):
         return reverse_lazy("machines:training-detail", kwargs={'pk': self.object.training.pk})
 
-class TrainingSlotRegistrationCreateView(TrainingSlotRegistrationView):
+class TrainingSlotRegistrationCreateView(TrainingSlotRegistrationView, UpdateView):
     form_class = TrainingSlotRegistrationCreateForm
     success_message = _('You successfully registered the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
@@ -344,7 +343,7 @@ class TrainingSlotRegistrationCreateView(TrainingSlotRegistrationView):
             return redirect('machines:training-detail', pk=self.object.pk)
         return super().dispatch(request, *args, **kwargs)
 
-class TrainingSlotRegistrationDeleteView(TrainingSlotRegistrationView):
+class TrainingSlotRegistrationDeleteView(TrainingSlotRegistrationView, UpdateView):
     form_class = TrainingSlotRegistrationDeleteForm
     success_message = _('You successfully unregistered the training %(training)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
 
@@ -354,24 +353,46 @@ class TrainingSlotRegistrationDeleteView(TrainingSlotRegistrationView):
             return HttpResponseForbidden("You are not allowed to access this page.")
         return super().dispatch(request, *args, **kwargs)
 
-class EventDetailView(DetailView):
-    model = EventSlot
-
 class EventSlotView():
     model = EventSlot
 
     def get_success_url(self):
         return reverse('fabcal:eventslot-detail', kwargs={'pk': self.object.pk})
 
-    def get_success_message(self, cleaned_data):
-        return self.success_message % dict(
-                    event=self.object.event.title,
-                    duration=self.object.get_duration,
-                    start_date=self.object.formatted_start_date,
-                    end_date=self.object.formatted_end_date,
-                    start_time=self.object.formatted_start_time,
-                    end_time=self.object.formatted_end_time,
+    def get_success_message_context(self, object=None):
+        if object is None:
+            object = self.object
+
+        context = dict(
+                    event=object.event.title,
+                    duration=object.get_duration,
+                    start_date=object.formatted_start_date,
+                    end_date=object.formatted_end_date,
+                    start_time=object.formatted_start_time,
+                    end_time=object.formatted_end_time,
                 )
+        
+        return context
+
+    def get_success_message(self, cleaned_data):
+        context = self.get_success_message_context()
+
+        return self.success_message % context
+
+class EventSlotDetailView(EventSlotView, DetailView):
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if (
+            context["object"].registration_required
+            and context["object"].registration_type == "onsite"
+            and self.request.user in context["object"].get_reservation_list
+            and context["object"].is_editable
+        ):
+            context["registration_id"] = RegistrationEventSlot.objects.get(
+                event_slot=context["object"], user=self.request.user
+            ).pk
+        return context
 
 class EventSlotCreateView(SuperuserRequiredMixin, EventSlotView, CreateSlotView):
     form_class = EventSlotCreateForm
@@ -402,36 +423,63 @@ class EventSlotUpdateView(SuperuserRequiredMixin, EventSlotView, UpdateSlotView)
 class EventSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
     model = EventSlot
     sucess_message = _("Your event on %(date)s from %(start)s to %(end)s has been successfully deleted")
+    success_url = '/schedule/'
+
+class EventSlotRegistrationCreateView(EventSlotView, RegisterSlotView, CreateView):
+    model = RegistrationEventSlot
+    success_message = _('You successfully registered %(number_of_attendees)s people(s) for the event %(event)s on %(start_date)s from %(start_time)s to %(end_time)s')
 
     def get_success_url(self):
-        return reverse('fabcal:eventslot-detail', kwargs={'pk': self.object.event.pk})
+        return reverse_lazy("fabcal:eventslot-detail", kwargs={"pk": self.kwargs["pk"]})
 
-class EventSlotRegistrationView(EventSlotView, RegisterSlotView):
-    template_name = 'fabcal/eventslot_(un)registration_form.html'
+    def get_success_message_context(self):
+        context = super(EventSlotRegistrationCreateView, self).get_success_message_context(object=self.object.event_slot)
+        context['number_of_attendees'] = str(self.object.number_of_attendees)
+        return context
 
-    def get_success_url(self):
-        return reverse_lazy("fabcal:eventslot-detail", kwargs={'pk': self.object.event_id})
-
-class EventSlotRegistrationCreateView(EventSlotRegistrationView):
-    form_class = EventSlotRegistrationCreateForm
-    success_message = _('You successfully registered the event %(event)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+    def get_form(self):
+        eventslot = EventSlot.objects.get(pk=self.kwargs["pk"])
+        eventslot_url = reverse('fabcal:eventslot-detail', kwargs={'pk': eventslot.pk})
+        eventslot.absolute_url = self.request.build_absolute_uri(eventslot_url)
+        return EventSlotRegistrationCreateForm(
+            event_slot=eventslot,
+            user=self.request.user,
+            **self.get_form_kwargs()
+        )    
 
     def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if request.user in self.object.registrations.all():
+        event_slot = EventSlot.objects.get(pk=kwargs['pk'])
+        if RegistrationEventSlot.objects.filter(event_slot = event_slot, user = request.user).exists():
             messages.success(request, _('You are already registered for this event'))
-            return redirect('fabcal:eventslot-detail', pk=self.object.pk)
+            return redirect('fabcal:eventslot-detail', pk=event_slot.pk)
         return super().dispatch(request, *args, **kwargs)
 
-class EventSlotRegistrationDeleteView(EventSlotRegistrationView):
-    form_class = EventSlotRegistrationDeleteForm
-    success_message = _('You successfully unregistered the event %(event)s during %(duration)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+    def get_context_data(self, **kwargs):
+        context = super(CreateView, self).get_context_data(**kwargs)
+        context['event_slot'] = EventSlot.objects.get(pk=self.kwargs['pk'])
+        return context
+
+class EventSlotRegistrationDeleteView(EventSlotView, SuccessMessageMixin, DeleteView):
+    model = RegistrationEventSlot
+    success_message = _('You successfully unregistered the event %(event)s minutes on %(start_date)s from %(start_time)s to %(end_time)s')
+    
+    def get_success_url(self):
+        return reverse(
+            'fabcal:eventslot-detail',
+            kwargs={
+                'pk': self.object.event_slot.pk
+            }
+        )
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if request.user not in self.object.registrations.all():
+        if request.user != self.object.user:
             return HttpResponseForbidden("You are not allowed to access this page.")
         return super().dispatch(request, *args, **kwargs)
+
+    def get_success_message_context(self):
+        context = super(EventSlotRegistrationDeleteView, self).get_success_message_context(object=self.object.event_slot)
+        return context
 
 class MachineReservationListView(SuperuserRequiredMixin, ListView):
     Model = MachineSlot
