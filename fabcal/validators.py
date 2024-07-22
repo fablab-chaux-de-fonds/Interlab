@@ -10,8 +10,8 @@ def validate_conflicting_openings(start, end, instance=None):
     from .models import OpeningSlot # import here to avoid circular imports
     
     conflicting_openings = OpeningSlot.objects.filter(
-        start__lte=end,
-        end__gte=start
+        start__lt=end,
+        end__gt=start
     )
     if instance:
         conflicting_openings = conflicting_openings.exclude(pk=instance.pk)
