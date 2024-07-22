@@ -92,7 +92,7 @@
               <div v-if="backend.is_superuser">
                 <div v-if="backend.username === selectedEvent.username">
                   <v-btn icon>
-                    <a :href="'/fabcal/' + selectedEvent.type +  '/update/' + selectedEvent.pk + '/'"
+                    <a :href="'/fabcal/openingslot/update/' + selectedEvent.pk + '/'"
                       :style="{'color':selectedEvent.text_color}">
                       <i class="bi bi-pencil"></i>
                     </a>
