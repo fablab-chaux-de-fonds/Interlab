@@ -59,7 +59,7 @@
     "stylelint-webpack-plugin": "^5",
     "typewriter-effect": "^2.21.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.91.0",
+    "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
     "webpack-merge": "^5.10.0"
