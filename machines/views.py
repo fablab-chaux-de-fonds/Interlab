@@ -57,7 +57,13 @@ class TrainingValidationView(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         training_slot = get_object_or_404(TrainingSlot, pk=self.kwargs['pk'])
         registrations = training_slot.registrations.all()
-        graduates = [i.profile for i in TrainingValidation.objects.filter(training__pk=training_slot.training.pk)]
+        graduates = [
+            i.profile
+            for i in TrainingValidation.objects.filter(
+                training__pk=training_slot.training.pk
+            )
+            if i.profile.user in registrations
+        ]
 
         context = {
             'registrations': registrations,
@@ -68,11 +74,10 @@ class TrainingValidationView(LoginRequiredMixin, FormView):
 
         return context
 
-
     def form_valid(self, form, **kwargs):
         context = self.get_context_data(**kwargs)
         self.old = [graduate.pk for graduate in context['graduates']] # list of initial Profile pk checked
-        self.new = self.request.POST.getlist('validations') # list of checked Profile pk after validation
+        self.new = [int(i) for i in self.request.POST.getlist('validations')] # list of Profile pk checked
         self.training = context['training']
 
         form.add_new_training_validation(self)
