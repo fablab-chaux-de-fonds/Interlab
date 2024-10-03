@@ -218,7 +218,7 @@ class TrainingSlot(AbstractSlot, AbstractRegistration):
 
     @property
     def get_number_of_attendees(self):
-        return self.registrations.all().count
+        return self.registrations.all().count()
 
 class MachineSlot(AbstractSlot):
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE, blank=True, null=True)
