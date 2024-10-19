@@ -72,6 +72,8 @@ class RegisterSlotView(UserView):
     pass
 
 class DeleteSlotView(LoginRequiredMixin, DeleteView):
+    def get_success_url(self):
+        return reverse_lazy("accounts:profile")
 
     def dispatch(self, request, *args, **kwargs):
         slot = self.get_object()
