@@ -318,7 +318,8 @@ class TrainingSlotUpdateView(SuperuserRequiredMixin, TrainingSlotView, UpdateSlo
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['machines'] = [i.pk for i in self.object.opening_slot.get_machine_list]
+        if self.object.opening_slot is not None:
+            initial['machines'] = [i.pk for i in self.object.opening_slot.get_machine_list]
         return initial
 
 class TrainingSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
