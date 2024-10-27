@@ -2,18 +2,17 @@
 {% load i18n %}
 
 {% block content %}
-<p> Hello {{request.user.first_name}}, </p> 
-<p>{%trans "We have planned a new training" %}
-    
-    {% trans "which will take place " %}
-    {% trans "on" %}
-    {{training_slot.start|date:"l j F Y"}} 
-    {% trans "From" %} 
-   <a href="{{request.scheme}}://{{request.get_host}}{% url 'machines:training-detail' training_slot.training.pk %}">"{{training_slot.training.title}}"</a> {{training_slot.start|date:"H:i"}} 
-    {% trans "to" %} 
-    {{training_slot.end|date:"H:i"}}
-</p>
+{% blocktrans with first_name=first_name date=training_slot.start|date:"l j F Y" start=training_slot.start|date:"H:i" end=training_slot.end|date:"H:i" title=training_slot.training.title training_absolute_url=training_absolute_url%}
+<p> Hello {{first_name}}, </p> 
+<p>We have planned a new training "{{title}}" which will take place on {{date}} from {{start}} to {{end}}</p>
 
-<a href="{{request.scheme}}://{{request.get_host}}{% url 'fabcal:trainingslot-register' training_slot.pk %}">{% trans "Subscribe" %}</a>
+<div class="btn btn-primary text-center my4">
+    <a href="{{training_absolute_url}}">Subscribe to the training</a>
+</div>
+
+<p>Payment can be made on site by credit card or in cash.</p>
+<p>We look forward to seeing you at the training!</br>
+The FabLab La Chaux-de-Fonds team</p>
+{% endblocktrans %}
 
 {% endblock content %}
