@@ -600,29 +600,23 @@ class TrainingSlotForm(SlotLinkedToOpeningForm):
         model = TrainingSlot
         fields = ('training', 'registration_limit', 'opening', 'machines', 'date', 'start_time', 'end_time', 'comment')
 
-    def create_email_content(self):
-
-        recipient_list = [
+    def get_recipient_list(self): 
+        return [
             training_notification.profile.user.email
             for training_notification in TrainingNotification.objects.filter(
                 training=self.cleaned_data['training']
             )
         ]
 
-        email_content = {
-            'from_email': None,
-            'recipient_list': recipient_list,
-        }
-
-        return email_content
-
 class TrainingSlotCreateForm(TrainingSlotForm):
     def create_email_content(self):
-        email_content = super().create_email_content()
         context = {'training_slot': self.instance}
-        email_content['html_message'] = render_to_string('fabcal/email/training_create_alert.html', context)
-        email_content['subject'] = _('A new training was planned')
-        email_content['message'] = _("A new training was planned")
+        email_content = {
+        'html_message': render_to_string('fabcal/email/training_create_alert.html', context),
+        'from_email': None,
+        'subject': _('A new training was planned'),
+        'message': _("A new training was planned")
+        }
 
         return email_content
     
@@ -636,19 +630,21 @@ class TrainingSlotCreateForm(TrainingSlotForm):
         self.instance = super().save(OpeningSlotCreateForm)
         
         # send mail
-        email_content = self.create_email_content()
-        send_mail(**email_content)
-        
+        for recipient in self.get_recipient_list():
+            email_content = self.create_email_content()
+            send_mail(recipient_list = [recipient], **email_content)
+
         return self.instance
 
 class TrainingSlotUpdateForm(TrainingSlotForm):
     def create_email_content(self):
-        email_content = super().create_email_content()
         context = {'training_slot': self.instance}
-        email_content['html_message'] = render_to_string('fabcal/email/training_update_alert.html', context)
-        email_content['subject'] = _('A training was updated')
-        email_content['message'] = _("A training was updated"),
-
+        email_content = {
+            'html_message': render_to_string('fabcal/email/training_update_alert.html', context),
+            'from_email': None,
+            'subject': _('A training was updated'),
+            'message': _("A training was updated")
+        }
         return email_content
 
     def save(self):
@@ -663,8 +659,9 @@ class TrainingSlotUpdateForm(TrainingSlotForm):
         return self.instance
 
         # send mail
-        email_content = self.create_email_content()
-        send_mail(**email_content)
+        for recipient in self.get_recipient_list():
+            email_content = self.create_email_content()
+            send_mail(recipient_list = [recipient], **email_content)
 
         return self.instance
 
