@@ -193,6 +193,7 @@ INSTALLED_APPS = [
     'djangocms_text_ckeditor',
     'filer',
     'easy_thumbnails',
+    'djangocms_alias',
     'djangocms_icon',
     "djangocms_frontend",
     "djangocms_frontend.contrib.accordion",
