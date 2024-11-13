@@ -214,7 +214,7 @@
       },
 
       createTrainingSlot(event) {
-        location.href = "/fabcal/trainingslot/create/" + this.start + "/" + this.end;
+        location.href = "/fabcal/trainingslot/create/" + this.start + "/" + this.end_training;
       },
 
       cancelDrag() {
@@ -251,8 +251,9 @@
       clickDay(day) {
         if (this.backend.is_superuser) {
           this.start = Date.parse(day.date + 'T18:00:00'),
-            this.end = Date.parse(day.date + 'T20:00:00'),
-            this.selectSlotCategory = true;
+          this.end = Date.parse(day.date + 'T20:00:00'),
+          this.end_training = Date.parse(day.date + 'T19:30:00')
+          this.selectSlotCategory = true;
         }
       },
 
