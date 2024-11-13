@@ -9,13 +9,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.sessions.models import Session
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
-from django.db.models import Q, OuterRef, Subquery, Exists, Value
+from django.db.models import Q, OuterRef, Exists
 from django.http import HttpResponse
-from django.http import HttpResponseRedirect
 from django.template import loader
-from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -26,15 +24,14 @@ from fabcal.models import EventSlot, OpeningSlot, TrainingSlot, MachineSlot, Reg
 from machines.models import TrainingValidation
 
 from .forms import EditUserForm, EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm, CustomAuthenticationForm, SuperuserProfileEditForm
-from .models import Profile, SubscriptionCategory
+from .models import Profile
 
 from organizations.views.base import BaseOrganizationUserCreate
 from organizations.views.base import BaseOrganizationUserDelete
 from organizations.views.mixins import OwnerRequiredMixin
 
-from django_registration.backends.activation.views import RegistrationView, ActivationView
+from django_registration.backends.activation.views import RegistrationView
 from django_registration import signals
-from django_registration.exceptions import ActivationError
 
 from newsletter.views import register_email, get_contact, update_contact
 from interlab.views import CustomFormView
@@ -119,7 +116,7 @@ def EditProfileView(request):
             profile_form.save()
 
             messages.success(request, _("Your profile has been updated successfully"))
-            return redirect(AccountsView)
+            return redirect('accounts:profile')
     else:
         user_form = EditUserForm(instance=request.user)
         profile_form = EditProfileForm(instance=request.user.profile)
