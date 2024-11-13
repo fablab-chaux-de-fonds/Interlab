@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 def validate_special_characters(value):
-    if re.search('[^a-zA-Z0-9]+', value):
+    if not re.fullmatch(r'[\w]+', value, re.UNICODE):
         raise ValidationError(_("Special characters are not allowed."))
 
 def validate_domain(value):
