@@ -7,6 +7,8 @@ from accounts.models import CustomUser
 @admin.register(OpeningSlot)
 class OpeningSlotAdmin(admin.ModelAdmin):
     list_display = ['opening', 'start', 'end', 'user']
+    search_fields = ["user__first_name"]
+    ordering = ['-start']
 
 @admin.register(EventSlot)
 class EventSlotAdmin(admin.ModelAdmin):
@@ -32,3 +34,6 @@ class TrainingSlotAdmin(admin.ModelAdmin):
 @admin.register(MachineSlot)
 class MachineSlotAdmin(admin.ModelAdmin):
     list_display = ['machine', 'opening_slot', 'start', 'end', 'user']
+    search_fields = ["machine__title", "user__first_name"]
+    list_filter = ["machine"]
+    ordering = ['-start']
