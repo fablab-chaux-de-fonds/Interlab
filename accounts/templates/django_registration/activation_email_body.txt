@@ -4,7 +4,7 @@
 
 {% blocktrans%} To activate your account and confirm your email address, simply click on this link: {% endblocktrans %}
 
-{{ scheme }}://{{ site.domain }}{% url 'django_registration_activate' %}?{{ activation_key }}
+{{ scheme }}://{{ site.domain }}{% url 'django_registration_activate' %}?activation_key={{ activation_key }}
 
 {% blocktrans %}This link is only valid for {{ expiration_days }} days.{% endblocktrans %}
 

@@ -1,0 +1,36 @@
+{% extends 'forms/base_forms.html' %}
+{% load i18n crispy_forms_tags %}
+
+{% block html_class %} {% endblock %}
+
+{% block content_form %}
+
+<form method="post" action="." style="display:none;">
+  {% csrf_token %}
+  {{ form | crispy }}
+  <input type="submit" />
+</form>
+
+{% if activation_error %}
+  <div class="alert alert-danger">
+    {{ activation_error.message }}
+  </div>
+{% elif not request.GET.activation_key %}
+  <div class="alert alert-danger">
+    {% trans 'No activation key provided' %}
+  </div>
+{% else %}
+<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>
+<div class="text-center my-2">
+  <p>{% trans 'Activating your account... Please wait.' %}</p>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelector('form').submit();
+  });
+</script>
+{% endif %}
+
+{% endblock %}
+
