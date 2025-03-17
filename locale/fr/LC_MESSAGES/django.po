@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-27 18:21+0100\n"
+"POT-Creation-Date: 2025-03-17 18:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -348,7 +348,7 @@ msgstr "Ajouter une ouverture"
 
 #: accounts/templates/accounts/profile.html:63
 #: accounts/templates/accounts/profile_eventslot.html:24
-#: accounts/templates/accounts/profile_eventslot.html:56 fabcal/forms.py:765
+#: accounts/templates/accounts/profile_eventslot.html:56 fabcal/forms.py:764
 #: openings/models.py:46
 msgid "Event"
 msgstr "Évènement"
@@ -582,6 +582,14 @@ msgstr "Veuillez créer un nouveau compte avec un nouveau nom d'utilisateur."
 #: accounts/templates/django_registration/activation_failed.html:14
 msgid "Create a new account"
 msgstr "Créer un nouveau compte"
+
+#: accounts/templates/django_registration/activation_form.html:26
+msgid "No activation key provided"
+msgstr "Pas de clé d'activation fournie"
+
+#: accounts/templates/django_registration/activation_form.html:31
+msgid "Activating your account... Please wait."
+msgstr "Activation de votre compte... Veuillez patienter."
 
 #: accounts/templates/django_registration/already_activated.html:11
 msgid "This link has already been used."
@@ -880,7 +888,7 @@ msgstr "Veuillez sélectionner une ouverture."
 msgid "Machines"
 msgstr "Machines"
 
-#: fabcal/forms.py:119 fabcal/forms.py:794
+#: fabcal/forms.py:119 fabcal/forms.py:793
 msgid "Registration limit"
 msgstr "Limite d'inscriptions"
 
@@ -967,40 +975,40 @@ msgstr "Veuillez sélectionner une formation."
 msgid "A training was updated"
 msgstr "Une formation a été mise à jour"
 
-#: fabcal/forms.py:713 fabcal/forms.py:714
+#: fabcal/forms.py:712 fabcal/forms.py:713
 msgid "Training registration confirmation"
 msgstr "Confirmation de l'inscription à la formation"
 
-#: fabcal/forms.py:737
+#: fabcal/forms.py:736
 msgid "You are not registered for this training slot."
 msgstr "Vous n'êtes pas inscrit à cette formation"
 
-#: fabcal/forms.py:745 fabcal/forms.py:746
+#: fabcal/forms.py:744 fabcal/forms.py:745
 msgid "Training unregistration confirmation"
 msgstr "Confirmation de desinscription de la formation"
 
-#: fabcal/forms.py:766
+#: fabcal/forms.py:765
 msgid "Select an event"
 msgstr "Selectionnez un évènement"
 
-#: fabcal/forms.py:767
+#: fabcal/forms.py:766
 msgid "Please select an event."
 msgstr "Veuillez sélectionner un événement."
 
-#: fabcal/forms.py:771 fabcal/templates/fabcal/event_info.html:16
+#: fabcal/forms.py:770 fabcal/templates/fabcal/event_info.html:16
 #: machines/models.py:14 machines/templates/trainings/info.html:11
 msgid "Price"
 msgstr "Tarifs"
 
-#: fabcal/forms.py:776
+#: fabcal/forms.py:775
 msgid "On registration"
 msgstr "Sur inscription"
 
-#: fabcal/forms.py:780
+#: fabcal/forms.py:779
 msgid "Registration type"
 msgstr "Type d'inscriptions"
 
-#: fabcal/forms.py:782 fabcal/models.py:127
+#: fabcal/forms.py:781 fabcal/models.py:127
 msgid ""
 "Define whether event registration is done directly on the fablab site or on "
 "the external site"
@@ -1008,27 +1016,27 @@ msgstr ""
 "Défini si l'inscription à l'évènement se fait directement sur le site du "
 "fablab ou sur un site externe"
 
-#: fabcal/forms.py:789
+#: fabcal/forms.py:788
 msgid "External registration link"
 msgstr "Lien d'inscription externe"
 
-#: fabcal/forms.py:790 fabcal/models.py:134
+#: fabcal/forms.py:789 fabcal/models.py:134
 msgid "Enter URL or email address"
 msgstr "Saisissez un lien ou une addresse mail"
 
-#: fabcal/forms.py:795
+#: fabcal/forms.py:794
 msgid "0 if no limit"
 msgstr "0 si pas de limite"
 
-#: fabcal/forms.py:818
+#: fabcal/forms.py:817
 msgid "Additional information"
 msgstr "Informations supplémentaires"
 
-#: fabcal/forms.py:846
+#: fabcal/forms.py:845
 msgid "Number of attendees"
 msgstr "Nombre de personnes"
 
-#: fabcal/forms.py:863 fabcal/forms.py:864
+#: fabcal/forms.py:862 fabcal/forms.py:863
 msgid "Event registration confirmation"
 msgstr "Confirmation de l'inscription à l'évènement"
 
@@ -1255,7 +1263,6 @@ msgstr ""
 
 #: fabcal/templates/fabcal/email/training_update_alert.html:5
 #, python-format
-
 msgid ""
 "\n"
 "<p> Hello %(first_name)s, </p> \n"
@@ -1356,7 +1363,7 @@ msgstr "Évènement à venir"
 msgid "No events scheduled for the moment"
 msgstr "Pas d'évènement planifié pour le moment"
 
-#: fabcal/templates/fabcal/events_list.html:15
+#: fabcal/templates/fabcal/events_list.html:14
 msgid "Past events"
 msgstr "Évènement passés"
 
@@ -1581,14 +1588,14 @@ msgid ""
 "You successfully updated the training %(training)s during %(duration)s "
 "minutes on %(start_date)s from %(start_time)s to %(end_time)s"
 msgstr ""
-"Vous avez mis à jour avec succès la formation %(training)s durant %(duration)s "
-"minutes le %(start_date)s de %(start_time)s à %(end_time)s"
+"Vous avez mis à jour avec succès la formation %(training)s durant "
+"%(duration)s minutes le %(start_date)s de %(start_time)s à %(end_time)s"
 
 #: fabcal/views.py:316
 msgid "Update training"
 msgstr "Mettre à jour la formation"
 
-#: fabcal/views.py:326
+#: fabcal/views.py:327
 #, python-format
 msgid ""
 "Your training on %(date)s from %(start)s to %(end)s has been successfully "
@@ -1596,7 +1603,7 @@ msgid ""
 msgstr ""
 "Votre formation du %(date)s de %(start)s à %(end)s a bien été supprimée"
 
-#: fabcal/views.py:339
+#: fabcal/views.py:340
 #, python-format
 msgid ""
 "You successfully registered the training %(training)s during %(duration)s "
@@ -1605,11 +1612,11 @@ msgstr ""
 "Vous vous êtes inscrit avec succès à la formation %(training)s pendant "
 "%(duration)s minutes le %(start_date)s de %(start_time)s à %(end_time)s"
 
-#: fabcal/views.py:344
+#: fabcal/views.py:345
 msgid "You are already registered for this training slot"
 msgstr "Vous êtes déjà inscrit à cette formation !"
 
-#: fabcal/views.py:350
+#: fabcal/views.py:351
 #, python-format
 msgid ""
 "You successfully unregistered the training %(training)s during %(duration)s "
@@ -1618,7 +1625,7 @@ msgstr ""
 "Vous vous êtes désinscrit avec succès la formation %(training)s durant "
 "%(duration)s minutes le %(start_date)s de %(start_time)s à %(end_time)s"
 
-#: fabcal/views.py:401
+#: fabcal/views.py:402
 #, python-format
 msgid ""
 "You successfully created the event %(event)s during %(duration)s minutes "
@@ -1627,11 +1634,11 @@ msgstr ""
 "Vous avez créé avec succès l'évènement %(event)s durant %(duration)s minutes "
 "du %(start_date)s %(start_time)s au %(end_date)s %(end_time)s"
 
-#: fabcal/views.py:405
+#: fabcal/views.py:406
 msgid "Create Event"
 msgstr "Créer l'évènement"
 
-#: fabcal/views.py:410
+#: fabcal/views.py:411
 #, python-format
 msgid ""
 "You successfully updated the event %(event)s during %(duration)s minutes on "
@@ -1640,11 +1647,11 @@ msgstr ""
 "Vous avez mis à jour avec succès l'évènement %(event)s durant %(duration)s "
 "minutes le %(start_date)s de %(start_time)s à %(end_time)s"
 
-#: fabcal/views.py:414
+#: fabcal/views.py:415
 msgid "Update event"
 msgstr "Mettre à jour l'évènement"
 
-#: fabcal/views.py:427
+#: fabcal/views.py:428
 #, python-format
 msgid ""
 "Your event on %(date)s from %(start)s to %(end)s has been successfully "
@@ -1652,7 +1659,7 @@ msgid ""
 msgstr ""
 "Votre évènement du %(date)s de %(start)s à %(end)s a bien été supprimée"
 
-#: fabcal/views.py:432
+#: fabcal/views.py:433
 #, python-format
 msgid ""
 "You successfully registered %(number_of_attendees)s people(s) for the event "
@@ -1661,12 +1668,12 @@ msgstr ""
 "Vous (%(number_of_attendees)s personne(s)) vous êtes inscrit avec succès à "
 "l'évènement %(event)s le %(start_date)s de %(start_time)s à %(end_time)s"
 
-#: fabcal/views.py:455
+#: fabcal/views.py:456
 msgid "You are already registered for this event"
 msgstr "Vous êtes déjà inscrit à cet évènement !"
 
 # python-format
-#: fabcal/views.py:466
+#: fabcal/views.py:467
 #, python-format
 msgid ""
 "You successfully unregistered the event %(event)s minutes on %(start_date)s "
@@ -1675,7 +1682,7 @@ msgstr ""
 "Vous vous êtes desinscrit avec succès de l'évènement %(event)s le "
 "%(start_date)s de %(start_time)s à %(end_time)s"
 
-#: interlab/settings.py:247 interlab/settings.py:266
+#: interlab/settings.py:248 interlab/settings.py:267
 msgid "fr"
 msgstr "fr"
 
