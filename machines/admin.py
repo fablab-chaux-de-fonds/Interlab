@@ -40,10 +40,12 @@ class AbstractMachinesFilterAdmin(admin.ModelAdmin):
     ordering = ['sort']
 @admin.register(MachineCategory)
 class MachineCategoryAdmin(AbstractMachinesFilterAdmin):
-    pass
+    list_display = AbstractMachinesFilterAdmin.list_display + ['training_required']
+
 @admin.register(MachineGroup)
 class MachineGroupAdmin(AbstractMachinesFilterAdmin):
     pass
+
 @admin.register(Material)
 class MaterialAdmin(AbstractMachinesFilterAdmin):
     pass

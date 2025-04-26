@@ -30,6 +30,8 @@ class AbstractMachinesFilter(models.Model):
 
 class MachineCategory(AbstractMachinesFilter):
     """For Training validation"""
+
+    training_required = models.BooleanField(default=False, help_text=_('Does this machine category require training validation?'))
     
     class Meta:
         verbose_name = _("Machine category")
@@ -190,8 +192,16 @@ class Machine(ItemForRent):
         trainings = self.category.training_set.all()
         profile = []
         for training in trainings:
-            profile.extend(training.trainingvalidation_set.values_list('profile', flat = True))
+            profile.extend(training.trainingvalidation_set.values_list('profile', flat=True))
         return profile
+
+    def is_accessible_by(self, profile):
+        """Check if a profile/user can access this machine."""
+        if not self.category or not self.category.training_required:
+            return True  # No training required, everyone can access
+        
+        return profile.id in self.trained_profile_list
+
     class Meta:
         verbose_name = _("Machine")
         verbose_name_plural = _("Machines")
