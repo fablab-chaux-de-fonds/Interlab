@@ -196,6 +196,7 @@ INSTALLED_APPS = [
     'djangocms_alias',
     'djangocms_icon',
     "djangocms_frontend",
+    'djangocms_link',
     "djangocms_frontend.contrib.accordion",
     "djangocms_frontend.contrib.alert",
     "djangocms_frontend.contrib.badge",
