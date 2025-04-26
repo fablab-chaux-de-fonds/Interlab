@@ -242,9 +242,7 @@ class MachineSlotUpdateView(UpdateSlotView):
 
         machine_slot = self.get_object()
 
-        if (
-            self.request.user.profile.pk not in machine_slot.machine.trained_profile_list
-        ):
+        if not machine_slot.machine.is_accessible_by(self.request.user.profile):
             messages.error(
                 request,
                 _(
