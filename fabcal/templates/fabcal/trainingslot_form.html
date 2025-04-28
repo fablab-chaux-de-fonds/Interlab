@@ -51,16 +51,17 @@
                             </date-picker>
                         </v-col>
                     </v-row>
-                    <v-row>
-                        <v-col cols="6">
-                            <time-picker init-time={{form.initial.start_time}} input-name="start_time" label={% trans "Start" %}>
-                            </time-picker>
-                        </v-col>
-                        <v-col cols="6">
-                            <time-picker init-time={{form.initial.end_time}} input-name="end_time" label={% trans "End" %}>
-                            </time-picker>
-                        </v-col>
-                    </v-row>
+                    <time-range-picker
+                    form="form"
+                    init-start-time={{ form.initial.start_time }}
+                    init-end-time={{ form.initial.end_time }}
+                    input-name-start="start_time"
+                    input-name-end="end_time"
+                    label-start={% trans "Start" %}
+                    label-end={% trans "End" %}
+                    @update:start_time="start_time => form.initial.start_time = start_time"
+                    @update:end_time="end_time => form.initial.end_time = end_time"
+                    ></time-range-picker>
                 </div>
             </div>
         </div>
