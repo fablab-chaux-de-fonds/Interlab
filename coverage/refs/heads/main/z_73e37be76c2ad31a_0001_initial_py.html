@@ -4,14 +4,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Coverage for payments/migrations/0001_initial.py: 100%</title>
     <link rel="icon" sizes="32x32" href="favicon_32_cb_58284776.png">
-    <link rel="stylesheet" href="style_cb_8e611ae1.css" type="text/css">
-    <script src="coverage_html_cb_6fb7b396.js" defer></script>
+    <link rel="stylesheet" href="style_cb_a5a05ca4.css" type="text/css">
+    <script src="coverage_html_cb_bcae5fc4.js" defer></script>
 </head>
 <body class="pyfile">
 <header>
     <div class="content">
         <h1>
-            <span class="text">Coverage for </span><b>payments/migrations/0001_initial.py</b>:
+            <span class="text">Coverage for </span><b>payments&#8201;/&#8201;migrations&#8201;/&#8201;0001_initial.py</b>:
             <span class="pc_cov">100%</span>
         </h1>
         <aside id="help_panel_wrapper">
@@ -64,8 +64,8 @@
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a id="nextFileLink" class="nav" href="z_73e37be76c2ad31a_0002_alter_checkoutbuttonpluginmodel_text_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.8.0">coverage.py v7.8.0</a>,
-            created at 2025-04-26 18:50 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.13.0">coverage.py v7.13.0</a>,
+            created at 2025-12-23 21:38 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -91,24 +91,24 @@
     <p class="run"><span class="n"><a id="t9" href="#t9">9</a></span><span class="t">    <span class="nam">initial</span> <span class="op">=</span> <span class="key">True</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t10" href="#t10">10</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t11" href="#t11">11</a></span><span class="t">    <span class="nam">dependencies</span> <span class="op">=</span> <span class="op">[</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t12" href="#t12">12</a></span><span class="t">        <span class="op">(</span><span class="str">'cms'</span><span class="op">,</span> <span class="str">'0022_auto_20180620_1551'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t13" href="#t13">13</a></span><span class="t">        <span class="op">(</span><span class="str">'accounts'</span><span class="op">,</span> <span class="str">'0003_auto_20221222_0802'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t14" href="#t14">14</a></span><span class="t">    <span class="op">]</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t12" href="#t12">12</a></span><span class="t">        <span class="op">(</span><span class="str">'cms'</span><span class="op">,</span> <span class="str">'0022_auto_20180620_1551'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t13" href="#t13">13</a></span><span class="t">        <span class="op">(</span><span class="str">'accounts'</span><span class="op">,</span> <span class="str">'0003_auto_20221222_0802'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t14" href="#t14">14</a></span><span class="t">    <span class="op">]</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t15" href="#t15">15</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t16" href="#t16">16</a></span><span class="t">    <span class="nam">operations</span> <span class="op">=</span> <span class="op">[</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t17" href="#t17">17</a></span><span class="t">        <span class="nam">migrations</span><span class="op">.</span><span class="nam">CreateModel</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t18" href="#t18">18</a></span><span class="t">            <span class="nam">name</span><span class="op">=</span><span class="str">'CheckoutButtonPluginModel'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t19" href="#t19">19</a></span><span class="t">            <span class="nam">fields</span><span class="op">=</span><span class="op">[</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t20" href="#t20">20</a></span><span class="t">                <span class="op">(</span><span class="str">'cmsplugin_ptr'</span><span class="op">,</span> <span class="nam">models</span><span class="op">.</span><span class="nam">OneToOneField</span><span class="op">(</span><span class="nam">auto_created</span><span class="op">=</span><span class="key">True</span><span class="op">,</span> <span class="nam">on_delete</span><span class="op">=</span><span class="nam">django</span><span class="op">.</span><span class="nam">db</span><span class="op">.</span><span class="nam">models</span><span class="op">.</span><span class="nam">deletion</span><span class="op">.</span><span class="nam">CASCADE</span><span class="op">,</span> <span class="nam">parent_link</span><span class="op">=</span><span class="key">True</span><span class="op">,</span> <span class="nam">primary_key</span><span class="op">=</span><span class="key">True</span><span class="op">,</span> <span class="nam">related_name</span><span class="op">=</span><span class="str">'payments_checkoutbuttonpluginmodel'</span><span class="op">,</span> <span class="nam">serialize</span><span class="op">=</span><span class="key">False</span><span class="op">,</span> <span class="nam">to</span><span class="op">=</span><span class="str">'cms.cmsplugin'</span><span class="op">)</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t21" href="#t21">21</a></span><span class="t">                <span class="op">(</span><span class="str">'text'</span><span class="op">,</span> <span class="nam">models</span><span class="op">.</span><span class="nam">CharField</span><span class="op">(</span><span class="nam">default</span><span class="op">=</span><span class="key">None</span><span class="op">,</span> <span class="nam">max_length</span><span class="op">=</span><span class="num">64</span><span class="op">,</span> <span class="nam">null</span><span class="op">=</span><span class="key">True</span><span class="op">)</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t22" href="#t22">22</a></span><span class="t">                <span class="op">(</span><span class="str">'subscription_category'</span><span class="op">,</span> <span class="nam">models</span><span class="op">.</span><span class="nam">ForeignKey</span><span class="op">(</span><span class="nam">null</span><span class="op">=</span><span class="key">True</span><span class="op">,</span> <span class="nam">on_delete</span><span class="op">=</span><span class="nam">django</span><span class="op">.</span><span class="nam">db</span><span class="op">.</span><span class="nam">models</span><span class="op">.</span><span class="nam">deletion</span><span class="op">.</span><span class="nam">CASCADE</span><span class="op">,</span> <span class="nam">to</span><span class="op">=</span><span class="str">'accounts.subscriptioncategory'</span><span class="op">)</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t23" href="#t23">23</a></span><span class="t">            <span class="op">]</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t24" href="#t24">24</a></span><span class="t">            <span class="nam">options</span><span class="op">=</span><span class="op">{</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t">                <span class="str">'abstract'</span><span class="op">:</span> <span class="key">False</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t">            <span class="op">}</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t">            <span class="nam">bases</span><span class="op">=</span><span class="op">(</span><span class="str">'cms.cmsplugin'</span><span class="op">,</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">        <span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t">    <span class="op">]</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t17" href="#t17">17</a></span><span class="t">        <span class="nam">migrations</span><span class="op">.</span><span class="nam">CreateModel</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t18" href="#t18">18</a></span><span class="t">            <span class="nam">name</span><span class="op">=</span><span class="str">'CheckoutButtonPluginModel'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t19" href="#t19">19</a></span><span class="t">            <span class="nam">fields</span><span class="op">=</span><span class="op">[</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t20" href="#t20">20</a></span><span class="t">                <span class="op">(</span><span class="str">'cmsplugin_ptr'</span><span class="op">,</span> <span class="nam">models</span><span class="op">.</span><span class="nam">OneToOneField</span><span class="op">(</span><span class="nam">auto_created</span><span class="op">=</span><span class="key">True</span><span class="op">,</span> <span class="nam">on_delete</span><span class="op">=</span><span class="nam">django</span><span class="op">.</span><span class="nam">db</span><span class="op">.</span><span class="nam">models</span><span class="op">.</span><span class="nam">deletion</span><span class="op">.</span><span class="nam">CASCADE</span><span class="op">,</span> <span class="nam">parent_link</span><span class="op">=</span><span class="key">True</span><span class="op">,</span> <span class="nam">primary_key</span><span class="op">=</span><span class="key">True</span><span class="op">,</span> <span class="nam">related_name</span><span class="op">=</span><span class="str">'payments_checkoutbuttonpluginmodel'</span><span class="op">,</span> <span class="nam">serialize</span><span class="op">=</span><span class="key">False</span><span class="op">,</span> <span class="nam">to</span><span class="op">=</span><span class="str">'cms.cmsplugin'</span><span class="op">)</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t21" href="#t21">21</a></span><span class="t">                <span class="op">(</span><span class="str">'text'</span><span class="op">,</span> <span class="nam">models</span><span class="op">.</span><span class="nam">CharField</span><span class="op">(</span><span class="nam">default</span><span class="op">=</span><span class="key">None</span><span class="op">,</span> <span class="nam">max_length</span><span class="op">=</span><span class="num">64</span><span class="op">,</span> <span class="nam">null</span><span class="op">=</span><span class="key">True</span><span class="op">)</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t22" href="#t22">22</a></span><span class="t">                <span class="op">(</span><span class="str">'subscription_category'</span><span class="op">,</span> <span class="nam">models</span><span class="op">.</span><span class="nam">ForeignKey</span><span class="op">(</span><span class="nam">null</span><span class="op">=</span><span class="key">True</span><span class="op">,</span> <span class="nam">on_delete</span><span class="op">=</span><span class="nam">django</span><span class="op">.</span><span class="nam">db</span><span class="op">.</span><span class="nam">models</span><span class="op">.</span><span class="nam">deletion</span><span class="op">.</span><span class="nam">CASCADE</span><span class="op">,</span> <span class="nam">to</span><span class="op">=</span><span class="str">'accounts.subscriptioncategory'</span><span class="op">)</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t23" href="#t23">23</a></span><span class="t">            <span class="op">]</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t24" href="#t24">24</a></span><span class="t">            <span class="nam">options</span><span class="op">=</span><span class="op">{</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t">                <span class="str">'abstract'</span><span class="op">:</span> <span class="key">False</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t">            <span class="op">}</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t">            <span class="nam">bases</span><span class="op">=</span><span class="op">(</span><span class="str">'cms.cmsplugin'</span><span class="op">,</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">        <span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t">    <span class="op">]</span>&nbsp;</span><span class="r"></span></p>
 </main>
 <footer>
     <div class="content">
@@ -117,8 +117,8 @@
             <a class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a class="nav" href="z_73e37be76c2ad31a_0002_alter_checkoutbuttonpluginmodel_text_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.8.0">coverage.py v7.8.0</a>,
-            created at 2025-04-26 18:50 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.13.0">coverage.py v7.13.0</a>,
+            created at 2025-12-23 21:38 +0000
         </p>
     </div>
 </footer>
