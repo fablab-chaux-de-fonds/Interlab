@@ -427,6 +427,7 @@ class EventSlotDeleteView(SuperuserRequiredMixin, DeleteSlotView):
     success_url = '/schedule/'
 
 class EventSlotRegistrationCreateView(EventSlotView, RegisterSlotView, CreateView):
+    login_url = reverse_lazy('accounts:login')
     model = RegistrationEventSlot
     success_message = _('You successfully registered %(number_of_attendees)s people(s) for the event %(event)s on %(start_date)s from %(start_time)s to %(end_time)s')
 
@@ -449,6 +450,10 @@ class EventSlotRegistrationCreateView(EventSlotView, RegisterSlotView, CreateVie
         )    
 
     def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            next_url = self.request.get_full_path()
+            login_url = f'{self.login_url}?next={next_url}'
+            return redirect(login_url)
         event_slot = EventSlot.objects.get(pk=kwargs['pk'])
         if RegistrationEventSlot.objects.filter(event_slot = event_slot, user = request.user).exists():
             messages.success(request, _('You are already registered for this event'))
