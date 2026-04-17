@@ -5,7 +5,7 @@ class CustomOAuth2Validator(OAuth2Validator):
     def get_additional_claims(self, request):
         return {
             'sub': request.user.username,
-            'mail': request.user.email,
+            'email': request.user.email,
             'name': ' '.join([request.user.first_name, request.user.last_name]),
             'given_name': request.user.first_name,
             'last_name': request.user.last_name,

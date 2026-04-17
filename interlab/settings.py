@@ -335,8 +335,11 @@ ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 
 OAUTH2_PROVIDER = {
     "OIDC_ENABLED": True,
+    "PKCE_REQUIRED": False,
     "SCOPES": {
         "openid": "OpenID Connect scope",
+        "profile": "Profile scope",
+        "email": "E-Mail scope",
         # ... any other scopes that you use
     },
     "OAUTH2_VALIDATOR_CLASS": "interlab.oauth_validator.CustomOAuth2Validator",
