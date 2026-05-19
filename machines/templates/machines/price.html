@@ -1,23 +1,31 @@
 {% load i18n training_extras %}
 
+
 <div class="text-center text-md-start">
     {% if machine.price is None %}
-        {% trans "The use of the machine is free and conscious price" %}
+    {% trans "The use of the machine is free and conscious price" %}
+    {% elif machine.price.full_price %}
+    {% if request.user.profile.is_subscription_valid %}
+    <h4 class="text-center">{{machine.premium_price|price_format}} / 30 min </h4>
     {% else %}
-        {% if request.user.profile.is_subscription_valid %}
-            <h4 class="text-center">{{machine.premium_price|price_format}} / 30 min </h4>
-        {% else %}
-            <h4>{{machine.price.full_price|price_format}} / 30 min </h4>
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <small> {% trans "Benefit from half price prices<br> for 15 CHF / month" %}<br></small>
-            </div>
-
-            <div class="col-12 col-md-6 text-md-center">
-                <a class="btn btn-outline-primary my-2" href="/comment-ca-marche/#abonnement-demi-tarif">
-                    {% trans "I take advantage of it" %}</a>
-            </div>
+    <h4>{{ machine.price.full_price|price_format }} / 30 min </h4>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <small> {% trans "Benefit from half price prices<br> for 15 CHF / month" %}<br></small>
         </div>
-        {% endif %}
+
+        <div class="col-12 col-md-6 text-md-center">
+            <a class="btn btn-outline-primary my-2" href="/comment-ca-marche/#abonnement-demi-tarif">
+                {% trans "I take advantage of it" %}</a>
+        </div>
+    </div>
+    {% endif %}
+    {% elif machine.price.hour_factor %}
+        <machine-price 
+            :first-hour-price="{{ machine.price.first_hour_price }}" 
+            :hour-factor="{{ machine.price.hour_factor }}"
+            :max-divider="{{ machine.price.max_divider }}" 
+            :matter-factor="{{ machine.price.matter_factor }}"
+            :support-matter-factor="{{ machine.price.support_matter_factor }}" />
     {% endif %}
 </div>
