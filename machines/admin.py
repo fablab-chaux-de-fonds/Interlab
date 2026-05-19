@@ -1,7 +1,22 @@
 from django.contrib import admin
+from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 
 # Register your models here.
 from .models import *
+
+@admin.register(LinearPriceModel)
+class LinearPriceModelAdmin(PolymorphicChildModelAdmin):
+    base_model = LinearPriceModel
+
+@admin.register(DegressiveFdmPriceModel)
+class DegressiveFdmPriceModelAdmin(PolymorphicChildModelAdmin):
+    base_model = DegressiveFdmPriceModel
+
+@admin.register(PriceModel)
+class PriceModelAdmin(PolymorphicParentModelAdmin):
+    base_model = PriceModel
+    child_models = (LinearPriceModel, DegressiveFdmPriceModel)
+    list_filter = (PolymorphicChildModelFilter,)
 
 @admin.register(Training)
 class TrainingAdmin(admin.ModelAdmin):
@@ -17,7 +32,7 @@ class TrainingFaqAdmin(admin.ModelAdmin):
 
 @admin.register(Machine)
 class MachineAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'full_price', 'premium_price']
+    list_display = ['title', 'category', 'price']
 
 @admin.register(Card)
 class CardAdmin(admin.ModelAdmin):
