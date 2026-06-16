@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% load i18n training_extras %}
 {% load render_bundle from webpack_loader %}
-{% block header %}
-{% render_bundle 'machine_price' 'css' %}
-{% endblock header %}
 {% block js_footer %}
 {% render_bundle 'machine_price' 'js' %}
 {% endblock js_footer %}

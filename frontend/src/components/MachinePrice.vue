@@ -1,33 +1,31 @@
 <template>
-  <div>
-    <v-app>
-      <form class="form">
-        <!-- <div class="form-floating">
-        <input type="number" step="0.5" min="1" max="168" class="form-control" id="nbrHours" v-model="nbrHours" />
-        <label for="nbrHours">Number of hours:</label>
-      </div> -->
-        <div class="form-floating">
-          <input type="number" step="50" min="0" max="10000" class="form-control" id="weight" v-model="weight" />
-          <label for="weight">Material weight (g):</label>
-        </div>
-        <div class="form-floating" v-if="weightSupport > 0.0">
-          <input type="number" step="50" min="0" max="10000" id="weightSupport" class="form-control"
-            v-model="weightSupport" />
-          <label for="weightSupport">Support material weight (g):</label>
-        </div>
-      </form>
-      <div>
-        <v-slider v-model="nbrHours" :min="1" :max="168" hide-details>
-          <template v-slot:append>
-            <v-text-field v-model="nbrHours" hide-details single-line density="compact" type="number"
-              style="width: 70px"></v-text-field>
-          </template>
-        </v-slider>
-        <p>Price: {{ price }}</p>
-        <p>Half price: {{ priceHalf }}</p>
-        <p>Quarter price: {{ priceQuarter }}</p>
+  <v-app>
+    <h4>Simulateur</h4>
+    <form class="form">
+      <div class="form-floating my-2">
+        <input type="number" step="50" min="0" max="10000" class="form-control" id="weight" v-model="weight" />
+        <label for="weight">Material weight (g):</label>
       </div>
-      <table class="table">
+      <div class="form-floating" v-if="weightSupport > 0.0">
+        <input type="number" step="50" min="0" max="10000" id="weightSupport" class="form-control"
+          v-model="weightSupport" />
+        <label for="weightSupport" style="font-size: 0.75rem;">Support material weight (g):</label>
+      </div>
+      <div class="form-floating">
+        <input type="number" step="1" min="1" max="168" class="form-control" id="nbrHours" v-model="nbrHours" />
+        <label for="nbrHours">Number of hours:</label>
+      </div>
+    </form>
+    <div class="d-flex justify-center mb-6 bg-surface-variant">
+      <v-sheet class="ma-2 pa-2">
+        Price: {{ price }} CHF
+      </v-sheet>
+      <v-sheet class="ma-2 pa-2">
+        Half price: {{ priceHalf }} CHF
+      </v-sheet>
+    </div>
+    <h5 class="mt-10">Prix de base horaire (sans matière):</h5>
+      <vdsadsadsaable theme="dark" striped="even">
         <thead>
           <tr>
             <th>N°</th>
@@ -42,9 +40,8 @@
             <td>{{ priceDetail.priceHalf }}</td>
           </tr>
         </tbody>
-      </table>
-    </v-app>
-  </div>
+      </vdsadsadsaable>
+  </v-app>
 </template>
 
 <script lang="ts">
@@ -67,6 +64,7 @@ export default {
       let lastTotal = total;
       let totalHalf = priceHalf;
       let priceDetails = [{ id: '1', price: this.priceFormat(price), priceHalf: this.priceFormat(priceHalf) }];
+      console.log(divider + ' ' + price)
       while (divider < this.maxDivider && price > 1) {
         divider = index * this.hourFactor;
         if (divider > this.maxDivider) {
