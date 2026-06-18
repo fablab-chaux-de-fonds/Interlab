@@ -1,31 +1,27 @@
 <template>
   <v-app>
-    <h4>Simulateur</h4>
-    <form class="form">
-      <div class="form-floating my-2">
-        <input type="number" step="50" min="0" max="10000" class="form-control" id="weight" v-model="weight" />
-        <label for="weight">Material weight (g):</label>
+    <h4 class="mt-10">Simulateur</h4>
+    <div class="row text-center">
+      <div class="col">
+        <div class="card card-tool">
+          <i class="bi bi-cash pe-2 display-1"></i>
+          <div class="card-body">Prix: {{ price }} CHF</div>
+        </div>
       </div>
-      <div class="form-floating" v-if="weightSupport > 0.0">
-        <input type="number" step="50" min="0" max="10000" id="weightSupport" class="form-control"
-          v-model="weightSupport" />
-        <label for="weightSupport" style="font-size: 0.75rem;">Support material weight (g):</label>
+      <div class="col">
+        <div class="card card-tool">
+          <i class="bi bi-percent pe-2 display-1"></i>
+          <div class="card-body">Réduit: {{ priceHalf }} CHF</div>
+        </div>
       </div>
-      <div class="form-floating">
-        <input type="number" step="1" min="1" max="168" class="form-control" id="nbrHours" v-model="nbrHours" />
-        <label for="nbrHours">Number of hours:</label>
-      </div>
-    </form>
-    <div class="d-flex justify-center mb-6 bg-surface-variant">
-      <v-sheet class="ma-2 pa-2">
-        Price: {{ price }} CHF
-      </v-sheet>
-      <v-sheet class="ma-2 pa-2">
-        Half price: {{ priceHalf }} CHF
-      </v-sheet>
     </div>
-    <h5 class="mt-10">Prix de base horaire (sans matière):</h5>
-      <vdsadsadsaable theme="dark" striped="even">
+    <form class="form">
+      <v-text-field type="number" :step="1" :min="1" :max="168"  v-model="nbrHours" label="Durée impression (h)" prepend-icon="mdi-clock-start" append-text="g"/>
+      <v-text-field type="number" :step="50" :min="0" :max="10000" v-model="weight" label="Poid matière (g)" prepend-icon="mdi-weight" />
+      <v-text-field type="number" :step="50" :min="0" :max="10000" v-model="weightSupport" label="Poid matière support (g)" prepend-icon="mdi-pillar" v-if="supportMatterFactor > 0.0" />
+    </form>
+    <h5 class="mt-10">Prix de base horaire dégressif (sans matière):</h5>
+      <v-simple-table dense>
         <thead>
           <tr>
             <th>N°</th>
@@ -40,7 +36,7 @@
             <td>{{ priceDetail.priceHalf }}</td>
           </tr>
         </tbody>
-      </vdsadsadsaable>
+      </v-simple-table>
   </v-app>
 </template>
 
@@ -49,9 +45,9 @@ export default {
   props: ['firstHourPrice', 'hourFactor', 'maxDivider', 'matterFactor', 'supportMatterFactor'],
   data() {
     return {
-      nbrHours: 8,
-      weight: 0,
-      weightSupport: 0
+      nbrHours: null,
+      weight: null,
+      weightSupport: null
     }
   },
   computed: {
