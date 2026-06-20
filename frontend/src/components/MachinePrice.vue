@@ -16,9 +16,9 @@
       </div>
     </div>
     <form class="form">
-      <v-text-field type="number" :step="1" :min="1" :max="168"  v-model="nbrHours" label="Durée impression (h)" prepend-icon="mdi-clock-start" append-text="g"/>
-      <v-text-field type="number" :step="50" :min="0" :max="10000" v-model="weight" label="Poid matière (g)" prepend-icon="mdi-weight" />
-      <v-text-field type="number" :step="50" :min="0" :max="10000" v-model="weightSupport" label="Poid matière support (g)" prepend-icon="mdi-pillar" v-if="supportMatterFactor > 0.0" />
+      <v-text-field type="number" :step="1" :min="1" :max="168"  v-model="nbrHours" label="Durée impression (h)" prepend-icon="fa-hourglass" append-text="g"/>
+      <v-text-field type="number" :step="50" :min="0" :max="10000" v-model="weight" label="Poid matière (g)" prepend-icon="fa-balance-scale" />
+      <v-text-field type="number" :step="50" :min="0" :max="10000" v-model="weightSupport" label="Poid matière support (g)" prepend-icon="fa-th" v-if="supportMatterFactor > 0.0" />
     </form>
     <h5 class="mt-10">Prix de base horaire dégressif (sans matière):</h5>
       <v-simple-table dense>
