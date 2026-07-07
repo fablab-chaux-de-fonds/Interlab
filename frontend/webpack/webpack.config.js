@@ -1,7 +1,7 @@
 const Path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { VueLoaderPlugin } = require('vue-loader')
+const { VueLoaderPlugin } = require('vue-loader');
 const BundleTracker = require('webpack-bundle-tracker'); 
 
 module.exports = {
@@ -53,7 +53,7 @@ module.exports = {
         loader: 'vue-loader'
       },
       {
-        test: /\.s(c|a)ss$/,
+        test: /\.s([ca])ss$/,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
