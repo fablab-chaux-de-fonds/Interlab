@@ -2,10 +2,14 @@ import Vue from 'vue';
 import Vuetify from 'vuetify';
 import i18n from '../locales/i18n';
 import fr from 'vuetify/src/locale/fr.ts';
+import 'font-awesome/css/font-awesome.min.css';
 
 Vue.use(Vuetify);
 
 export default new Vuetify({
+  icons: {
+    iconfont: 'fa4',
+  },
   theme: {
     themes: {
       light: {

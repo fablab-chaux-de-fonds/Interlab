@@ -241,7 +241,8 @@ INSTALLED_APPS = [
     'api.apps.APIConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'plugins'
+    'plugins',
+    'polymorphic'
 ]
 
 LANGUAGES = (

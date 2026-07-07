@@ -3,15 +3,35 @@ import datetime
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext as _
+from polymorphic.models import PolymorphicModel
+from polymorphic.managers import PolymorphicManager
 from djangocms_text_ckeditor.fields import HTMLField
 from cms.models import CMSPlugin
-
+from decimal import Decimal
 from accounts.models import Profile
 from openings.models import AbstractOpening
 from url_or_relative_url_field.fields import URLOrRelativeURLField
 
-class ItemForRent(AbstractOpening):
+class PriceModel(PolymorphicModel):
+    objects = PolymorphicManager()
+
+class LinearPriceModel(PriceModel):
+    """This is the nominal way to handle machine price with a linear computation"""
     full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2, null=True, blank=False, help_text='for 30 min')
+    def __str__(self):
+        return 'Linear price {} for 30 min'.format(self.full_price)
+
+class DegressiveFdmPriceModel(PriceModel):
+    """Fused Deposed Modeling 3D printers might be a special case where price per 30 min slot became lower with high durations"""
+    first_hour_price = models.DecimalField(verbose_name=_('First hour price'),max_digits=6,decimal_places=2,default=0)
+    hour_factor = models.FloatField(default=0.7)
+    max_divider = models.SmallIntegerField(default=30)
+    matter_factor = models.FloatField(default=0.075)
+    support_matter_factor = models.FloatField(default=0.2)
+    def __str__(self):
+        return 'Degressive FDM ({}, {}, {}, {}, {})'.format(self.first_hour_price, self.hour_factor, self.max_divider, self.matter_factor, self.support_matter_factor)
+
+class ItemForRent(AbstractOpening):
     header = HTMLField(verbose_name=_('Header'),blank=True,configuration='CKEDITOR_SETTINGS')
 
     @property
@@ -48,6 +68,7 @@ class Training(ItemForRent):
         (ADVANCED, _('Advanced')),
     ]
 
+    full_price = models.DecimalField(verbose_name=_('Price'),max_digits=6,decimal_places=2, null=True, blank=False, help_text='for 30 min')
     machine_category = models.ForeignKey(MachineCategory, on_delete=models.CASCADE, verbose_name=_('Machine category'))
     level = models.CharField(max_length=3, choices=LEVEL_CHOICES, verbose_name=_('Level'))
     duration = models.DurationField(verbose_name=_('Duration'), help_text=_('Use the format HH:MM:SS')) # TODO essayer de trouver un truc plus pratique pour dire la durée
@@ -156,12 +177,19 @@ class Machine(ItemForRent):
         default='available'
     )
 
+    price = models.ForeignKey(PriceModel, on_delete=models.SET_NULL, null=True, db_column='price')
     group = models.ForeignKey(MachineGroup, blank=True, null=True,on_delete=models.SET_NULL)
     category = models.ForeignKey(MachineCategory, blank=True, null=True, on_delete=models.SET_NULL)
     material = models.ManyToManyField(Material, blank=True)
     workshop = models.ManyToManyField(Workshop, blank=True)
     reservable = models.BooleanField(default=True)
-    premium_price = models.DecimalField(verbose_name=_('Premium Price'),max_digits=6,decimal_places=2, null=True, blank=False)
+
+    @property
+    def premium_price(self):
+        if isinstance(self.price, LinearPriceModel):
+            return self.price.full_price / Decimal(2.0)
+        else:
+            return None
 
     @property
     def highlights(self):
