@@ -1,6 +1,12 @@
 <template>
   <v-app>
     <h4 class="mt-10">Simulateur</h4>
+    <i>Les prix sont à titre indicatif</i>
+    <form class="form">
+      <v-text-field type="number" :step="1" :min="1" :max="168"  v-model.number="nbrHours" label="Durée impression (h)" prepend-icon="fa-hourglass" append-text="g"/>
+      <v-text-field type="number" :step="50" :min="0" :max="10000" v-model.number="weight" label="Poid matière (g)" prepend-icon="fa-balance-scale" />
+      <v-text-field type="number" :step="50" :min="0" :max="10000" v-model.number="weightSupport" label="Poid matière support (g)" prepend-icon="fa-th" v-if="supportMatterFactor > 0.0" />
+    </form>
     <div class="row text-center">
       <div class="col">
         <div class="card card-tool">
@@ -15,11 +21,6 @@
         </div>
       </div>
     </div>
-    <form class="form">
-      <v-text-field type="number" :step="1" :min="1" :max="168"  v-model="nbrHours" label="Durée impression (h)" prepend-icon="fa-hourglass" append-text="g"/>
-      <v-text-field type="number" :step="50" :min="0" :max="10000" v-model="weight" label="Poid matière (g)" prepend-icon="fa-balance-scale" />
-      <v-text-field type="number" :step="50" :min="0" :max="10000" v-model="weightSupport" label="Poid matière support (g)" prepend-icon="fa-th" v-if="supportMatterFactor > 0.0" />
-    </form>
     <h5 class="mt-10">Prix de base horaire dégressif (sans matière):</h5>
       <v-simple-table dense>
         <thead>
@@ -50,36 +51,50 @@ export default {
       weightSupport: null
     }
   },
+  methods: {
+    handleNumberInput(value) {
+        return Number(value.replace(/[^0-9.-]+/g, ''));
+    },
+    nbrHoursInput(value) {
+      this.nbrHours = this.handleNumberInput(value);
+    },
+    weightInput(value) {
+      this.weight = this.handleNumberInput(value);
+    },
+    weightSupportInput(value) {
+      this.weightSupport = this.handleNumberInput(value);
+    }
+  },
   computed: {
     priceDetails() {
       let index = 2;
       let divider = 1.0;
-      let price = this.firstHourPrice;
+      const scale = 20;
+      let price = this.firstHourPrice * scale;
       let priceHalf = price / 2;
       let total = price;
       let lastTotal = total;
       let totalHalf = priceHalf;
-      let priceDetails = [{ id: '1', price: this.priceFormat(price), priceHalf: this.priceFormat(priceHalf) }];
-      console.log(divider + ' ' + price)
-      while (divider < this.maxDivider && price > 1) {
+      let priceDetails = [{ id: '1', price: this.priceFormat(price / scale), priceHalf: this.priceFormat(priceHalf / scale) }];
+      while (divider < this.maxDivider && price > 1 && priceDetails.length < 12) {
         divider = index * this.hourFactor;
         if (divider > this.maxDivider) {
           divider = this.maxDivider;
         }
         lastTotal = total;
-        let currentPrice = this.firstHourPrice / divider;
+        let currentPrice = (this.firstHourPrice * scale) / divider;
         total += Math.floor(currentPrice);
-        price = total - Math.ceil(lastTotal);
+        price = total - Math.floor(lastTotal);
         if (price < 1) {
           price = 1;
         }
         lastTotal = totalHalf;
         totalHalf += Math.floor(currentPrice / 2);
-        priceHalf = totalHalf - Math.ceil(lastTotal);
+        priceHalf = totalHalf - Math.floor(lastTotal);
         if (priceHalf < 1) {
           priceHalf = 1;
         }
-        priceDetails.push({ id: index.toFixed(0), price: this.priceFormat(price), priceHalf: this.priceFormat(priceHalf) });
+        priceDetails.push({ id: index.toFixed(0), price: this.priceFormat(price, scale), priceHalf: this.priceFormat(priceHalf, scale) });
         index++;
       }
       return priceDetails;
@@ -102,18 +117,23 @@ export default {
   },
   methods: {
     computePrice: function (currentFirstHourPrice) {
-      let value = currentFirstHourPrice;
+      const scale = 20;
+      let value = currentFirstHourPrice * scale;
       let currentPrice = value;
 
       if (this.nbrHours > 1) {
-        for (let i = 2; i <= this.nbrHours; i++) {
+        const hours = Math.ceil(this.nbrHours)
+        for (let i = 2; i <= hours; i++) {
           let a = i * this.hourFactor;
           if (a > this.maxDivider) {
             a = this.maxDivider;
           }
-          currentPrice = Math.floor(currentFirstHourPrice / a);
+          currentPrice = Math.floor(currentFirstHourPrice / a * scale);
           if (currentPrice < 1) {
             currentPrice = 1;
+          }
+          if (i > this.nbrHours) {
+            currentPrice *= 1 - (i - this.nbrHours);
           }
           value += currentPrice;
         }
@@ -137,10 +157,10 @@ export default {
         this.weight * this.matterFactor +
         this.weightSupport * this.supportMatterFactor;
 
-      return this.priceFormat(value + priceMatter);
+      return this.priceFormat(value / scale + priceMatter);
     },
-    priceFormat: function (price) {
-      return Math.ceil(price).toFixed(2)
+    priceFormat: function (price, scale=1) {
+      return (Math.floor(price / scale * 20) / 20).toFixed(2)
     }
   }
 }
