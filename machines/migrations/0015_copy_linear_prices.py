@@ -10,7 +10,14 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunSQL(
-            sql = """insert into machines_pricemodel
+            sql = """insert into django_content_type (app_label, model)
+select 'machines', 'linearpricemodel'
+where (select count(*)
+	from django_content_type dct 
+	where dct.app_label = 'machines' 
+		and dct.model = 'linearpricemodel') = 0;
+                  
+insert into machines_pricemodel
 select mi.id, dct.id 
 from django_content_type dct 
 left join machines_itemforrent mi on 1 = 1
