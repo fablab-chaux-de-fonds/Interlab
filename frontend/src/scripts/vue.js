@@ -2,6 +2,7 @@ import Vue from 'vue';
 import vuetify from '~/plugins/vuetify';
 import DatePicker from '~/components/DatePicker';
 import TimePicker from '~/components/TimePicker';
+import TimeRangePicker from '~/components/TimeRangePicker';
 import OpeningCalendar from '~/components/OpeningCalendar';
 
 new Vue({
@@ -10,6 +11,7 @@ new Vue({
     components: {
         OpeningCalendar,
         DatePicker,
-        TimePicker
+        TimePicker,
+        TimeRangePicker
     },
 });

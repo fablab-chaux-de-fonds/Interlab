@@ -21,16 +21,37 @@
 </template>
 
 <script>
-    module.exports = {
-        props: ['init-time', 'label', 'input-name', 'min', 'max'],
-        data: function () {
-            return {
-                dialog: false,
-                time: this.initTime,
-            }
-        },
-        methods: {
-            allowedStep: m => m % 5 === 0,
+export default {
+    props: {
+        initTime: String,
+        label: String,
+        inputName: String,
+        min: String,
+        max: String,
+    },
+    data() {
+        return {
+            dialog: false,
+            time: this.initTime
         }
-    }
+    },
+    methods: {
+        allowedStep: (m) => m % 5 === 0,
+        updateTime() {
+        // When the input changes, update the internal state and emit the change
+        this.$emit('time', this.initTime);
+        },
+    },
+    watch: {
+        // Watch for changes to the `initTime` prop
+        initTime(newInitTime) {
+        // When `initTime` changes, update `time` to reflect the new prop value
+        this.time = newInitTime;
+        },
+        time(newTime) {
+        // Emit the updated time value to the parent component
+        this.$emit('input', newTime);
+        },
+    },
+};
 </script>
