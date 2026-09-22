@@ -6,6 +6,10 @@ register = template.Library()
 
 @register.filter
 def price_format(price):
+    if price is None or price == '':
+        return '? CHF'
+    if type(price) is not int:
+        price = int(price)
     nice_price = '%.2f' % price if price % 1 else int(price)
     return f'{nice_price} CHF'
 
