@@ -5,7 +5,7 @@
 <div class="d-md-none">
     <div class="card">
         <div class="position-relative">
-            <a href="{% url 'machines:training-detail' slot.pk %}">
+            <a href="{% url 'machines:training-detail' slot.training.pk %}">
                 <img class="img-fluid rounded-top" src={{slot.training.photo.url}}>
             </a>
             {% if slot.opening_slot %}
@@ -25,7 +25,7 @@
             <h5 class="card-title">{{slot.training.title}}</h5>
             {%include 'accounts/profile_slot_datetime.html'%}
 
-            {% if request.user == slot.user %}
+            {% if request.user == slot.user and request.user.is_superuser %}
             {%include 'accounts/profile_slot_registration_list.html'%}
 
             <div class="row">
@@ -49,7 +49,7 @@
     <hr>
     <div class="row">
         <div class="col-3 py-0">
-            <a href="{% url 'machines:training-detail' slot.pk %}">
+            <a href="{% url 'machines:training-detail' slot.training.pk %}">
                 <img class="img-fluid rounded" src={{slot.training.photo.url}}>
             </a>
         </div>
@@ -68,20 +68,24 @@
                     {%include 'accounts/profile_slot_datetime.html'%}
                 </div>
                 <div class="col-4 text-end py-0">
-                    <a class="btn btn-link btn-outline-primary" href="{% url 'fabcal:trainingslot-update' slot.pk %}">
-                        <i class="bi bi-pencil-square"></i>
-                    </a>
+                    {% if request.user.is_superuser %}
+                        <a class="btn btn-link btn-outline-primary" href="{% url 'fabcal:trainingslot-update' slot.pk %}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    {% endif %}
                     {%include 'accounts/profile_trainingslot_delete_btn.html'%}
                 </div>
             </div>
-            {%include 'accounts/profile_slot_registration_list.html'%}
-            <div class="row">
-                <div class="col text-center">
-                    <a class="btn btn-outline-primary" href="{% url 'machines:training-validation' slot.pk %}">
-                        <i class="bi bi-card-checklist"></i> {% trans "Validate trainings" %}
-                    </a>
+            {% if request.user == slot.user and request.user.is_superuser %}
+                {%include 'accounts/profile_slot_registration_list.html'%}
+                <div class="row">
+                    <div class="col text-center">
+                        <a class="btn btn-outline-primary" href="{% url 'machines:training-validation' slot.pk %}">
+                            <i class="bi bi-card-checklist"></i> {% trans "Validate trainings" %}
+                        </a>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 </div>
