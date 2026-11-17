@@ -42,7 +42,7 @@ if ENVIRON_DEBUG != None:
     DEBUG = distutils.util.strtobool(ENVIRON_DEBUG)
 else:
     DEBUG = False
-
+#DEBUG=True
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -334,6 +334,7 @@ THUMBNAIL_PROCESSORS = (
 # User registration
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 
+OIDC_KEY_PATH = Path(os.environ.get("OIDC_KEY_FILE", BASE_DIR / "oidc.key"))
 OAUTH2_PROVIDER = {
     "OIDC_ENABLED": True,
     "PKCE_REQUIRED": False,
@@ -344,6 +345,7 @@ OAUTH2_PROVIDER = {
         # ... any other scopes that you use
     },
     "OAUTH2_VALIDATOR_CLASS": "interlab.oauth_validator.CustomOAuth2Validator",
+    "OIDC_RSA_PRIVATE_KEY": OIDC_KEY_PATH.read_text(),
     # ... any other settings you want
 }
 
