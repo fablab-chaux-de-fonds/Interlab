@@ -11,6 +11,7 @@ from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
+from share.mixins import SuperuserRequiredMixin
 from .models import Training, ToolTraining, TrainingValidation, TrainingNotification, Machine
 from .forms import TrainingValidationForm
 
@@ -49,7 +50,7 @@ def training_show(request, pk):
     return render(request, 'trainings/show.html', context)
 
 
-class TrainingValidationView(LoginRequiredMixin, FormView):
+class TrainingValidationView(SuperuserRequiredMixin, FormView):
     template_name = 'trainings/training_validation.html'
     form_class = TrainingValidationForm
     success_url = "/" # TODO redirect to training show view
