@@ -24,6 +24,7 @@ from django.views.generic.base import TemplateView
 
 from fabcal.models import EventSlot, OpeningSlot, TrainingSlot, MachineSlot, RegistrationEventSlot
 from machines.models import TrainingValidation
+from share.mixins import SuperuserRequiredMixin
 
 from .forms import EditUserForm, EditProfileForm, CustomOrganizationUserAddForm, CustomRegistrationForm, CustomAuthenticationForm, SuperuserProfileEditForm
 from .models import Profile, SubscriptionCategory
@@ -174,16 +175,13 @@ def token_error_view(request):
     template = 'organizations/invitations_token_error.html'
     return render(request, template) 
 
-class UserListView(LoginRequiredMixin, TemplateView):
+class UserListView(SuperuserRequiredMixin, TemplateView):
     number_of_item = 10
 
     def get(self, *args, **kwargs):
-        if not self.request.user.groups.filter(name = 'superuser').exists():
-            raise PermissionDenied
-        else:
-            template = self.template_name
-            context = self.get_context_data()
-            return render(self.request, template, context)  
+        template = self.template_name
+        context = self.get_context_data()
+        return render(self.request, template, context)
 
     def post(self, *args, **kwargs):
         template = self.template_name
@@ -213,7 +211,7 @@ class UserListView(LoginRequiredMixin, TemplateView):
                     )
         return qs
 
-class SuperuserProfileEditView(LoginRequiredMixin, CustomFormView):
+class SuperuserProfileEditView(SuperuserRequiredMixin, CustomFormView):
     template_name = 'accounts/superuser-profile-edit.html'
     form_class = SuperuserProfileEditForm
 

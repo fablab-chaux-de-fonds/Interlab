@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
+from share.mixins import SuperuserRequiredMixin
 from interlab.views import CustomFormView
 from .models import Post
 
@@ -16,7 +17,7 @@ class PostListView(ListView):
     paginate_by = 20
     context_object_name = 'posts'
 
-class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView, CustomFormView):
+class PostCreateView(SuperuserRequiredMixin, SuccessMessageMixin, CreateView, CustomFormView):
     model = Post
     fields = ['img', 'title', 'url', 'profile']
     success_url = reverse_lazy('post_list')
