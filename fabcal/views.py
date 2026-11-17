@@ -19,6 +19,7 @@ from django.views.generic.detail import DetailView
 
 from interlab.views import CustomFormView
 from machines.models import Machine
+from share.mixins import SuperuserRequiredMixin
 
 from .forms import OpeningSlotCreateForm
 from .forms import OpeningSlotUpdateForm
@@ -32,7 +33,6 @@ from .forms import EventSlotUpdateForm
 from .forms import EventSlotRegistrationCreateForm
 
 from .models import OpeningSlot, EventSlot, TrainingSlot, MachineSlot, RegistrationEventSlot
-from .mixins import SuperuserRequiredMixin
 
 
 class UserView(LoginRequiredMixin, SuccessMessageMixin, CustomFormView):

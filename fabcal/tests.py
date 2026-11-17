@@ -13,13 +13,15 @@ from django.urls import reverse
 from django.views import View
 
 from accounts.models import CustomUser
-from machines.models import Machine
+from accounts.tests import SuperuserRequiredTestCase
+from machines.models import Machine, LinearPriceModel
 from machines.models import MachineCategory
 from machines.models import Training
 from machines.models import TrainingValidation
 from machines.models import TrainingNotification
 from openings.models import Event
 from openings.models import Opening
+from share.mixins import SuperuserRequiredMixin
 
 from .forms import OpeningSlotForm
 from .forms import OpeningSlotCreateForm
@@ -31,7 +33,6 @@ from .forms import TrainingSlotRegistrationDeleteForm
 from .forms import EventSlotCreateForm
 from .forms import EventSlotUpdateForm
 from .forms import EventSlotRegistrationCreateForm
-from .mixins import SuperuserRequiredMixin
 from .models import OpeningSlot
 from .models import MachineSlot
 from .models import TrainingSlot
@@ -56,28 +57,7 @@ class TestView(SuperuserRequiredMixin, View):
         self.request = request
         return HttpResponse('Success')
 
-class SuperuserRequiredMixinTestCase(TestCase):
-    def setUp(self):
-        super().setUp()
-        self.factory = RequestFactory()
-        self.login_url = reverse('accounts:login')
-        
-        # Create a superuser and add them to the 'superuser' group
-        self.superuser = CustomUser.objects.create_superuser(username='admin', password='adminpassword', email='admin@exmple.test')
-        self.superuser_group = Group.objects.create(name='superuser')
-        self.superuser.groups.add(self.superuser_group)
-
-        # Create a non-superuser and add them to the 'normal' group
-        self.user = CustomUser.objects.create_user(username='user', password='userpassword', email='user@exmple.test')
-        self.normal_group = Group.objects.create(name='normal')
-        self.user.groups.add(self.normal_group)
-
-    def tearDown(self):
-        super().tearDown()
-        self.superuser.delete()
-        self.superuser_group.delete()
-        self.user.delete()
-        self.normal_group.delete()
+class SuperuserRequiredMixinTestCase(SuperuserRequiredTestCase):
 
     def test_superuser_required(self):
         # Create a request and set the user attribute to the superuser
@@ -87,7 +67,8 @@ class SuperuserRequiredMixinTestCase(TestCase):
         # Create an instance of the view and check if test_func returns True
         view = TestView()
         view.setup(request)
-        self.assertTrue(view.test_func())
+        response = view.dispatch(request)
+        self.assertEqual(200, response.status_code)
 
     def test_non_superuser_denied(self):
 
@@ -149,16 +130,19 @@ class SlotViewTestCase(TestCase):
         self.printer_category = MachineCategory.objects.create(
             name = '3D'
         )
-        
+
+        self.price_model = LinearPriceModel.objects.create(full_price=20)
+
         self.trotec = Machine.objects.create(
             title = 'Trotec',
             category = self.laser_category,
             photo = 'trotec.png',
-            full_price = 20
+            price = self.price_model
         )
         self.prusa = Machine.objects.create(
             title = 'Prusa',
-            category=self.printer_category
+            category=self.printer_category,
+            price = self.price_model
         )
 
         self.laser_training = Training.objects.create(
