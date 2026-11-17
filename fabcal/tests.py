@@ -1452,8 +1452,8 @@ class EventSlotTestCase(SlotViewTestCase):
         self.form_data = self.get_default_form_data()
         self.form_data['opening'] = ''
         del self.form_data['date']
-        self.form_data['start_date'] = '2023-05-01'
-        self.form_data['end_date'] = '2023-05-01'
+        self.form_data['start'] = '2023-05-01T00:00:00Z'
+        self.form_data['end'] = '2023-05-01T01:00:00Z'
         self.form_data['event'] = Event.objects.first().pk
         self.form_data['price'] = '10 CHF'
         self.form_data['registration_required'] = True
@@ -1486,12 +1486,12 @@ class EventSlotCreateViewTestCase(EventSlotTestCase):
         self.form_data['opening'] = Opening.objects.first().pk
 
         # test with opening over several days
-        self.form_data['end_date'] = '2023-05-02'
+        self.form_data['end'] = '2023-05-02T00:00:00Z'
         form=EventSlotCreateForm(data=self.form_data, user=self.superuser)
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors.as_data()['__all__'][0].code, 'opening_over_several_days')
 
-        self.form_data['end_date'] = '2023-05-01'
+        self.form_data['end'] = '2023-05-01T00:00:00Z'
         # test with opening over single day
         form=EventSlotCreateForm(data=self.form_data, user=self.superuser)
         self.assertTrue(form.is_valid())
