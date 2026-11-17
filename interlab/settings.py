@@ -345,7 +345,7 @@ OAUTH2_PROVIDER = {
         # ... any other scopes that you use
     },
     "OAUTH2_VALIDATOR_CLASS": "interlab.oauth_validator.CustomOAuth2Validator",
-    "OIDC_RSA_PRIVATE_KEY": OIDC_KEY_PATH.read_text(),
+    "OIDC_RSA_PRIVATE_KEY": OIDC_KEY_PATH.read_text() if OIDC_KEY_PATH.exists() else None,
     # ... any other settings you want
 }
 
